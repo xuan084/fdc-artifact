@@ -76,19 +76,21 @@ blocks outside the lock gates and compares every regenerated row with the sealed
     exp/results/v{6,8,9,10}_gates/      frozen configurations; v10_gates/ holds the frozen score models
                                         (score_model_{x5,lenta}.pkl, scikit-learn 1.9.1) and seg_v10_frozen.json
     exp/results/r4_gates, r5_gates      earlier frozen gates referenced by the base lock
-    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b,8c,8d,9}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
+    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b,8c,8d,9,9c}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
                                         gen_r7_v11_tables.py (supplement S21 tables), gen_r8_v12_tables.py (S23 tables),
                                         gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2),
                                         difficulty_r9.py (decision-difficulty census, paper Table 3 and S25; record
                                         writing/r9_difficulty.{json,md}), offpage_check.py (text outside the PDF page)
-    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r9) and supplement sources that the
+    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r9c) and supplement sources that the
                                         verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with;
                                         main_pre_r8b.tex, supplement_pre_r8b.tex, exp/results/full/v12_summary_pre_r8b.md:
                                         the r8 texts that verify_r8b rebuilds the r8b wording from; main_pre_r8c.tex,
                                         supplement_pre_r8c.tex, main_r8b.pdf: the r8b state; main_pre_r8d.tex,
                                         supplement_pre_r8d.tex, main_r8c.pdf: the r8c state (both re-checked by verify_r8d);
                                         main_pre_r9.tex, supplement_pre_r9.tex, main_r8d.pdf, supplement_r8d.pdf:
-                                        the r8d state (re-checked by verify_r9)
+                                        the r8d state (re-checked by verify_r9);
+                                        main_pre_r9c.tex, supplement_pre_r9c.tex, main_r9.pdf, supplement_r9.pdf:
+                                        the r9 state (re-checked by verify_r9c)
     writing/motivation_sources.{md,bib}  sources of the motivation (Sections 1, 2, 6.2 and supplement S16): URL, date,
                                         verbatim quote and verdict for each, all opened and checked on 2026-10-05
     requirements.txt                    pinned versions (Python 3.12.14)
@@ -191,10 +193,13 @@ constants and were left unchanged.
 ## Reproduce end to end
 
 From the public raw files to regenerated eval rows, without git history and without the lock gates. CPU only; times
-are wall-clock on our machine (4 worker processes, other jobs running), cwd `exp/code`.
+are wall-clock on our machine (4 worker processes, other jobs running). The setup lines run from the artifact
+root; every later command runs with cwd `exp/code` (step 4 returns to the root for the paper numbers).
 
+    cd /path/to/artifact                              # artifact root (holds requirements*.txt and .venv)
     .venv/bin/pip install -r requirements.txt -r requirements-ingest.txt
     export DATA_DIR=/path/to/datasets
+    cd exp/code                                       # cwd for steps 1-4
     # raw files (Data table):  criteo_uplift_real/criteo-research-uplift-v2.1.csv.gz, lenta/raw/lenta_dataset.csv.gz,
     #   hillstrom/raw/hillstrom.csv, x5_retailhero/raw/{uplift_train,clients}.csv.gz, open_bandit/raw/open_bandit_dataset.zip
 
@@ -217,7 +222,7 @@ are wall-clock on our machine (4 worker processes, other jobs running), cwd `exp
 
     # 4. provenance manifest and paper numbers
     python reproduce/build_provenance_manifest.py     # -> ../PROVENANCE_MANIFEST.json
-    cd ../.. && .venv/bin/python3 writing/scripts/verify_r9_numbers.py       # paper and supplement numbers
+    cd ../.. && .venv/bin/python3 writing/scripts/verify_r9c_numbers.py      # paper and supplement numbers
 
 Blocks of the reproduction runner (`--blocks`): `v9A`, `v9B` (lock v9, the time-uniform comparisons on Criteo CR9 and
 X5: tasks `v9{a,b}_full_{d,k,x}`), `v9C` (Hillstrom, descriptive), `v10A`, `v10B`, `v10D` (lock v10), `v11` (Open
@@ -259,9 +264,17 @@ Everything below runs without data, without git history and without the lock gat
 1. Paper and supplement numbers (all tables and all printed figures of locks v6 to v10 and the post-hoc blocks).
    From the package root:
 
-       .venv/bin/python3 writing/scripts/verify_r9_numbers.py
+       .venv/bin/python3 writing/scripts/verify_r9c_numbers.py
 
-   `verify_r9` (the paper as submitted, revision r9) first re-runs `verify_r8d` on the r8d text in a temporary copy of
+   `verify_r9c` (the paper as submitted, revision r9c) first re-runs `verify_r9` on the r9 text (which chains
+   `verify_r8d`, `verify_r8c` and `verify_r8b`). Revision r9c leads the headline with the demanding-frontier logs, restores
+   qualifiers, moves Table 1's checkpoint panel into Section 6.2, corrects the S25 headroom wording, and adds a post-hoc
+   census at the block-G tolerances (`difficulty_blockG_r9c.py`, S25). `verify_r9c` checks that removed decimals are still
+   printed, added decimals come from earlier texts or the census records, the r9 census is unchanged, its evaluation counts
+   recompute from the shipped rows (`difficulty_r9.py --check-eval`, plain or gzipped), and the block-G table re-renders
+   from its record. Expected final line `r9c: 0 mismatch(es)`.
+
+   `verify_r9` (revision r9) first re-runs `verify_r8d` on the r8d text in a temporary copy of
    the package (which in turn re-runs `verify_r8b` and `verify_r8c`) and requires `0 mismatch(es)`. Revision r9 states
    the certified estimand and the 12-of-15 endpoint in the abstract, adds the Open Bandit full-frontier ratio to
    Section 6.6, adds a post-hoc decision-difficulty census (paper Table 3, supplement S25, `difficulty_r9.py`, which

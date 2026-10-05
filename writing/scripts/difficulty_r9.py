@@ -20,12 +20,16 @@ completion can be) eps-optimal are counted in closed form with binomial sums.  I
 is hit, a rigorous bracket from an exact integer DP on rounded-down / rounded-up uplifts is reported instead
 (labelled as a bracket; 'not enumerable' if the bracket were wider than the printed precision).
 
-Usage (cwd anywhere):  .venv/bin/python3 iter_001/writing/scripts/difficulty_r9.py
+Usage (cwd anywhere):  .venv/bin/python3 iter_001/writing/scripts/difficulty_r9.py [--tex-only | --check-eval]
+  --tex-only    re-render the two LaTeX fragments from the stored json (no recomputation)
+  --check-eval  recompute only the EVAL counts from the sealed row files present (results.jsonl or results.jsonl.gz)
+                and compare them with the stored json; exit 1 on any difference or missing source; writes nothing
 Outputs: writing/r9_difficulty.json, writing/r9_difficulty.md, writing/supplement/r9_tables/difficulty.tex,
          writing/latex_acm/r9_difficulty_main.tex
 """
 from __future__ import annotations
 
+import gzip
 import json
 import math
 import sys
@@ -358,8 +362,27 @@ def dev_seg(b):
 
 
 # ------------------------------------------------------------------------------------------------- eval (sealed rows)
+def rows_path(file):
+    """The sealed row file as shipped: plain results.jsonl (authors' tree) or results.jsonl.gz (anonymous artifact,
+    lock-v9 rows), as reproduce_frozen.sealed_rows_path accepts.  Returns None if neither exists."""
+    p = FULL / file
+    for c in (p, p.with_name(p.name + ".gz")):
+        if c.exists():
+            return c
+    return None
+
+
+def read_rows(file):
+    p = rows_path(file)
+    if p is None:
+        raise FileNotFoundError(f"exp/results/full/{file}[.gz] not found")
+    op = gzip.open if p.name.endswith(".gz") else open
+    with op(p, "rt") as f:
+        return [json.loads(l) for l in f if l.strip()]
+
+
 def eval_counts(src):
-    rows = [json.loads(l) for l in (FULL / src["file"]).read_text().splitlines() if l.strip()]
+    rows = read_rows(src["file"])
     out = {}
     names = [("primary", src["primary"]), ("rival", src["rival"])]
     if src.get("rival_ni"):
@@ -564,7 +587,53 @@ def write_tex(res):
     (IT / "writing/latex_acm/r9_difficulty_main.tex").write_text("\n".join(M) + "\n")
 
 
+def check_eval():
+    """--check-eval: recompute ONLY the EVAL counts (Hor./Exh. and the other per-stream counts of every registered
+    sealed source) from the row files present (plain or .gz) and compare each entry, as a whole, with the stored
+    writing/r9_difficulty.json.  Nothing is written.  Exit status 0 iff every registered source is present and every
+    entry is identical; 1 otherwise."""
+    stored = J(IT / "writing/r9_difficulty.json")
+    sb = {b["id"]: b for b in stored["blocks"]}
+    n_ok, bad = 0, []
+    for b in BLOCKS:
+        st = sb.get(b["id"], {}).get("eval")
+        srcs = EVAL_SRC[b["id"]]
+        if st is None or len(st) != len(srcs):
+            bad.append(f"{b['id']}: stored json has {None if st is None else len(st)} eval entries, registry "
+                       f"{len(srcs)}")
+            continue
+        for src, old in zip(srcs, st):
+            p = rows_path(src["file"])
+            if p is None:
+                bad.append(f"{b['id']} {src['lock']}: row file exp/results/full/{src['file']}[.gz] missing")
+                continue
+            try:
+                new = json.loads(json.dumps(eval_counts(src)))
+            except AssertionError as e:
+                bad.append(f"{b['id']} {src['lock']}: row file failed the count assertions {e}")
+                continue
+            diff = sorted(k for k in set(new) | set(old) if new.get(k) != old.get(k))
+            tag = (f"{b['id']:6s} {src['lock']:4s} {str(p.relative_to(IT)):58s} Hor P/R "
+                   f"{new['primary']['n_not_12of15_before_tauR']}/{new['rival']['n_not_12of15_before_tauR']}"
+                   + (f" NI {new['rival_ni']['n_not_12of15_before_tauR']}" if "rival_ni" in new else "")
+                   + f"  Exh P/R {new['primary']['n_any_pool_exhausted_at_N80']}/"
+                     f"{new['rival']['n_any_pool_exhausted_at_N80']}")
+            if diff:
+                bad.append(f"{tag}  DIFFERS in {diff}")
+                print("DIFF", tag, diff)
+            else:
+                n_ok += 1
+                print("ok  ", tag)
+    print(f"check-eval: {n_ok} of {sum(len(v) for v in EVAL_SRC.values())} registered sealed sources recomputed "
+          f"identical to writing/r9_difficulty.json; {len(bad)} problem(s)")
+    for x in bad:
+        print("  -", x)
+    return 0 if not bad else 1
+
+
 if __name__ == "__main__":
+    if "--check-eval" in sys.argv:    # recompute only the EVAL counts from the row files present; compare; no writes
+        sys.exit(check_eval())
     if "--tex-only" in sys.argv:      # re-render the LaTeX fragments from the written json (no recomputation)
         write_tex(J(IT / "writing/r9_difficulty.json"))
     else:

@@ -23,7 +23,9 @@ COMPARISON
   rs_sec_plan, rs_sec_cert, rs_sec_total) and ``code_sha256`` (a hash of the code files' bytes; differs in a scrubbed
   copy).  ``addendum_sha256`` and ``data_sha256`` are compared.  Values are compared after a JSON round trip, exactly
   (no float tolerance).  The sealed file's content hash is also checked against its seal
-  (``results_content_sha256``, the hash the seals bind).
+  (``results_content_sha256``, the hash the seals bind); a seal mismatch (or a missing seal) fails the task
+  (status SEAL_MISMATCH) and the overall result.  For lock-v9 tasks the frozen configurations must equal the lock's
+  ``frozen_configs``; a mismatch fails the task (no fallback).
 
 USAGE (cwd = exp/code; data under $DATA_DIR as in the README)
   python reproduce/reproduce_frozen.py --list
@@ -32,7 +34,8 @@ USAGE (cwd = exp/code; data under $DATA_DIR as in the README)
   python reproduce/reproduce_frozen.py --tasks v9a_full_d --seeds 37000 37001
   python reproduce/reproduce_frozen.py --blocks all --n-seeds 3 --provenance-by-files   # re-made data (README)
 Seeds default to --n-seeds seeds evenly spread over the task's 200 registered eval seeds (first and last included).
-Only registered eval seeds are accepted.  Exit code 0 iff every compared row matches.
+Only registered eval seeds are accepted.  Exit code 0 iff every compared row matches and every sealed file equals
+its seal.
 """
 from __future__ import annotations
 
@@ -186,6 +189,21 @@ def install_provenance_by_files():
 
 
 # =============================================================================================== per-version adapters
+class FrozenConfigMismatch(RuntimeError):
+    """The frozen configurations on disk differ from the lock (lock v9 adapter)."""
+
+
+def load_frozen_v9(R, lock):
+    """Frozen configs of a lock-v9 task, checked against the lock's ``frozen_configs`` by the runner's own
+    ``load_frozen(lock)``.  A mismatch is a hard failure of the task: there is no fallback to the unchecked gate files
+    (an earlier version silently reloaded with ``load_frozen(None)`` and only noted it)."""
+    try:
+        return R.load_frozen(lock)
+    except RuntimeError as e:
+        raise FrozenConfigMismatch(f"lock v9: load_frozen(lock) refused ({e}); the frozen configurations on disk do "
+                                   f"not equal the lock's frozen_configs, so the task fails") from e
+
+
 def setup_task(task, version, lock):
     """Build the env exactly as the task's runner does (eval half) and return (module, jobs, key_fn, data_sha,
     notes)."""
@@ -196,11 +214,7 @@ def setup_task(task, version, lock):
     add_sha = lock["sha256"] if "sha256" in lock else None
     notes = []
     if version == 9:
-        try:
-            frozen = R.load_frozen(lock)
-        except RuntimeError as e:
-            frozen = R.load_frozen(None)
-            notes.append(f"load_frozen(lock) refused ({e}); configs read from the frozen gate files instead")
+        frozen = load_frozen_v9(R, lock)
         cfg = frozen.get(R.cfg_key(T["layer"]), {})
         data_sha = R.data_sha_for(T["layer"], lock)
         R.init_env(T, frozen, eval_task_id=task)
@@ -299,7 +313,7 @@ def run_task(task, seeds_n, explicit, workers, out_dir, timing):
     res["sealed_rows_file"] = str(sp.relative_to(WS))
     res["sealed_content_sha256"] = content_hash(sealed)
     res["seal_results_content_sha256"] = seal.get("results_content_sha256")
-    res["sealed_file_matches_seal"] = res["sealed_content_sha256"] == res["seal_results_content_sha256"]
+    res["sealed_file_matches_seal"] = seal_matches(res["sealed_content_sha256"], res["seal_results_content_sha256"])
     by = {row_key(r): r for r in sealed}
     n_match, mism, missing, fields = 0, [], [], set()
     for r in rows:
@@ -318,8 +332,28 @@ def run_task(task, seeds_n, explicit, workers, out_dir, timing):
             n_match += 1
     res.update(n_compared=len(rows) - len(missing), n_exact_match=n_match, n_mismatch=len(mism), mismatches=mism[:20],
                not_in_sealed=missing, fields_compared=sorted(fields),
-               status="match" if (not mism and not missing and not errs and len(rows) == len(jobs)) else "MISMATCH")
+               status=task_status(res["sealed_file_matches_seal"], mism, missing, errs, len(rows), len(jobs)))
     return res
+
+
+def seal_matches(content_sha, seal_sha):
+    """True iff the shipped sealed rows hash to the seal's results_content_sha256 (a missing seal is a failure)."""
+    return seal_sha is not None and content_sha == seal_sha
+
+
+def task_status(seal_ok, mism, missing, errs, n_rows, n_jobs):
+    """'match' only if the sealed file equals its seal AND every regenerated row equals its sealed row; a seal
+    mismatch is reported as SEAL_MISMATCH (it fails the task and therefore all_match)."""
+    if not seal_ok:
+        return "SEAL_MISMATCH"
+    return "match" if (not mism and not missing and not errs and n_rows == n_jobs) else "MISMATCH"
+
+
+def overall_match(results, changed):
+    """all_match: every task matched (status 'match', which requires sealed file = seal) and nothing under
+    exp/results changed during the run."""
+    return (bool(results) and all(r.get("status") == "match" and r.get("sealed_file_matches_seal") is True
+                                  for r in results) and not changed)
 
 
 def render_md(rep):
@@ -430,7 +464,7 @@ def main():
            "data_dir_literals_expanded": n_lit, "provenance_by_files": bool(a.provenance_by_files),
            "provenance_substituted": list(PROVENANCE_SUBSTITUTED),
            "tasks": results,
-           "all_match": all(r["status"] == "match" for r in results) and not changed}
+           "all_match": overall_match(results, changed)}
     (out_dir / "report.json").write_text(json.dumps(rep, indent=1, default=str))
     (out_dir / "REPORT.md").write_text(render_md(rep))
     print(json.dumps({"all_match": rep["all_match"], "exp_results_changed": len(changed),

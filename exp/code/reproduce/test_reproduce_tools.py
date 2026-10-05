@@ -87,3 +87,41 @@ def test_blocks_cover_headline_tasks():
     for t in ("v9a_full_d", "v9b_full_d", "v10a_full_s16", "v10b_full_s64", "v10d_full_x5s64", "v11_obd_full",
               "v12_women_full", "v12_men_full"):
         assert t in tasks
+
+
+def test_seal_mismatch_fails_task_and_overall():
+    assert RF.seal_matches("abc", "abc") and not RF.seal_matches("abc", "abd") and not RF.seal_matches("abc", None)
+    assert RF.task_status(True, [], [], [], 4, 4) == "match"
+    assert RF.task_status(False, [], [], [], 4, 4) == "SEAL_MISMATCH"         # rows all equal, seal broken
+    assert RF.task_status(True, [{"key": 1}], [], [], 4, 4) == "MISMATCH"
+    ok = {"task": "a", "status": "match", "sealed_file_matches_seal": True}
+    assert RF.overall_match([ok], [])
+    assert not RF.overall_match([ok, {"task": "b", "status": "SEAL_MISMATCH", "sealed_file_matches_seal": False}], [])
+    # belt and braces: even a task labelled 'match' cannot pass all_match with a failed seal check
+    assert not RF.overall_match([dict(ok, sealed_file_matches_seal=False)], [])
+    assert not RF.overall_match([ok], ["exp/results/x"])
+    assert not RF.overall_match([], [])
+
+
+def test_v9_frozen_config_mismatch_is_hard_failure():
+    class FakeRunner:
+        calls = []
+
+        @staticmethod
+        def load_frozen(lock=None):
+            FakeRunner.calls.append(lock)
+            if lock is not None and lock.get("frozen_configs") != {"CR": 1}:
+                raise RuntimeError("frozen configs on disk differ from the locked v9 addendum")
+            return {"CR": 1}
+
+    assert RF.load_frozen_v9(FakeRunner, {"frozen_configs": {"CR": 1}}) == {"CR": 1}
+    FakeRunner.calls.clear()
+    with pytest.raises(RF.FrozenConfigMismatch):
+        RF.load_frozen_v9(FakeRunner, {"frozen_configs": {"CR": 2}})
+    assert FakeRunner.calls == [{"frozen_configs": {"CR": 2}}]               # no fallback reload without the lock
+
+
+def test_v9_adapter_has_no_silent_fallback():
+    import inspect
+    src = inspect.getsource(RF.setup_task)
+    assert "load_frozen(None)" not in src and "load_frozen_v9(R, lock)" in src
