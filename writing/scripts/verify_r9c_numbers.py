@@ -1,4 +1,4 @@
-"""Check paper revision r9c (fixes after the critic r9 and Codex r9b reviews) against r9 (read-only).
+"""Check paper revision r9c (fixes after the two r9 reviews) against r9 (read-only).
 
 0. Re-runs verify_r9 on the r9 state (main_pre_r9c.tex, supplement_pre_r9c.tex, main_r9.pdf) in a temporary copy of
    the package; it in turn re-runs verify_r8d, verify_r8c and verify_r8b. It must end with 0 mismatches.
