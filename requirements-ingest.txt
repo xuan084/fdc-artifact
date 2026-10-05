@@ -1,0 +1,3 @@
+# Optional: needed only to reproduce the Criteo tidy.pkl BYTES with exp/code/ingest_tidy.py (string storage "pyarrow").
+# Content checks (exp/code/check_tidy_content.py) and all experiments work without it.
+pyarrow==25.0.1

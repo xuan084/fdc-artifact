@@ -1,0 +1,27 @@
+{
+  "name": "lenta",
+  "source_url": "https://sklift.s3.eu-west-2.amazonaws.com/lenta_dataset.csv.gz",
+  "license": "research-only (Lenta x Retail Hero competition data)",
+  "fallback": false,
+  "fallback_reason": null,
+  "n_rows": 687029,
+  "columns": [
+    "treatment",
+    "outcome",
+    "binary",
+    "weight",
+    "response_att",
+    "response_amt",
+    "x_age",
+    "x_children",
+    "x_main_format",
+    "x_months_from_register",
+    "x_promo_share_15d",
+    "x_food_share_1m",
+    "x_k_var_cheque_3m",
+    "x_mean_discount_depth_15d"
+  ],
+  "tidy_sha256": "6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43",
+  "tidy_size_bytes": 62520974,
+  "created_utc": "2026-05-20T09:42:45.363087+00:00"
+}

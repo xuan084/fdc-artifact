@@ -47,7 +47,7 @@
 
 ## Corrections (r8 reviews, added 2026-10-05 in paper revision r8b)
 
-This file is a results note, not a locked file. The lines above that were imprecise are struck through and corrected in place; nothing else above was changed. Sources: `codex/paper_r8_review.md` (results-note residues), `writing/review_r8_critic.md` (W3). No number, status or verdict changes; the corrected lines are checked by `writing/scripts/verify_r8b_numbers.py`.
+This file is a results note, not a locked file. The lines above that were imprecise are struck through and corrected in place; nothing else above was changed. Sources: the external r8 review (results-note residues), `writing/review_r8_critic.md` (W3). No number, status or verdict changes; the corrected lines are checked by `writing/scripts/verify_r8b_numbers.py`.
 
 - **"Independent."** Women and men are separate campaigns of the same platform and week, without user ids, so they are two further campaigns, not statistically independent samples.
 - **"Read once."** Each evaluation half had one registered evaluation block (the main run), followed by the prespecified ten-seed replica and the analysis; each access log therefore has three records, as S23 states.

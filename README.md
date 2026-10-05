@@ -4,7 +4,11 @@ This package holds the code, the locked pre-registrations (base lock v5 and adde
 reviews, the sealed result rows and analyses, the frozen gates, and the scripts that recompute every number printed
 in the paper and supplement. Identifiers have been removed: author names, e-mails, user names, machine paths, host
 names, git author data, and the names of the agent tooling and of the external review tool. No raw or derived
-datasets are included; the Data section below says how to obtain each one and gives its SHA-256.
+datasets are included; the Data section below says how to obtain each one and gives its SHA-256, and the shipped
+ingestion and split scripts rebuild every derived data file byte for byte from the public raw files. A separately
+identified reproduction runner (`exp/code/reproduce/`) re-executes the frozen eval configurations of the headline lock
+blocks outside the lock gates and compares every regenerated row with the sealed row ("Reproduce end to end" below);
+`exp/PROVENANCE_MANIFEST.md` separates what this copy lets a reader verify from what it cannot (chronology).
 
 ## Layout
 
@@ -35,6 +39,18 @@ datasets are included; the Data section below says how to obtain each one and gi
     exp/code/run_v7_posthoc_2x2.py, run_v8_posthoc_{D,E,F,F2}.py, run_v8_select.py   post-hoc descriptive blocks
     exp/code/build_v*_addendum_draft.py builders of the lock drafts; ingest_v8_fresh.py: blinded X5 dev/eval split
     exp/code/recompute_v10_from_sealed_rows.py   artifact helper: recompute the v10 analyses from the sealed rows
+    exp/code/ingest_tidy.py             deterministic ingestion of the Criteo, Lenta and Hillstrom tidy.pkl tables
+    exp/code/check_tidy_content.py      version-independent content check of the three tidy tables (expected hashes)
+    exp/code/split_obd_all.py           Open Bandit random/all split of lock v11 (reconstruction, byte-identical)
+    exp/code/check_sealed_rows.py       every shipped sealed row file against its seal (content hash, matrix, lock)
+    exp/code/reproduce/                 reproduction runner (reproduce_frozen.py), provenance-manifest builder,
+                                        unit tests (test_reproduce_tools.py); see "Reproduce end to end"
+    exp/results/reproduce/              reproduction-runner reports (REPORT.md, report.json) and regenerated rows:
+                                        original_data/ (our data files), reingested_data/ (data rebuilt from raw files)
+    exp/PROVENANCE_MANIFEST.{md,json}   per lock: verifiable content integrity versus unverifiable chronology
+    exp/lock_scrub_diff.json            leaf-level list of the string fields edited by scrubbing in each lock file
+    data_provenance/<dir>/PROVENANCE.json   byte-identical copies of the X5, Lenta and Hillstrom provenance records
+    requirements-ingest.txt             optional pin (pyarrow) for byte-identical Criteo re-ingestion
     exp/code/run_*.py (others)          runners of earlier rounds (r2-r5), kept for completeness
     plan/prereg_lock.json               base lock (v5); plan/prereg_lock_v{6..11}_addendum.{json,md}: locked addenda (v11: json only);
                                         *_DRAFT.*: the drafts that were reviewed before each lock
@@ -44,6 +60,8 @@ datasets are included; the Data section below says how to obtain each one and gi
                                         replica_report.json, v*_seals/ (seal + seal_ref per eval task), post-hoc blocks
     exp/results/full/<task>/results.jsonl   sealed rows shipped for the 6 v10 tasks and the 4 tasks the verify chain reads
                                         (v7a_full_b, v8a_full_a, v8a_full_b, v8c_full)
+    exp/results/full/v9*_full_*/results.jsonl.gz   sealed rows of all 8 lock-v9 eval tasks (blocks A, B: the
+                                        time-uniform comparisons; block C: Hillstrom), gzip of the original bytes
     exp/results/pilots/                 development-half analyses and summaries referenced by the locks
                                         (v11: pilots/v11_dev/ rule and pilot rows, pilots/obd_dev/ feasibility rows)
     exp/results/full/v11_obd/           lock-v11 sealed rows (v11_obd_full/results.jsonl), replica rows and report,
@@ -58,15 +76,19 @@ datasets are included; the Data section below says how to obtain each one and gi
     exp/results/v{6,8,9,10}_gates/      frozen configurations; v10_gates/ holds the frozen score models
                                         (score_model_{x5,lenta}.pkl, scikit-learn 1.9.1) and seg_v10_frozen.json
     exp/results/r4_gates, r5_gates      earlier frozen gates referenced by the base lock
-    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b,8c,8d}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
+    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b,8c,8d,9}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
                                         gen_r7_v11_tables.py (supplement S21 tables), gen_r8_v12_tables.py (S23 tables),
-                                        gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2)
-    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8d) and supplement sources that the
+                                        gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2),
+                                        difficulty_r9.py (decision-difficulty census, paper Table 3 and S25; record
+                                        writing/r9_difficulty.{json,md}), offpage_check.py (text outside the PDF page)
+    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r9) and supplement sources that the
                                         verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with;
                                         main_pre_r8b.tex, supplement_pre_r8b.tex, exp/results/full/v12_summary_pre_r8b.md:
                                         the r8 texts that verify_r8b rebuilds the r8b wording from; main_pre_r8c.tex,
                                         supplement_pre_r8c.tex, main_r8b.pdf: the r8b state; main_pre_r8d.tex,
-                                        supplement_pre_r8d.tex, main_r8c.pdf: the r8c state (both re-checked by verify_r8d)
+                                        supplement_pre_r8d.tex, main_r8c.pdf: the r8c state (both re-checked by verify_r8d);
+                                        main_pre_r9.tex, supplement_pre_r9.tex, main_r8d.pdf, supplement_r8d.pdf:
+                                        the r8d state (re-checked by verify_r9)
     writing/motivation_sources.{md,bib}  sources of the motivation (Sections 1, 2, 6.2 and supplement S16): URL, date,
                                         verbatim quote and verdict for each, all opened and checked on 2026-10-05
     requirements.txt                    pinned versions (Python 3.12.14)
@@ -95,16 +117,35 @@ Tidy tables. The Lenta and Hillstrom `tidy.pkl` files are pandas DataFrames with
 weight` followed by the source covariates prefixed `x_` (Lenta: `response_att, response_amt, x_age, x_children,
 x_main_format, x_months_from_register, x_promo_share_15d, x_food_share_1m, x_k_var_cheque_3m,
 x_mean_discount_depth_15d`; Hillstrom: `x_recency, x_history, x_mens, x_womens, x_newbie, x_channel, x_zip,
-x_history_segment, conversion`). The Criteo `tidy.pkl` is the csv.gz loaded as one DataFrame. The ingest code that
-produced these three pickles is not part of this package; an independent re-ingest will in general not reproduce
-the pickle bytes, so the pinned-hash checks in `dsswm/envs/{data_v6,lenta_v6,hillstrom_v9}.py` will then report data
-drift. The hashes let one confirm that the same source file was used.
+x_history_segment, conversion`). The Criteo `tidy.pkl` is the csv.gz loaded as one DataFrame (the 12 features cast to
+float32, the four 0/1 columns to int8).
+
+Ingestion (shipped). `exp/code/ingest_tidy.py --table criteo|lenta|hillstrom|all` rebuilds the three `tidy.pkl` files
+from the raw files above (it first checks the raw SHA-256). The Lenta and Hillstrom builders are the code that wrote our
+pickles (a dataset-cache module of an earlier project of ours, run on 2026-05-20; only its download and cache
+bookkeeping is omitted). The code that wrote our Criteo pickle on 2026-10-02 was not kept; the shipped builder is a
+reconstruction. Pickle bytes depend on the pandas version and on the string storage of the column index (our Lenta
+and Hillstrom pickles were written without pyarrow, our Criteo pickle with it; the script sets this per table). With
+the pinned `requirements.txt` plus `requirements-ingest.txt` (pyarrow 25.0.1) the script reproduces all three
+pickles **byte for byte** (checked on 2026-10-06), so the pinned-hash checks of `dsswm/envs/{data_v6,lenta_v6,
+hillstrom_v9}.py` pass on a re-ingest. With other versions the bytes may differ, and the loaders then refuse the files
+as data drift; `exp/code/check_tidy_content.py` still validates such a re-ingest by content (row and column counts,
+column names, dtypes, index and every value; expected content hashes from our pickles: Criteo
+`1d80a35baf4c53a42edeca581ee61249ff5250c6d004b3cf9e238ea4e88e2b93`, Lenta
+`6e5f8246ef77f0aa20550e83ddf79d66e0b66f9ceeab67dbc2cc08bfbce472a8`, Hillstrom
+`feb6b27af175ab59834f185bfb010d26683fcae293660d6006bb9a9536c444a9`).
 
 X5 split. `exp/code/ingest_v8_fresh.py` builds the blinded X5 split from the two raw files: a row is in the
 development half iff `int(sha256(f"{salt}|x5_retailhero|{client_id}")[:8], 16) / 2**32 < 0.5`, with salt
 `dsswm-v8-2026-10-04`. Our outputs: `dev.pkl` `3a8a5d8e35599f69461f403c36210dfa497073d9f679d1f6e039d165aa85eae4`,
 `eval_labels.pkl` `500fb32edaa522812adb6728df8bdbeb1fa2e6d8db0c08f750b1f1827b223eaa`, `eval_outcome.npy`
 `ed0f95f4a4cbbdee8f81c9dc548bfe37e9e8b31beee9045dc7c0f62daa0e322d` (99,646 dev rows, 100,393 eval rows).
+`python ingest_v8_fresh.py x5` (raw files under `$DATA_DIR/x5_retailhero/raw/`) reproduces these three files byte for
+byte (checked on 2026-10-06). The X5 `PROVENANCE.json` it writes holds a creation time, so its bytes differ from ours;
+locks v8-v10 bind ours (`bfa0f78de54495548b42154d15ed7092dd3d4615dcb2851d673b4e73a794ce36`), which contains no
+identifier and is shipped byte-identical as `data_provenance/x5_retailhero/PROVENANCE.json`: copy it to
+`$DATA_DIR/x5_retailhero/` after the split. (The Lenta and Hillstrom records are shipped there too, for information;
+no lock binds them.)
 Open Bandit split (lock v11). From `random/all/all.csv`, a row is in the development half iff
 `int(sha256(f"{salt}|open_bandit|{row_id}")[:8], 16) / 2**32 < 0.5`, salt `dsswm-obd-2026-10-05`, where `row_id` is the
 CSV's unnamed first column (the 0-based row index 0..1,374,326). This gives 686,168 development and 688,159 evaluation
@@ -112,7 +153,9 @@ rows. `dev.pkl` holds all 90 columns of the development rows (`row_id` renamed f
 `eval_labels.pkl` holds every column except `click` for the evaluation rows in original order; `eval_outcome.npy` holds
 their `click` as int8, aligned row by row (made read-only). `PROVENANCE.json` records the download date, zip hash,
 split rule and the file hashes above; its hash is bound by the lock, and the lock-v11 reader takes the evaluation-file
-hashes from it. Put the four files under `$DATA_DIR/open_bandit/`. Until lock v12, `random/men`, `random/women` and
+hashes from it. Put the four files under `$DATA_DIR/open_bandit/`. The command that made this split was not kept as a
+file; `exp/code/split_obd_all.py` applies the recorded rule to the zip (`$DATA_DIR/open_bandit/raw/`) and reproduces
+`dev.pkl`, `eval_labels.pkl` and `eval_outcome.npy` byte for byte (checked on 2026-10-06). Until lock v12, `random/men`, `random/women` and
 `bts/*` were never read; `bts/*` is still unread. The split was written before any click was read, and only label statistics of the evaluation half were computed
 at split time; 3.3% of development rows share an exact timestamp with an evaluation row (supplement S21, disclosure ii).
 Open Bandit splits (lock v12, descriptive). `exp/code/split_obd_v12.py` splits `random/women/women.csv` and
@@ -130,9 +173,76 @@ campaign under `$DATA_DIR/open_bandit/{women,men}/` (same layout as above): wome
 `ec3adc8dd277656c387d382fb0c3d1c04d212d24e3a4deb64093aba39e06e3a4`, `PROVENANCE.json`
 `aab9400b7e8f609313a84d7ed79401cebfeb8151b07d96faa3a06961084b42a7`. The lock binds these hashes (evaluation hashes
 from the provenance records). The `random/all` files and their provenance record were not modified; the pointer to the
-new splits is a separate `open_bandit/V12_SPLITS.json`. No Open Bandit data file is shipped here.
+new splits is a separate `open_bandit/V12_SPLITS.json`. No Open Bandit data file is shipped here. Re-running
+`split_obd_v12.py` reproduces the six women / men data files byte for byte (checked on 2026-10-06).
+Open Bandit provenance records. Our three Open Bandit `PROVENANCE.json` files (random/all, women, men) are hash-bound by
+locks v11 and v12 but are not shipped: their free text names the authors' tooling or machine paths, and scrubbing them
+would change the bound hashes. The split scripts write records of their own with the same file hashes but different
+bytes. The lock-v11 / v12 readers therefore refuse a re-made split as data drift; the reproduction runner's
+`--provenance-by-files` option accepts such a record in place of the bound one only when its file-hash record and the
+three files on disk equal the hashes bound by the lock, and it reports every substitution ("Reproduce end to end").
+Scrubbing artefact. In this copy the lock-bound readers `dsswm/envs/obd_v11_eval.py` and `obd_v12_eval.py` contain
+the literal path `$DATA_DIR/open_bandit` (the original files name an absolute path); being hash-bound, they were not
+edited. The reproduction runner expands the literal in memory. To run `run_v11.py` / `run_v12.py` directly, make the
+literal resolve from `exp/code`: `ln -s "$DATA_DIR" 'exp/code/$DATA_DIR'`.
 The Hillstrom split salt is `ds-swm/v9/hillstrom/2026-10-04` (`dsswm/envs/hillstrom_v9.py`). Both salts are functional
 constants and were left unchanged.
+
+## Reproduce end to end
+
+From the public raw files to regenerated eval rows, without git history and without the lock gates. CPU only; times
+are wall-clock on our machine (4 worker processes, other jobs running), cwd `exp/code`.
+
+    .venv/bin/pip install -r requirements.txt -r requirements-ingest.txt
+    export DATA_DIR=/path/to/datasets
+    # raw files (Data table):  criteo_uplift_real/criteo-research-uplift-v2.1.csv.gz, lenta/raw/lenta_dataset.csv.gz,
+    #   hillstrom/raw/hillstrom.csv, x5_retailhero/raw/{uplift_train,clients}.csv.gz, open_bandit/raw/open_bandit_dataset.zip
+
+    # 1. derived data files (about 1 min); every output is checked against the hashes in the Data section
+    python ingest_tidy.py --table all                 # Criteo, Lenta, Hillstrom tidy.pkl (about 25 s)
+    python check_tidy_content.py                      # expect content_match true and pickle_bytes_match true (x3)
+    python ingest_v8_fresh.py x5                      # X5 dev / eval split (seconds)
+    cp ../../data_provenance/x5_retailhero/PROVENANCE.json "$DATA_DIR/x5_retailhero/"
+    python split_obd_all.py                           # Open Bandit random/all split, lock v11 (about 10 s)
+    python split_obd_v12.py                           # Open Bandit women / men splits, lock v12 (about 10 s)
+
+    # 2. sealed rows against their seals (no data needed; seconds)
+    python check_sealed_rows.py                       # expect: 21 pass, 0 fail, 10 not shipped
+
+    # 3. regenerate eval rows of the headline blocks and compare with the sealed rows
+    python reproduce/reproduce_frozen.py --list
+    python reproduce/reproduce_frozen.py --blocks all --n-seeds 3 --provenance-by-files     # about 4 min
+    python reproduce/reproduce_frozen.py --blocks v10A v10B --n-seeds 10 --provenance-by-files
+    #   -> ../reproduce_out/REPORT.md and report.json; final line {"all_match": true, ...}; exit code 0
+
+    # 4. provenance manifest and paper numbers
+    python reproduce/build_provenance_manifest.py     # -> ../PROVENANCE_MANIFEST.json
+    cd ../.. && .venv/bin/python3 writing/scripts/verify_r9_numbers.py       # paper and supplement numbers
+
+Blocks of the reproduction runner (`--blocks`): `v9A`, `v9B` (lock v9, the time-uniform comparisons on Criteo CR9 and
+X5: tasks `v9{a,b}_full_{d,k,x}`), `v9C` (Hillstrom, descriptive), `v10A`, `v10B`, `v10D` (lock v10), `v11` (Open
+Bandit random/all), `v12women`, `v12men` (lock v12, descriptive); `all` runs every block. `--n-seeds N` takes N seeds
+spread over the task's 200 registered eval seeds (first and last included); `--seeds` names registered eval seeds
+explicitly; no other seed is accepted. For each seed the runner rebuilds the task's replay environment on the evaluation
+half and runs every registered method through the task's own runner code (`run_r5s_v9.py`, `run_v10.py`, `run_v11.py`,
+`run_v12.py`: `TASKS`, `load_frozen` / `task_eps_cfg`, `init_env`, `make_jobs`, `job`), imported unchanged with every
+lock-bound library module. It compares each regenerated row with the sealed row of the same (method, eps, seed) in
+every field except the timing fields (`sec`, `rs_sec_plan`, `rs_sec_cert`, `rs_sec_total`) and `code_sha256` (a hash of
+the code bytes, which scrubbing changed); `addendum_sha256`, `data_sha256`, the environment and arrival digests, every
+stopping point, certificate count, false-certificate count and per-checkpoint curve are compared exactly. It also
+checks the shipped sealed rows against their seal.
+
+What the runner is not: it replaces each lock gate (`dsswm/stats/prereg_v9..v12.addendum_gate`) by a stand-in that only
+looks the task up in the shipped lock file; the readers' own checks (layer and campaign, lock sha256, data and frozen-
+file hashes, frozen configurations against the lock) still run. It therefore does not recreate the historical
+authorisation of the eval runs, and an exact match says nothing about when the sealed rows were first produced or
+whether an evaluation half was read before its lock (`exp/PROVENANCE_MANIFEST.md`). It writes only to `--out`
+(default `exp/reproduce_out/`; under `exp/results` only `exp/results/reproduce/...` is accepted), redirects the
+lock-v11 / v12 access logs there, and reports any file under `exp/results` that changed during the run (expected none).
+`--provenance-by-files` is needed only with re-made Open Bandit splits (Data section, "Open Bandit provenance
+records"); without it the runner uses the bound provenance bytes, as with our data files.
+
+Results shipped in this copy (both runs from this scrubbed copy): `exp/results/reproduce/original_data/` (our data files, 10 eval seeds per task, all 17 eval tasks of locks v9-v12: 1180 of 1180 rows equal, about 13 min) and `exp/results/reproduce/reingested_data/` (every derived data file rebuilt from the raw files with the scripts above, `--provenance-by-files`, 3 seeds per task: 354 of 354 rows equal, about 4 min); 0 mismatches, every sealed file equal to its seal. Each directory holds `REPORT.md`, `report.json`, the regenerated rows (`rows/`) and the redirected access logs.
 
 ## Tests
 
@@ -149,9 +259,19 @@ Everything below runs without data, without git history and without the lock gat
 1. Paper and supplement numbers (all tables and all printed figures of locks v6 to v10 and the post-hoc blocks).
    From the package root:
 
-       .venv/bin/python3 writing/scripts/verify_r8d_numbers.py
+       .venv/bin/python3 writing/scripts/verify_r9_numbers.py
 
-   `verify_r8d` (the paper as submitted, revision r8d) first re-runs `verify_r8b` on the r8b text and `verify_r8c` on the
+   `verify_r9` (the paper as submitted, revision r9) first re-runs `verify_r8d` on the r8d text in a temporary copy of
+   the package (which in turn re-runs `verify_r8b` and `verify_r8c`) and requires `0 mismatch(es)`. Revision r9 states
+   the certified estimand and the 12-of-15 endpoint in the abstract, adds the Open Bandit full-frontier ratio to
+   Section 6.6, adds a post-hoc decision-difficulty census (paper Table 3, supplement S25, `difficulty_r9.py`, which
+   first reproduces every published diagnostic), splits supplement Table S2 across pages, and condenses history
+   paragraphs. `verify_r9` checks that every decimal removed from the paper is still printed in the paper or supplement,
+   that every decimal added comes from the r8d texts or the census record, that both census fragments re-render from
+   the record, that every r8d deviation row survives verbatim, that no PDF text lies outside a page, and the page budget.
+   Expected final line `r9: 0 mismatch(es)`.
+
+   `verify_r8d` (revision r8d) first re-runs `verify_r8b` on the r8b text and `verify_r8c` on the
    r8c text, each in a temporary copy of the package, and requires `0 mismatch(es)` from both. Revision r8c added sourced
    motivation (citations in Sections 1, 2 and 6.2, sourced and dated prices in supplement S16; see
    `writing/motivation_sources.md`) and moved former appendix Tables A2 and A3 unchanged to supplement S24; revision
@@ -281,9 +401,14 @@ canonical hash, the SHA-256 of every bound code file, input and data file, and a
 committed exactly once and equals that commit's bytes). The seals are checked against git history in the same way.
 **In this scrubbed copy the gates cannot pass, so eval tasks write `status: skipped_by_lock` and stop.** Scrubbing
 changed the bytes of bound code and lock files, and the original git history is not included. This is the intended
-behaviour of the gate, not a defect. To regenerate eval rows bit-for-bit, use the unscrubbed repository with its
-history, which will be released at de-anonymisation. The sealed rows shipped here, with the content-hash check
-above, are the means to audit the reported eval results in the meantime. The gate logic itself is covered by
+behaviour of the gate, not a defect. To regenerate eval rows from this copy, use the separately identified
+reproduction runner `exp/code/reproduce/reproduce_frozen.py` ("Reproduce end to end"): it executes the frozen
+configuration of a registered eval task for chosen registered eval seeds with the task's own runner and library code,
+imported unchanged, outside the gate; it writes nothing into `exp/results/full`, and it compares every regenerated
+row field by field with the sealed row. It replaces the gate by a stand-in that only looks the task up in the shipped
+lock, so it does **not** recreate the historical authorisation of the eval runs and is no evidence about when they
+ran (see `exp/PROVENANCE_MANIFEST.md`). Running eval tasks through their gates, and checking the git anchors of locks
+and seals, needs the unscrubbed repository with its history, which will be released at de-anonymisation. The gate logic itself is covered by
 unit tests that build their own temporary git repositories (`test_v*_addendum.py`, `test_prereg_v5.py`).
 
 Post-hoc block G (descriptive, outside any lock; needs the data): `cd exp/code && python3 run_v10_posthoc_G.py --list`
@@ -349,8 +474,20 @@ pickles are byte-identical to the originals; they contained no identifiers.
   the v5 streams 30000-30199), v7 33000-33199 and 34000-34199, v8 35000-35399 (block C re-runs 33000-33199),
   v9 37000-37799, v10 38000-38399 (block G 38600-38799), v11 39000-39199 (development 950-999 on the Open Bandit development half), v12 39200-39399 (women) and 39400-39599
   (men) (development 950-999 on each campaign's development half). Bootstrap B = 10^4, seed 42.
-* The raw rows of the v6-v9 eval tasks, the replica rows and the run logs are not shipped (about 150 MB). The analyses,
-  summaries and seals are shipped, and so are the rows that the verify chain and the v10 recompute read.
+* Sealed rows shipped: all 8 lock-v9 eval tasks (`results.jsonl.gz`, 15.8 MB; gunzip gives the original bytes), the 6
+  lock-v10 tasks, lock v11, both lock-v12 tasks, and v7a_full_b, v8a_full_a, v8a_full_b, v8c_full. `cd exp/code &&
+  python check_sealed_rows.py` recomputes each file's content hash and checks it against its seal (expected: 21 pass,
+  0 fail, 10 not shipped). The rows of the remaining v6-v8 eval tasks (v6a-v6c, v7a_full_a, v7b, v8b; their analyses,
+  summaries and seals are shipped), the replica rows and the run logs are not shipped.
+* Lock-v9 rows (SHA-256 of the uncompressed bytes; each file's content hash equals `results_content_sha256` of its
+  seal): v9a_full_d `6c685f06f4cfd39e59dd32c598cbfe836d056e28cbd0aa0f52a780136f8c2344`, v9a_full_k
+  `454805c99283ef745c8e3335947b01522c7b753b33ea4656d5ce56c1041f71c5`, v9a_full_x
+  `1245477818cb9b3eab446448efb322a6b236f2ee8e7a1bd65525d52ff42d0a73`, v9b_full_d
+  `3f65e12b2bed5f048ad7617a3cf246d1f50729c75171d22fef5273aeee478df3`, v9b_full_k
+  `0c915685b54419429b7ba9c3367242ba67e60c350889735a1d7f066aae26f4ed`, v9b_full_x
+  `1648228c59701b2ce5fbc7d0253c2dd67a80773020eb35776dbe7e001340ef26`, v9c_full_a
+  `29457a57d9140c54e39c0dffc4b5baf534d1bdb02a26ebd7ef6124f4f4dfa32d`, v9c_full_b
+  `a022c60e75addd4eb7f1290607ecfc3ba1628d5aa8c6921fffc2b7af42da2c3d`.
 * The seal sidecars (`*.seal_ref.json`) name commits of the original history, which is not included.
 
 ## Test status
@@ -376,6 +513,9 @@ from inside a git checkout gave 855 passed, 103 skipped, 6 failed (the 5 truth-i
   `test_real_gate_refuses_uncommitted_lock_without_eval_access` and `test_real_gate_layer_sha_logging_and_order[women|men]`
   run the real v12 gate, which re-checks the hashes of the v5-frozen code changed by scrubbing. This is the same
   by-design lock-hash failure as the v11 test above.
+* Revision r9 added `exp/code/reproduce/test_reproduce_tools.py` (8 tests of the ingestion builders, the content hash
+  and the reproduction runner's seed choice and comparison; outside `dsswm/tests`, not included in the totals above):
+  `python -m pytest reproduce/test_reproduce_tools.py -q` gives 8 passed in under 1 s, no data needed.
 * `test_prereg_v5.py::test_live_lock_if_v5` and `test_v6_addendum.py::test_finalize_refuses_overwrite_and_bad_commit`
   (2): **lock-hash tests that fail by design in a scrubbed copy.** The first compares the SHA-256 of every code file
   bound by the live v5 lock with the shipped bytes. Scrubbing changed the bytes of the files that contained paths or

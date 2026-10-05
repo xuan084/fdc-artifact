@@ -1,4 +1,4 @@
-"""Check paper revision r8d (P2 wording fixes from the r8c critic and Codex reviews) against r8c (read-only).
+"""Check paper revision r8d (P2 wording fixes from the two r8c reviews) against r8c (read-only).
 
 0. Re-runs the whole chain on the earlier texts in a temporary copy of the package: verify_r8b on the r8b state
    (main_pre_r8c.tex, supplement_pre_r8c.tex, main_r8b.pdf) and verify_r8c on the r8c state (main_pre_r8d.tex,

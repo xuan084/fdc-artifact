@@ -1,0 +1,34 @@
+{
+ "name": "x5_retailhero",
+ "created_utc": "2026-10-03T21:30:06.417266+00:00",
+ "salt": "dsswm-v8-2026-10-04",
+ "dev_frac": 0.5,
+ "split_rule": "dev iff int(sha256(f'{salt}|{name}|{row_key}')[:8], 16) / 2**32 < dev_frac",
+ "row_key": "client_id",
+ "treatment": "treatment",
+ "outcome": "outcome",
+ "files": {
+  "dev.pkl": "3a8a5d8e35599f69461f403c36210dfa497073d9f679d1f6e039d165aa85eae4",
+  "eval_labels.pkl": "500fb32edaa522812adb6728df8bdbeb1fa2e6d8db0c08f750b1f1827b223eaa",
+  "eval_outcome.npy": "ed0f95f4a4cbbdee8f81c9dc548bfe37e9e8b31beee9045dc7c0f62daa0e322d"
+ },
+ "blinding": "eval outcomes only in eval_outcome.npy (read-only); no eval-outcome statistic computed",
+ "dev_stats": {
+  "n_dev": 99646,
+  "n_eval": 100393,
+  "dev_frac_realised": 0.49813286409150215,
+  "treat_share_dev": 0.5000200710515224,
+  "treat_share_eval_labels_only": 0.49959658541930213,
+  "outcome_rate_dev_by_arm": {
+   "0": 0.603962184620943,
+   "1": 0.6374711490215755
+  }
+ },
+ "source": "https://huggingface.co/datasets/pytorch-lifestream/retailhero-uplift (X5 RetailHero, ods.ai)",
+ "raw_sha256": {
+  "uplift_train.csv.gz": "23aced68634c605acb93a7ab450aabac1a0ce0c8104e59ffed9941109ddc4ccd",
+  "clients.csv.gz": "b8985170e03dc65fa532fb6b8ca6dd70ea5c30c35ea7c1019ee6ea2034d04099"
+ },
+ "real_data": true,
+ "n_rows": 200039
+}

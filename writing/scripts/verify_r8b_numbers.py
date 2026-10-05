@@ -3,7 +3,7 @@
 r8b changes wording only: no number, verdict, table or locked file changes.
 1. Runs verify_r8_numbers.py (which runs verify_r8a, verify_r7b and the whole chain down to verify_r3, the lock-v11 and
    lock-v12 recomputations and the page check). Every check must still pass, except those listed in SUPERSEDED: their
-   wording was deliberately changed in r8b (codex/paper_r8_review.md P2 items and results-note residues;
+   wording was deliberately changed in r8b (the external r8 review P2 items and results-note residues;
    writing/review_r8_critic.md W3 and W5). Each listed item has a replacement checked here.
 2. Rebuilds main.tex and supplement.tex from their *_pre_r8b copies by applying exactly the r8b replacements and
    requires byte equality, so no other text (and no number) changed; checks every new string and the absence of every
@@ -33,7 +33,7 @@ FAIL = []
 # verify_r8 output lines (after "[MISMATCH] ") deliberately changed in r8b -> replacement checked below.
 SUPERSEDED = {
     "r8a chain: main r8a: 'Branch-and-bound changed $N_{80}$ on at most 1 of 200 streams per cell":
-        "main: '... on at most 1 of 200 streams per lock-v10 cell' (codex r8 P2: the 200-stream population is lock v10's)",
+        "main: '... on at most 1 of 200 streams per lock-v10 cell' (external review r8 P2: the 200-stream population is lock v10's)",
     "r8a chain: C1 W1: 'Its core is the exact-variance Bennett lemma":
         "C1: 'bears out' -> 'is consistent with it' (critic r8 W5); 'then' cut for space",
     "main r8: 'These departures (S2; errata in S14) bound how C1--C4 may be read.'":
@@ -41,7 +41,7 @@ SUPERSEDED = {
     "v12 dev eps-optimal shares: 'where 0.661 and 0.858 of feasible development policies are $\\\\eps$-optimal (gate 0.5)'":
         "'(gate 0.5)' dropped to pay for the tolerance sentence (critic r8 W3); shares still printed, gate 0.5 in S23",
     "no false / no exhausted: 'no method made a false certificate or exhausted a pool'":
-        "'No method made a false certificate; none had an exhausted pool at $N_{80}$.' (codex r8 P2)",
+        "'No method made a false certificate; none had an exhausted pool at $N_{80}$.' (external review r8 P2)",
     "descriptive, not confirmatory, not pooled: \"This is replication evidence, not a second confirmatory test, and is not pooled with lock v11's ratio.\"":
         "'not comparable with, or pooled with, lock v11's' + 'This is replication evidence, not a second confirmatory test.'",
     "gate fixed before data: 'A gate fixed before any of their data were read made both blocks descriptive'":

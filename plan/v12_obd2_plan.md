@@ -7,7 +7,7 @@ still before any split, any dev click read or any dev stream. No rule was change
 Written 2026-10-05 by the experimenter/methodologist, **before any row of `random/women` or `random/men` was split or
 any of their clicks was read** (only the zip directory listing, the README, the two CSV header lines and the item
 counts of the two `item_context.csv` files were looked at: women 46 items, men 34 items). User decision of 2026-10-05
-17:40 (`.sibyl/project/MEMORY.md`, W2). Nothing below may change after the first v12 dev stream except by an explicit,
+17:40 (the project notes, W2). Nothing below may change after the first v12 dev stream except by an explicit,
 dated deviation note appended at the end of this file. No eval half is read by anything until the v12 addendum is
 locked, and then only by the gated eval reader.
 

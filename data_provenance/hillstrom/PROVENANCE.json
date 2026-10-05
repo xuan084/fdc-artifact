@@ -1,0 +1,26 @@
+{
+  "name": "hillstrom",
+  "source_url": "http://www.minethatdata.com/Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv",
+  "license": "public-domain (Kevin Hillstrom 2008, free for non-commercial research)",
+  "fallback": false,
+  "fallback_reason": null,
+  "n_rows": 64000,
+  "columns": [
+    "treatment",
+    "outcome",
+    "binary",
+    "weight",
+    "x_recency",
+    "x_history",
+    "x_mens",
+    "x_womens",
+    "x_newbie",
+    "x_channel",
+    "x_zip",
+    "x_history_segment",
+    "conversion"
+  ],
+  "tidy_sha256": "3dab9ed72bfdcaf51f6d993975a7ca052ef9355690489ca854217b7f0a68b296",
+  "tidy_size_bytes": 2113247,
+  "created_utc": "2026-05-20T09:41:32.662828+00:00"
+}

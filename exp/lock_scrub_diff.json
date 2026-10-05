@@ -1,0 +1,211 @@
+{
+ "what": "Leaf-level difference between each ORIGINAL lock file and the scrubbed copy shipped here, computed by the authors from the original files on 2026-10-06 (an anonymous reader cannot recompute it; the original files will be released at de-anonymisation). Paths are given as they appear in the scrubbed copy.",
+ "locks": {
+  "prereg_lock.json": {
+   "leaves": 796,
+   "leaves_changed": 0,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [],
+   "changed_leaf_paths": [],
+   "canonical_sha256_field": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+   "this_copy_file_sha256": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95"
+  },
+  "prereg_lock_v6_addendum.json": {
+   "leaves": 322,
+   "leaves_changed": 17,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [],
+   "changed_leaf_paths": [
+    "/written_at",
+    "/written_by",
+    "/blocks/A/decision_rule/withdraw",
+    "/blocks/B/dataset/path",
+    "/replica_check/report_integrity",
+    "/declarations[0]",
+    "/declarations[1]",
+    "/declarations[2]",
+    "/declarations[3]",
+    "/declarations[4]",
+    "/declarations[5]",
+    "/declarations[6]",
+    "/data_sha256/criteo_tidy/path",
+    "/data_sha256/criteo_gz/path",
+    "/data_sha256/lenta_tidy/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+   "this_copy_file_sha256": "8944a6584f64d367f471a1d2c555e9d45573e7aaa6bfc291f73386b40aa2fc7b"
+  },
+  "prereg_lock_v7_addendum.json": {
+   "leaves": 392,
+   "leaves_changed": 8,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/primary_method/selection_disclosure/selection_rule",
+    "/blocks/A/decision_rule/threshold_origin",
+    "/data_sha256/criteo_tidy/path",
+    "/data_sha256/criteo_gz/path",
+    "/data_sha256/lenta_tidy/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "1f1a67d1a7edb915effca9b64360372af00c0c41db3371d19a89030d9b2d4b87",
+   "this_copy_file_sha256": "3f8e8e596c18b54bf168d3ff16d09a998a02e47a0f447e4394fb69470d895705"
+  },
+  "prereg_lock_v8_addendum.json": {
+   "leaves": 568,
+   "leaves_changed": 12,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/rivals/G (phased adaptive joint certificates, non-inferiority)/PJC-local",
+    "/declarations[7]",
+    "/data_sha256/criteo_tidy/path",
+    "/data_sha256/criteo_gz/path",
+    "/data_sha256/lenta_tidy/path",
+    "/data_sha256/x5_dev/path",
+    "/data_sha256/x5_eval_labels/path",
+    "/data_sha256/x5_eval_outcome/path",
+    "/data_sha256/x5_provenance/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "729bdcbd32f821b842db8c52594388bdf5fbeb4dfa790748c1f80a9852a1cff0",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "fd8d4e4487f8111f160b469f8b85a3023bf5b6a50f07c19a5fa1f0573c3d019f",
+   "this_copy_file_sha256": "73fab4aad45ce8613b74ff85c564e8ee06ecbc35214ccbb6e339074a09e79d77"
+  },
+  "prereg_lock_v9_addendum.json": {
+   "leaves": 673,
+   "leaves_changed": 16,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [
+    "/input_sha256/reviews/v9_candidates_review.md",
+    "/input_sha256/reviews/fdc_hg_review.md",
+    "/input_sha256/reviews/v9_lock_review.md"
+   ],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/primary_method/guarantee",
+    "/rivals/non_inferiority_B/TU-PJC",
+    "/blocks/A/decision_rule/threshold_origin",
+    "/blocks/joint/scope",
+    "/declarations[6]",
+    "/data_sha256/criteo_tidy/path",
+    "/data_sha256/criteo_gz/path",
+    "/data_sha256/lenta_tidy/path",
+    "/data_sha256/x5_dev/path",
+    "/data_sha256/x5_eval_labels/path",
+    "/data_sha256/x5_eval_outcome/path",
+    "/data_sha256/x5_provenance/path",
+    "/data_sha256/hillstrom_tidy/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "9540de0c7266e931b8c7945cb7382e7809f47196a8e41cf49267db67541fda79",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "e7d8772530b336be5451206957ec87579f63430f5f3ab93c1a1bc4fd0ced65e2",
+   "this_copy_file_sha256": "e2d7e8f114eb4b255a8dc7c91e73183e3b0226fd27853eba24592e673e9a9468"
+  },
+  "prereg_lock_v10_addendum.json": {
+   "leaves": 566,
+   "leaves_changed": 17,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [
+    "/input_sha256/reviews/fdc_dp_review_r1.md",
+    "/input_sha256/reviews/v10_lock_review.md"
+   ],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/statement",
+    "/primary_method/construction",
+    "/primary_method/guarantee",
+    "/rivals/claim_scope",
+    "/blocks/endpoint/dev_deviation",
+    "/eps_selection/implementation",
+    "/declarations[1]",
+    "/declarations[8]",
+    "/declarations[9]",
+    "/data_sha256/lenta_tidy/path",
+    "/data_sha256/x5_dev/path",
+    "/data_sha256/x5_eval_labels/path",
+    "/data_sha256/x5_eval_outcome/path",
+    "/data_sha256/x5_provenance/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "ecaf78e1c5424d996ed775194a6f0f8041e0ce3c5c1b9effc4a99388069d82d8",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "fc9ff22625d205d8d8ce2aae10639400705b4c5235da9c6f349c653c32e0a173",
+   "this_copy_file_sha256": "b7b9f16c0f00153009ca42c5aa7865ec14335a26ac26d088bb8e940ec309eaf8"
+  },
+  "prereg_lock_v11_addendum.json": {
+   "leaves": 358,
+   "leaves_changed": 9,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [
+    "/input_sha256/reviews/v11_lock_review_r1.md",
+    "/input_sha256/reviews/v11_lock_review_r2.md"
+   ],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/eval_access/pre_lock_reads",
+    "/declarations[2]",
+    "/data_sha256/obd_dev/path",
+    "/data_sha256/obd_eval_labels/path",
+    "/data_sha256/obd_eval_outcome/path",
+    "/data_sha256/obd_provenance/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "4ee733915bf2ac7759bcf90b2bc945b5dce88d3c3625bd1e2d7531a65e629963",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "d91e6e99feaa4e9adfa8d9e03a219a388307984e0a0e7b39502503a7dc3b2e52",
+   "this_copy_file_sha256": "1902174c8fb2b73744abaa7355ef6223a00ab826873f69d85dcabb4271a5a014"
+  },
+  "prereg_lock_v12_addendum.json": {
+   "leaves": 794,
+   "leaves_changed": 11,
+   "non_string_leaves_changed": 0,
+   "sha256_valued_leaves_changed": 0,
+   "keys_renamed": [
+    "/input_sha256/reviews/v12_lock_review_r1.md",
+    "/input_sha256/reviews/v12_lock_review_r2.md"
+   ],
+   "changed_leaf_paths": [
+    "/written_by",
+    "/data_sha256/women_dev/path",
+    "/data_sha256/women_eval_labels/path",
+    "/data_sha256/women_eval_outcome/path",
+    "/data_sha256/women_provenance/path",
+    "/data_sha256/men_dev/path",
+    "/data_sha256/men_eval_labels/path",
+    "/data_sha256/men_eval_outcome/path",
+    "/data_sha256/men_provenance/path",
+    "/lock_procedure",
+    "/locked_by"
+   ],
+   "canonical_sha256_field": "9a99ef28b3c2213853faab65cbf914ce5cfc25fa16f9a950d383336a3075c189",
+   "canonical_sha256_field_unchanged": true,
+   "original_file_sha256": "838d8f4e60adc307b8c6af1a60811d2e64c1159059bf074596f0045197dedb53",
+   "this_copy_file_sha256": "aba6ef975dedcefa2a4221f50ca81b02bd23f88ac16e6eed8ea6980024e38f69"
+  }
+ }
+}
