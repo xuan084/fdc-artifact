@@ -1,6 +1,6 @@
 # Anonymised code and artifact package (double-blind review)
 
-This package holds the code, the locked pre-registrations (base lock v5 and addenda v6 to v11), the external lock
+This package holds the code, the locked pre-registrations (base lock v5 and addenda v6 to v12), the external lock
 reviews, the sealed result rows and analyses, the frozen gates, and the scripts that recompute every number printed
 in the paper and supplement. Identifiers have been removed: author names, e-mails, user names, machine paths, host
 names, git author data, and the names of the agent tooling and of the external review tool. No raw or derived
@@ -23,6 +23,12 @@ datasets are included; the Data section below says how to obtain each one and gi
                                         environment and gated evaluation reader, lock gate, analysis, replica, seal;
                                         tests dsswm/tests/test_v11_addendum.py; run_obd_dev_pilot.py: feasibility pilot;
                                         build_v11_addendum_draft.py: lock-draft builder (paper Section 6.6, supplement S21)
+    exp/code/run_v12.py, split_obd_v12.py, dsswm/envs/obd_v12_eval.py, dsswm/stats/{prereg_v12,v12_analysis,v12_seal}.py
+                                        lock v12 (Open Bandit random/women and random/men, DESCRIPTIVE replications of
+                                        lock v11): runner, blinded salted split, campaign-parameterised gated reader, lock
+                                        gate, analysis with the pre-stated block-status gate, seal; tests
+                                        dsswm/tests/test_v12_addendum.py; build_v12_addendum_draft.py: lock-draft builder
+                                        (paper Section 6.6, supplement S23)
     exp/code/dsswm/tests/               unit and regression tests (pytest)
     exp/code/run_r5s_v6.py ... run_v11.py   lock-block runners (v6, v7, v8, v9, v10, v11)
     exp/code/run_fdc_dp_dev.py          FDC-DP development runs and the pre-stated eps rule (lock v10)
@@ -43,13 +49,20 @@ datasets are included; the Data section below says how to obtain each one and gi
     exp/results/full/v11_obd/           lock-v11 sealed rows (v11_obd_full/results.jsonl), replica rows and report,
                                         v11_analysis.json, eval_access_log.jsonl; v11_seals/; v11_summary.md
     exp/results/v11_gates/              lock-v11 frozen design, eps / HC selection, THRESH, MANIFEST
+    exp/results/full/v12_obd/           lock-v12 sealed rows (v12_{women,men}_full/results.jsonl), replica rows and
+                                        reports, v12_{women,men}_analysis.json, {women,men}_eval_access_log.jsonl;
+                                        v12_seals/; v12_summary.md
+    exp/results/v12_gates/              lock-v12 frozen designs, eps / HC selection, block-status gate, THRESH (computed,
+                                        not applicable), MANIFEST; exp/results/pilots/v12_dev/: development rule and cell
+                                        rows, replica, development analyses (run logs not shipped)
     exp/results/v{6,8,9,10}_gates/      frozen configurations; v10_gates/ holds the frozen score models
                                         (score_model_{x5,lenta}.pkl, scikit-learn 1.9.1) and seg_v10_frozen.json
     exp/results/r4_gates, r5_gates      earlier frozen gates referenced by the base lock
-    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
-                                        gen_r7_v11_tables.py (supplement S21 tables),
+    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
+                                        gen_r7_v11_tables.py (supplement S21 tables), gen_r8_v12_tables.py (S23 tables),
                                         gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2)
-    writing/latex_acm/main.tex, writing/supplement/  paper and supplement sources that the verify scripts check
+    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8) and supplement sources that the
+                                        verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with
     requirements.txt                    pinned versions (Python 3.12.14)
 
 ## Setup
@@ -68,7 +81,7 @@ Datasets are expected under `$DATA_DIR/<dir>/`. The SHA-256 values are those of 
 |---|---|---|
 | Criteo Uplift v2.1 (13,979,592 rows), dir `criteo_uplift_real/` | Hugging Face `criteo/criteo-uplift`, file `criteo-research-uplift-v2.1.csv.gz` (CC-BY-NC-SA 4.0) | `criteo-research-uplift-v2.1.csv.gz` (311,422,618 bytes) `2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc`; our `tidy.pkl` `600a9a57a0e93a90c659552f482609321d97c58b1c9c90a6a391e05811546cd8` |
 | X5 RetailHero (200,039 clients), dir `x5_retailhero/` | Hugging Face `pytorch-lifestream/retailhero-uplift` (mirror of the ods.ai RetailHero data), files `uplift_train.csv.gz`, `clients.csv.gz` | `uplift_train.csv.gz` `23aced68634c605acb93a7ab450aabac1a0ce0c8104e59ffed9941109ddc4ccd`; `clients.csv.gz` `b8985170e03dc65fa532fb6b8ca6dd70ea5c30c35ea7c1019ee6ea2034d04099`; split outputs below |
-| Open Bandit Dataset (ZOZOTOWN; 1,374,327 rows of `random/all`), dir `open_bandit/` | ZOZO Research, `https://research.zozo.com/data_release/open_bandit_dataset.zip` (CC BY 4.0; Saito et al., NeurIPS 2021 Datasets and Benchmarks) | zip (412,931,917 bytes) `e8ec18196582a5937381a1776382ca940689b90a18d2dcd1fb635be6df614d78`; only `open_bandit_dataset/random/all/all.csv` is read. Our split outputs: `dev.pkl` `ac59e8b9b40ee29f026daf8b1057a455678d60fb4a5201e75ec6acd0157ee748`, `eval_labels.pkl` `b27cd3b93d56e2a14ef6417f2f9d9623b5b125688578efa419aa22e7adaeb8af`, `eval_outcome.npy` `cd0e23a339de3ed0aba6a14af1ab00f468a0c400966e0ad4c5b66dd190436ca8`, `PROVENANCE.json` `656ca6fc973c3b7df775cbe197c9c4f8f657d83982b49cae6cf22be5c6683118` |
+| Open Bandit Dataset (ZOZOTOWN; 1,374,327 rows of `random/all`), dir `open_bandit/` | ZOZO Research, `https://research.zozo.com/data_release/open_bandit_dataset.zip` (CC BY 4.0; Saito et al., NeurIPS 2021 Datasets and Benchmarks) | zip (412,931,917 bytes) `e8ec18196582a5937381a1776382ca940689b90a18d2dcd1fb635be6df614d78`; `open_bandit_dataset/random/all/all.csv` is read (lock v11), and `random/women/women.csv` and `random/men/men.csv` (lock v12, split outputs in the paragraph below). Our `random/all` split outputs: `dev.pkl` `ac59e8b9b40ee29f026daf8b1057a455678d60fb4a5201e75ec6acd0157ee748`, `eval_labels.pkl` `b27cd3b93d56e2a14ef6417f2f9d9623b5b125688578efa419aa22e7adaeb8af`, `eval_outcome.npy` `cd0e23a339de3ed0aba6a14af1ab00f468a0c400966e0ad4c5b66dd190436ca8`, `PROVENANCE.json` `656ca6fc973c3b7df775cbe197c9c4f8f657d83982b49cae6cf22be5c6683118` |
 | Lenta (687,029 rows), dir `lenta/` | scikit-uplift `fetch_lenta`, i.e. `https://sklift.s3.eu-west-2.amazonaws.com/lenta_dataset.csv.gz` (research use) | `lenta_dataset.csv.gz` `b531544f6c072d22f232d91e20ffcaca265acf224e02687502a40e6d56135682`; `tidy.pkl` (62,520,974 bytes) `6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43` |
 | Hillstrom (64,000 rows), dir `hillstrom/` | MineThatData e-mail challenge, `Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv` | raw csv `0e5893329d8b93cefecc571777672028290ab69865718020c78c7284f291aece`; `tidy.pkl` (2,113,247 bytes) `3dab9ed72bfdcaf51f6d993975a7ca052ef9355690489ca854217b7f0a68b296` |
 
@@ -93,9 +106,25 @@ rows. `dev.pkl` holds all 90 columns of the development rows (`row_id` renamed f
 `eval_labels.pkl` holds every column except `click` for the evaluation rows in original order; `eval_outcome.npy` holds
 their `click` as int8, aligned row by row (made read-only). `PROVENANCE.json` records the download date, zip hash,
 split rule and the file hashes above; its hash is bound by the lock, and the lock-v11 reader takes the evaluation-file
-hashes from it. Put the four files under `$DATA_DIR/open_bandit/`. `random/men`, `random/women` and `bts/*` were never
-read. The split was written before any click was read, and only label statistics of the evaluation half were computed
+hashes from it. Put the four files under `$DATA_DIR/open_bandit/`. Until lock v12, `random/men`, `random/women` and
+`bts/*` were never read; `bts/*` is still unread. The split was written before any click was read, and only label statistics of the evaluation half were computed
 at split time; 3.3% of development rows share an exact timestamp with an evaluation row (supplement S21, disclosure ii).
+Open Bandit splits (lock v12, descriptive). `exp/code/split_obd_v12.py` splits `random/women/women.csv` and
+`random/men/men.csv` from the same zip once each: a row is in the development half iff
+`int(sha256(f"{salt}|{name}|{row_id}")[:8], 16) / 2**32 < 0.5`, with salt `dsswm-obd-women-2026-10-05` and name
+`open_bandit_women`, or salt `dsswm-obd-men-2026-10-05` and name `open_bandit_men`, and `row_id` the CSV's unnamed first
+column. This gives 432,009 / 432,576 (women) and 226,819 / 226,130 (men) development / evaluation rows. Outputs per
+campaign under `$DATA_DIR/open_bandit/{women,men}/` (same layout as above): women `dev.pkl`
+`db0f612ca1d5dd9bd060583d3a5212b5f3a0672ca236387997e7b1cc4f3662cb`, `eval_labels.pkl`
+`ab99556b118dc6a2cd28a333caf802b2470e230247e8596d5de04187f78fd8ce`, `eval_outcome.npy`
+`19a0f4243eb77f1b8b6154ff080a6cf6df953b49427e70e19bdd4df1e386b2b2`, `PROVENANCE.json`
+`98013351a3b05fd0a1f4f4ddf3d30dbb15d9bdeb221bd0137602caa71e5c8953`; men `dev.pkl`
+`039ae7524be20d449f594945aeffb8b14364797d693678d63403fdab21b2b22f`, `eval_labels.pkl`
+`e76afe2ca3d8a1bc604fd680e8511aa7b2da9059856b89f7b3ec8150876a534b`, `eval_outcome.npy`
+`ec3adc8dd277656c387d382fb0c3d1c04d212d24e3a4deb64093aba39e06e3a4`, `PROVENANCE.json`
+`aab9400b7e8f609313a84d7ed79401cebfeb8151b07d96faa3a06961084b42a7`. The lock binds these hashes (evaluation hashes
+from the provenance records). The `random/all` files and their provenance record were not modified; the pointer to the
+new splits is a separate `open_bandit/V12_SPLITS.json`. No Open Bandit data file is shipped here.
 The Hillstrom split salt is `ds-swm/v9/hillstrom/2026-10-04` (`dsswm/envs/hillstrom_v9.py`). Both salts are functional
 constants and were left unchanged.
 
@@ -113,6 +142,26 @@ Everything below runs without data, without git history and without the lock gat
 
 1. Paper and supplement numbers (all tables and all printed figures of locks v6 to v10 and the post-hoc blocks).
    From the package root:
+
+       .venv/bin/python3 writing/scripts/verify_r8_numbers.py --skip-census
+
+   `verify_r8` (the paper as submitted, revision r8) runs `verify_r8a` (revision r8a, which runs `verify_r7b` and the
+   whole chain below) and lists the 6 chain text checks whose wording was deliberately shortened in r8 to make room for
+   lock v12 as SUPERSEDED, each with its replacement checked and every cut fact checked verbatim in supplement S16, S17
+   or S22. It then recomputes lock v12 from the sealed rows `exp/results/full/v12_obd/v12_{women,men}_full/results.jsonl`
+   (paired by seed, bootstrap B = 10^4, seed 42): every comparison, the full-frontier and uncensored-subset readings,
+   F/T/S shares, false streams, exhaustion, stopping points and checkpoint gains, against the analysis JSONs; checks
+   every lock-v12 number of the paper (Section 6.6, Section 7) and of supplement S23 and S2 against the analyses, the
+   development analyses, `v12_gates/`, the lock, the plan, the development report, `v12_summary.md` and the two lock
+   reviews; checks the S23 tables against `gen_r8_v12_tables.py`; and checks the page budget of `main.pdf` (12 pages,
+   body ends on page 8). Expected final line `r8: 0 mismatch(es)`. Inside it, `verify_r8a` ends with
+   `r8a: 6 mismatch(es)`: exactly the superseded items. Both lock-v12 blocks are descriptive by the pre-stated gate;
+   no script derives a verdict for them.
+
+   `verify_r8a` (revision r8a) runs `verify_r7b` and lists the 8 r7b text checks reworded in r8a (C1 foregrounding,
+   Section 8 clause) as SUPERSEDED, each with its replacement checked.
+
+   The older entry point is
 
        .venv/bin/python3 writing/scripts/verify_r7b_numbers.py --skip-census
 
@@ -156,6 +205,7 @@ Everything below runs without data, without git history and without the lock gat
 
    | Lock / block | Source files | Read by |
    |---|---|---|
+   | v12, descriptive (main-text Sec. 6.6 and 7, supplement S23) | `v12_obd/v12_{women,men}_analysis.json`, `v12_obd/v12_{women,men}_full/{results.jsonl,replica_report.json}`, `v12_obd/*_eval_access_log.jsonl`, `pilots/v12_dev/v12_{women,men}_analysis_dev.json`, `v12_gates/*.json`, `plan/prereg_lock_v12_addendum.json`, `plan/v12_{obd2_plan,dev_report}.md`, `reviews/v12_lock_review_r{1,2}.md`, `v12_summary.md` | `verify_r8`, `gen_r8_v12_tables` |
    | v11 (main-text Sec. 6.6, supplement S21) | `v11_obd/v11_analysis.json`, `v11_obd/v11_obd_full/replica_report.json`, `pilots/v11_dev/v11_analysis_dev.json`, `v11_gates/*.json`, `plan/prereg_lock_v11_addendum.json` | `verify_r7`, `verify_r7b` (also `v11_obd_full/results.jsonl`, `v11_summary.md`), `gen_r7_v11_tables` |
    | localised ledgers, development only (supplement S20, Sec. 6.5 pointer) | `pilots/fdc_pw/rows*/*.jsonl.gz`, `pilots/fdc_pw/s20_summary.json` (Hamming / value-gap diagnostics; `gen_r6d_s20.py --diag` needs the development halves) | `verify_r6`, `gen_r6d_s20` |
    | post-hoc block G (main-text Figure 2 and Sec. 6.5, supplement S19) | `v10_posthoc_G/summary.json` (rows in `v10_posthoc_G/rows/*.jsonl.gz`) | `verify_r6`, `gen_r6_blockG_tables`, `make_fig_epscurve` |
@@ -197,6 +247,8 @@ An eval task runs only behind its lock gate:
     python run_v10.py --task v10a_full_s16 --replica # replica check against the replica model
     python run_v10.py --analyse A                    # -> exp/results/full/v10_analysis_A.json
     python run_v11.py --task v11_obd_full            # lock v11 (seeds 39000-39199); then --replica, --analyse
+    python run_v12.py --task v12_women_full          # lock v12, descriptive (seeds 39200-39399; v12_men_full:
+                                                     # 39400-39599); then --replica, --analyse with --campaign
 
 The gate (`dsswm/stats/prereg_v10.py`, and likewise `prereg_v6..v9`) checks the whole chain v5 -> v10: every lock's
 canonical hash, the SHA-256 of every bound code file, input and data file, and a git anchor (the lock file was
@@ -255,6 +307,7 @@ file. `git commit` is the lock's recorded code-freeze commit in the original his
 | v9 `prereg_lock_v9_addendum.md` | | `7e920d0e7988b38bba38d0e74c592788f6f952f91dbc3d2184d6fcdd742f2d84` | | `9d7498e70d3b8686cbe2958903dd4a8431c7eb660e88078771469a35d88ddaf6` | |
 | v10 `prereg_lock_v10_addendum.json` | 2026-10-05 06:35 | `fc9ff22625d205d8d8ce2aae10639400705b4c5235da9c6f349c653c32e0a173` | `ecaf78e1c5424d996ed775194a6f0f8041e0ce3c5c1b9effc4a99388069d82d8` | `b7b9f16c0f00153009ca42c5aa7865ec14335a26ac26d088bb8e940ec309eaf8` | `2984121d` |
 | v11 `prereg_lock_v11_addendum.json` | 2026-10-05 15:12 | `d91e6e99feaa4e9adfa8d9e03a219a388307984e0a0e7b39502503a7dc3b2e52` | `4ee733915bf2ac7759bcf90b2bc945b5dce88d3c3625bd1e2d7531a65e629963` | `1902174c8fb2b73744abaa7355ef6223a00ab826873f69d85dcabb4271a5a014` | `1741ebcf` |
+| v12 `prereg_lock_v12_addendum.json` | 2026-10-05 18:34 | `838d8f4e60adc307b8c6af1a60811d2e64c1159059bf074596f0045197dedb53` | `9a99ef28b3c2213853faab65cbf914ce5cfc25fa16f9a950d383336a3075c189` | `aba6ef975dedcefa2a4221f50ca81b02bd23f88ac16e6eed8ea6980024e38f69` | `20a5e314` |
 | v10 `prereg_lock_v10_addendum.md` | | `2bfc9c1a076dcaa0e06adc23ce5b3c1ccfbad7c7ccd014795398fde79406e7d1` | | `32c552ba10b28aba5190686d6a0467e1672bf3b4ca5a88b291e69b9ee8207449` | |
 
 Scrubbing edits to the locks and to all other text files: data paths read `$DATA_DIR/...`; workspace paths are
@@ -268,7 +321,8 @@ pickles are byte-identical to the originals; they contained no identifiers.
 
 * Seeds: development 900-999 (v10 dev twins 950-999); eval seeds per lock: v6 31000-31199 and 32000-32199 (block C continues
   the v5 streams 30000-30199), v7 33000-33199 and 34000-34199, v8 35000-35399 (block C re-runs 33000-33199),
-  v9 37000-37799, v10 38000-38399 (block G 38600-38799), v11 39000-39199 (development 950-999 on the Open Bandit development half). Bootstrap B = 10^4, seed 42.
+  v9 37000-37799, v10 38000-38399 (block G 38600-38799), v11 39000-39199 (development 950-999 on the Open Bandit development half), v12 39200-39399 (women) and 39400-39599
+  (men) (development 950-999 on each campaign's development half). Bootstrap B = 10^4, seed 42.
 * The raw rows of the v6-v9 eval tasks, the replica rows and the run logs are not shipped (about 150 MB). The analyses,
   summaries and seals are shipped, and so are the rows that the verify chain and the v10 recompute read.
 * The seal sidecars (`*.seal_ref.json`) name commits of the original history, which is not included.
@@ -291,6 +345,11 @@ from inside a git checkout gave 855 passed, 103 skipped, 6 failed (the 5 truth-i
   7 skipped (evaluation data absent) and 1 failed: `test_real_gate_layer_sha_logging_and_order` runs the real v11 gate,
   which re-checks the hashes of the v5-frozen code, and scrubbing changed the bytes of five of those files
   (`dsswm/certify/quadknap.py`, ...). This is the same by-design lock-hash failure as the two tests below.
+* Revision r8 added `test_v12_addendum.py` (28 tests; 28 pass in the unscrubbed tree; not included in the totals above).
+  In this copy it gives 19 passed, 6 skipped (evaluation data absent) and 3 failed:
+  `test_real_gate_refuses_uncommitted_lock_without_eval_access` and `test_real_gate_layer_sha_logging_and_order[women|men]`
+  run the real v12 gate, which re-checks the hashes of the v5-frozen code changed by scrubbing. This is the same
+  by-design lock-hash failure as the v11 test above.
 * `test_prereg_v5.py::test_live_lock_if_v5` and `test_v6_addendum.py::test_finalize_refuses_overwrite_and_bad_commit`
   (2): **lock-hash tests that fail by design in a scrubbed copy.** The first compares the SHA-256 of every code file
   bound by the live v5 lock with the shipped bytes. Scrubbing changed the bytes of the files that contained paths or

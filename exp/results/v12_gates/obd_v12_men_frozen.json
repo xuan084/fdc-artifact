@@ -1,0 +1,213 @@
+{
+ "written_by": "obd_v12_eval.freeze_design (dev half only)",
+ "written_at": "2026-10-05T17:33:53.447723",
+ "campaign": "men",
+ "layer": "OBD-MEN-UF0X3-A2",
+ "S": 10,
+ "A": 2,
+ "n_dev": 226819,
+ "dev_sha256": "039ae7524be20d449f594945aeffb8b14364797d693678d63403fdab21b2b22f",
+ "segment_rule": "uf0 x uf3; cells < 2 % of dev rows -> '<uf0>|other'; residual < 1 % -> largest cell; segments ordered by dev size (desc) (v11 rule, obd_v11_eval._dev_rule)",
+ "segment_levels": [
+  "1a2b2ad3a7f218a0d709dd9c656fda27|47e7dd7d9ccbe31d57ce716dba831d44",
+  "cef3390ed299c09874189c387777674a|9bde591ffaab8d54c457448e4dca6f53",
+  "cef3390ed299c09874189c387777674a|c39b0c7dd5d4eb9a18e7db6ba2f258f8",
+  "cef3390ed299c09874189c387777674a|f97571b9c14a786aab269f0b427d2a85",
+  "cef3390ed299c09874189c387777674a|06128286bcc64b6a4b0fb7bc0328fe17",
+  "81ce123cbb5bd8ce818f60fb3586bba5|9bde591ffaab8d54c457448e4dca6f53",
+  "81ce123cbb5bd8ce818f60fb3586bba5|c39b0c7dd5d4eb9a18e7db6ba2f258f8",
+  "cef3390ed299c09874189c387777674a|05b76f5e97e51128862059ac7df9e42a",
+  "81ce123cbb5bd8ce818f60fb3586bba5|other",
+  "cef3390ed299c09874189c387777674a|other"
+ ],
+ "pair_map": {
+  "1a2b2ad3a7f218a0d709dd9c656fda27|47e7dd7d9ccbe31d57ce716dba831d44": 0,
+  "4ae385d792f81dde128124a925a830de|05b76f5e97e51128862059ac7df9e42a": 0,
+  "4ae385d792f81dde128124a925a830de|06128286bcc64b6a4b0fb7bc0328fe17": 0,
+  "4ae385d792f81dde128124a925a830de|9bde591ffaab8d54c457448e4dca6f53": 0,
+  "4ae385d792f81dde128124a925a830de|c39b0c7dd5d4eb9a18e7db6ba2f258f8": 0,
+  "4ae385d792f81dde128124a925a830de|f97571b9c14a786aab269f0b427d2a85": 0,
+  "81ce123cbb5bd8ce818f60fb3586bba5|05b76f5e97e51128862059ac7df9e42a": 8,
+  "81ce123cbb5bd8ce818f60fb3586bba5|06128286bcc64b6a4b0fb7bc0328fe17": 8,
+  "81ce123cbb5bd8ce818f60fb3586bba5|270b3e1c052b4f2e9c90bf0ebeb84f34": 8,
+  "81ce123cbb5bd8ce818f60fb3586bba5|3aef83d337306549f1f8ca5a8b8ecff8": 8,
+  "81ce123cbb5bd8ce818f60fb3586bba5|9bde591ffaab8d54c457448e4dca6f53": 5,
+  "81ce123cbb5bd8ce818f60fb3586bba5|c39b0c7dd5d4eb9a18e7db6ba2f258f8": 6,
+  "81ce123cbb5bd8ce818f60fb3586bba5|f97571b9c14a786aab269f0b427d2a85": 8,
+  "cef3390ed299c09874189c387777674a|05b76f5e97e51128862059ac7df9e42a": 7,
+  "cef3390ed299c09874189c387777674a|06128286bcc64b6a4b0fb7bc0328fe17": 4,
+  "cef3390ed299c09874189c387777674a|1f5491ca59138af653430c90c33319b5": 9,
+  "cef3390ed299c09874189c387777674a|270b3e1c052b4f2e9c90bf0ebeb84f34": 9,
+  "cef3390ed299c09874189c387777674a|3aef83d337306549f1f8ca5a8b8ecff8": 9,
+  "cef3390ed299c09874189c387777674a|9bde591ffaab8d54c457448e4dca6f53": 1,
+  "cef3390ed299c09874189c387777674a|c39b0c7dd5d4eb9a18e7db6ba2f258f8": 2,
+  "cef3390ed299c09874189c387777674a|c9dce82be9faf60d0b76e3e1eaaf835d": 9,
+  "cef3390ed299c09874189c387777674a|f97571b9c14a786aab269f0b427d2a85": 3
+ },
+ "other_map": {
+  "1a2b2ad3a7f218a0d709dd9c656fda27|other": 0,
+  "4ae385d792f81dde128124a925a830de|other": 0,
+  "81ce123cbb5bd8ce818f60fb3586bba5|other": 8,
+  "cef3390ed299c09874189c387777674a|other": 9
+ },
+ "fallback_segment": 0,
+ "fallback_rule": "unseen (uf0, uf3) pair -> other_map['<uf0>|other']; unseen uf0 -> fallback_segment (the largest dev segment)",
+ "dev_segment_shares": [
+  0.29337930243939,
+  0.2484712479995062,
+  0.17930155762965183,
+  0.08610389782161107,
+  0.056110819640329955,
+  0.03378023886887783,
+  0.033158597824697225,
+  0.027241985900652063,
+  0.024834780155101644,
+  0.017617571720182173
+ ],
+ "dev_segment_shares_hex": [
+  "0x1.2c6b9fb533af3p-2",
+  "0x1.fcde7e613bc52p-3",
+  "0x1.6f35a7b12134cp-3",
+  "0x1.60ae7b133b2aep-4",
+  "0x1.cba8eae9d2b63p-5",
+  "0x1.14ba4ba62c391p-5",
+  "0x1.0fa29ea7a0152p-5",
+  "0x1.be552ba15e83cp-6",
+  "0x1.96e49e2472dfdp-6",
+  "0x1.20a57397e125bp-6"
+ ],
+ "treat_items": [
+  0,
+  2,
+  3,
+  5,
+  6,
+  10,
+  12,
+  13,
+  14,
+  15,
+  17,
+  21,
+  22,
+  23,
+  26,
+  27,
+  31
+ ],
+ "control_items": [
+  1,
+  4,
+  7,
+  8,
+  9,
+  11,
+  16,
+  18,
+  19,
+  20,
+  24,
+  25,
+  28,
+  29,
+  30,
+  32,
+  33
+ ],
+ "arm_rule": "arm 1 = the top half (17) of the 34 items by dev click rate (ties by item id; obd_v11.item_groups), arm 0 = the other 17",
+ "cost_G": 8,
+ "cost": [
+  [
+   0,
+   23
+  ],
+  [
+   0,
+   20
+  ],
+  [
+   0,
+   14
+  ],
+  [
+   0,
+   7
+  ],
+  [
+   0,
+   4
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   0,
+   2
+  ],
+  [
+   0,
+   2
+  ],
+  [
+   0,
+   1
+  ]
+ ],
+ "budgets": [
+  7,
+  11,
+  15,
+  19,
+  23,
+  27,
+  31,
+  35,
+  39,
+  43,
+  47,
+  51,
+  55,
+  59,
+  63
+ ],
+ "qids": [
+  "OBD|A2|B0.10",
+  "OBD|A2|B0.15",
+  "OBD|A2|B0.20",
+  "OBD|A2|B0.25",
+  "OBD|A2|B0.30",
+  "OBD|A2|B0.35",
+  "OBD|A2|B0.40",
+  "OBD|A2|B0.45",
+  "OBD|A2|B0.50",
+  "OBD|A2|B0.55",
+  "OBD|A2|B0.60",
+  "OBD|A2|B0.65",
+  "OBD|A2|B0.70",
+  "OBD|A2|B0.75",
+  "OBD|A2|B0.80"
+ ],
+ "budget_frac": [
+  0.1,
+  0.15,
+  0.2,
+  0.25,
+  0.3,
+  0.35,
+  0.4,
+  0.45,
+  0.5,
+  0.55,
+  0.6,
+  0.65,
+  0.7,
+  0.75,
+  0.8
+ ],
+ "n_min": 5000
+}

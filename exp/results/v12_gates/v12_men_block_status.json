@@ -1,0 +1,91 @@
+{
+ "status": "descriptive",
+ "criteria": {
+  "i_rule_selects_eps": true,
+  "ii_all_control_not_eps_optimal_in_some_problem": true,
+  "iii_mean_eps_optimal_share_le_0.5": false
+ },
+ "eps": 0.001,
+ "selected_eps": 0.001,
+ "n_problems": 15,
+ "n_problems_all_control_eps_optimal": 5,
+ "mean_share_eps_optimal": 0.8575499647604637,
+ "per_problem_share": [
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  0.9692,
+  0.949,
+  0.9269,
+  0.8574,
+  0.7594,
+  0.7496,
+  0.7435,
+  0.7276,
+  0.6474,
+  0.5332
+ ],
+ "n_policies": 1024,
+ "rule": "confirmatory iff (i) the rival-success rule selects an eps of the grid, (ii) all-control is not eps-optimal in at least one of the 15 problems, (iii) mean eps-optimal policy share <= 0.5 (dev half, dev truth, rule-selected eps); else descriptive (plan/v12_obd2_plan.md s6)",
+ "campaign": "men",
+ "written_at": "2026-10-05T18:13:17.006718",
+ "code_sha256": "49889d9e53084bcb24f4a6657e71b5a8c6719cdb39f51eb959ff4072e4061029",
+ "data_sha256": "fb9083d2f0c9042b4a26de2eaebf5b559caa6b23998e4f6f0ea9d074f8663e1f",
+ "dev_env": {
+  "campaign": "men",
+  "layer": "OBD-MEN-UF0X3-A2",
+  "half": "dev",
+  "S": 10,
+  "A": 2,
+  "N": 226819,
+  "pool_sizes_min": 1996,
+  "w": [
+   0.29338,
+   0.24847,
+   0.1793,
+   0.0861,
+   0.05611,
+   0.03378,
+   0.03316,
+   0.02724,
+   0.02483,
+   0.01762
+  ],
+  "cost": [
+   23,
+   20,
+   14,
+   7,
+   4,
+   3,
+   3,
+   2,
+   2,
+   1
+  ],
+  "budgets": [
+   7,
+   11,
+   15,
+   19,
+   23,
+   27,
+   31,
+   35,
+   39,
+   43,
+   47,
+   51,
+   55,
+   59,
+   63
+  ],
+  "fallback_rows": {
+   "pair": 0,
+   "uf0": 0
+  }
+ },
+ "dev_base_ctr": 0.005012807569030813
+}

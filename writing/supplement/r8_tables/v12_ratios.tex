@@ -1,0 +1,28 @@
+\begin{table*}[t]
+\caption{\textbf{Lock v12, every comparison} (Open Bandit Dataset, \texttt{random/women} and \texttt{random/men} evaluation halves, 200 fresh paired streams each). Both blocks are \emph{descriptive} by the block-status gate fixed in the plan before any of their data were read (Table~\ref{tab:v12gate}); no row carries a verdict, THRESH is not applicable, and no ratio is pooled with lock v11 or across campaigns. Ratio = paired geometric mean of $\Npen$ (first / second method) with two-sided 95\% CI and one-sided UB95 (paired percentile bootstrap, $B = 10^4$, seed 42, one resample matrix per block). F / T / S = \% of streams on which the first method stops earlier / at the same checkpoint / later. Full frontier: rows to 15 of 15 (horizon-sensitive). Uncensored subset: streams on which neither method had an exhausted pool at $N_{80}$ (pre-stated in the v12 plan). Dev = the same statistic on the 50 development streams of the selected $\eps$ (seeds 950--999), UB95 in parentheses.}
+\label{tab:v12ratios}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Comparison & Role & Ratio [95\% CI] & UB95 & F / T / S & Dev (UB95) \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{A. women (seeds 39200--39399, $\eps = 7.5\cdot 10^{-4}$, 15.5\% of the development click rate; $\tau_R$ = 432,576; block status: descriptive)}} \\
+\textbf{TU-FDC-DP(b) / RECT-BF-DP-TU} & headline & 0.677 [0.670, 0.684] & 0.683 & 100 / 0 / 0 & 0.719 (0.729) \\
+TU-FDC-DP(b) / HC-WoR-DP (tuned) & descr. & 0.715 [0.708, 0.723] & 0.721 & 100 / 0 / 0 & 0.721 (0.731) \\
+TU-FDC-DP(b) / RECT-HG-DP & descr. & 0.731 [0.723, 0.738] & 0.737 & 100 / 0 / 0 & 0.721 (0.731) \\
+RECT-BF-DP-TU / HC-WoR-DP (tuned) & descr. & 1.057 [1.049, 1.066] & 1.064 & 0 / 51.5 / 48.5 & 1.002 (1.007) \\
+RECT-BF-DP-TU / RECT-HG-DP & descr. & 1.080 [1.072, 1.088] & 1.086 & 0 / 33 / 67 & 1.002 (1.007) \\
+TU-FDC-DP(b) / RECT-BF-DP-TU, full frontier ($N^{\text{pen}}_{100}$) & descr. & 0.726 [0.719, 0.733] & 0.732 & 100 / 0 / 0 & 0.705 (0.711) \\
+TU-FDC-DP(b) / RECT-BF-DP-TU, uncensored subset (n = 200) & descr. & 0.677 [0.670, 0.684] & 0.683 & 100 / 0 / 0 & 0.719 (0.729) \\
+\multicolumn{6}{@{}l}{\emph{B. men (seeds 39400--39599, $\eps = 10^{-3}$, 19.9\% of the development click rate; $\tau_R$ = 226,130; block status: descriptive)}} \\
+\textbf{TU-FDC-DP(b) / RECT-BF-DP-TU} & headline & 0.739 [0.734, 0.745] & 0.744 & 100 / 0 / 0 & 0.792 (0.802) \\
+TU-FDC-DP(b) / HC-WoR-DP (tuned) & descr. & 0.751 [0.746, 0.756] & 0.755 & 100 / 0 / 0 & 0.792 (0.802) \\
+TU-FDC-DP(b) / RECT-HG-DP & descr. & 0.781 [0.774, 0.787] & 0.786 & 100 / 0 / 0 & 0.792 (0.802) \\
+RECT-BF-DP-TU / HC-WoR-DP (tuned) & descr. & 1.015 [1.010, 1.020] & 1.020 & 0 / 84.5 / 15.5 & 1.000 (1.000) \\
+RECT-BF-DP-TU / RECT-HG-DP & descr. & 1.056 [1.049, 1.064] & 1.062 & 0 / 44 / 56 & 1.000 (1.000) \\
+TU-FDC-DP(b) / RECT-BF-DP-TU, full frontier ($N^{\text{pen}}_{100}$) & descr. & 0.791 [0.786, 0.797] & 0.796 & 100 / 0 / 0 & 0.778 (0.789) \\
+TU-FDC-DP(b) / RECT-BF-DP-TU, uncensored subset (n = 200) & descr. & 0.739 [0.734, 0.745] & 0.744 & 100 / 0 / 0 & 0.792 (0.802) \\
+\bottomrule
+\end{tabular}
+\end{table*}

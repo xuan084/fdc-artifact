@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\caption{\textbf{Lock v12, every method} (same streams; descriptive blocks). Guar.: TU fr.\ = time-uniform on the frozen schedule; TU any = time-uniform under any predictable sampling; CP = valid at the $K = 40$ checkpoints only (RECT-HG-DP rows carry the label \texttt{checkpoint\_strength\_CP}). False: streams with any false certificate over the whole run to 15 of 15 (one-sided 95\% Clopper--Pearson bound). Rows: geometric-mean $\Npen$. $N_{80}/\tau_R$: geometric mean. $<\tau_R$: \% of streams reaching 12 of 15 strictly before $\tau_R$; 15/15: \% reaching 15 of 15. Exhausted: mean fraction of all / control / treatment pools exhausted at $N_{80}$. B\&B: branch-and-bound calls / branch-only certifications / node-limit hits (scheme (b)).}
+\label{tab:v12methods}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lllrrrrll@{}}
+\toprule
+Method & Guar. & False (UB) & Rows & $N_{80}/\tau_R$ & $<\tau_R$ & 15/15 & Exhausted & B\&B \\
+\midrule
+\multicolumn{9}{@{}l}{\emph{A. women ($\tau_R$ = 432,576 rows, $S = 8$)}} \\
+TU-FDC-DP(b) & TU fr. & 0 (.015) & 258.4k & 0.597 & 100 & 100 & 0.00 / 0.00 / 0.00 & 98,811 / 72 / 0 \\
+RECT-BF-DP-TU & TU fr. & 0 (.015) & 381.9k & 0.883 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+HC-WoR-DP (tuned) & TU any & 0 (.015) & 361.3k & 0.835 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+RECT-HG-DP & CP & 0 (.015) & 353.7k & 0.818 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+\multicolumn{9}{@{}l}{\emph{B. men ($\tau_R$ = 226,130 rows, $S = 10$)}} \\
+TU-FDC-DP(b) & TU fr. & 0 (.015) & 151.5k & 0.670 & 100 & 100 & 0.00 / 0.00 / 0.00 & 102,061 / 22 / 0 \\
+RECT-BF-DP-TU & TU fr. & 0 (.015) & 204.9k & 0.906 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+HC-WoR-DP (tuned) & TU any & 0 (.015) & 201.8k & 0.892 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+RECT-HG-DP & CP & 0 (.015) & 194.0k & 0.858 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+\bottomrule
+\end{tabular}
+\end{table*}

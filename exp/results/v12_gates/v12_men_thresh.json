@@ -1,0 +1,19 @@
+{
+ "campaign": "men",
+ "written_at": "2026-10-05T18:15:26.911317",
+ "rule": "THRESH = min(0.90, UB95_dev + 0.10), rounded up to 3 decimals (plan/v12_obd2_plan.md s7)",
+ "eps": 0.001,
+ "ub95_dev": 0.8016700037134278,
+ "ratio_dev": 0.7923150757922577,
+ "n_dev_streams": 50,
+ "bootstrap": {
+  "B": 10000,
+  "seed": 42
+ },
+ "thresh": 0.9,
+ "block_status": "descriptive",
+ "applicable": false,
+ "applicability_note": "THRESH is compared with the eval UB95 only in a confirmatory block; in a descriptive block it is computed by the same rule and recorded, but not applied",
+ "source": "exp/results/pilots/v12_dev/v12_men_analysis_dev.json",
+ "source_sha256": "2cf98c408e820fba054e4784e92bbfd197c711afdcc13cd4e6aee5415205ccd8"
+}

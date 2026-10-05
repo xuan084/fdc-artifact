@@ -1,0 +1,23 @@
+\begin{table}[tb]
+\caption{\textbf{Lock v12 frozen designs}, re-derived on each campaign's development half by the lock-v11 written rules (uf0 $\times$ uf3 cells, cells under 2\% of development rows merged into their uf0 ``other'' cell, ordered by development size). Development and evaluation traffic shares $w_s$ and treatment cost $\kappa_s = \max(1, \mathrm{round}(8 S w_s^{\text{dev}}))$ (control costs 0). Budgets $\lfloor b_q \sum_s \kappa_s \rfloor$, $b_q = 0.10, \dots, 0.80$: women: 6, 9, 12, 16, 19, 22, 25, 28, 32, 35, 38, 41, 44, 48, 51; men: 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63. Arms (top half of the items by development click rate against the rest): women: 23 / 23 items; men: 17 / 17 items. No evaluation row needed a fallback segment.}
+\label{tab:v12design}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{women ($S = 8$)} & \multicolumn{3}{c}{men ($S = 10$)} \\
+Seg. & $w_s$ dev & $w_s$ eval & $\kappa_s$ & $w_s$ dev & $w_s$ eval & $\kappa_s$ \\
+\midrule
+1 & 0.280 & 0.280 & 18 & 0.293 & 0.296 & 23 \\
+2 & 0.269 & 0.268 & 17 & 0.248 & 0.246 & 20 \\
+3 & 0.226 & 0.227 & 14 & 0.179 & 0.179 & 14 \\
+4 & 0.077 & 0.077 & 5 & 0.086 & 0.086 & 7 \\
+5 & 0.069 & 0.070 & 4 & 0.056 & 0.057 & 4 \\
+6 & 0.042 & 0.042 & 3 & 0.034 & 0.034 & 3 \\
+7 & 0.026 & 0.026 & 2 & 0.033 & 0.034 & 3 \\
+8 & 0.011 & 0.010 & 1 & 0.027 & 0.027 & 2 \\
+9 &  & &  & 0.025 & 0.024 & 2 \\
+10 &  & &  & 0.018 & 0.017 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}

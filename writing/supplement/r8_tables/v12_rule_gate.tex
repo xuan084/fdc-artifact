@@ -1,0 +1,29 @@
+\begin{table*}[t]
+\caption{\textbf{Lock v12 $\eps$ rule, rival tuning and block-status gate} (development halves, 50 streams per campaign, seeds 950--999, $K = 40$). Top: the rule's trace. Each entry is successes (12 of 15 strictly before $\tau_R$) / geometric-mean $\Npen$; HC-WoR-DP shows its tuned configuration (schedule \texttt{nstar}; $c$, target fraction) at that $\eps$. The dev-best rectangle (lower geometric mean, tie to RECT-BF-DP-TU) must succeed on at least 40 of 50 streams, the smallest qualifying grid $\eps$ is selected, and FDC-DP rows never enter the rule. Bottom: the gate, fixed in the plan before any data of either campaign were read and computed on the development truth at the selected $\eps$: a block is confirmatory iff (i) the rule selects an $\eps$, (ii) all-control is not $\eps$-optimal in at least one of the 15 problems (count of problems where it is, in parentheses) and (iii) the mean share of feasible policies that are $\eps$-optimal is at most 0.5. Eval share: the same share on the evaluation truth, computed after the run. THRESH $= \min(0.90, \mathrm{UB95}_{\text{dev}} + 0.10)$ was computed and recorded but is not applicable to a descriptive block.}
+\label{tab:v12gate}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Campaign & $\eps$ & RECT-BF-DP-TU & HC-WoR-DP (tuned) & dev-best & qualifies \\
+\midrule
+women & $3\cdot 10^{-4}$ & 0 / 432,009 & (0.5, 0.2) 0 / 432,009 & RECT & no \\
+women & $5\cdot 10^{-4}$ & 0 / 432,009 & (0.5, 0.2) 0 / 432,009 & RECT & no \\
+women & $7.5\cdot 10^{-4}$ & 50 / 385,335 & (0.5, 0.6) 50 / 384,455 & HC & yes (sel.) \\
+men & $3\cdot 10^{-4}$ & 0 / 226,819 & (0.5, 0.2) 0 / 226,819 & RECT & no \\
+men & $5\cdot 10^{-4}$ & 0 / 226,819 & (0.5, 0.2) 0 / 226,819 & RECT & no \\
+men & $7.5\cdot 10^{-4}$ & 0 / 226,819 & (0.5, 0.6) 1 / 226,376 & HC & no \\
+men & $10^{-3}$ & 50 / 205,684 & (0.5, 0.6) 50 / 205,684 & RECT & yes (sel.) \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}llllllllll@{}}
+\toprule
+Campaign & $\eps$ & $\eps$ / dev CTR & (i) & (ii) & (iii) (dev share) & Eval share & Policies & THRESH & Status \\
+\midrule
+women & $7.5\cdot 10^{-4}$ & 15.5\% & pass & pass (3/15) & fail (0.661) & 0.585 (3/15) & 256 & 0.83 (n/a) & descriptive \\
+men & $10^{-3}$ & 19.9\% & pass & pass (5/15) & fail (0.858) & 0.766 (5/15) & 1,024 & 0.90 (n/a) & descriptive \\
+\bottomrule
+\end{tabular}
+\end{table*}

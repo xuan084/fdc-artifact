@@ -1,0 +1,26 @@
+Verdict: fix-then-lock
+
+Independent round-2 review of `4045b010ab12db0964cb97f247127e45b5ef2d05`. The substantive descriptive-block contract is repaired, and all rechecked bindings pass. Two residual wording errors need correction before lock; no new P0/P1 finding. Neither requires changing stream code or regenerating dev runs.
+
+**Round-1 resolution.**
+
+- **P1-1 — Contract resolved; minor wording residue below.** JSON `plan/prereg_lock_v12_addendum_DRAFT.json:43`, `:795` and `:920` now distinguish confirmatory verdicts from descriptive records, including explicit replica failure with `verdict='descriptive'`. Builder `exp/code/build_v12_addendum_draft.py:83` and JSON `:293` / `:656` disclose the internal THRESH comparison and discarded verdict. Markdown `plan/prereg_lock_v12_addendum_DRAFT.md:21` agrees. The dated note at `plan/v12_obd2_plan.md:200` identifies the coordinator instruction and `39dace28`; the original plan is preserved byte-for-byte as a prefix. Twelve in-memory decision probes, crossing three UBs, two false-stream counts and replica pass/fail, preserve descriptive output without positive/negative labels.
+- **P2-1 — Substantially resolved, but not closed.** Builder `exp/code/build_v12_addendum_draft.py:269`, JSON `plan/prereg_lock_v12_addendum_DRAFT.json:969` and report `plan/v12_dev_report.md:24` now correctly disclose source-click processing, eval serialization/hashing during splitting, and the restricted meaning of `eval_outcomes_touched=false`. Report `:43` limits subsequent no-access claims to the post-split workflow. One contradictory Markdown sentence remains below.
+- **P2-2 — Resolved.** Markdown `plan/prereg_lock_v12_addendum_DRAFT.md:10`, `:111`, report `plan/v12_dev_report.md:148`, and appended plan `plan/v12_obd2_plan.md:209` distinguish registered saved cells from smoke/test streams, disclose their exception and lack of independent smoke-result verification, and include regenerated THRESH source/MANIFEST hashes while excluding unchanged frozen designs. Rechecked status timestamps precede saved pilot starts for both campaigns in both `d23b7aaa` and the current files. Both current THRESH source hashes match their dev-analysis files.
+
+**Remaining P2 findings (residual round-1 disclosure inconsistencies).**
+
+1. **Unqualified pre-lock no-access claim remains.** `plan/prereg_lock_v12_addendum_DRAFT.md:90`–`:92` concludes “no eval file is opened before the lock,” contradicting its own split-preparation disclosure at `:120` and the splitter's hashing at `exp/code/split_obd_v12.py:96`. **Fix:** replace the conclusion with “the post-split draft/binding checks obtain eval hashes from provenance without opening eval files; split preparation wrote and hashed those files (§4.9).”
+2. **Report still denies the internal THRESH comparison.** `plan/v12_dev_report.md:137` says a descriptive block “is never compared with THRESH,” while `exp/code/dsswm/stats/v12_analysis.py:64` computes that comparison before discarding it. The corrected addendum explains this accurately. **Fix:** say “THRESH has no reporting or decision effect for descriptive blocks; the validation call computes and discards its comparison and verdict.”
+
+After these text fixes, rebuild the draft/bindings through the established lock procedure. This review did not execute that procedure.
+
+**Checks that pass.**
+
+- All **50 code hashes** and **40 input hashes** match, including the changed builder, plan, report, draft Markdown and newly bound r1 review. All **eight frozen gates**, their input bindings and **MANIFEST** match. Draft schema passes.
+- Recomputed canonical draft hash: **`3151ee61b0840658db08cf7125422ec14d1e5f070b231309c10f4167189c21a4`**.
+- All **eight campaign data bindings** match: four hashes recomputed from allowed dev/provenance bytes, four eval hashes checked solely against the bound provenance declarations. This does not verify eval bytes.
+- The live **v11→v5 validation cascade** passes with inherited raw-data checking disabled, including its code/input-drift, canonical/reference and applicable history checks. All seven direct v12 references independently match their live canonical hashes; v11 input drift is empty.
+- `git diff cb7d5dd2` is empty for `run_v12.py`, `dsswm/envs/obd_v12_eval.py`, and `dsswm/stats/{prereg_v12,v12_analysis,v12_seal}.py`; their intervening path history is also empty. The only changed code file is the builder. Gates and saved dev artifacts are unchanged since r1, so its numerical/regeneration findings remain applicable; they were not recomputed here. Both eval task IDs refuse the draft.
+
+**Verification boundary.** Only this review file was created or modified. Python execution used `.venv/bin/python3` with `PYTHONDONTWRITEBYTECODE=1`; no pytest run was needed for this differential review. The import/hash/validator/probe check ran under independent guards blocking eval opens/stat/lstat/readlink and filesystem writes. No prohibited eval file was opened, read, loaded, hashed or stat-read. No builder, finalizer, seal writer, eval task or eval analysis ran. Eval bytes, permissions/alignment, unrecorded access and unsaved smoke results remain outside verification. A final v12 lock and its committed history anchor remain future steps.

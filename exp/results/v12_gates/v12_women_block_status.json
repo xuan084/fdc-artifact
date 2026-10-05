@@ -1,0 +1,87 @@
+{
+ "status": "descriptive",
+ "criteria": {
+  "i_rule_selects_eps": true,
+  "ii_all_control_not_eps_optimal_in_some_problem": true,
+  "iii_mean_eps_optimal_share_le_0.5": false
+ },
+ "eps": 0.00075,
+ "selected_eps": 0.00075,
+ "n_problems": 15,
+ "n_problems_all_control_eps_optimal": 3,
+ "mean_share_eps_optimal": 0.6611021276803647,
+ "per_problem_share": [
+  1.0,
+  1.0,
+  1.0,
+  0.8857,
+  0.6809,
+  0.6324,
+  0.7021,
+  0.7217,
+  0.6692,
+  0.5319,
+  0.4877,
+  0.3883,
+  0.3923,
+  0.4234,
+  0.4009
+ ],
+ "n_policies": 256,
+ "rule": "confirmatory iff (i) the rival-success rule selects an eps of the grid, (ii) all-control is not eps-optimal in at least one of the 15 problems, (iii) mean eps-optimal policy share <= 0.5 (dev half, dev truth, rule-selected eps); else descriptive (plan/v12_obd2_plan.md s6)",
+ "campaign": "women",
+ "written_at": "2026-10-05T18:13:16.105130",
+ "code_sha256": "49889d9e53084bcb24f4a6657e71b5a8c6719cdb39f51eb959ff4072e4061029",
+ "data_sha256": "fb9083d2f0c9042b4a26de2eaebf5b559caa6b23998e4f6f0ea9d074f8663e1f",
+ "dev_env": {
+  "campaign": "women",
+  "layer": "OBD-WOMEN-UF0X3-A2",
+  "half": "dev",
+  "S": 8,
+  "A": 2,
+  "N": 432009,
+  "pool_sizes_min": 2321,
+  "w": [
+   0.27988,
+   0.26931,
+   0.22625,
+   0.07712,
+   0.0691,
+   0.04163,
+   0.0259,
+   0.0108
+  ],
+  "cost": [
+   18,
+   17,
+   14,
+   5,
+   4,
+   3,
+   2,
+   1
+  ],
+  "budgets": [
+   6,
+   9,
+   12,
+   16,
+   19,
+   22,
+   25,
+   28,
+   32,
+   35,
+   38,
+   41,
+   44,
+   48,
+   51
+  ],
+  "fallback_rows": {
+   "pair": 0,
+   "uf0": 0
+  }
+ },
+ "dev_base_ctr": 0.004842491707348689
+}

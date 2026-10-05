@@ -1,0 +1,19 @@
+{
+ "campaign": "women",
+ "written_at": "2026-10-05T18:15:26.351832",
+ "rule": "THRESH = min(0.90, UB95_dev + 0.10), rounded up to 3 decimals (plan/v12_obd2_plan.md s7)",
+ "eps": 0.00075,
+ "ub95_dev": 0.7293795046077911,
+ "ratio_dev": 0.7194406408640872,
+ "n_dev_streams": 50,
+ "bootstrap": {
+  "B": 10000,
+  "seed": 42
+ },
+ "thresh": 0.83,
+ "block_status": "descriptive",
+ "applicable": false,
+ "applicability_note": "THRESH is compared with the eval UB95 only in a confirmatory block; in a descriptive block it is computed by the same rule and recorded, but not applied",
+ "source": "exp/results/pilots/v12_dev/v12_women_analysis_dev.json",
+ "source_sha256": "a16b86a5912da2f63945ae49fe8104301f4894589072a36997e4b4ee70bd7dfd"
+}

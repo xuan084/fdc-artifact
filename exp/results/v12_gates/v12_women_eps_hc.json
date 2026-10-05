@@ -1,0 +1,407 @@
+{
+ "campaign": "women",
+ "written_at": "2026-10-05T18:13:15.889236",
+ "code_sha256": "49889d9e53084bcb24f4a6657e71b5a8c6719cdb39f51eb959ff4072e4061029",
+ "data_sha256": "fb9083d2f0c9042b4a26de2eaebf5b559caa6b23998e4f6f0ea9d074f8663e1f",
+ "rule": "smallest eps of the grid at which the dev-best of {RECT-BF-DP-TU, HC-WoR-DP tuned at that eps} (lower dev geomean N80_pen; tie -> RECT-BF-DP-TU) has strict N80_pen < tau on >= 40/50 dev streams (seeds 950-999); FDC-DP never read; none -> block eps = 1.5e-3 (descriptive)",
+ "hc_rule": "per eps, lowest dev geomean N80_pen over HC_GRID (nstar; c in {0.5, 0.75}; tf in {0.2, 0.4, 0.6, 0.8}); ties -> grid order",
+ "eps_grid": [
+  0.0003,
+  0.0005,
+  0.00075,
+  0.001,
+  0.0015
+ ],
+ "hc_by_eps": {
+  "0.0003": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.2]",
+   "c": 0.5,
+   "tf": 0.2,
+   "grid": {
+    "HC-WoR-DP[c=0.5,tf=0.2]": {
+     "c": 0.5,
+     "tf": 0.2,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.4]": {
+     "c": 0.5,
+     "tf": 0.4,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.6]": {
+     "c": 0.5,
+     "tf": 0.6,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.8]": {
+     "c": 0.5,
+     "tf": 0.8,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.2]": {
+     "c": 0.75,
+     "tf": 0.2,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.4]": {
+     "c": 0.75,
+     "tf": 0.4,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.6]": {
+     "c": 0.75,
+     "tf": 0.6,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.8]": {
+     "c": 0.75,
+     "tf": 0.8,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    }
+   }
+  },
+  "0.0005": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.2]",
+   "c": 0.5,
+   "tf": 0.2,
+   "grid": {
+    "HC-WoR-DP[c=0.5,tf=0.2]": {
+     "c": 0.5,
+     "tf": 0.2,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.4]": {
+     "c": 0.5,
+     "tf": 0.4,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.6]": {
+     "c": 0.5,
+     "tf": 0.6,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.8]": {
+     "c": 0.5,
+     "tf": 0.8,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.2]": {
+     "c": 0.75,
+     "tf": 0.2,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.4]": {
+     "c": 0.75,
+     "tf": 0.4,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.6]": {
+     "c": 0.75,
+     "tf": 0.6,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.8]": {
+     "c": 0.75,
+     "tf": 0.8,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    }
+   }
+  },
+  "0.00075": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "c": 0.5,
+   "tf": 0.6,
+   "grid": {
+    "HC-WoR-DP[c=0.5,tf=0.2]": {
+     "c": 0.5,
+     "tf": 0.2,
+     "geomean_N80_pen": 425149.0249417785,
+     "successes": 7,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.4]": {
+     "c": 0.5,
+     "tf": 0.4,
+     "geomean_N80_pen": 389765.94555644377,
+     "successes": 45,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.6]": {
+     "c": 0.5,
+     "tf": 0.6,
+     "geomean_N80_pen": 384454.8598120706,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.8]": {
+     "c": 0.5,
+     "tf": 0.8,
+     "geomean_N80_pen": 384454.8598120706,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.2]": {
+     "c": 0.75,
+     "tf": 0.2,
+     "geomean_N80_pen": 432008.9999999998,
+     "successes": 0,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.4]": {
+     "c": 0.75,
+     "tf": 0.4,
+     "geomean_N80_pen": 409875.3491498851,
+     "successes": 23,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.6]": {
+     "c": 0.75,
+     "tf": 0.6,
+     "geomean_N80_pen": 387101.28706877935,
+     "successes": 47,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.8]": {
+     "c": 0.75,
+     "tf": 0.8,
+     "geomean_N80_pen": 384454.8598120706,
+     "successes": 50,
+     "false_streams": 0
+    }
+   }
+  },
+  "0.001": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.8]",
+   "c": 0.5,
+   "tf": 0.8,
+   "grid": {
+    "HC-WoR-DP[c=0.5,tf=0.2]": {
+     "c": 0.5,
+     "tf": 0.2,
+     "geomean_N80_pen": 382700.60580518626,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.4]": {
+     "c": 0.5,
+     "tf": 0.4,
+     "geomean_N80_pen": 357327.19381762523,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.6]": {
+     "c": 0.5,
+     "tf": 0.6,
+     "geomean_N80_pen": 348451.1796063056,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.8]": {
+     "c": 0.5,
+     "tf": 0.8,
+     "geomean_N80_pen": 346068.9465760055,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.2]": {
+     "c": 0.75,
+     "tf": 0.2,
+     "geomean_N80_pen": 396961.6803800368,
+     "successes": 37,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.4]": {
+     "c": 0.75,
+     "tf": 0.4,
+     "geomean_N80_pen": 380084.22199814965,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.6]": {
+     "c": 0.75,
+     "tf": 0.6,
+     "geomean_N80_pen": 358145.2300980666,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.8]": {
+     "c": 0.75,
+     "tf": 0.8,
+     "geomean_N80_pen": 350048.43832175,
+     "successes": 50,
+     "false_streams": 0
+    }
+   }
+  },
+  "0.0015": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "c": 0.5,
+   "tf": 0.6,
+   "grid": {
+    "HC-WoR-DP[c=0.5,tf=0.2]": {
+     "c": 0.5,
+     "tf": 0.2,
+     "geomean_N80_pen": 301701.7946122047,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.4]": {
+     "c": 0.5,
+     "tf": 0.4,
+     "geomean_N80_pen": 280413.4761212816,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.6]": {
+     "c": 0.5,
+     "tf": 0.6,
+     "geomean_N80_pen": 275330.3779372806,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.5,tf=0.8]": {
+     "c": 0.5,
+     "tf": 0.8,
+     "geomean_N80_pen": 278496.4008776672,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.2]": {
+     "c": 0.75,
+     "tf": 0.2,
+     "geomean_N80_pen": 335165.6599081252,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.4]": {
+     "c": 0.75,
+     "tf": 0.4,
+     "geomean_N80_pen": 296232.8101455731,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.6]": {
+     "c": 0.75,
+     "tf": 0.6,
+     "geomean_N80_pen": 282990.1088785136,
+     "successes": 50,
+     "false_streams": 0
+    },
+    "HC-WoR-DP[c=0.75,tf=0.8]": {
+     "c": 0.75,
+     "tf": 0.8,
+     "geomean_N80_pen": 281698.8409904666,
+     "successes": 50,
+     "false_streams": 0
+    }
+   }
+  }
+ },
+ "eps_rule": {
+  "selected_eps": 0.00075,
+  "rival": "HC-WoR-DP[tuned]",
+  "rival_method": "HC-WoR-DP[c=0.5,tf=0.6]",
+  "successes": 50,
+  "n": 50,
+  "trace": [
+   {
+    "eps": 0.0003,
+    "best": "RECT-BF-DP-TU",
+    "best_method": "RECT-BF-DP-TU",
+    "per_rect": {
+     "RECT-BF-DP-TU": {
+      "method": "RECT-BF-DP-TU",
+      "successes": 0,
+      "geomean_N80_pen": 432008.9999999998,
+      "n": 50
+     },
+     "HC-WoR-DP[tuned]": {
+      "method": "HC-WoR-DP[c=0.5,tf=0.2]",
+      "successes": 0,
+      "geomean_N80_pen": 432008.9999999998,
+      "n": 50
+     }
+    },
+    "qualifies": false
+   },
+   {
+    "eps": 0.0005,
+    "best": "RECT-BF-DP-TU",
+    "best_method": "RECT-BF-DP-TU",
+    "per_rect": {
+     "RECT-BF-DP-TU": {
+      "method": "RECT-BF-DP-TU",
+      "successes": 0,
+      "geomean_N80_pen": 432008.9999999998,
+      "n": 50
+     },
+     "HC-WoR-DP[tuned]": {
+      "method": "HC-WoR-DP[c=0.5,tf=0.2]",
+      "successes": 0,
+      "geomean_N80_pen": 432008.9999999998,
+      "n": 50
+     }
+    },
+    "qualifies": false
+   },
+   {
+    "eps": 0.00075,
+    "best": "HC-WoR-DP[tuned]",
+    "best_method": "HC-WoR-DP[c=0.5,tf=0.6]",
+    "per_rect": {
+     "RECT-BF-DP-TU": {
+      "method": "RECT-BF-DP-TU",
+      "successes": 50,
+      "geomean_N80_pen": 385334.99999999953,
+      "n": 50
+     },
+     "HC-WoR-DP[tuned]": {
+      "method": "HC-WoR-DP[c=0.5,tf=0.6]",
+      "successes": 50,
+      "geomean_N80_pen": 384454.8598120706,
+      "n": 50
+     }
+    },
+    "qualifies": true
+   }
+  ]
+ },
+ "block_eps": 0.00075,
+ "hc_tuned_at_block_eps": {
+  "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+  "c": 0.5,
+  "tf": 0.6
+ }
+}

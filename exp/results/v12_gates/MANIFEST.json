@@ -1,0 +1,13 @@
+{
+ "written_at": "2026-10-05T18:15:26.911696",
+ "sha256": {
+  "obd_v12_women_frozen.json": "50bca388fc6b3695b653f90aa0a2fea95c370df49efe6b049c1073651574f056",
+  "v12_women_eps_hc.json": "b461c67827fa59878b10a63ac253f62f8af01cb535722db2473a7dd5525aa626",
+  "v12_women_block_status.json": "03db90054175e3429445994a349517c33b883f94d76746285db8395c22b1a20c",
+  "v12_women_thresh.json": "103b9059f3c1b3c03ccc4e3cda3c814fa3b839e18f47fefbcebcce4e722522a3",
+  "obd_v12_men_frozen.json": "7c4053024386f318e234e4c5b84076038b911f80831c63888282c07d4d02f0e3",
+  "v12_men_eps_hc.json": "9b3f15f59b0844ff5d4fd4791a9a36fc886af7ff2c38834366deb757f5a7f6d4",
+  "v12_men_block_status.json": "7961cbcbae7d8543ac7ecbe0e4598c11e4dd972dd69f5f9a44a13407c059959f",
+  "v12_men_thresh.json": "fd6461486082b1dc12fb5e275603ae4079f21852f97f1fc63e404c2a035f1417"
+ }
+}
