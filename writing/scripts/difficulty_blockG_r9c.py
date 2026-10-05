@@ -102,7 +102,9 @@ def eval_copy(G, data, S, eps):
                 fdc_n80_lt_tau=m[FDC]["n80_lt_tau"], rect_n80_lt_tau=m[RECT]["n80_lt_tau"],
                 rect_pinned=bool(m[RECT]["pinned"]), fdc_false_streams=m[FDC]["false_streams"],
                 rect_false_streams=m[RECT]["false_streams"],
-                ratio_fdc_rect=r["geomean_ratio"], ratio_ci95=r["ci95_two_sided"], tau_R=m[FDC]["tau_R"])
+                ratio_fdc_rect=r["geomean_ratio"], ratio_ci95=r["ci95_two_sided"], tau_R=m[FDC]["tau_R"],
+                fdc_exh_ctrl=m[FDC]["exhaustion_at_k80"]["ctrl"], fdc_exh_all=m[FDC]["exhaustion_at_k80"]["all"],
+                fdc_sd_log_N80=m[FDC]["sd_log_N80"], rect_exh_ctrl=m[RECT]["exhaustion_at_k80"]["ctrl"])
 
 
 def main(workers):
@@ -229,10 +231,10 @@ def render(res):
          r"% exp/results/full/v10_posthoc_G/summary.json (Table G1). Rows: FDC-DP 200/200 before tau_R and RECT missed",
          r"% the 80% pre-horizon criterion (M) or was pinned (P).",
          r"\small", r"\setlength{\tabcolsep}{3pt}",
-         r"\begin{tabular}{@{}lrrrrrrrrl@{}}", r"\toprule",
-         r" & & & \multicolumn{3}{c}{\emph{Development half}} & \multicolumn{4}{c}{\emph{Block G1 eval (copied)}} \\",
-         r"\cmidrule(lr){4-6}\cmidrule(l){7-10}",
-         r"Log & $S$ & $\eps$ & $\eps$/head & Mean & Ctrl & FDC $N_{80}/\tau$ & RECT before $\tau_R$ & "
+         r"\begin{tabular}{@{}lrrrrrrrrrl@{}}", r"\toprule",
+         r" & & & \multicolumn{3}{c}{\emph{Development half}} & \multicolumn{5}{c}{\emph{Block G1 eval (copied)}} \\",
+         r"\cmidrule(lr){4-6}\cmidrule(l){7-11}",
+         r"Log & $S$ & $\eps$ & $\eps$/head & Mean & Ctrl & FDC $N_{80}/\tau$ & FDC ctrl empty & RECT before $\tau_R$ & "
          r"FDC/RECT & \\", r"\midrule"]
     prev = None
     for r in sel:
@@ -243,7 +245,7 @@ def render(res):
         tag = ("M" if fl["rect_missed_80"] else "") + ("P" if fl["rect_pinned"] else "")
         T.append(f"{r['log']} & {r['S']} & {r['eps']:g}{r'$^\star$' if ev['lock_eps'] else ''} & "
                  f"{dv['eps_rel_headroom']:.2f} & {sh(dv, 'mean_share')} & {dv['n_allctrl']} & "
-                 f"{ev['fdc_N80_over_tau']:.3f} & {ev['rect_n80_lt_tau']}/{ev['n_streams']} & "
+                 f"{ev['fdc_N80_over_tau']:.3f} & {ev['fdc_exh_ctrl']:.2f} & {ev['rect_n80_lt_tau']}/{ev['n_streams']} & "
                  f"{ev['ratio_fdc_rect']:.3f} & {tag} \\\\")
     T += [r"\bottomrule", r"\end{tabular}"]
     p = IT / "writing/supplement/r9_tables/blockG_difficulty.tex"
@@ -252,7 +254,14 @@ def render(res):
 
 
 if __name__ == "__main__":
-    if "--tex-only" in sys.argv:
+    if "--recopy-eval" in sys.argv:   # re-copy the published eval columns into the record (no dev recomputation)
+        res = json.loads((IT / "writing/r9c_blockG_difficulty.json").read_text())
+        G = json.loads((IT / GSUM).read_text())
+        for r in res["rows"]:
+            r["eval"] = eval_copy(G, r["dev"]["data"], r["S"], r["eps"])
+        (IT / "writing/r9c_blockG_difficulty.json").write_text(json.dumps(res, indent=1))
+        render(res)
+    elif "--tex-only" in sys.argv:
         render(json.loads((IT / "writing/r9c_blockG_difficulty.json").read_text()))
     else:
         w = int(sys.argv[sys.argv.index("--workers") + 1]) if "--workers" in sys.argv else 4
