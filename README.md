@@ -58,11 +58,13 @@ datasets are included; the Data section below says how to obtain each one and gi
     exp/results/v{6,8,9,10}_gates/      frozen configurations; v10_gates/ holds the frozen score models
                                         (score_model_{x5,lenta}.pkl, scikit-learn 1.9.1) and seg_v10_frozen.json
     exp/results/r4_gates, r5_gates      earlier frozen gates referenced by the base lock
-    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
+    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
                                         gen_r7_v11_tables.py (supplement S21 tables), gen_r8_v12_tables.py (S23 tables),
                                         gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2)
-    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8) and supplement sources that the
-                                        verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with
+    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8b) and supplement sources that the
+                                        verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with;
+                                        main_pre_r8b.tex, supplement_pre_r8b.tex, exp/results/full/v12_summary_pre_r8b.md:
+                                        the r8 texts that verify_r8b rebuilds the r8b wording from
     requirements.txt                    pinned versions (Python 3.12.14)
 
 ## Setup
@@ -143,9 +145,20 @@ Everything below runs without data, without git history and without the lock gat
 1. Paper and supplement numbers (all tables and all printed figures of locks v6 to v10 and the post-hoc blocks).
    From the package root:
 
-       .venv/bin/python3 writing/scripts/verify_r8_numbers.py --skip-census
+       .venv/bin/python3 writing/scripts/verify_r8b_numbers.py --skip-census
 
-   `verify_r8` (the paper as submitted, revision r8) runs `verify_r8a` (revision r8a, which runs `verify_r7b` and the
+   `verify_r8b` (the paper as submitted, revision r8b: wording fixes only, no number changes) runs `verify_r8` with its
+   whole chain and lists the 8 r8 text checks whose wording was deliberately changed in r8b as SUPERSEDED (exhaustion
+   qualified "at N80", branch-and-bound "per lock-v10 cell", the v12 tolerance sentence replacing "(gate 0.5)",
+   "outcomes" for "data", C1 "is consistent with", Section 7 "errata to locked files"). It rebuilds `main.tex`,
+   `supplement.tex` and `v12_summary.md` from their `*_pre_r8b` copies by exactly the r8b replacements (byte equality),
+   checks every new string and the absence of each replaced one, recomputes the facts behind the new wording from the
+   sealed lock-v12 rows (tolerance shares 15.5% / 19.9% versus 8.6% in lock v11; no false certificate over the whole run;
+   no exhausted pool at N80; which runs reach the full-table horizon at 15 of 15), checks the dated corrections in
+   `v12_summary.md`, and repeats the page check. Expected final line `r8b: 0 mismatch(es)`; inside it, `verify_r8`
+   ends with `r8: 8 mismatch(es)`, exactly the superseded items.
+
+   `verify_r8` (revision r8) runs `verify_r8a` (revision r8a, which runs `verify_r7b` and the
    whole chain below) and lists the 6 chain text checks whose wording was deliberately shortened in r8 to make room for
    lock v12 as SUPERSEDED, each with its replacement checked and every cut fact checked verbatim in supplement S16, S17
    or S22. It then recomputes lock v12 from the sealed rows `exp/results/full/v12_obd/v12_{women,men}_full/results.jsonl`

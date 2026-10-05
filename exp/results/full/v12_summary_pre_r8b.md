@@ -6,8 +6,8 @@
   - external reviewer lock review, 2 rounds (`reviews/v12_lock_review_r{1,2}.md`). Round 2 was fix-then-lock with no P0/P1. Its two P2 wording residues were fixed before the lock, which is disclosed in the lock record.
   - Eval: 2026-10-05, 18:3x–18:46.
   - Seals committed alone: women 730f1d21 (ref 594a2470), men d994784b (ref 1e1aa9df). Run records: c161bec1. Replica: pass for both.
-- **Protocol.** Identical to lock v11, with the same written rules re-derived on each campaign's own dev half after a fresh salted 50/50 split. ~~Each eval half was read once.~~ Each eval half had one registered evaluation block, followed by replica and analysis [r8b].
-- **Block status.** The gate fixed in the plan before any ~~data was~~ outcome was [r8b] read makes a block confirmatory only if the mean ε-optimal policy share on dev at the rule-selected ε is at most 0.5.
+- **Protocol.** Identical to lock v11, with the same written rules re-derived on each campaign's own dev half after a fresh salted 50/50 split. Each eval half was read once.
+- **Block status.** The gate fixed in the plan before any data was read makes a block confirmatory only if the mean ε-optimal policy share on dev at the rule-selected ε is at most 0.5.
   - Dev shares were 0.661 (women) and 0.858 (men), so both blocks are **descriptive**. Gates (i) and (ii) passed.
   - Neither block has a positive or negative verdict. Lock v11 remains the only confirmatory Open Bandit block.
 
@@ -25,10 +25,10 @@
 
 ## Reading
 
-**The ordering replicates on ~~two independent campaigns~~ two further campaigns [r8b].**
+**The ordering replicates on two independent campaigns.**
 - The joint certificate read 0.68× (women) and 0.74× (men) the matched rectangle's rows, and stopped earlier on every stream.
-- ~~Every rival stopped strictly before the end of the table (share N80 < τ_R = 1.0), and no method exhausted any pool.~~ Every rival reached N80 strictly before the end of the table (share N80 < τ_R = 1.0), and no method had an exhausted pool at N80 [r8b].
-- ~~These readings meet the lock-v10 pre-exhaustion condition (both fractions zero) in both campaigns. Unlike v11, they also have no horizon penalty.~~ At N80 these readings meet the lock-v10 pre-exhaustion condition (both fractions zero) in both campaigns, and, unlike v11, no N80 reading has a horizon penalty [r8b].
+- Every rival stopped strictly before the end of the table (share N80 < τ_R = 1.0), and no method exhausted any pool.
+- These readings meet the lock-v10 pre-exhaustion condition (both fractions zero) in both campaigns. Unlike v11, they also have no horizon penalty.
 
 **Why the blocks are descriptive.** On these smaller campaigns the frozen ε rule moves ε to 7.5e-4 and 1e-3, because both rectangles fail at smaller ε. At those tolerances 59–77% of policies are ε-optimal on eval, so the frontier is less demanding, and the gate pre-stated this as non-confirmatory.
 
@@ -44,12 +44,3 @@
 - **Data provenance.** Split preparation wrote and hashed the eval files. Post-split checks take the eval hashes from the hash-bound provenance files.
 - **Same design-related disclosures as v11.** Arm groups and segmentation were derived with dev outcomes; costs are traffic shares, not prices; K = 40; HC was tuned on dev; RECT-HG-DP has checkpoint strength only.
 - **Thresholds.** THRESH was computed (women 0.83, men 0.90) but is not applicable to a descriptive block.
-
-## Corrections (r8 reviews, added 2026-10-05 in paper revision r8b)
-
-This file is a results note, not a locked file. The lines above that were imprecise are struck through and corrected in place; nothing else above was changed. Sources: `codex/paper_r8_review.md` (results-note residues), `writing/review_r8_critic.md` (W3). No number, status or verdict changes; the corrected lines are checked by `writing/scripts/verify_r8b_numbers.py`.
-
-- **"Independent."** Women and men are separate campaigns of the same platform and week, without user ids, so they are two further campaigns, not statistically independent samples.
-- **"Read once."** Each evaluation half had one registered evaluation block (the main run), followed by the prespecified ten-seed replica and the analysis; each access log therefore has three records, as S23 states.
-- **Exhaustion and horizon are N80 statements.** No method had an exhausted pool at N80, and every method reached 12 of 15 before τ_R. Runs continue to 15 of 15, and some reach the full-table horizon there: RECT-BF-DP-TU on 3 women streams (seeds 39242, 39271, 39331), tuned HC-WoR-DP on 9 women streams and 1 men stream; those runs necessarily exhaust pools. The no-false-certificate statement covers the whole run.
-- **"Before any data was read."** The gate was fixed before any outcome of either campaign was read; the README, the CSV headers and the item counts had been seen (S23, disclosure iii).
