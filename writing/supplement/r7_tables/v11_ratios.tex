@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\caption{\textbf{Lock v11, every comparison} (Open Bandit Dataset, \texttt{random/all} evaluation half, 200 fresh paired streams, seeds 39000--39199, $\eps = 3\cdot 10^{-4}$, $K = 40$). Ratio = paired geometric mean of $\Npen$ (first / second method) with two-sided 95\% CI and one-sided UB95 (paired percentile bootstrap, $B = 10^4$, seed 42, one resample matrix). F / T / S = \% of streams on which the first method stops earlier / at the same checkpoint / later. Dev = the same statistic on the 50 development streams of the selected $\eps$ (seeds 950--999), UB95 in parentheses. Decision rule: UB95 of the primary row $< 0.90$, no false TU-FDC-DP(b) stream over the whole run, replica pass; verdict \texttt{positive\_result\_achieved}.}
+\label{tab:v11ratios}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Comparison & Role & Ratio [95\% CI] & UB95 & F / T / S & Dev (UB95) \\
+\midrule
+\textbf{TU-FDC-DP(b) / RECT-BF-DP-TU} & primary & 0.817 [0.808, 0.826] & 0.824 & 99.5 / 0.5 / 0 & 0.825 (0.840) \\
+TU-FDC-DP(b) / HC-WoR-DP (tuned) & descr. & 0.822 [0.814, 0.830] & 0.829 & 100 / 0 / 0 & 0.828 (0.840) \\
+TU-FDC-DP(b) / RECT-HG-DP & descr. & 0.826 [0.817, 0.834] & 0.833 & 98.5 / 1.5 / 0 & 0.840 (0.851) \\
+RECT-BF-DP-TU / HC-WoR-DP (tuned) & descr. & 1.006 [1.002, 1.011] & 1.010 & 1 / 93 / 6 & 1.003 (1.010) \\
+RECT-BF-DP-TU / RECT-HG-DP & descr. & 1.011 [1.006, 1.016] & 1.015 & 0 / 91.5 / 8.5 & 1.018 (1.028) \\
+\bottomrule
+\end{tabular}
+\end{table*}

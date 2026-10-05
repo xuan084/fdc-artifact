@@ -1,0 +1,144 @@
+{
+ "task_id": "r4_g_eps_select",
+ "written_at": "2026-10-02T23:22:39.368532",
+ "mode": "pilot",
+ "layer": "CR9",
+ "outcome": "visit",
+ "half": "dev",
+ "dev_seeds": "900-999",
+ "n_streams": 100,
+ "method": "QFC (pool proportions, exact enumeration, Q*-union L1, Lemma L2 variance UCB)",
+ "grid": [
+  0.001,
+  0.0015,
+  0.002,
+  0.003
+ ],
+ "rule": "eps* = min eps in grid with uncensored_share >= 0.7 (N80 < tau_R and no false cert) AND n_nontrivial >= 5/15 on dev AND eval guard tables (min-over-simple-policies regret > eps)",
+ "eps_star": 0.001,
+ "G_eps": "PASS",
+ "G_size_precheck": "PASS",
+ "G_size_note": "G-size is formally judged in r4_g1_shape at eps*; this is the QFC-only precheck on the same dev streams",
+ "per_eps": {
+  "0.001": {
+   "uncensored_share": 1.0,
+   "n_stop_only_at_tauR": 0,
+   "uncensored_share_harness_flag": 1.0,
+   "dev_fwer": 0.0,
+   "n_fwer_events": 0,
+   "N80_uncensored_median": 1904849.0,
+   "N80_uncensored_geomean": 1870493.1929853961,
+   "N80_median_frac_tauR": 0.2725186568472056,
+   "n_nontrivial_dev": 15,
+   "n_nontrivial_eval": 15,
+   "size_ok": true,
+   "guard_ok": true,
+   "eligible": true
+  },
+  "0.0015": {
+   "uncensored_share": 1.0,
+   "n_stop_only_at_tauR": 0,
+   "uncensored_share_harness_flag": 1.0,
+   "dev_fwer": 0.0,
+   "n_fwer_events": 0,
+   "N80_uncensored_median": 1132450.0,
+   "N80_uncensored_geomean": 1042040.0971437066,
+   "N80_median_frac_tauR": 0.162014812169688,
+   "n_nontrivial_dev": 15,
+   "n_nontrivial_eval": 15,
+   "size_ok": true,
+   "guard_ok": true,
+   "eligible": true
+  },
+  "0.002": {
+   "uncensored_share": 1.0,
+   "n_stop_only_at_tauR": 0,
+   "uncensored_share_harness_flag": 1.0,
+   "dev_fwer": 0.0,
+   "n_fwer_events": 0,
+   "N80_uncensored_median": 673252.0,
+   "N80_uncensored_geomean": 678523.9964054094,
+   "N80_median_frac_tauR": 0.0963193044486439,
+   "n_nontrivial_dev": 15,
+   "n_nontrivial_eval": 15,
+   "size_ok": true,
+   "guard_ok": true,
+   "eligible": true
+  },
+  "0.003": {
+   "uncensored_share": 1.0,
+   "n_stop_only_at_tauR": 0,
+   "uncensored_share_harness_flag": 1.0,
+   "dev_fwer": 0.0,
+   "n_fwer_events": 0,
+   "N80_uncensored_median": 400254.0,
+   "N80_uncensored_geomean": 375064.305000068,
+   "N80_median_frac_tauR": 0.05726263996659128,
+   "n_nontrivial_dev": 15,
+   "n_nontrivial_eval": 15,
+   "size_ok": true,
+   "guard_ok": true,
+   "eligible": true
+  }
+ },
+ "tau_R_dev": 6989793,
+ "HR8_record_only": {
+  "grid": [
+   0.01,
+   0.0125,
+   0.015,
+   0.0175
+  ],
+  "eps_star_HR8": null,
+  "per_eps": {
+   "0.01": {
+    "uncensored_share": 0.0,
+    "dev_fwer": 0.0,
+    "N80_uncensored_median": null,
+    "n_nontrivial_dev": 9,
+    "n_nontrivial_eval": 10,
+    "eligible": false
+   },
+   "0.0125": {
+    "uncensored_share": 0.0,
+    "dev_fwer": 0.0,
+    "N80_uncensored_median": null,
+    "n_nontrivial_dev": 7,
+    "n_nontrivial_eval": 5,
+    "eligible": false
+   },
+   "0.015": {
+    "uncensored_share": 0.0,
+    "dev_fwer": 0.0,
+    "N80_uncensored_median": null,
+    "n_nontrivial_dev": 4,
+    "n_nontrivial_eval": 5,
+    "eligible": false
+   },
+   "0.0175": {
+    "uncensored_share": 0.0,
+    "dev_fwer": 0.0,
+    "N80_uncensored_median": null,
+    "n_nontrivial_dev": 4,
+    "n_nontrivial_eval": 5,
+    "eligible": false
+   }
+  },
+  "tau_R_dev": 31999
+ },
+ "integrity": {
+  "n_errors": 0,
+  "equivalence_check_mismatch": 0,
+  "eval_seeds_touched": false,
+  "baselines_run": false
+ },
+ "code_sha256": {
+  "run_r4_g_eps_select.py": "6fbd88101b44610f90cc9840c80060379a98dac0c2d70819194333f65772dff1",
+  "dsswm/baselines/frontier_common.py": "d48673e6c377395c3deb1d91be03774b4f1cf164b2749d1e5c3736cee302735f",
+  "dsswm/certify/quadknap.py": "ce190c3e13e49726fa4f92cb253d3646ffa3e6b1a8849054cd36781547fe8b89",
+  "dsswm/streams/frontier_runner.py": "5b0cbe8c26e4163244b4a70d9d2400849ff5418d2b55adcb738570eef79dd4a6",
+  "dsswm/streams/frontier.py": "ce0aec93bb3be06c65fc36f267799a25759967fbfe6fad8c6758ee7034af8325",
+  "dsswm/envs/pool_replay.py": "0454727f1ac54af7eec6a2e202accdb372f5e602c8b812594d5e7aeedc4d53eb",
+  "dsswm/theory_checks/mc_l1.py": "cb9952da3b38cd94bdcbe91d2eb85294afbefc5bb08caae1408e5d56db481ebc"
+ }
+}

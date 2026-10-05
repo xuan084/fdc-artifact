@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\caption{\textbf{Lock v11, every method} (same 200 streams). Guar.: TU fr.\ = time-uniform on the frozen schedule; TU any = time-uniform under any predictable sampling; CP = valid at the $K$ checkpoints only. False: streams with any false certificate over the whole run to 15 of 15 (one-sided 95\% Clopper--Pearson bound). Rows: geometric-mean $\Npen$ ($\tau_R$ = 688,159 rows). $N_{80}/\tau_R$: geometric mean. $<\tau_R$: \% of streams reaching 12 of 15 strictly before $\tau_R$; 15/15: \% reaching 15 of 15. Exhausted: mean fraction of all / control / treatment pools exhausted at $N_{80}$. B\&B: branch-and-bound calls / branch-only certifications / node-limit hits (scheme (b)).}
+\label{tab:v11methods}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lllrrrrll@{}}
+\toprule
+Method & Guar. & False (UB) & Rows & $N_{80}/\tau_R$ & $<\tau_R$ & 15/15 & Exhausted & B\&B \\
+\midrule
+TU-FDC-DP(b) & TU fr. & 0 (.015) & 499.3k & 0.726 & 100 & 100 & 0.00 / 0.00 / 0.00 & 105,348 / 219 / 0 \\
+RECT-BF-DP-TU & TU fr. & 0 (.015) & 611.1k & 0.888 & 94 & 100 & 0.06 / 0.06 / 0.06 & --- \\
+HC-WoR-DP (tuned) & TU any & 0 (.015) & 607.3k & 0.882 & 97 & 100 & 0.03 / 0.03 / 0.03 & --- \\
+RECT-HG-DP & CP & 0 (.015) & 604.6k & 0.879 & 100 & 100 & 0.00 / 0.00 / 0.00 & --- \\
+\bottomrule
+\end{tabular}
+\end{table*}

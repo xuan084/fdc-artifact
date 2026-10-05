@@ -1,0 +1,117 @@
+{
+ "task_id": "v8a_pilot_b",
+ "status": "complete",
+ "block": "A",
+ "layer": "X9",
+ "half": "dev",
+ "seeds": [
+  950,
+  999
+ ],
+ "n_streams": 50,
+ "eps": [
+  0.02
+ ],
+ "stop_k": 15,
+ "tau_R": 99646,
+ "n_rows": 800,
+ "expected_rows": 800,
+ "started_at": "2026-10-04T09:39:31.003083",
+ "ended_at": "2026-10-04T09:47:41.038550",
+ "wall_min": 8.17,
+ "cpu_sec_sum": 1959.1,
+ "timing_note": "4 worker processes, BLAS=1; concurrent with other v8 tasks (biased up)",
+ "code_sha256": {
+  "run_r5s_v8.py": "d9c8115f5249008d622fcc1ed2809115be7d3600f385b20b50a174ceb88f0738",
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/baselines/plugin_r5.py": "8985cc6b245fda9a0867def5b6847665f56ef8272998cb8dee323f2e5043b17c",
+  "dsswm/baselines/b2_rect_fe.py": "386d7eb50c66c1ad5a3ee53dab64fab9b2038a6575f7f40c42365f95a10988ff",
+  "dsswm/envs/x5_v8.py": "71141c7acdc396ae1179a871a0a8b9f4aee8643ba2ed6c9ccd63f6803fe4b323",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/v8_analysis.py": "849cc18138ebc23463d4be27e8ce425f3323e574263288ac821f53537d715566",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5"
+ },
+ "code_sha256_combined": "a3e9fc74e027f797917669a07ef96401c8a3a7862a8cbd5d469d9db736ec0580",
+ "addendum_sha256": null,
+ "data_sha256": "cf513b526df25f14ecf25be488d507b11013ad09fbee7790c9331b1ccd894df2",
+ "eval_touched": false,
+ "configs": {
+  "B2-fav": {},
+  "B3-fav": {},
+  "Peace-fav": {},
+  "B5": {},
+  "B2-fav-tight": {},
+  "FIX-bal-fav": {},
+  "Peace-fav-bal": {},
+  "B1": {},
+  "B4": {},
+  "B4-bal": {
+   "share": 0.5
+  },
+  "B2-rect": {
+   "explore_c": 1.0
+  },
+  "B3-rect": {},
+  "Peace-rect": {},
+  "Hait-SW": {
+   "p_min": 0.02,
+   "gamma": 0.6666666666666666
+  },
+  "Molitor-WoR": {},
+  "QFC-pool": {}
+ },
+ "R2_design_identity": [
+  {
+   "rule": "R2",
+   "pass": true,
+   "group": [
+    "B4-bal",
+    "FIX-bal-fav",
+    "Peace-fav-bal"
+   ],
+   "n_streams": 50,
+   "bad": [],
+   "missing_streams": []
+  }
+ ],
+ "R2b_arrival_identity": {
+  "rule": "R2b",
+  "pass": true,
+  "n_streams": 50,
+  "bad": [],
+  "missing_streams": []
+ },
+ "per_method_cpu_sec": {
+  "B1": 22.7,
+  "B2-fav": 14.3,
+  "B2-fav-tight": 10.2,
+  "B2-rect": 33.5,
+  "B3-fav": 17.3,
+  "B3-rect": 19.1,
+  "B4": 1.5,
+  "B4-bal": 2.0,
+  "B5": 0.7,
+  "FIX-bal-fav": 1.1,
+  "Hait-SW": 2.9,
+  "Molitor-WoR": 0.8,
+  "Peace-fav": 911.2,
+  "Peace-fav-bal": 96.0,
+  "Peace-rect": 822.7,
+  "QFC-pool": 3.1
+ }
+}

@@ -1,0 +1,175 @@
+{
+ "K": 20,
+ "calibration_seeds": [
+  900,
+  949
+ ],
+ "code_sha256_16": {
+  "dsswm/baselines/fdc.py": "b092130ffd86ae74",
+  "dsswm/certify/quadknap.py": "ce190c3e13e49726",
+  "offline_proj.py": "7be180e4b182464d",
+  "run_r5_t1_reconcile.py": "f65e26f6707ee3c0"
+ },
+ "eps": 0.001,
+ "error_limit_abs_log": 0.095,
+ "frozen_at": "2026-10-03T15:38:47.505454",
+ "half": "dev",
+ "inputs": "true cell means of the CR9 dev half (truth, dev only), pool sizes, design expected counts; observed N80_pen of seeds 900-949 for the one calibration constant",
+ "layer": "CR9",
+ "model": {
+  "cells": {
+   "FDC": {
+    "beta": 14.22422962545889,
+    "cell": [
+     "half",
+     "feas",
+     "r5"
+    ],
+    "design": "half",
+    "log_obs_cal": 13.763087521733237,
+    "pred_geomean_primary": 932780.7500128751,
+    "pred_log_M1": 13.745925457586774,
+    "pred_log_M2": 13.679884401424431,
+    "t_det": 893075.6365365748,
+    "t_det_over_tau": 0.1277685385728268,
+    "x_v": 11.877568578558138
+   },
+   "F[half,feas,r4]": {
+    "beta": 14.342012661115273,
+    "cell": [
+     "half",
+     "feas",
+     "r4"
+    ],
+    "design": "half",
+    "log_obs_cal": 13.763087521733237,
+    "pred_geomean_primary": 941067.7760646896,
+    "pred_log_M1": 13.754770441547327,
+    "pred_log_M2": 13.679884401424431,
+    "t_det": 901009.9137674429,
+    "t_det_over_tau": 0.12890366192066674,
+    "x_v": 12.165250651009918
+   },
+   "F[half,qstar,r5]": {
+    "beta": 15.043199888907527,
+    "cell": [
+     "half",
+     "qstar",
+     "r5"
+    ],
+    "design": "half",
+    "log_obs_cal": 13.809889260369637,
+    "pred_geomean_primary": 984418.8532415061,
+    "pred_log_M1": 13.799806749328548,
+    "pred_log_M2": 13.939893985254306,
+    "t_det": 942515.6918870038,
+    "t_det_over_tau": 0.1348417173279672,
+    "x_v": 11.877568578558138
+   },
+   "F[pool,feas,r4]": {
+    "beta": 14.342012661115273,
+    "cell": [
+     "pool",
+     "feas",
+     "r4"
+    ],
+    "design": "pool",
+    "log_obs_cal": 14.413111641722052,
+    "pred_geomean_primary": 1820421.461429656,
+    "pred_log_M1": 14.414578604458368,
+    "pred_log_M2": 14.45991329830943,
+    "t_det": 1742932.6831720003,
+    "t_det_over_tau": 0.24935397703079337,
+    "x_v": 12.165250651009918
+   },
+   "F[pool,feas,r5]": {
+    "beta": 14.22422962545889,
+    "cell": [
+     "pool",
+     "feas",
+     "r5"
+    ],
+    "design": "pool",
+    "log_obs_cal": 14.402711264738755,
+    "pred_geomean_primary": 1804182.018296717,
+    "pred_log_M1": 14.405617871575204,
+    "pred_log_M2": 14.45991329830943,
+    "t_det": 1727384.4945834726,
+    "t_det_over_tau": 0.24712956372005188,
+    "x_v": 11.877568578558138
+   },
+   "F[pool,qstar,r4]": {
+    "beta": 15.16098292456391,
+    "cell": [
+     "pool",
+     "qstar",
+     "r4"
+    ],
+    "design": "pool",
+    "log_obs_cal": 14.43911260871223,
+    "pred_geomean_primary": 1919559.510971133,
+    "pred_log_M1": 14.467606296313654,
+    "pred_log_M2": 14.45991329830943,
+    "t_det": 1837850.7833772504,
+    "t_det_over_tau": 0.2629335065254794,
+    "x_v": 12.165250651009918
+   },
+   "F[pool,qstar,r5]": {
+    "beta": 15.043199888907527,
+    "cell": [
+     "pool",
+     "qstar",
+     "r5"
+    ],
+    "design": "pool",
+    "log_obs_cal": 14.433912410942778,
+    "pred_geomean_primary": 1903286.029008981,
+    "pred_log_M1": 14.45909243924489,
+    "pred_log_M2": 14.45991329830943,
+    "t_det": 1822270.0048697428,
+    "t_det_over_tau": 0.2607044307134335,
+    "x_v": 11.877568578558138
+   },
+   "L4b QFC-half@K20 = FDCx[half,qstar,r4]": {
+    "beta": 15.16098292456391,
+    "cell": [
+     "half",
+     "qstar",
+     "r4"
+    ],
+    "design": "half",
+    "log_obs_cal": 13.830690039261736,
+    "pred_geomean_primary": 992720.476218213,
+    "pred_log_M1": 13.808204409158892,
+    "pred_log_M2": 13.939893985254306,
+    "t_det": 950463.9447043003,
+    "t_det_over_tau": 0.1359788401036054,
+    "x_v": 12.165250651009918
+   }
+  },
+  "primary": "M1",
+  "primary_rule": "variant with lower RMSE of log error on calibration seeds 900-949 (declared before calibration)",
+  "variants": {
+   "M1": {
+    "c": 0.043498901945862256,
+    "cal_rmse_log": 0.017419440504777586,
+    "form": "log g = log t_det + c"
+   },
+   "M2": {
+    "c": -0.07599999999999996,
+    "c_grid": "linspace(-0.6, 0.6, 1201)",
+    "cal_rmse_log": 0.07845654155840512,
+    "form": "log g = log snap_up_checkpoint(t_det * exp(c))"
+   }
+  }
+ },
+ "sha256": "4e8347ad19f3c604f2f462dc2a4b06a20d3482eb7d14ab0d42cd6f118fbcce81",
+ "sha256_scope": "sha256 of json.dumps(file minus the two sha256 fields, sort_keys=True, indent=1)",
+ "source_model": "idea/r5_offline/theoretical/offline_proj.py (deterministic-equivalent N80: smallest t with >= 12/15 problems certified at true cell means and expected design counts), with the projection's sqrt(2 beta V) at true sigma^2 replaced by the actual certificate code (quadknap.qfc_certificate_enum: Lemma L1 width incl. b beta/3, Lemma L2 variance UCB at the cell's x_v evaluated at the true means) and each cell's actual beta / x_v",
+ "task_id": "r5_t1_reconcile",
+ "validation_seeds": [
+  950,
+  999
+ ],
+ "validation_streams_run_before_freeze": false
+}

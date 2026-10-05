@@ -1,0 +1,201 @@
+{
+ "task_id": "r5_gate_decision",
+ "written_at": "2026-10-03T16:12:42.633825",
+ "mode": "PILOT (== full)",
+ "seed": 42,
+ "verdict": "GO",
+ "date_checked": "2026-10-03",
+ "www27_deadline_rule": "10-08",
+ "www27_reachable": true,
+ "gates": {
+  "T0": {
+   "pass": true,
+   "source": "exp/results/pilots/r5_t0_alloc_audit/summary.json"
+  },
+  "T-spec": {
+   "pass": true,
+   "source": "exp/results/pilots/r5_fdc_spec_theory/summary.json"
+  },
+  "T1": {
+   "deliverable": true,
+   "repro_ok": true,
+   "repro": {
+    "0.856": {
+     "target": 0.856,
+     "reproduced": 0.8555542328028801,
+     "rel_dev": -0.0005207560714016735,
+     "within_2pct": true
+    },
+    "0.887": {
+     "target": 0.887,
+     "reproduced": 0.8869064208378931,
+     "rel_dev": -0.00010550074645654384,
+     "within_2pct": true
+    },
+    "0.97": {
+     "target": 0.97,
+     "reproduced": 0.979414077472065,
+     "rel_dev": 0.009705234507283445,
+     "within_2pct": true
+    }
+   },
+   "c4_max_abs_log_err": 0.03796283321418947,
+   "c4_limit": 0.095,
+   "c4_cell_log_err": {
+    "FDC": 0.03796283321418947,
+    "F[half,feas,r4]": 0.029117849253635697,
+    "F[half,qstar,r5]": 0.010082498398652717,
+    "F[pool,feas,r4]": -0.011867361576699764,
+    "F[pool,feas,r5]": -0.01850720942260864,
+    "F[pool,qstar,r4]": -0.023293517781912243,
+    "F[pool,qstar,r5]": -0.019979849204800004,
+    "L4b QFC-half@K20 = FDCx[half,qstar,r4]": 0.012085229832402788
+   },
+   "c4_cells_ci_crossing_limit": [
+    "FDC",
+    "F[half,feas,r4]",
+    "F[pool,feas,r4]",
+    "F[pool,feas,r5]",
+    "F[pool,qstar,r4]",
+    "F[pool,qstar,r5]"
+   ],
+   "source": "exp/results/pilots/r5_t1_reconcile/summary.json"
+  },
+  "T2": {
+   "pass": true,
+   "failing_rivals": [],
+   "worst_rival": "QFC-pool",
+   "worst_ub95": 0.5343932751080616,
+   "per_rival_ub95": {
+    "B1": 0.31035353166882385,
+    "B4": 0.2068713167752904,
+    "B4-bal": 0.41204080405811044,
+    "B2-rect": 0.40990367543053374,
+    "B3-rect": 0.3095475828591883,
+    "Peace-rect": 0.40566260397602094,
+    "Hait-SW": 0.41204080405811044,
+    "Molitor-WoR": 0.14300551763875466,
+    "QFC-pool": 0.5343932751080616
+   },
+   "source": "exp/results/pilots/r5_t2_gate_strict/summary.json"
+  },
+  "T3": {
+   "pass": true,
+   "stop_false": 0,
+   "full_false": 0,
+   "source": "exp/results/pilots/r5_t2_gate_plugin_t3/summary.json"
+  }
+ },
+ "c4_mode": "predictive",
+ "power": {
+  "rule": "IUT power for hardest C1 rival at N=200 >= 0.8 => 200 else 400",
+  "hardest_rival": "QFC-pool",
+  "theta_log": -0.668224787354889,
+  "sd_log": 0.2567189745498011,
+  "power_N200": 1.0,
+  "power_N400": 1.0,
+  "n_rep": 1000,
+  "B_boot": 2000,
+  "sensitivity": [
+   {
+    "scenario": "sens_empirical_joint_IUT",
+    "description": "resample dev 100-stream paired log-ratio vectors, all |R| rivals jointly",
+    "N": 200,
+    "n_rep": 1000,
+    "B_boot": 2000,
+    "rival": "all R (max UB)",
+    "theta_log": null,
+    "sd_log": null,
+    "power_IUT": 1.0,
+    "maxUB_median": 0.5281770712184812,
+    "maxUB_q95": 0.5435016085355898,
+    "maxUB_q99": 0.5499124665735365,
+    "maxUB_max": 0.562186652234266,
+    "mde_ratio_80pct": null
+   },
+   {
+    "scenario": "sens_empirical_joint_IUT",
+    "description": "resample dev 100-stream paired log-ratio vectors, all |R| rivals jointly",
+    "N": 400,
+    "n_rep": 1000,
+    "B_boot": 2000,
+    "rival": "all R (max UB)",
+    "theta_log": null,
+    "sd_log": null,
+    "power_IUT": 1.0,
+    "maxUB_median": 0.5233922921931704,
+    "maxUB_q95": 0.5347407575763631,
+    "maxUB_q99": 0.5389352076464738,
+    "maxUB_max": 0.5431484212439655,
+    "mde_ratio_80pct": null
+   },
+   {
+    "scenario": "stress_ub_theta_1p5sd",
+    "description": "QFC-pool: theta at dev one-sided UB, sd x1.5",
+    "N": 200,
+    "n_rep": 1000,
+    "B_boot": 2000,
+    "rival": "QFC-pool",
+    "theta_log": -0.6266232408432562,
+    "sd_log": 0.3850784618247016,
+    "power_IUT": 1.0,
+    "maxUB_median": 0.5590409336918108,
+    "maxUB_q95": 0.5843116261851834,
+    "maxUB_q99": 0.5911473162350382,
+    "maxUB_max": 0.6167660090505289,
+    "mde_ratio_80pct": 0.9345358367286142
+   },
+   {
+    "scenario": "stress_ub_theta_1p5sd",
+    "description": "QFC-pool: theta at dev one-sided UB, sd x1.5",
+    "N": 400,
+    "n_rep": 1000,
+    "B_boot": 2000,
+    "rival": "QFC-pool",
+    "theta_log": -0.6266232408432562,
+    "sd_log": 0.3850784618247016,
+    "power_IUT": 1.0,
+    "maxUB_median": 0.5516764372597163,
+    "maxUB_q95": 0.5684136996362519,
+    "maxUB_q99": 0.5758097037688482,
+    "maxUB_max": 0.5874794212668052,
+    "mde_ratio_80pct": 0.9532530508606385
+   }
+  ]
+ },
+ "cr_n_streams": 200,
+ "enable_ext_blocks": false,
+ "eval_seeds": "30000-30199",
+ "c2_cp_critical": {
+  "200": {
+   "max_false_streams": 4,
+   "cp_at_max": 0.045180414994718726,
+   "cp_at_max_plus_1": 0.05184333912029053
+  },
+  "400": {
+   "max_false_streams": 12,
+   "cp_at_max": 0.04815392102222603,
+   "cp_at_max_plus_1": 0.05117557532347004
+  }
+ },
+ "rigorous_set_R": [
+  "B1",
+  "B4",
+  "B4-bal",
+  "B2-rect",
+  "B3-rect",
+  "Peace-rect",
+  "Hait-SW",
+  "Molitor-WoR",
+  "QFC-pool"
+ ],
+ "flags": [
+  "Hait-SW (p_min=0.02, gamma=2/3) and B4-bal (share=0.5) give identical N80 on 100/100 dev streams; |R| = 9 listed methods but 8 distinct N80 profiles. Disclosed in r5_t2_gate_strict summary; must be stated in lock v5.",
+  "Molitor-WoR never reaches 12/15 before tau_R (100/100 censored) and B3-rect is censored on 33/100: their ratios are driven by rival censoring and must not be read as speed-ups of the same kind.",
+  "All T2 ratios are 0.14-0.51 (>30% improvement): flagged by protocol; supporting checks: r4-consistency 0 mismatches for all 6 r4 rivals, billing_ok, 0 false certificates; hardest rival QFC-pool is our own r4 method.",
+  "Power is ~1 at N=200 because the dev effect vs the hardest rival is large (log ratio -0.67, sd 0.26); the binding risk for C1 is dev->eval shift, not sampling noise. The rule picks 200; ext block stays disabled.",
+  "T-spec self-check items 15-16 were signed by the control plane after the MC process exited (no numbers changed); see control_plane_note.",
+  "Dev results are exploratory; confirmatory evidence only from eval seeds 30000+ after lock v5."
+ ],
+ "eval_seeds_touched": false
+}

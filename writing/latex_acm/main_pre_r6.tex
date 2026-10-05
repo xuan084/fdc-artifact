@@ -1,0 +1,505 @@
+\documentclass[sigconf,anonymous,review]{acmart}
+
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\emergencystretch=3em
+
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\acmConference[WWW '27]{The ACM Web Conference 2027}{2027}{TBD}
+\acmYear{2027}
+\acmDOI{}
+\acmISBN{}
+
+\input{anonrepo.tex}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dmain}{\delta_{\text{main}}}
+\newcommand{\dvar}{\delta_{\text{var}}}
+\newcommand{\Npen}{N_{80}^{\text{pen}}}
+\newcommand{\meff}{m_{\text{eff}}}
+\AtEndPreamble{\theoremstyle{acmdefinition}\newtheorem{remark}[theorem]{Remark}}
+
+\begin{document}
+
+\title{Freeze, Then Certify: Finite-Population Joint Certificates for Budgeted Targeting Policies on Randomized Logs}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \country{}}
+
+\begin{abstract}
+A platform that picks a budget-constrained targeting policy from a randomized log may need a finite-sample guarantee that the pick is near-optimal at every budget at once. When each outcome read is priced, as in clean-room matching or per-record privacy accounting, that guarantee is paid for in reads. Freezing the read plan lets one finite-population Chernoff width per policy difference certify a whole budget frontier with 0.30--0.71 times the outcome reads of matched-strength per-cell rectangles on two reused logs. Our certificate, FDC-BF, bounds each segment-arm cell with a Bennett inequality that carries the exact finite-population variance, sums these bounds along each policy difference and charges one union ledger over 15 budgets. Its probability of any false certificate is at most $\delta = 0.05$, also under monitoring at any time, as we noticed after our first tests. A knapsack dynamic program, FDC-DP, extends the certificate to classes too large to list. In a fourth preregistered test with 16 to 64 segments, it needed 0.17--0.63 times the reads of the matched time-uniform rectangle on X5 and Lenta. In a preregistered test at matched time-uniform strength, with 200 fresh replay streams per log, FDC-BF needed 0.71 and 0.53 times the reads of a betting rectangle and of a rectangle with its own cell bound on Criteo (one-sided 95\% bounds 0.723, 0.542). On X5 RetailHero it needed 0.37 and 0.30 times (0.379, 0.308), with no false certificate. Intervals describe replay variation within each reused log, and every post-hoc choice is disclosed.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>10002950.10003648.10003662.10003666</concept_id>
+  <concept_desc>Mathematics of computing~Hypothesis testing and confidence interval computation</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10002951.10003260.10003272</concept_id>
+  <concept_desc>Information systems~Online advertising</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+\ccsdesc[500]{Mathematics of computing~Hypothesis testing and confidence interval computation}
+\ccsdesc[300]{Information systems~Online advertising}
+
+\keywords{policy certification, budgeted targeting, sampling without replacement, finite-sample guarantees, outcome-access cost, uplift, preregistration}
+
+\maketitle
+
+%% =====================================================================
+\section{Introduction}\label{sec:intro}
+
+A platform that has run a randomized targeting experiment must choose which budget-constrained policy to deploy, and an audit may require an error guarantee rather than a point ranking. The budget is often set only after the analysis of a large randomized log~\citep{diemert2018large}, so the guarantee should hold at every budget on the frontier at once. With probability at least $1-\delta$, each chosen policy should be within $\eps$ of the best feasible one, in the spirit of always-valid experiment reports~\citep{johari2017peeking,howard2021time}. This is a question of decision sufficiency, and we count its cost in logged outcomes revealed to the certifier, which binds when outcome access is priced per record (\S\ref{sec:setting}). The paper therefore asks how few logged outcomes a frontier-wide finite-sample guarantee needs.
+
+Direction-level certificates already exist, and so does their validity under a fixed design. RAGE~\citep{fiez2019sequential}, Peace~\citep{katzsamuels2020empirical} and the static allocations of \citet{soare2014best} bound each policy difference with one width, and likelihood-ratio stopping rules~\citep{garivier2016optimal,jourdan2021efficient} stop earlier still. Their native thresholds are proven for sampling with replacement. For a sample of fixed size, Hoeffding's convex-order theorem~\citep{hoeffding1963probability} carries any such moment bound over to sampling without replacement, so a frozen design inherits these thresholds. The time-uniform without-replacement sequences used to audit finite pools~\citep{waudbysmith2020confidence,waudbysmith2024estimating} work per (segment, arm) cell instead. Added along a policy difference as a sum of radii, they form a \emph{rectangle}, which charges a worst-case radius in every cell even when cell errors partly cancel. The open question is therefore how much a finite-population joint width saves over such rectangles, and what keeps it valid over a whole frontier and at any monitoring time.
+
+Freezing the read plan lets one finite-population Chernoff width per policy difference certify a whole budget frontier with 0.30--0.71 times the outcome reads of matched-strength per-cell rectangles on two reused logs. With the plan fixed, each cell at each checkpoint is a uniform without-replacement sample of known size. Its moment generating function then has a Bennett bound with the \emph{exact} finite-population variance. Summed along a policy difference, these bounds give one width that grows like the $\ell_2$ norm of the cell errors, whereas a rectangle grows like their $\ell_1$ sum. Beyond Hoeffding's transfer, four pieces are new: this finite-population lemma with exact variance boxes, a union ledger over the budget frontier, a time-uniform extension of the joint certificate, and a proposition that predicts when the joint width wins. A fifth, computational piece, FDC-DP, certifies classes too large to list with a knapsack dynamic program (\S\ref{sec:validity}, \S\ref{sec:scale}).
+
+FDC-BF (Figure~\ref{fig:method}) implements this argument on a balanced 50/50 plan, with one ledger over (problem, feasible policy, checkpoint) (Theorem~\ref{thm:fdcbet}). A reverse-martingale argument extends it to monitoring at any time (Remark~\ref{rem:tu}). Proposition~\ref{prop:width} splits its width ratio against a rectangle with the same cell bound into a union cost and an aggregation gain, so the saving grows with the number of effective cells over which a policy difference spreads its error.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig1_fdcbf.pdf}
+\caption{\textbf{FDC-BF in four steps.} Steps 1, 3 and 4 are shared with its Bernstein variant FDC (App.~\ref{app:proofs}); step 2, the finite-population cell bound, defines FDC-BF. No rectangle does step 3. Only step 1 restricts how rows are read.}
+\label{fig:method}
+\Description{Four stacked boxes connected by arrows: freeze the read plan; bound each cell with its finite-population variance; one Chernoff width per policy difference; certify only at 20 fixed checkpoints.}
+\end{figure}
+
+The evidence comes from preregistered tests on fresh replay randomizations of two real logs, Criteo and X5 RetailHero. In the headline \emph{time-uniform test}, every method is monitored at the same 77 times. On Criteo, FDC-BF then reaches 12 of 15 certified budget problems at 0.87M rows against 1.23M for the betting rectangle and 1.64M for the matched rectangle, which shares its cell bound. On X5 it needs 23.7k rows against 63.4k and 78.0k. These are geometric means over 200 paired streams, and they hold for the registered rivals on these two reused tables. Two earlier preregistered tests at checkpoint strength gave ratios of 0.64--0.66 on Criteo and 0.36 on X5, so the ordering holds at both guarantee strengths.
+
+Several choices came after earlier evaluations: FDC-BF itself, the X5 log, the thresholds, the phased rivals and the time-uniform reading, which led a later lock to promote dense monitoring to primary (\S\ref{sec:deviations}). With these limits stated, we make four claims, each with a falsification condition.
+
+\begin{itemize}
+\item[\textbf{C1}] \textbf{Validity.} For every frozen plan, FDC-BF falsely certifies any of 15 budget problems at any of 20 checkpoints with probability at most $\delta = 0.05$. The bound also holds for certification at any later time with widths frozen at the last checkpoint, and for FDC-DP, which computes the same certificate without listing the class. \emph{Falsified by} a flaw in the proofs (\S\ref{sec:validity}, App.~\ref{app:proofs}); replay can reveal only gross violations.
+\item[\textbf{C2}] \textbf{Fewer reads than rectangles (confirmatory, two logs).} At matched time-uniform strength, the one-sided 95\% bound on FDC-BF's paired geometric-mean $\Npen$ ratio is below 0.85 (Criteo) and 0.50 (X5) against each of the two registered time-uniform rectangles. At checkpoint strength it is below 0.80 and 0.60 against each registered rectangle, and no FDC-BF stream is false. With 16 to 64 segments, FDC-DP's bound against the matched time-uniform rectangle is below 0.80 in each of five cells on X5 and Lenta. \emph{Falsified by} a bound at or above its threshold or by any false stream (Tables~\ref{tab:main} and~\ref{tab:scale}).
+\item[\textbf{C3}] \textbf{An informed frozen plan beats the tested adaptive designs (post hoc, semi-synthetic).} At equal pilot information, frozen pilot-Neyman FDC-BF has a smaller paired geometric-mean $\Npen$ than each tested reset and menu adaptive joint certificate in four constructed regimes. With pilot reads charged, this holds on Criteo-sized tables, but on X5-sized tables only if one pilot serves several runs. \emph{Falsified by} an equal-information ratio whose 95\% interval reaches 1 (\S\ref{sec:c3}, supplement S11).
+\item[\textbf{C4}] \textbf{Mechanism (descriptive).} With the same cell bound, boxes, $\delta$ split and plan, the joint width needs about half (Criteo) and under a third (X5) of the rectangle's rows at either strength. The log with more effective cells gains more, and a tighter cell bound changes little. \emph{Falsified by} a matched ratio above 0.8, a log ordering opposite to the effective-cell ordering, or a cell-bound ablation that saves more than aggregation (\S\ref{sec:c4}).
+\end{itemize}
+
+\noindent Our contributions map onto these claims: the finite-population joint certificate with its frontier ledger and time-uniform extension (C1), the width proposition (C4) and the preregistered and post-hoc evidence (C2, C3). FDC-DP, an exact knapsack form of the certificate that scales it to implicit policy classes, extends C1 and C2. Code, locks, seeds and seals are in the anonymous repository (\anonrepo). Section~\ref{sec:setting} first fixes what is certified, so that no method can gain speed by certifying something weaker.
+
+%% =====================================================================
+\section{Problem Setting}\label{sec:setting}
+
+This section fixes the target: $\eps$-optimal answers to $Q$ budget problems on the logged finite population, held simultaneously with probability at least $1-\delta$ during a without-replacement replay.
+
+\textbf{Log, cells and estimand.} Everything certified is a function of one fixed table. The evaluation half of a randomized log is split into $S$ segments and $A$ arms. Each cell $c = (s,a)$ holds a finite pool of $N_c$ binary outcomes with pool mean $\mu_c$. Segment weights are $w_s = \sum_a N_{s,a}/\tau_R$, where $\tau_R$ is the number of rows in the half. On Criteo (segmentation CR9), $S = 9$, $A = 2$ and $\tau_R = 6{,}989{,}799$; on X5 (X9), $S = 9$, $A = 2$ and $\tau_R = 100{,}393$. The estimand is the observed-pool policy value of this table, not a causal value in a superpopulation.
+
+\textbf{Policies and budget problems.} The objects to certify are the best budget-feasible policies. A policy $\pi \in [A]^S$ assigns an arm to each segment, with value $J(\pi) = \sum_s w_s \mu_{s,\pi(s)}$ and cost $C(\pi) = \sum_s w_s \mathbb{1}[\pi(s) = 1]$, the treated fraction. Problem $q$ has budget $B_q$, feasible class $\Pi_{B_q} = \{\pi : C(\pi) \le B_q\}$ and optimum $\pi^*_q$. We use $Q = 15$ budgets $B_q \in \{0.10, 0.15, \dots, 0.80\}$. On Criteo the classes hold 14 to 443 of the 512 policies, $\sum_q |\Pi_{B_q}| = 3{,}386$ on both logs, and every class is enumerated exactly. Because the classes are large and overlap, one $\delta$ over the whole frontier is the relevant guarantee.
+
+\textbf{Replay, checkpoints and endpoint.} Speed is measured in logical rows read. A replay stream fixes a uniformly random arrival order of segments and a uniformly random order of records inside each pool. At each arrival a method chooses which arm's pool to read next. Certificates may be issued only at $K = 20$ checkpoints, log-spaced from 50,000 rows on Criteo (2,000 on X5) to $\tau_R$, so consecutive checkpoints differ by a factor of 1.297 on Criteo and 1.229 on X5. The primary endpoint $N_{80}$ is the first checkpoint at which at least 12 of 15 problems are certified. $\Npen$ sets it to $\tau_R$ if a false certificate occurs or 12 of 15 is never reached. We report logical reads, not I/O savings.
+
+\textbf{When outcome reads are the binding cost.} The frozen plan needs each row's segment and arm, never its outcome, and if outcomes are stored and free a full scan needs no certificate. Reads dominate when exposures must be joined with a partner's conversions in a clean room that bills per matched record. They also dominate under per-record privacy accounting, where an unread record spends none of its budget~\citep{feldman2021individual}, and when outcomes are purchased or delayed~\citep{chapelle2014modeling}. FDC-BF is not itself differentially private and we measured no bill. The finite-pool target fits decisions about the logged population itself, such as an audit of the observed-pool ranking of budgeted policies; it says nothing about future users.
+
+\textbf{Guarantee.} A certificate for problem $q$ at checkpoint $k$ freezes an answer $\hat\pi_q$ and is false if $J(\pi^*_q) - J(\hat\pi_q) > \eps$. We use $\eps = 0.001$ on Criteo's visit rate (mean 0.047) and $\eps = 0.02$ on X5's purchase rate (development mean about 0.62). A method is valid if the probability that a stream contains any false certificate, over all problems and checkpoints, is at most $\delta = 0.05$. Every compared guaranteed method must prove this, and \S\ref{sec:method} now builds one that does.
+
+%% =====================================================================
+\section{FDC-BF: Freeze, Then Certify Jointly}\label{sec:method}
+
+This section builds the certificate in the four steps of Figure~\ref{fig:method}; the proof in \S\ref{sec:validity} needs each of them.
+
+\textbf{Step 1: frozen balanced plan.} The read plan contains no outcome information by construction. Before any outcome is read, FDC-BF fixes the complete plan $\cA$: the segment arrival order, a planned arm per arrival with probability 1/2 each, and a uniform variable per arrival for re-selection when a planned pool is exhausted. Exhaustion depends only on counts and pool sizes, so the count $n_c(k)$ of rows read from cell $c$ by checkpoint $k$ is a function of $\cA$, which must be independent of the within-pool record order. Balance suits the problem: each policy difference contrasts two arms of a segment with equal weight and the arms' standard deviations on Criteo are close (0.192 and 0.215), whereas the log's 85/15 split starves control cells.
+
+\textbf{Step 2: a finite-population bound for each cell.} Conditional on $\cA$, cell $c$ at checkpoint $k$ is a uniform without-replacement sample of size $n = n_c(k)$ from a pool of $N = N_c$ binary outcomes with mean $m = \mu_c$, and the cells are independent. The hypergeometric count has a probability generating function with only real roots. It therefore has the law of a sum of $n$ independent Bernoulli variables whose variances add up to the exact finite-population variance~\citep{vatutin1982limit,tang2023poisson}. Bennett's lemma~\citep{bennett1962probability} applied to each summand gives, for every real $u$,
+\begin{equation}\label{eq:cell}
+\begin{gathered}
+\log \mathbb{E}\, e^{u(\hat\mu_c - m)} \le \Psi_c(u; m) := n\, m(1-m)\,\frac{N-n}{N-1}\,\phi\!\left(\frac{|u|}{n}\right),\\
+\phi(x) = e^x - 1 - x,
+\end{gathered}
+\end{equation}
+with $\Psi_c = 0$ for an exhausted cell. The Bernstein variant FDC, built on Hoeffding's comparison~\citep{hoeffding1963probability}, lacks the factor $(N-n)/(N-1)$. The factor matters on a balanced plan: at FDC-BF's typical stopping point of 0.13\,$\tau_R$ rows on Criteo, about 43\% of a control pool has been read.
+
+\textbf{Step 3: one Chernoff width per policy difference.} For a challenger $\pi'$ and a centre $\hat\pi$, the estimation error of their difference is linear in the cell errors: $Y = \sum_c a_c(\hat\mu_c - \mu_c) = \Delta(\pi',\hat\pi) - \hat\Delta(\pi',\hat\pi)$. Here $a_c = +w_s$ on $(s, \hat\pi(s))$ and $-w_s$ on $(s, \pi'(s))$ for each segment where the policies differ. By independence and~\eqref{eq:cell}, $\log \mathbb{E}\, e^{\lambda Y} \le \sum_c \Psi_c(\lambda a_c; \mu_c)$ for every $\lambda > 0$. Since $\mu_c$ is unknown, we replace each $\Psi_c$ by its supremum over a variance box $B_c(k)$. The box inverts the exact two-sided hypergeometric test with per-tail level $\alpha = \dvar/(2SAK)$ and is intersected over checkpoints. The width is
+\begin{equation}\label{eq:width}
+w_k(\pi',\hat\pi) = \min_{\lambda \in \Lambda}\ \frac{\beta + \sum_c \sup_{m \in B_c(k)} \Psi_c(\lambda a_c; m)}{\lambda},
+\end{equation}
+where $\Lambda$ multiplies $\lambda_0 = \sqrt{2\beta/\bar V}$, with $\bar V$ a data-dependent bound on the direction's variance, by 161 fixed geometric multipliers from 1/200 to 10. The supremum has a closed form because $\Psi_c$ is concave in $m$, and the data-dependent grid affects only tightness, because the proof's threshold is an infimum over all $\lambda > 0$. The width grows with the $\ell_2$ norm of the cell errors and pays with a larger exponent $\beta$, since its union runs over directions rather than cells.
+
+\textbf{Step 4: certificate, union and ledger.} FDC-BF certifies a problem only when every feasible challenger is ruled out. At checkpoint $k$ the centre is $\hat\pi_q(k) = \arg\max_{\Pi_{B_q}} \hat J_k$ and the statistic is
+\begin{equation}\label{eq:U}
+U_q(k) = \max_{\pi' \in \Pi_{B_q}}\big[\hat\Delta_k(\pi', \hat\pi_q(k)) + w_k(\pi', \hat\pi_q(k))\big].
+\end{equation}
+Problem $q$ is certified at the first $k$ with $U_q(k) \le \eps$, its answer is frozen, and the stream stops at 12 of 15 (Algorithm~\ref{alg:fdcbf}). The exponent is $\beta = \ln(\sum_q |\Pi_{B_q}| \cdot K/\dmain) = 14.22$ on both logs, with $\dmain = 0.045$ and $\dvar = 0.005$. The maximum in~\eqref{eq:U} runs over all of $\Pi_{B_q}$ without data-based pruning, which lets the proof cover a data-dependent centre. All 15 certificates take 0.1\,s per checkpoint on Criteo and 1.3\,s with 4,096 policies, negligible when reads are priced.
+
+\begin{algorithm}[t]
+\caption{FDC-BF (stop at 12/15; omit line 10 for the full-horizon window).}
+\label{alg:fdcbf}
+\small
+\begin{algorithmic}[1]
+\Require pools $\{N_c\}$, weights $\{w_s\}$, budgets $B_{1..Q}$, checkpoints $T_{1..K}$, $\eps$, $\dmain$, $\dvar$
+\State $\beta \gets \ln(\sum_q |\Pi_{B_q}| K/\dmain)$; $\alpha \gets \dvar/(2SAK)$
+\State Fix plan $\cA$: arrival order, arm $\sim$ Bernoulli(1/2) per arrival, re-selection uniforms
+\For{$t = 1, \dots, \tau_R$}
+  \State read next record of planned pool (re-select from $\cA$ if exhausted)
+  \If{$t = T_k$}
+    \State update $\hat\mu_c(k)$ and boxes $B_c(k)$ (exact HG inversion at $\alpha$, intersected)
+    \For{each uncertified $q$}
+      \State $\hat\pi \gets \arg\max_{\Pi_{B_q}} \hat J_k$; $U \gets \max_{\pi'\in\Pi_{B_q}} [\hat\Delta_k(\pi',\hat\pi) + w_k(\pi',\hat\pi)]$ by~\eqref{eq:width}
+      \State \textbf{if} $U \le \eps$ \textbf{then} freeze answer $\hat\pi$ for $q$
+    \EndFor
+    \State \textbf{if} $\ge 12$ problems certified \textbf{then} stop, $N_{80} \gets T_k$
+  \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+%% =====================================================================
+\section{Validity and Width}\label{sec:validity}
+
+This section proves C1, extends it to monitoring at any time, and quantifies what the joint width saves over a rectangle with the same cell bound.
+
+\begin{theorem}\label{thm:fdcbet}
+For every plan $\cA$ and every $\eps \ge 0$,
+\[
+\begin{aligned}
+P\big(\exists k \le K, \exists q \le Q:\ & U_q(k) \le \eps,\ J(\pi^*_q) - J(\hat\pi_q(k)) > \eps \,\big|\, \cA\big)\\
+&\le \dmain + \dvar = \delta,
+\end{aligned}
+\]
+for any $\Pi_{B_q}$-valued centre computed from the data up to checkpoint $k$; the bound holds unconditionally after integrating over $\cA$ and simultaneously for all $\eps$.
+\end{theorem}
+
+\textbf{Proof sketch.} One simultaneous event controls every problem and checkpoint, and the unknown means are handled by intersection rather than substitution. For a fixed direction, the counts and live cells are functions of $\cA$. The Chernoff threshold $t(\mu) = \inf_{\lambda>0}(\beta + \sum_c \Psi_c(\lambda a_c;\mu_c))/\lambda$ is thus a deterministic function of the plan and the true means, and~\eqref{eq:cell} gives $P(Y > t(\mu) \mid \cA) \le e^{-\beta}$. Let $E_{\text{main}}$ be the event that $Y \le t(\mu)$ for every direction $(\pi^*_q, \pi)$ with $\pi \in \Pi_{B_q}$ and every $k$. There are $\sum_q|\Pi_{B_q}|\cdot K$ such events, so $P(E_{\text{main}}^c \mid \cA) \le \dmain$. Let $E_{\text{var}}$ be the event that every $\mu_c$ lies in every box $B_c(k)$, so $P(E_{\text{var}}^c \mid \cA) \le 2SAK\alpha = \dvar$. On $E_{\text{var}}$, for the $\lambda$ chosen in~\eqref{eq:width}, $t(\mu) \le w_k$. Hence on $E_{\text{main}} \cap E_{\text{var}}$, taking the challenger $\pi' = \pi^*_q$,
+\[
+J(\pi^*_q) - J(\hat\pi_q(k)) = \hat\Delta_k(\pi^*_q, \hat\pi_q(k)) + Y \le U_q(k) \le \eps
+\]
+whenever $q$ is certified. The union over $\Pi_{B_q}$ covers the data-dependent centre and the union over $k$ the data-dependent certification time. The data-dependent $\lambda$ is legitimate because $t(\mu)$ is an infimum (App.~\ref{app:proofs}). $\square$
+
+The proof uses only published inequalities and a union bound, so validity rests on it, and implementation checks (App.~\ref{app:proofs}) only guard the code. It assumes uniformly random within-pool replay, a plan independent of that order and binary outcomes. Theorem~\ref{thm:fdcbet} is stated at the $K$ checkpoints, but the frozen plan also makes it time-uniform.
+
+\begin{remark}[Monitoring at any time; observed post hoc]\label{rem:tu}
+Fix $\cA$ and a block start $T_k$. Let $\mathcal{G}_t$ join, over the touched cells, the multiset of each cell's first $n_c(t)$ draws and all its later draws. For $T_k \le t \le \tau_R$ these $\sigma$-fields decrease, the counts $n_c(t)$ are deterministic and nondecreasing, and each without-replacement mean is a reverse martingale in its count~\citep{serfling1974probability,bardenet2015concentration}. For a direction whose touched cells are non-empty at $T_k$, the error $Y_t = \Delta - \hat\Delta_t$ is then a reverse martingale on this finite horizon. Doob's maximal inequality and the strict-tail limit of Lemma~\ref{lem:chernoff} give $P(\max_{T_k \le t \le \tau_R} Y_t > t_k(\mu) \mid \cA) \le e^{-\beta}$, with the same ledger. A direction that touches a cell empty at $T_k$ keeps infinite width until a later checkpoint at which the cell is non-empty. Suppose FDC-BF evaluates~\eqref{eq:U} at any $t \ge T_1$ with the current $\hat\Delta_t$ and the width of the last checkpoint $T_k \le t$. Then Theorem~\ref{thm:fdcbet} holds simultaneously over all such $t$. Evaluated only on the 20-point grid, this procedure is FDC-BF itself; denser monitoring can make it stop earlier. The argument covers any Chernoff certificate on a frozen plan, including the matched rectangle. It does not cover the exact rectangle, whose fixed-time quantile radius need not survive monitoring (App.~\ref{app:proofs}).
+\end{remark}
+
+We call FDC-BF read this way TU-FDC. One asymmetry with the betting rectangle HC-WoR remains: HC-WoR is time-uniform under any predictable sampling rule, TU-FDC only under its frozen schedule. So is RECT-ck-BF-TU, the time-uniform form of the matched rectangle's +box variant. We noticed the extension after the checkpoint tests, and a later lock tests it at matched strength (\S\ref{sec:c2}). Freezing is sufficient, not necessary: the phased rivals of \S\ref{sec:protocol} freeze each phase given the history and keep the checkpoint guarantee (supplement S7). We analysed every adaptive variant at checkpoint strength only; a time-uniform version would need phase-wise maximal events, which we did not build.
+
+\textbf{How much the joint width saves.} For a live cell $c$ write $v_c = \bar\sigma_c^2 (N_c - n_c)/((N_c - 1)n_c)$ with $\bar\sigma_c^2 = \sup_{m \in B_c(k)} m(1-m)$. For a policy difference with coefficients $a$ and no empty touched cell, let $C(a)$ be its live cells with $a_c \ne 0$ and $v_c > 0$, let $m = |C(a)| \ge 1$, and let $g_c = |a_c|\sqrt{v_c}$ on $C(a)$. The joint union runs over problems, feasible policies and checkpoints, giving $\beta_J = \ln(MK/\dmain)$ with $M = \sum_q |\Pi_{B_q}|$. A rectangle with a data-dependent centre must bound both tails of every cell, giving $\beta_C = \ln(2SAK/\dmain)$. Because $M \ge 2SA$ on all our instances, $\beta_J > \beta_C$, so the joint width starts with a union cost that its aggregation must repay.
+
+\begin{proposition}\label{prop:width}
+Let $W_J$ be the width~\eqref{eq:width} with the infimum over all $\lambda>0$, and $W_R = \sum_c |a_c| r_c$ the rectangle built from the same Bennett-FPC bound and boxes, with per-cell radii $r_c$ at exponent $\beta_C$. Then
+\[
+\frac{\rho(a)}{1+\eta_R} \le \frac{W_J}{W_R} \le \rho(a)\,(1+\eta_J),\quad
+\rho(a) = \sqrt{\frac{\beta_J}{\beta_C}}\,\frac{\|g\|_2}{\|g\|_1},
+\]
+where $\rho(a)^2 = (\beta_J/\beta_C)/\meff$ with $\meff = \|g\|_1^2/\|g\|_2^2 \in [1, m]$, and $\eta_J, \eta_R \le (\beta_J/(18\gamma))^{1/2}$ with $\gamma = \min_c n_c \bar\sigma_c^2 (N_c-n_c)/(N_c-1)$. Assume further that $\eps > 0$, counts grow proportionally to rows read, variance proxies are fixed, all cells share one horizon $T$, the centre is $\pi^*_q$ with $\hat\Delta = \Delta$, and both widths are replaced by their Gaussian terms. Then, for continuous (fluid) first crossings before rounding to checkpoints, the ratio of rows needed for the 12th certification is $r/(1 - x(1-r))$. Here $x$ is the rectangle's stopping point divided by $T$, and $r$ lies between the smallest $\rho^2$ of the rectangle's binding policy differences and the largest $\rho^2$ of the joint certificate's, over all problems.
+\end{proposition}
+
+\noindent\emph{Proof sketch.} The bounds $x^2/2 \le \phi(x) \le x^2/(2(1-x/3))$ for $0 \le x < 3$ place each width between its Gaussian term ($\sqrt{2\beta_J}\|g\|_2$ jointly, $\sqrt{2\beta_C}\|g\|_1$ for the rectangle) and that term plus a Bernstein remainder. Cauchy--Schwarz bounds $\meff$. In the scaling model both squared widths are proportional to $1/t - 1/T$, so order statistics of crossing times inherit the bounds (App.~\ref{app:widthprop}). $\square$
+
+The proposition concerns ideal widths; finite $\lambda$ grids, clipped or intersected rectangles, empirical centres and noisy crossing times lie outside it. To leading order the joint width is narrower exactly when $\meff > \beta_J/\beta_C$. In finite samples the proposition guarantees this only when $\rho(a)(1+\eta_J) < 1$, and the rows formula needs scaling assumptions that Criteo's unequal pool horizons violate (App.~\ref{app:widthprop}). Exhaustion ($x \to 1$) pulls any rows ratio toward 1. The union cost $\beta_J/\beta_C$ is 1.47 on both logs and 1.64 on a 4,096-policy segmentation, and the tested localisation of the ledger changes little on these tables (\S\ref{sec:c4}). In the model, differences between logs then come mainly from $\meff$, although exhaustion, gaps, noise and the monitoring grid also shape observed ratios.
+
+\textbf{Scaling to implicit policy classes (FDC-DP).} The maximum in~\eqref{eq:U} never needs the list of policies. For fixed $\lambda$ the bracket separates across segments, so the worst feasible challenger is a multiple-choice knapsack, solved exactly by dynamic programming; minimising over $\lambda$ outside it gives an upper bound. A branch-and-bound that prunes only subtrees this bound rules out decides $U_q(k) \le \eps$ exactly over one global $\lambda$ grid, and abstains at $2 \cdot 10^5$ nodes. A counting dynamic program gives $M$ exactly, so $\beta_J$ grows linearly in $S$ (52.34 at $S = 64$). The certificate and its proof are FDC-BF's (App.~\ref{app:proofs}, supplement S17), so the contribution is computational. At $S = 64$ all 15 certificates took at most 0.42\,s per checkpoint. Its time-uniform reading TU-FDC-DP faces RECT-BF-DP-TU, the matched rectangle with an exact worst-gap dynamic program.
+
+%% =====================================================================
+\section{Experimental Protocol}\label{sec:protocol}
+
+This section freezes the comparisons. Each is preregistered, paired across methods on identical replay streams and run on a real randomized log, which guards against seed and replay selection.
+
+\textbf{Data.} The two logs differ in size, imbalance and outcome rate. Criteo Uplift v2.1~\citep{diemert2018large} is a randomized advertising log of 13,979,592 rows with 85\% treated rows and a binary visit outcome. Nine segments come from indicators of features f0, f2, f3 and f9, and a stratified split gives halves of about 6.99M rows each. The evaluation half had been replayed in two earlier preregistered rounds, and its aggregate truth was read once to set $\eps$. The Criteo test therefore uses fresh replay randomizations of an already-used table, and the time-uniform test is its fourth fresh-stream use. X5 RetailHero~\citep{x5retailhero2019} is a randomized SMS campaign of a grocery retailer with 200,039 clients, a 50/50 treatment split and a binary purchase outcome. A salted hash of the client id splits it into halves of 99,646 and 100,393 rows, segmented by gender $\times$ age band. No outcome statistic of the X5 evaluation half was computed before the X5 test, and the time-uniform test is its second use. The two logs thus vary what Proposition~\ref{prop:width} says should matter, but each is one reused table, so the tests describe these two populations rather than a population of logs.
+
+\textbf{Guaranteed rivals.} A method counts as guaranteed only if a theorem covers exactly the protocol of \S\ref{sec:setting}, so every rival is valid under without-replacement replay. The Criteo test's primary family holds three rectangles on FDC-BF's frozen plan. The \emph{exact rectangle} RECT-ck-HG inverts an exact hypergeometric test per cell and checkpoint at level $\delta/(2SAK)$; RECT-ck-HG-live is its live-cell variant. The \emph{betting rectangle} HC-WoR is a hedged-capital without-replacement sequence per cell~\citep{waudbysmith2020confidence,waudbysmith2024estimating}. Registered ports of CLUCB, CombGame, RAGE and Peace keep each sampling rule but certify per cell, so they measure per-cell certification, not the native methods (supplement S5). The faithful valid joint analogue of RAGE is the \emph{phased joint certificate} (PJC), which shares FDC-BF's width and re-plans the arm split at registered boundaries. The X5 test's primary families are the same rectangles, with plans tuned on X5 development seeds (7 candidates for RECT-ck-HG, 63 for HC-WoR, RECT-ck-HG-live untuned), and two PJC members. PJC-local* (best of 17) estimates from residual pools as RAGE does, and the selected member has no boundary. PJC-menu* (best of 10) keeps all data and chooses a control share of 0.4 or 0.5 at one boundary. Its union over menu paths raises the events per direction from 20 to 37 (supplement S7). The \emph{matched rectangle} RECT-ck-BF shares FDC-BF's cell bound, boxes, $\delta$ split and plan and changes only the aggregation. In the time-uniform test the primary rivals are HC-WoR and RECT-ck-BF-TU, and on X5 also PJC-local* with its own 77-time ledger and its time-uniform form TU-PJC. All other rows are descriptive, so every primary comparison is between methods with proven guarantees.
+
+\textbf{Endpoints and analysis.} The X5 decision tolerance is $\eps = 0.02$, with 0.015 and 0.03 descriptive. For each rival $r$ we compute the paired geometric-mean ratio of FDC-BF's $\Npen$ to $r$'s over streams. We report a two-sided 95\% interval and a one-sided 95\% upper bound (UB95) from a paired percentile bootstrap ($B = 10^4$, seed 42). Secondary endpoints are $x_{12}$, the row count at the twelfth certification interpolated between checkpoints, and $N_{100}^{\text{pen}}$, the full-frontier time from the same run continued to 15 of 15. These approximate intervals resample permutations of one table, so they describe replay variation within each logged population, not variation across logs or the theorem's guarantee.
+
+\textbf{Preregistration.} Each lock froze code, configurations, 200 new seeds and one intersection--union decision rule before its evaluation runs, and each required no false FDC-BF stream and passing same-code replicas. The Criteo test (lock v7) required UB95 $< 0.80$ against every primary rectangle. The X5 test (lock v8) required UB95 $< 0.60$ against every registered rectangle and UB95 $< 1.05$ against every PJC member at $\eps = 0.02$, with identical arrival sequences across methods. Both X5 thresholds were sized on development data, where the rectangle UB95 was 0.35--0.36 and the PJC UB95 0.97--0.98, with a worst case of 1.042 at $\eps = 0.01$ on 20 seeds. The rectangle threshold thus had wide slack, so its effect size is what informs. The time-uniform test (lock v9) evaluates every method at the same 77 times: the checkpoints plus three geometric interpolants per interval. It required UB95 $< 0.85$ (Criteo) or $< 0.50$ (X5) against both time-uniform rectangles and UB95 $< 1.05$ against both PJC rivals on X5, with thresholds sized from development ratios of 0.708 and 0.356. Results were sealed in single-commit files whose history the analysis verifies, so each claim can be checked against them.
+
+%% =====================================================================
+\section{Results}\label{sec:results}
+
+All three preregistered tests passed. FDC-BF made no false certificate and read fewer rows than every registered rectangle of matched strength, by a log-dependent margin that joint aggregation explains.
+
+\begin{table*}[t]
+\caption{\textbf{Confirmatory results on two logs} (200 fresh paired streams per log and test). Rows = geometric-mean $\Npen$. Ratio = paired geometric mean of FDC-BF (in A: TU-FDC) / method, 95\% CI and one-sided UB95; Thr.\ = registered threshold (--- = descriptive); F/T/S = \% of streams on which FDC-BF stops earlier / at the same time / later. Guar.: CP = valid at the 20 checkpoints (CP$_{77}$: at 77 times, 77-time ledger); TU = time-uniform under any predictable sampling; TU$_f$ = time-uniform on the frozen schedule (Remark~\ref{rem:tu}; FDC-BF and RECT-ck-BF in B, C are TU$_f$ too). RECT-ck-BF-TU is the time-uniform form of RECT-ck-BF+box; B and C show RECT-ck-BF without +box. Every method: 0/200 false streams and 12/15 before $\tau_R$ on every stream. $^\ddagger$Post hoc on the Criteo-test streams. $^\S$More comparators in supplement S5, S6.}
+\label{tab:main}
+\small
+\setlength{\tabcolsep}{3.3pt}
+\begin{tabular}{@{}lllrlrlrll@{}}
+\toprule
+Method & Role & Guar. & Rows & FDC-BF / method [95\% CI] & UB95 & Thr. & F / T / S & $x_{12}$ ratio [UB] & $N_{100}$ ratio [UB] \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{A. Time-uniform test (lock v9), 77 monitoring times; Criteo seeds 37000--37199, $\eps = 0.001$ (TU-FDC: 0.87M rows); X5 seeds 37200--37399, $\eps = 0.02$ (23.7k)}} \\
+\textbf{HC-WoR*} (betting), Criteo & primary & TU & 1.23M & \textbf{0.708} [0.692, 0.726] & \textbf{0.723} & $<$0.85 & 100 / 0 / 0 & 0.707 [0.721] & 0.770 [0.779] \\
+\textbf{RECT-ck-BF-TU} (matched), Criteo & primary & TU$_f$ & 1.64M & \textbf{0.530} [0.516, 0.544] & \textbf{0.542} & $<$0.85 & 100 / 0 / 0 & 0.530 [0.541] & 0.579 [0.585] \\
+\textbf{HC-WoR*} (Neyman), X5 & primary & TU & 63.4k & \textbf{0.374} [0.369, 0.379] & \textbf{0.379} & $<$0.50 & 100 / 0 / 0 & 0.374 [0.378] & 0.398 [0.402] \\
+\textbf{RECT-ck-BF-TU} (matched), X5 & primary & TU$_f$ & 78.0k & \textbf{0.304} [0.299, 0.309] & \textbf{0.308} & $<$0.50 & 100 / 0 / 0 & 0.307 [0.311] & 0.329 [0.333] \\
+\textbf{PJC-local*} (77-time ledger), X5 & primary & CP$_{77}$ & 24.1k & \textbf{0.985} [0.977, 0.994] & \textbf{0.992} & $<$1.05 & 37.5 / 41 / 21.5 & 0.986 [0.992] & 0.988 [0.995] \\
+\textbf{TU-PJC}, X5 & primary & TU$_f$ & 23.6k & \textbf{1.004} [0.997, 1.010] & \textbf{1.009} & $<$1.05 & 13 / 71 / 16 & 1.005 [1.009] & 1.000 [1.006] \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{B. Criteo test (lock v7), 20 checkpoints, seeds 33000--33199, $\eps = 0.001$, rows in millions (FDC-BF: 0.91M)$^\S$}} \\
+\textbf{RECT-ck-HG} (exact) and \textbf{-live} & primary & CP & 1.41 & \textbf{0.643} [0.625, 0.661] & \textbf{0.658} & $<$0.80 & 98.5 / 1.5 / 0 & 0.633 [0.644] & 0.687 [0.700] \\
+\textbf{HC-WoR} (betting) & primary & TU & 1.39 & \textbf{0.655} [0.639, 0.673] & \textbf{0.670} & $<$0.80 & 99.0 / 1.0 / 0 & 0.649 [0.660] & 0.704 [0.717] \\
+PJC-local*$^\ddagger$ & descr. & CP & 0.91 & 1.001 [0.995, 1.008] & 1.007 & --- & 1.5 / 96.5 / 2.0 & 0.999 [1.002] & 1.001 [1.004] \\
+PJC-menu*$^\ddagger$ & descr. & CP & 0.93 & 0.976 [0.964, 0.986] & 0.985 & --- & 9.0 / 91 / 0 & 0.965 [0.969] & 0.997 [1.000] \\
+RECT-ck-BF (matched)$^\ddagger$ & descr. & CP & 1.82 & 0.498 [0.484, 0.512] & 0.510 & --- & 100 / 0 / 0 & 0.506 [0.516] & 0.581 [0.587] \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{C. X5 test (lock v8, first use of the X5 half), 20 checkpoints, seeds 35000--35199, $\eps = 0.02$, rows in thousands (FDC-BF: 24.4k)$^\S$}} \\
+\textbf{RECT-ck-HG*} (plan 0.5), \textbf{-live} & primary & CP & 67.1 & \textbf{0.364} [0.358, 0.370] & \textbf{0.368} & $<$0.60 & 100 / 0 / 0 & 0.354 [0.357] & 0.387 [0.393] \\
+\textbf{HC-WoR*} (Neyman) & primary & TU & 67.4 & \textbf{0.362} [0.356, 0.368] & \textbf{0.367} & $<$0.60 & 100 / 0 / 0 & 0.352 [0.355] & 0.380 [0.386] \\
+\textbf{PJC-local*} (no boundary) & primary & CP & 24.3 & \textbf{1.003} [0.994, 1.012] & \textbf{1.011} & $<$1.05 & 4.5 / 89.5 / 6.0 & 1.005 [1.008] & 0.999 [1.008] \\
+\textbf{PJC-menu*} & primary & CP & 25.2 & \textbf{0.968} [0.956, 0.979] & \textbf{0.978} & $<$1.05 & 18 / 80 / 2.0 & 0.969 [0.972] & 0.964 [0.975] \\
+RECT-ck-BF (matched) & descr. & CP & 81.6 & 0.299 [0.294, 0.304] & 0.303 & --- & 100 / 0 / 0 & 0.310 [0.313] & 0.335 [0.340] \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{C1: no false certificate}\label{sec:c1}
+
+FDC-BF met its guarantee on replay. In each registered block, none of its 200 streams contains a false certificate over the whole run to 15 of 15. The blocks are lock v7 on Criteo and lock v8 on X5 at 20 checkpoints, and lock v9 on both logs at 77 monitoring times, each with a one-sided Clopper--Pearson bound of 0.0149. The same holds at every X5 tolerance, with 4,096 policies and for every guaranteed rival. With 200 streams a zero rules out only gross violations, so it is a precondition for C2 rather than evidence for C1, whose support is the proof.
+
+\subsection{C2: fewer rows than every registered rectangle}\label{sec:c2}
+
+At matched time-uniform strength both rectangle tests passed, and the effect sizes, not the threshold margins, carry the information. On Criteo (Table~\ref{tab:main}A) TU-FDC reaches 12 of 15 certified problems at 0.125\,$\tau_R$ rows. Its paired geometric-mean $\Npen$ is 0.708 (UB95 0.723) times HC-WoR's rows and 0.530 (UB95 0.542) times RECT-ck-BF-TU's. On X5 it needs 0.236\,$\tau_R$, with ratios 0.374 (UB95 0.379) and 0.304 (UB95 0.308). It stops earlier on every stream of both logs, and both verdicts are \emph{positive result achieved} with passing replicas. The result covers the two registered rectangle constructions on these two reused tables, since fresh streams of a finite table are not new populations.
+
+The checkpoint tests show the same ordering at checkpoint strength. On Criteo (Table~\ref{tab:main}B) FDC-BF needed 0.643 and 0.655 times the rows of the exact and betting rectangles (governing bound 0.670), and on X5 (Table~\ref{tab:main}C) about 0.36 (governing bound 0.368). Within lock v9, the same streams isolate the effect of denser monitoring. Against HC-WoR the ratio is 0.658 at 20 checkpoints and 0.708 at 77 times on Criteo, and 0.364 and 0.374 on X5. Dense monitoring cut HC-WoR's rows by 11\% on Criteo and 6\% on X5 but TU-FDC's by only 4\% and 3.5\%, because HC-WoR refreshes its widths between checkpoints. The saving is not an artifact of the 12-of-15 endpoint: on $x_{12}$ and $N_{100}$ the time-uniform ratios are 0.530--0.770 on Criteo and 0.307--0.398 on X5. An exact rectangle with a 77-time ledger needs 1.6 and 2.8 times TU-FDC's rows (descriptive; supplement S12). On these two tables, frozen-design joint certificates thus read fewer rows than every registered per-cell rectangle of the same strength, by a margin that \S\ref{sec:c4} explains.
+
+\textbf{What the saving is worth.} One frontier certification at checkpoint strength spares 505k reads, 36\% of the exact rectangle's outcome bill, on Criteo, and 42.7k reads, 64\%, on X5 (supplement S16). At \$0.50 per 1,000 matched records~\citep{awscleanrooms2026pricing} the Criteo figure is \$253. These conversions difference geometric-mean reads on the observed pools, so they are not expected per-deployment savings, and the value of C2 scales with what a platform pays per outcome.
+
+\subsection{C3: an informed frozen plan beats the tested adaptive designs}\label{sec:c3}
+
+On the two real logs adaptation had little to offer, so the registered phased tests bound a cost rather than show a win. At 77 monitoring times on X5, TU-FDC's ratio is 0.985 [0.977, 0.994] (UB95 0.992) against PJC-local* with its own 77-time ledger and 1.004 [0.997, 1.010] (UB95 1.009) against TU-PJC. It thus matches PJC within the registered 5\% margin, which had left only 0.034 of development headroom; on Criteo the descriptive ratios are 0.997 and 1.000 (supplement S12). The selected X5 PJC does not adapt, and the menu member chose 50/50 on every stream. In a post-hoc block of 64 adaptive joint certificates per log, every member was slower than FDC-BF (best 0.943 on X5, 0.951 on Criteo; supplement S8), because near-equal arm variances make 50/50 nearly variance-optimal. The real-log tests therefore say little about adaptation.
+
+\textbf{Where adaptation can help.} A semi-synthetic block keeps the logs' segments, pool sizes and arrival schedules but sets very unequal arm rates (supplement S11; post hoc, descriptive). There, adaptive joint certificates can beat frozen 50/50 FDC-BF, by 9--13\% on the Criteo-structured asymmetric regime. A follow-up block gives every method on a stream the same independent pilot of 250 or 1,000 draws per cell. At equal pilot information, frozen pilot-Neyman FDC-BF needed 0.90--0.98 times the rows of each tested reset and menu design in all four regimes, with every 95\% interval below 1.
+
+Charging the pilot's reads changes the verdict only on small tables. On Criteo-sized tables the pilot is at most 0.26\% of $\tau_R$, and charged pilot-Neyman FDC-BF still needs 0.89--0.99 times the rows of the no-pilot adaptive designs. On X5-sized tables a pilot of 4.5\% or 18\% of $\tau_R$ reverses the comparison (1.08--1.67) unless one pilot serves about 2 to 26 certification runs. The adaptive designs were compared at checkpoint strength. An informed frozen plan therefore beats these adaptive implementations at equal information, and on small tables only when its pilot already exists or is shared across runs.
+
+\subsection{C4: joint aggregation locates the saving}\label{sec:c4}
+
+The matched rectangle measures the saving from aggregation directly. RECT-ck-BF uses FDC-BF's cell bound, variance boxes, $\delta$ split and plan and changes only how cells are combined. At checkpoint strength FDC-BF needs 0.498 [0.484, 0.512] times its rows on Criteo and 0.299 [0.294, 0.304] on X5. At 77 times TU-FDC needs 0.530 and 0.304 times the rows of RECT-ck-BF-TU, the time-uniform form of the +box variant; at 20 checkpoints on the same streams, FDC-BF/RECT-ck-BF+box is 0.533 and 0.309. With FDC's Bernstein lemma in both constructions the ratio is 0.483. Moving to Bennett-FPC with exact boxes helps the rectangle (0.739 [0.728, 0.748]) about as much as the joint width (0.761), with a log interaction of 0.030 [$-0.001$, 0.060] (Table~\ref{tab:mechanism}). Aggregation and cell bound therefore act nearly multiplicatively. The exact rectangle beats the matched one (predicted rows ratio 0.75, observed 0.775; App.~\ref{app:widthprop}) only because exact test inversion is tighter than any Chernoff radius.
+
+Proposition~\ref{prop:width} explains, post hoc and from development data, why X5 gains more than Criteo. The union cost $\beta_J/\beta_C = 1.47$ is the same on both logs, so the model attributes the difference to the effective number of cells. On Criteo the error variance sits in three high-rate segments ($\meff^\star = (\beta_J/\beta_C)/r \approx 3.3$, $r \approx 0.44$). On X5 every segment has a purchase rate near 0.6, and the binding differences flip about six segments ($\meff^\star$ of 11.7--13.4, $r \approx 0.12$). Exhaustion compresses X5's ratio toward 1, because the matched rectangle stops after 66--82\% of the half. At these observed stopping points the common-horizon corollary predicts 0.44, 0.41 and 0.27, against observed 0.426, 0.299 and 0.202 at $\eps = 0.015$, 0.02 and 0.03. Only the first lies inside its sandwich interval (Table~\ref{tab:widthpred}). The proposition therefore explains the mechanism, the log ordering and the trend in $\eps$, not the observed values.
+
+Two ablations show that neither the cell inequality nor the ledger carries the saving (supplement S12). An exact hypergeometric cell envelope (FDC-HG), valid and never wider, gave FDC-HG/FDC-BF 0.969 (UB95 0.990) on Criteo and 0.944--0.976 on X5 development streams, because at certification the two bounds differ only in third-order terms. A gap-weighted, still valid localisation of the union (FDC-LOC) gave 0.925 (UB95 0.949) and 1.000. Both failed go criteria fixed before their development runs, and the lock-v9 evaluation streams repeat the pattern descriptively (FDC-HG 0.98 on both logs; FDC-LOC 0.94 and 1.00). Near-ties explain the small gain: on the X5 development half 3,076 of the 3,347 (problem, policy) pairs are $\eps$-optimal (development weights give 3,347 rather than 3,386), and on Criteo 1,531 of 3,386 lie within $3\eps$. Even an invalid oracle that knows the true gaps reaches only 0.81, so the tested localisation changes little on these tables.
+
+The balanced plan is a second ingredient on Criteo. Moving from the log's 85/15 split to 50/50 needs 0.458 times the rows with rectangles and 0.509 times with a joint certificate (post hoc, supplement S5). A platform that wants the saving must therefore change how it certifies, and on imbalanced logs also what it reads.
+
+\subsection{Scaling to implicit policy classes}\label{sec:scale}
+
+Lock v10 asks whether the saving survives classes far too large to enumerate. Score models fitted on development halves cut X5 and Lenta~\citep{scikituplift2020} into 16, 32 or 64 segments, and problem $q$ treats at most $\lfloor b_q S \rfloor$ of them. A development rule fixed beforehand chose each $\eps$ from the rival alone: the smallest grid value at which the matched rectangle reaches 12 of 15 before $\tau_R$ on at least 40 of 50 streams. Each block passes if every cell's UB95 against RECT-BF-DP-TU is below 0.80, with no false stream and passing replicas.
+
+\begin{table}[t]
+\caption{\textbf{Lock v10}, 200 paired streams per cell. Ratio: TU-FDC-DP / RECT-BF-DP-TU ($\Npen$). Last two columns: TU-FDC-DP / rectangle; Ctrl.\ empty: control pools exhausted at $N_{80}$. $^\dagger$Descriptive.}
+\label{tab:scale}
+\small
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Log, $S$ & $\eps$ & Ratio [95\% CI] & UB95 & $N_{80}/\tau_R$ & Ctrl.\ empty \\
+\midrule
+X5, 16 & 0.03 & 0.191 [0.188, 0.193] & 0.193 & 0.155 / 0.814 & 0 / 0 \\
+X5, 32 & 0.04 & 0.169 [0.166, 0.171] & 0.171 & 0.137 / 0.814 & 0 / 0.03 \\
+Lenta, 16 & 0.004 & 0.632 [0.627, 0.636] & 0.636 & 0.508 / 0.803 & 0.90 / 1 \\
+Lenta, 32 & 0.006 & 0.516 [0.513, 0.519] & 0.518 & 0.413 / 0.800 & 0.02 / 1 \\
+Lenta, 64 & 0.008 & 0.513 [0.513, 0.513] & 0.513 & 0.410 / 0.800 & 0 / 1 \\
+X5, 64$^\dagger$ & 0.05 & 0.182 [0.179, 0.184] & 0.184 & 0.151 / 0.829 & 0 / 0.10 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both blocks passed (Table~\ref{tab:scale}), with no false stream for any method and passing replicas. TU-FDC-DP needed 0.191 and 0.169 times the rectangle's rows on X5 ($S$ = 16, 32) and 0.632, 0.516 and 0.513 times on Lenta ($S$ = 16, 32, 64). Lenta's zero-width interval at $S = 64$ is checkpoint quantisation: every stream certifies at the same checkpoint under each method. FDC-DP thus keeps the joint saving where enumeration is impossible.
+
+Exhaustion qualifies Lenta, which is about 25\% control, so the 50/50 plan empties its control pools and the rectangle certifies only once all are empty. At $S = 16$ TU-FDC-DP also waits for 90\% of them, so that gain is exhaustion-assisted; at $S = 32$ and 64 it certifies with at most 2\% empty. On X5 it certifies after 14--16\% of the table with no pool empty, against about 81\% for the rectangle. As $\eps$ changes with $S$, the cells are not a controlled scaling experiment.
+
+Both halves are reused (X5 for the third time; Lenta for its third fresh-stream use, first confirmatory, outcome-exposed), and a weighted-centre bug was fixed before the lock (supplement S17). The X5 cell at $S = 64$ and the untuned betting rectangle HC-WoR-DP are descriptive, so the claim covers the named rectangles on these tables.
+
+\subsection{Robustness and descriptive context}\label{sec:external}
+
+The ordering persisted over the tested settings of $\delta$, $\dvar$, $K$, the $\lambda$ grid and the replanning batch (supplement S10; post hoc, development halves). FDC-BF/rectangle stayed within 0.27--0.36 on X5 and 0.50--0.69 on Criteo, FDC-BF/PJC-local* stayed within 0.976--1.016, and no method made a false certificate in 5,500 runs. These runs vary one knob at a time on a finite grid, so they do not establish robustness outside it.
+
+A three-arm log gives the same ordering with a smaller margin, descriptively, because an earlier analysis had exposed the cell means of Hillstrom's e-mail experiment~\citep{hillstrom2008minethatdata}. Lock v9 reran a development-half design on the other half (31,881 rows, six segments, 729 policies). FDC-BF with a frozen 1/3 split needed 0.807 (UB95 0.814) and 0.791 (UB95 0.799) times the rows of the tuned exact and betting rectangles, and 0.993 (UB95 0.997) times those of PJC-local*, with no false stream. The rows ratio understates the width advantage, because 20.5\% and 31\% of the rectangles' streams reach 12 of 15 only at $\tau_R$; one checkpoint earlier, FDC-BF's certificate bound is 0.58 and 0.56 times theirs (162 of 200 streams eligible). The design rule was revised twice and uses an unsourced price (supplement S13), so Hillstrom extends the ordering to $A = 3$ without adding confirmatory weight.
+
+On a 4,096-policy Criteo segmentation FDC-BF needs 0.546--0.547 times the rectangles' rows and ties PJC-local* (0.997; supplement S3, S6). The asymptotic Qini rule~\citep{sverdrup2023qini} is faster (0.46 and 0.27) but had 2 false Criteo streams of 200, so rules without a proof stay descriptive.
+
+%% =====================================================================
+\section{Deviations and Disclosure}\label{sec:deviations}
+
+The confirmatory tests are clean, but the path to them is not. These departures, dated in supplement S2 with errata to locked files in S14, bound how C1--C4 may be read.
+
+\textbf{Post-hoc choices.} FDC-BF was designed after an earlier preregistered round had downgraded FDC against the same tight rectangles (FDC/RECT-ck-HG 0.851, UB95 0.871, above that round's 0.70 threshold). It was chosen by judgement from eighteen development variants, then frozen. The Criteo test re-randomizes a twice-replayed table under a 0.80 threshold looser than the earlier 0.70, which the observed 0.670 also clears. X5 was selected after the Criteo test because Criteo has no untouched rows; its thresholds and $\eps$ were chosen using development outcomes, and its blinding is procedural. The PJC family was added at reviewers' request. After the time-uniform reading, lock v9 promoted the formerly secondary 77-time design to primary, added two newly built rivals, sized its thresholds from development ratios and reused both tables with fresh streams. The width predictions, the mechanism table, the Hillstrom design and the adaptive, pilot, regime, sensitivity and ablation blocks came after confirmatory results and are descriptive.
+
+\textbf{Limits of the rival set.} On Criteo the rivals kept their earlier configurations (HC-WoR tuned on six points, three ports on small grids), whereas FDC-BF was selected from eighteen variants. On X5 two primary rectangles and both PJC members were tuned on development data while FDC-BF was not. HC-WoR's guarantee also holds under adaptive sampling, which TU-FDC and RECT-ck-BF-TU lack and no comparison uses. Seals and same-code replicas establish integrity, not independent replication, so C2 is a statement about registered rivals on these two tables.
+
+%% =====================================================================
+\section{Related Work}\label{sec:related}
+
+Every ingredient of FDC-BF has a precedent, and naming them locates the new steps.
+
+\textbf{Pure exploration and stopping.} Direction-level widths are standard in linear and combinatorial pure exploration. The static allocations of \citet{soare2014best}, RAGE~\citep{fiez2019sequential} and Peace~\citep{katzsamuels2020empirical} certify policy differences with direction bounds, alongside CLUCB~\citep{chen2014combinatorial,chen2017nearly}, CombGame~\citep{jourdan2021efficient}, likelihood-ratio stopping~\citep{garivier2016optimal} and $\eps$-good or multiple-answer variants~\citep{degenne2019pure,jourdan2022choosing,jamieson2018bandit}. Their thresholds assume sampling with replacement. For a frozen design, Hoeffding's comparison~\citep{hoeffding1963probability} carries them to without-replacement replay, and our Bernstein variant FDC is exactly that construction. FDC-BF adds the exact finite-population variance, reuses the union over alternatives~\citep{deheide2026union}, and Proposition~\ref{prop:width} makes the $\ell_2$-versus-$\ell_1$ intuition quantitative for finite pools.
+
+\textbf{Finite populations and certified selection.} Hoeffding's convex-order comparison~\citep{hoeffding1963probability}, Serfling's inequality and reverse-martingale view~\citep{serfling1974probability,bardenet2015concentration} and finite-sampling Bennett and Bernstein tail bounds~\citep{greene2017exponential} control a single without-replacement sample. Our cell lemma is an MGF-level form, via the Poisson-binomial representation~\citep{vatutin1982limit,tang2023poisson} and Bennett's lemma~\citep{bennett1962probability}, because a joint Chernoff width needs the MGF, not the tail. Our rectangle rivals use time-uniform without-replacement sequences~\citep{waudbysmith2020confidence,howard2021time,waudbysmith2024estimating}. FDC-BF follows the design-first ordering of \citet{hait2026target}, with balanced rather than Neyman allocation~\citep{neyman1934two,kato2024generalized,dang2026target}. Targeting work evaluates budgeted rules~\citep{imai2023experimental,li2024neyman}, certifies a fixed catalogue~\citep{shekhar2026support}, identifies policies with per-policy sequences~\citep{molitor2026anytime}, builds off-policy confidence sequences under i.i.d.\ arrivals~\citep{karampatziakis2021off,waudbysmith2024anytime,thomas2015high,cho2024cspimt}, or estimates uplift policies without certificates~\citep{sverdrup2023qini,athey2021policy}. FDC-BF is the frontier-wide, finite-population counterpart of these tools.
+
+%% =====================================================================
+\section{Limitations and Conclusion}\label{sec:conclusion}
+
+Beyond \S\ref{sec:deviations}, every confirmatory log has two arms and is reused. Classes beyond 4,096 policies were tested only with cardinality budgets, on X5 and an outcome-exposed Lenta half. Adaptivity was tested with fixed arrivals, and its favourable regimes only on semi-synthetic pools. Robustness was measured on development halves, costs at list prices of analogous services, and outcomes are binary. Within these limits the conclusion holds as stated.
+
+Freezing the read plan lets one finite-population Chernoff width per policy difference replace per-cell rectangles under without-replacement replay. To leading order this pays whenever policy differences spread their error over more effective cells than the union-cost ratio. On two reused logs, FDC-BF needed 0.30--0.71 times the rows of the registered time-uniform rectangles, with no false certificate, and it matched phased joint certificates within 5\%. A knapsack dynamic program carries this to 16--64 segments, with 0.17--0.63 times the matched rectangle's rows. In semi-synthetic regimes, an informed frozen plan beat the tested adaptive designs at equal pilot information. On tables like these, a platform that pays per outcome read can therefore buy the same frontier-wide guarantee with fewer reads by fixing its read plan first.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+%% =====================================================================
+\appendix
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
+\section{Full proofs}\label{app:proofs}
+
+\textbf{Probability space.} Fixed objects: the evaluation half as a finite table, pools $c$ with sizes $N_c$ and means $\mu_c \in [0,1]$, weights $w_s$, budgets, feasible classes $\Pi_{B_q}$, $\eps$, the checkpoints $T_1 < \dots < T_K$, and optima $\pi^*_q$ with a deterministic tie rule. Random objects: the complete plan $\cA$ (arrival order, planned arm per arrival, re-selection uniforms), generated for all $\tau_R$ arrivals before any outcome is read, and one uniform permutation $\sigma_c$ of each pool's records; $(\sigma_c)_c$ are mutually independent and independent of $\cA$. Under the frozen rule, $n_c(k)$, the exhaustion indicators and the set of live cells ($0 < n_c(k) < N_c$) are functions of $\cA$ and the pool sizes.
+
+\textbf{Fact 0.} Conditional on $\cA$, the first $n_c(k)$ records of the cells are independent uniform without-replacement samples of the fixed sizes $n_c(k)$. \emph{Proof.} $n_c(k)$ is $\cA$-measurable and the $\sigma_c$ are independent of $\cA$ and of each other. $\square$
+
+\begin{lemma}[Bennett-FPC]\label{lem:bennett}
+Let $X \sim \mathrm{Hypergeometric}(N, M, n)$, $m = M/N$, $\hat\mu = X/n$, $1 \le n \le N$. For every real $u$, $\log \mathbb{E}\, e^{u(\hat\mu - m)} \le \Psi(u; m)$ as in~\eqref{eq:cell}, with $\Psi = 0$ when $n = N$.
+\end{lemma}
+\begin{proof}
+The probability generating function of $X$ has only real, non-positive roots, so $X$ has the law of $\sum_{i \le n} B_i$ with independent $B_i \sim \mathrm{Bernoulli}(p_i)$, $p_i \in [0,1]$ (padding with deterministic zeros or ones where needed)~\citep{vatutin1982limit,tang2023poisson}. Equality in law gives $\sum_i p_i = nm$ and $\sum_i p_i(1-p_i) = \mathrm{Var}\,X = n m(1-m)(N-n)/(N-1)$ for $N > 1$. For each $i$ and real $t$, $|B_i - p_i| \le 1$, so Bennett's lemma~\citep{bennett1962probability} gives $\log \mathbb{E}\, e^{t(B_i - p_i)} \le p_i(1-p_i)\phi(|t|)$ (for $t < 0$ apply it to $-(B_i - p_i)$). With $\hat\mu - m = \sum_i (B_i - p_i)/n$, independence and $t = u/n$ give the claim. If $n = N$, $\hat\mu = m$ surely.
+\end{proof}
+
+\begin{lemma}[Chernoff along a direction]\label{lem:chernoff}
+Fix $\cA$, a checkpoint $k$ and coefficients $(a_c)$ that are functions of fixed objects and $\cA$. Let $Y = \sum_c a_c(\hat\mu_c(k) - \mu_c)$, $F(\lambda) = \sum_c \Psi_c(\lambda a_c; \mu_c)$, and $t = \inf_{\lambda > 0}(\beta + F(\lambda))/\lambda$. Then $P(Y > t \mid \cA) \le e^{-\beta}$.
+\end{lemma}
+\begin{proof}
+By Fact 0 and Lemma~\ref{lem:bennett}, $\log \mathbb{E}[e^{\lambda Y} \mid \cA] \le F(\lambda)$. For any $\lambda > 0$, Markov's inequality gives $P(Y \ge (\beta + F(\lambda))/\lambda \mid \cA) \le e^{-\beta}$. Choose $\lambda_j$ with $(\beta + F(\lambda_j))/\lambda_j \downarrow t$; the events $\{Y > t\}$ are contained in $\bigcup_j \{Y \ge (\beta+F(\lambda_j))/\lambda_j\}$, an increasing union, so continuity from below gives the bound. Cells with $a_c = 0$ or exhausted contribute 0; if a cell with $a_c \neq 0$ has $n_c(k) = 0$, the code sets the width to $+\infty$, so the coverage event $Y \le +\infty$ is sure and the bad event $Y > +\infty$ is impossible.
+\end{proof}
+
+\textbf{Variance boxes.} For each live cell and checkpoint, $B_c(k)$ is the set of pool means not rejected by the exact two-sided hypergeometric test of level $2\alpha$, $\alpha = \dvar/(2SAK)$, intersected with $B_c(k-1)$; exhausted cells have $B_c(k) = \{\hat\mu_c\}$ and empty cells $[0,1]$; if an intersection would be empty, the code collapses it to a point, which can happen only off $E_{\text{var}}$ and so does not affect the bound. Exact test inversion covers the true $\mu_c$ with probability at least $1 - 2\alpha$ per $(c,k)$, so $P(E_{\text{var}}^c \mid \cA) \le 2SAK\alpha = \dvar$, and the running intersection keeps simultaneous coverage. $\Psi$ is concave in $m$, so its supremum over an interval is attained at the point closest to one half.
+
+\textbf{Proof of Theorem~\ref{thm:fdcbet}.} Let
+\[
+E_{\text{main}} = \textstyle\bigcap_{q}\bigcap_{\pi \in \Pi_{B_q}}\bigcap_{k}\{Y_k(\pi^*_q, \pi) \le t_k(\pi^*_q, \pi)\},
+\] where $Y_k(\pi', \pi) = \Delta(\pi', \pi) - \hat\Delta_k(\pi', \pi)$ and $t_k$ is the threshold of Lemma~\ref{lem:chernoff} for the coefficients of $(\pi^*_q,\pi)$. These coefficients depend on the fixed $\pi^*_q$ and $\pi$ only, so Lemma~\ref{lem:chernoff} applies to each event, and $P(E_{\text{main}}^c \mid \cA) \le \sum_q |\Pi_{B_q}| K e^{-\beta} = \dmain$. On $E_{\text{var}}$ and for every $\lambda > 0$, including the data-dependent minimizer in~\eqref{eq:width}, $t_k \le (\beta + \sum_c \Psi_c(\lambda a_c;\mu_c))/\lambda \le (\beta + \sum_c \sup_{m \in B_c(k)}\Psi_c(\lambda a_c; m))/\lambda$, hence $t_k \le w_k$. Fix an outcome in $E = E_{\text{main}} \cap E_{\text{var}}$ and any $(k, q)$ with $U_q(k) \le \eps$. Since $\hat\pi_q(k) \in \Pi_{B_q}$, writing $\hat\pi = \hat\pi_q(k)$,
+\[
+\begin{aligned}
+J(\pi^*_q) - J(\hat\pi) &= \hat\Delta_k(\pi^*_q, \hat\pi) + Y_k(\pi^*_q, \hat\pi)\\
+&\le \hat\Delta_k(\pi^*_q, \hat\pi) + w_k(\pi^*_q, \hat\pi) \le U_q(k) \le \eps,
+\end{aligned}
+\]
+because $\pi^*_q$ is one of the challengers in~\eqref{eq:U}. The random boxes never enter the moment bound: $E_{\text{main}}$ is stated with the true means and $E_{\text{var}}$ separately. $E$ does not depend on $\eps$, and $P(E^c \mid \cA) \le \delta$. $\square$
+
+\textbf{Observation windows and corollaries.} On the checkpoint grid, $E$ controls the whole $K \times Q$ grid, so stopping at 12 of 15 and running to $\tau_R$ are subsets of the same grid; certifying between checkpoints with fresh widths would add uncounted events and is not allowed, whereas certifying with the last checkpoint's width is covered by Remark~\ref{rem:tu}. With $V$ false and $R$ total certifications in a stream, $P(V > 0) \le \delta$ and $\mathbb{E}[V/(R \vee 1)] \le \delta$.
+
+\textbf{Proof of Remark~\ref{rem:tu}.} Fix $\cA$, a checkpoint $k$ and a direction $(\pi^*_q, \pi)$ with the coefficients $a_c$ of Lemma~\ref{lem:chernoff}, so that $Y_t = \sum_c a_c(\hat\mu_c(n_c(t)) - \mu_c) = \Delta - \hat\Delta_t$, the sign of the main construction. \emph{Touched cells and empty cells.} Let $D$ be the cells with $a_c \neq 0$. If some $c \in D$ has $n_c(T_k) = 0$, the block's width is $+\infty$ and the block contributes no event; the direction is covered by the first later block at which every cell of $D$ is non-empty. Otherwise $n_c(T_k) \ge 1$ for every $c \in D$. \emph{Filtration.} For one cell and $1 \le n \le N_c$, let $\mathcal{G}^c_n$ be generated by the multiset of the first $n$ draws and by draws $n+1, \dots, N_c$. It decreases in $n$, and exchangeability gives $\mathbb{E}[\hat\mu_c(n-1) \mid \mathcal{G}^c_n] = \hat\mu_c(n)$ with $\hat\mu_c(N_c) = \mu_c$, so $\hat\mu_c(n) - \mu_c$ is a reverse martingale~\citep{serfling1974probability,bardenet2015concentration}. Given $\cA$ the cells are independent and each $n_c(t)$ is deterministic and nondecreasing. On the finite horizon $T_k \le t \le \tau_R$, the joined $\sigma$-fields $\mathcal{G}_t = \bigvee_{c \in D} \mathcal{G}^c_{n_c(t)}$ therefore decrease in $t$, and $Y_t$ is a reverse martingale for them. \emph{Maximal bound.} For fixed $\lambda > 0$, $e^{\lambda Y_t}$ is a nonnegative reverse submartingale on finitely many times; in reversed time it is a forward submartingale whose last element is $e^{\lambda Y_{T_k}}$. Doob's maximal inequality and Lemma~\ref{lem:bennett} give $P(\max_{T_k \le t \le \tau_R} Y_t \ge y \mid \cA) \le e^{-\lambda y}\,\mathbb{E}[e^{\lambda Y_{T_k}} \mid \cA] \le e^{-\lambda y + F(\lambda)}$. \emph{Strict tail.} Take $y_j = (\beta + F(\lambda_j))/\lambda_j \downarrow t_k$ as in Lemma~\ref{lem:chernoff}. Then $\{\max_t Y_t > t_k\} \subseteq \bigcup_j \{\max_t Y_t \ge y_j\}$, an increasing union of events of probability at most $e^{-\beta}$, so $P(\max_{T_k \le t \le \tau_R} Y_t > t_k \mid \cA) \le e^{-\beta}$. The strict inequality matters: if $Y \equiv 0$, as for exhausted or identical cells, then $t_k = 0$ and $P(\max_t Y_t \ge 0) = 1$, whereas the strict event is empty. This is one event per (problem, policy, checkpoint), the same ledger. $E_{\text{var}}$ is needed only at the checkpoints, because boxes enter only through $w_k \ge t_k$. \emph{Conclusion.} On the intersection of these events with $E_{\text{var}}$, at any $t \ge T_1$ with $k = \max\{k : T_k \le t\}$ and centre $\hat\pi_t$, $J(\pi^*_q) - J(\hat\pi_t) = \hat\Delta_t(\pi^*_q, \hat\pi_t) + Y_t(\pi^*_q, \hat\pi_t) \le \hat\Delta_t + w_k \le U_q(t)$, because all feasible centres are in the union. On the 20-point grid the procedure is FDC-BF, so its numbers are unchanged there; denser monitoring can certify earlier. Monitoring times may be data-dependent, but the schedule may not adapt to outcomes. The argument needs an MGF bound at $T_k$. For a fixed-time quantile radius it fails: for one cell with $N = 4$, $M = 2$ and $n_0 = 2$, $P(\mu - \hat\mu_2 > 0) = 1/6$ but $P(\max_{2 \le n \le 4} (\mu - \hat\mu_n) > 0) = 1/2$. $\square$
+
+\textbf{FDC as the Bernstein variant.} Replacing~\eqref{eq:cell} by Hoeffding's convex-order comparison followed by a Bernstein bound (no finite-population factor), the Chernoff width by the closed form $\sqrt{2\beta\bar V_k} + b_k\beta/3$, and the hypergeometric boxes by Bernstein inversion at exponent $x_v = \ln(2SAK/\dvar) = 11.88$ gives FDC, valid by the same argument because its width is monotone in the variance bound. FDC and FDC-BF read identical rows on every stream.
+
+\textbf{FDC-DP (Theorem DP-1).} The index set $\{(q, \pi, k) : \pi \in \Pi_{B_q}\}$ depends only on costs and budgets, so the union bound of Theorem~\ref{thm:fdcbet} holds with its cardinality $MK$, which the counting dynamic program returns exactly; nothing in the proof lists the set. For a fixed $\lambda$ grid $\Lambda$ and $j \in \Lambda \cup \{\infty\}$, write $C_j(\pi) = \beta/\lambda_j + \sum_s T_s(j, \pi(s))$ where $T_s(j, a)$ is segment $s$'s share of $\hat\Delta_k$ and of the box terms divided by $\lambda_j$, zero for $a = \hat\pi(s)$, so that $\hat\Delta_k + w_k = \min_j C_j(\pi)$ (the column $\infty$ is the zero width of exhausted pairs, as in FDC-BF). Then $U_q = \max_\pi \min_j C_j \le \min_j \max_\pi C_j = U_a$, and each inner maximum is a multiple-choice knapsack. In the branch-and-bound, a node's bound is $U_a$ restricted to its subtree, which is at least the subtree's maximum of $\min_j C_j$ and equals it at a leaf. Pruning when the bound is at most $\eps$ therefore discards no violator, and a completed search returns $[U_q \le \eps]$ exactly. On the event of Theorem~\ref{thm:fdcbet}, $J(\pi^*_q) - J(\hat\pi) \le \min_j C_j(\pi^*_q) \le U_q \le U_a$, so both schemes inherit its $\delta$. Full statements, the lossless dominance rule and pseudo-code are in supplement S17.
+
+\textbf{Implementation checks} (supplement S4). They cover numerical MGF domination of Lemma~\ref{lem:bennett}, Monte Carlo direction tails at a loose test level $\beta = \ln 8$ (nominal tail 0.125; the operational level $e^{-\beta} \approx 6.6 \times 10^{-7}$ rests on the proof, not on simulation), a single-cell check of Remark~\ref{rem:tu} (crossing frequency 0.036 at level 0.10, against 0.553 for an invalid refreshed-quantile control), a re-implementation of FDC, the exact ledger, and invalid naive joint certificates that the toy harnesses catch (5 and 6 false streams of 200 on the checkpoint and dense grids), so the checks guard the code while validity rests on the proofs.
+
+\section{Joint width versus matched rectangle}\label{app:widthprop}
+
+\textbf{Objects.} Fix a plan $\cA$, a checkpoint $k$ and a policy difference with coefficients $(a_c)$; every quantity below is a function of $\cA$, the fixed table and the boxes $B_c(k)$, which both certificates share. For a live cell let $b_c = 1/n_c$ and $v_c$ as in \S\ref{sec:validity}. Since~\eqref{eq:cell} is increasing in $m(1-m)$, $\bar\Psi_c(u) := \sup_{m\in B_c(k)} \Psi_c(u;m) = (v_c/b_c^2)\,\phi(b_c|u|)$. With $C(a)$, $m$ and $g_c$ as in \S\ref{sec:validity}, define
+\[
+W_J = \inf_{\lambda>0}\frac{\beta_J + \sum_{c\in C(a)} \bar\Psi_c(\lambda a_c)}{\lambda},\qquad
+r_c = \inf_{\lambda>0}\frac{\beta_C + \bar\Psi_c(\lambda)}{\lambda},
+\]
+and $W_R = \sum_{c\in C(a)} |a_c|\, r_c$. The joint union has one one-sided event per (problem, feasible policy, checkpoint), its sign fixed by the comparison with $\pi^*_q$. A cell is a challenger cell (upper bound) for some differences and a centre cell (lower bound) for others, and the centre is data-dependent, so the rectangle covers both tails of every cell; for intervals $\hat\mu_c \pm r_c$ its statistic is $\hat\Delta + W_R$. The implementations depart from these ideal quantities: both minimize over 161-point $\lambda$ grids with ratio $2000^{1/160}$, and the rectangle is clipped to logical pool bounds, optionally intersected with $B_c$, and intersected with its earlier intervals; for a touched empty cell the joint width is $+\infty$ while the implemented rectangle uses $[0,1]$. These effects have no fixed sign on the ratio, and the proposition concerns the ideal constructions.
+
+\begin{lemma}\label{lem:sandwich}
+For $V, b, \beta > 0$, $h := \inf_{\lambda>0}[\beta + (V/b^2)\phi(b\lambda)]/\lambda$ satisfies $\sqrt{2\beta V} \le h \le \sqrt{2\beta V} + b\beta/3$.
+\end{lemma}
+\begin{proof}
+Since $\phi(x) \ge x^2/2$ for $x\ge0$, $h \ge \inf_\lambda(\beta + \lambda^2V/2)/\lambda = \sqrt{2\beta V}$. For $0 \le x < 3$, $j! \ge 2\cdot 3^{j-2}$ gives $\phi(x) \le x^2/(2(1-x/3))$. Put $s = \sqrt{2\beta/V}$ and $\lambda = s/(1+bs/3)$. Then $b\lambda < 3$ and $1 - b\lambda/3 = 1/(1+bs/3)$, so $(V/b^2)\phi(b\lambda) \le \beta/(1+bs/3)$, and the objective at this $\lambda$ is at most $\beta(2 + bs/3)/s = \sqrt{2\beta V} + b\beta/3$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:width}]
+\emph{Joint width.} $\bar\Psi_c(\lambda a_c) \ge \lambda^2 a_c^2 v_c/2$ gives $W_J \ge \sqrt{2\beta_J}\|g\|_2$. With $b^* = \max_{c\in C(a)}|a_c|b_c$ and $\lambda b^* < 3$, $\bar\Psi_c(\lambda a_c) \le \lambda^2 a_c^2 v_c/(2(1-\lambda b^*/3))$, so the objective is at most $[\beta_J + \lambda^2\|g\|_2^2/(2(1-\lambda b^*/3))]/\lambda$, and Lemma~\ref{lem:sandwich}'s $\lambda$ with $V = \|g\|_2^2$, $b = b^*$ gives $W_J \le \sqrt{2\beta_J}\|g\|_2 + \beta_J b^*/3$.
+\emph{Rectangle.} Lemma~\ref{lem:sandwich} with $(\beta_C, v_c, b_c)$ bounds each $r_c$; summing, $\sqrt{2\beta_C}\|g\|_1 \le W_R \le \sqrt{2\beta_C}\|g\|_1 + \beta_C\sum_c |a_c|b_c/3$.
+\emph{Ratio.} Dividing gives the stated bounds with $\eta_J = \sqrt{\beta_J}\, b^*/(3\sqrt2\|g\|_2)$ and $\eta_R = \sqrt{\beta_C}\sum_c|a_c|b_c/(3\sqrt2\|g\|_1)$. By Cauchy--Schwarz, $\|g\|_2 \le \|g\|_1 \le \sqrt m\|g\|_2$, with equality if and only if $m = 1$, respectively all $g_c$ equal.
+\emph{Remainders.} With $c^*$ attaining $b^*$, $b^*/\|g\|_2 \le b_{c^*}/\sqrt{v_{c^*}}$, and by the mediant inequality $\sum_c|a_c|b_c/\sum_c|a_c|\sqrt{v_c} \le \max_c b_c/\sqrt{v_c}$. Since $b_c/\sqrt{v_c} = (n_c\bar\sigma_c^2(N_c-n_c)/(N_c-1))^{-1/2} \le \gamma^{-1/2}$, both remainders are at most $(\beta_J/(18\gamma))^{1/2}$, using $\beta_C \le \beta_J$ (that is, $M \ge 2SA$).
+\emph{Rows.} Assume every problem has a challenger with $C_a > 0$ (zero-width challengers omitted) and (S1) $n_c = \pi_c t$; (S2) $N_c = \pi_c T$ for every relevant cell, $T = \infty$ allowed; (S3) $\bar\sigma_c^2$ fixed; (S4) Gaussian terms; (S5) the centre is $\pi^*_q$ and $\hat\Delta = \Delta$, so $\pi'$ is ruled out once its width is at most $\theta(\pi') = \eps + J(\pi^*_q) - J(\pi') \ge \eps$. Then $v_c = \tilde v_c\, u(t)$ with $u(t) = 1/t - 1/T$, the squared widths are $C^J_a u$ and $C^R_a u$ with $C^J_a = \rho(a)^2 C^R_a$, and problem $q$ is certified once $u(t) \le u_q := \min_{\pi'}\theta(\pi')^2/C_{(\pi',\pi^*_q)}$. With minimizers $a_J^*$, $a_R^*$, $u^R_q \le \rho(a_J^*)^2\, u^J_q$ and $u^J_q \le u^R_q/\rho(a_R^*)^2$, so $\rho(a_R^*)^2 \le u^R_q/u^J_q \le \rho(a_J^*)^2$, and the same bounds hold between order statistics. With $u_{[12]}$ the 12th largest threshold, $1/N_{80} = u_{[12]} + 1/T$; for $r = u^R_{[12]}/u^J_{[12]}$ and $x = N_{80}^R/T$ we get $u^R_{[12]} = (1-x)/(xT)$ and $N_{80}^J/N_{80}^R = r/(1-x(1-r))$, which increases in $r$, lies between $r$ and 1, and tends to 1 as $x \uparrow 1$; for $T = \infty$ it equals $r \in [(\beta_J/\beta_C)/(2S), \beta_J/\beta_C]$. These are fluid first crossings in continuous $t$. Rounding up to the checkpoint grid multiplies each certification time by a factor in $[1, T_{k+1}/T_k)$, at most 1.297 on Criteo and 1.229 on X5, so the identity holds for the observed $N_{80}$ only up to this rounding.
+\end{proof}
+
+\textbf{Converse remarks.} (i) If $m = 1$, for instance $|D|=1$ with the other arm's pool exhausted, then $W_J/W_R \ge \sqrt{\beta_J/\beta_C}/(1+\eta_R) > 1$ once $\beta_J > \beta_C(1+\eta_R)^2$; under (S1)--(S5) with $T = \infty$, $\meff(a_R^*(q)) \le \beta_J/\beta_C$ implies $t^J_q \ge t^R_q$. (ii) The $\ell_2$-versus-$\ell_1$ gap is intrinsic: conditional on $\cA$, with independent $N(0, v_c)$ cell errors of known variance and deterministic widths, a one-sided bound for one fixed difference at level $\alpha_J$ is at least $z_{\alpha_J}\|g\|_2$, and a sum of one-sided radii at level $\alpha_C$ at least $z_{\alpha_C}\|g\|_1$; at the Bonferroni levels $(z_{\alpha_J}/z_{\alpha_C})^2 = (\beta_J/\beta_C)(1+o(1))$, and on our ledgers the exact Gaussian factor is slightly less favourable to the joint width (1.59 against 1.47 on CR9). (iii) RECT-ck-HG inverts exact tests at level $\delta/(2SAK)$; with known variances, negligible FPC and Gaussian terms its radius is $3.81\sqrt{v_c}$ on CR9, against $4.40\sqrt{v_c}$ for the Bennett rectangle, predicting an HG/BF rows ratio of 0.75 against the observed 0.775.
+
+\begin{table}[H]
+\caption{Development-data predictions and observed FDC-BF / RECT-ck-BF rows ratios. $\beta_J/\beta_C$ = 1.47 (CR9, X5) and 1.64 (CR12); $\meff^\star = (\beta_J/\beta_C)/r$ with $r$ from the scaling model. $x$: the matched rectangle's stopping fraction from the model (mod.) and observed on the X5 test (obs.). CH: common-horizon prediction $r/(1-x(1-r))$ at the observed $x$, with its sandwich interval. Code: noise-free run of the width code. $^{+}$RECT-ck-BF+box. Observed 95\% CI half-widths 0.004--0.016.}
+\label{tab:widthpred}
+\small
+\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{@{}lrrrrlrr@{}}
+\toprule
+Log, $\eps$ & $\meff^\star$ & $r$ & \makecell[r]{$x$\\mod.} & \makecell[r]{$x$\\obs.} & CH [interval] & code & obs. \\
+\midrule
+CR9, 0.001 & 3.3 & 0.44 & --- & --- & --- & 0.558 & 0.498 \\
+CR9$^{+}$, 0.001 & 3.3 & 0.44 & --- & --- & --- & --- & 0.532 \\
+CR12$^{+}$, 0.001 & 7.3 & 0.22 & --- & --- & --- & 0.427 & 0.499 \\
+X5, 0.015 & 11.7 & 0.125 & 0.81 & 0.817 & 0.439 [0.37, 0.66] & 0.432 & 0.426 \\
+X5, 0.02 & 12.6 & 0.117 & 0.73 & 0.813 & 0.414 [0.33, 0.65] & 0.338 & 0.299 \\
+X5, 0.03 & 13.4 & 0.109 & 0.59 & 0.660 & 0.266 [0.22, 0.51] & 0.239 & 0.202 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Development-data check (descriptive, post hoc).} Table~\ref{tab:widthpred} evaluates the corollary on the development halves, computed after the observed ratios were known, with pool sizes and means, the frozen 50/50 plan ($\pi_c = w_s/2$), the ledgers and $\eps$, approximating $N_c/(N_c-1)$ by 1. On X5 the cell horizons lie within $[0.984, 1.016]\,\tau_R$, so the common-horizon model with $T = \tau_R$ applies approximately; on Criteo the 85/15 log under a 50/50 plan gives horizons from $0.26$ to $1.74\,\tau_R$, so (S2) fails and we report only a noise-free run of the width code at fluid counts. The model's own stopping fraction $x$ underestimates where the matched rectangle actually stopped on the X5 test; evaluated at the observed $x$, the sandwich contains the observed ratio at $\eps = 0.015$ but not at 0.02 or 0.03, where FDC-BF did better than the model. The predictions ignore sampling noise, grids and running intersections, so they describe the mechanism and its trends, not the observed values.
+
+
+The history of the primary family, the excluded methods, a notation glossary and all post-hoc blocks are in the supplement in the anonymous repository (\anonrepo), so every number in the paper traces to sealed rows or a dated post-hoc result file.
+
+\section{Mechanism and method glossary}\label{app:rivals}
+
+\begin{table}[H]
+\caption{\textbf{Where the rows go} (Criteo-test streams, frozen 50/50 plan, post hoc on confirmatory rows). Cells: geometric-mean $\Npen$ (M rows); ratios: paired geometric means with 95\% CI. Each row uses one cell bound in both columns; the Bennett-FPC row also shares FDC-BF's exact-HG variance boxes and $\delta$ split. The bottom row changes the certificate family (finite-population factor, Bennett instead of Bernstein, exact boxes), not the FPC alone. $I$ = log(joint ratio) $-$ log(rectangle ratio).}
+\label{tab:mechanism}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Cell bound & Rectangle & Joint & Joint / rect. \\
+\midrule
+Bernstein, no FPC & 2.47 (RECT-ck-Bern) & 1.19 (FDC) & \makecell[l]{0.483\\{}[0.467, 0.500]} \\
+Bennett-FPC, exact boxes & 1.82 (RECT-ck-BF) & 0.91 (FDC-BF) & \makecell[l]{0.498\\{}[0.484, 0.512]} \\
+\makecell[l]{Family change\\(Bennett-FPC / Bern.)} & \makecell[l]{0.739\\{}[0.728, 0.748]} & \makecell[l]{0.761\\{}[0.743, 0.780]} & \makecell[l]{$I$ = 0.030\\{}[$-$0.001, 0.060]} \\
+\midrule
+\multicolumn{4}{@{}p{0.95\columnwidth}@{}}{\emph{Not an aggregation contrast:} the exact rectangle RECT-ck-HG (1.41M) inverts exact hypergeometric tests; FDC-BF/RECT-ck-HG = 0.643 [0.625, 0.661] and RECT-ck-HG/RECT-ck-Bern = 0.573 [0.563, 0.582]. Its larger gain over Bernstein reflects exact inversion being tighter than any Chernoff radius (App.~\ref{app:widthprop}).} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\caption{\textbf{Method glossary.} CP = valid at the $K$ checkpoints; TU = time-uniform (fr.: on the frozen plan, Remark~\ref{rem:tu}; any: under any predictable sampling). Constructions, plans, tuning and frozen configurations of every rival are in supplement S5.}
+\label{tab:glossary}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.05cm}>{\raggedright\arraybackslash}p{4.05cm}>{\raggedright\arraybackslash}p{1.25cm}@{}}
+\toprule
+Name & What it is & Guarantee \\
+\midrule
+FDC-BF (ours) & frozen 50/50 plan, Bennett-FPC cell bound, one joint width per policy difference & CP; TU fr. \\
+TU-FDC & FDC-BF certifying at any time with the width of its last checkpoint & TU fr. \\
+(TU-)FDC-DP & FDC-BF's certificate over implicit classes: knapsack DP (a), exact branch-and-bound (b) & CP; TU fr. \\
+RECT-BF-DP-TU, HC-WoR-DP & matched and betting rectangles with an exact worst-gap DP & TU fr.; TU any \\
+FDC & same plan and rows, Bernstein cell bound without FPC & CP \\
+FDC-MR[front3] & FDC-BF with a multi-resolution union (descriptive) & CP \\
+FDC-HG, FDC-LOC & exact hypergeometric cell envelope; gap-localised union (ablations) & CP \\
+PJC-local*, PJC-menu* & phased joint certificates: residual-pool phases; all-data menu with path union & CP \\
+TU-PJC & PJC-local* with widths frozen at its last checkpoint & TU fr. \\
+RECT-ck-HG(-live) & exact rectangle: exact hypergeometric inversion per cell & CP \\
+HC-WoR & betting rectangle: hedged-capital WoR sequence per cell & TU any \\
+RECT-ck-BF(+box) & matched rectangle: FDC-BF's cell bound, boxes and plan & CP \\
+RECT-ck-BF-TU & RECT-ck-BF+box with radii frozen at its last checkpoint & TU fr. \\
+RECT-ck-Bern & FDC's Bernstein bound as a rectangle & CP \\
+B1, B2/B3-rect, Peace-rect, Hait-SW, Molitor-WoR, B4(-bal) & literature ports (CLUCB, CombGame, RAGE, Peace, layered, per-policy, uniform) with per-cell WoR sequences & TU any \\
+B5, *-fav & Qini and plug-in stopping rules & none \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\end{document}

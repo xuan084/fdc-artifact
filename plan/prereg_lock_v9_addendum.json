@@ -1,0 +1,1128 @@
+{
+ "version": "5+v9-addendum",
+ "status": "locked",
+ "written_at": "2026-10-04",
+ "written_by": "author (round 9; design by the authors 2026-10-04)",
+ "addendum_to": {
+  "version": 5,
+  "path": "plan/prereg_lock.json",
+  "sha256": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+  "git_commit": "ad9dbbc826bef2ca12be99f8547efe197e18c29a"
+ },
+ "v6_addendum": {
+  "path": "plan/prereg_lock_v6_addendum.json",
+  "sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+  "git_commit": "1098518537f7b80ff377d87cbcc2a4506aaa4766"
+ },
+ "v7_addendum": {
+  "path": "plan/prereg_lock_v7_addendum.json",
+  "sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+  "git_commit": "bfd929bde6c850d0ef8819da6eb45b0bd2dea686"
+ },
+ "v8_addendum": {
+  "path": "plan/prereg_lock_v8_addendum.json",
+  "sha256": "729bdcbd32f821b842db8c52594388bdf5fbeb4dfa790748c1f80a9852a1cff0",
+  "git_commit": "5de13da14f52ab250bf010beec5bb2c6da7113ed",
+  "block_A_verdict": "positive_result_achieved (X5: UB*_F 0.368 < 0.60; UB*_G 1.011 < 1.05 (PJC-local*); 0/200 false streams; replica pass)"
+ },
+ "v8_known_input_drift": {},
+ "statement": "Append-only addendum. It edits neither lock v5 nor the v6 / v7 / v8 addenda and cannot change their verdicts. It registers TWO confirmatory blocks that test the FDC-BF procedure (code unchanged since v7) read under its time-uniform guarantee (TU-FDC, Theorem TU-1) against rivals of MATCHED guarantee strength (time-uniform: HC-WoR* and the time-uniform matched Bennett rectangle RECT-ck-BF-TU), every method monitored at the same 77 dense evaluation times: A on the Criteo CR9 eval half (fresh seeds 37000-37199; 4th fresh-stream use of that table) and B on the X5 RetailHero eval half (fresh seeds 37200-37399; 2nd use, after v8), B with non-inferiority components against PJC-local* (K = 77 ledger) and its time-uniform form TU-PJC. Block C is a pre-registered DESCRIPTIVE re-use of the outcome-exposed Hillstrom 3-arm log (design B, dev-frozen; design A as supplement). Disclosures: the time-uniform guarantee is a post-hoc theoretical observation applied to an unchanged procedure; HC-WoR's guarantee also covers adaptive (predictable) sampling, TU-FDC's needs the frozen outcome-free schedule; thresholds 0.85 (A) and 0.50 (B) were sized from dev dense-grid numbers (CR9 UB 0.737, X5 UB 0.365 vs HC-WoR*, seeds 950-999).",
+ "primary_method": {
+  "name": "TU-FDC (analysis label TU-FDC@D)",
+  "construction": "dsswm.baselines.fdc_loc.FDCTimeUniform(block_points = frozen K = 20 checkpoint grid, localise=False): FDC-BF's code path (fdc_bet.direction_widths, Bennett-FPC, exact-HG variance box, (q, pi, k) union over the K = 20 block points, (delta_main, delta_var) = (0.045, 0.005)); at an evaluation time t the widths of the latest block point t_k <= t are used with the current Delta_hat; on the block grid numerically identical to FDC-BF (unit test test_tu_on_block_grid_equals_fdc_bf)",
+  "fdc_bf_variant_tuple": [
+   "bennett",
+   "HG",
+   true,
+   false,
+   [
+    0.045,
+    0.005
+   ]
+  ],
+  "delta": 0.05,
+  "fdc_bet_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "fdc_bet_v8_bound_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "fdc_loc_sha256": "fb3706bb10d2cdc1111e34bac95defd969e105eb8a6aa64c0cd32ef67e2b6ccd",
+  "guarantee": "Theorem TU-1 (plan/v9_candidates_theory.md, external reviewer-reviewed 2 rounds): FWER <= 0.05 uniformly over all t >= t_1 under the frozen outcome-free schedule (NOT under adaptive sampling)",
+  "post_hoc": "the time-uniform reading is a post-hoc theoretical observation (v9 candidates, 2026-10-04) applied to an unchanged procedure; no parameter was tuned; FDC-BF remains post hoc relative to v5 / v6"
+ },
+ "rivals": {
+  "primary_time_uniform": {
+   "HC-WoR*": {
+    "CR9": "frozen v7/v8 CR9 config {'schedule': 'nstar', 'c': 0.75, 'target_frac': 0.2, 'plan': '0.5', 'pick': 'HC-WoR (v6 CR9 config)'}",
+    "X5": "frozen v8 X5-tuned config {'schedule': 'nstar', 'c': 0.75, 'target_frac': 0.6, 'plan': 'ney', 'pick': 'HC-WoR{nstar,0.75,0.6}[ney]', 'alloc': [[0.500974792787, 0.499025207213], [0.503277065749, 0.496722934251], [0.504962216461, 0.495037783539], [0.502523761222, 0.497476238778], [0.504864528999, 0.495135471001], [0.512134418272, 0.487865581728], [0.504226286299, 0.495773713701], [0.503287305662, 0.496712694338], [0.503968980022, 0.496031019978]]}",
+    "guarantee": "time-uniform under any predictable sampling rule (stronger class)"
+   },
+   "RECT-ck-BF-TU": "dsswm.baselines.rect_tu_v9.RectCkBFTU(box=True): the matched Bennett-FPC rectangle (pjc_bf.RectCkBF+box: same cell inequality, exact-HG variance box, delta split, frozen design) with radii frozen at the latest of the K = 20 block points (Lemma TU); parameter-free; identical to RECT-ck-BF+box on the block grid (unit test); dev toy dense FWER in exp/results/pilots/v9_toy_dense"
+  },
+  "non_inferiority_B": {
+   "PJC-local*": "frozen v8 X5-tuned config {'mode': 'local', 'boundaries': [], 'rule': 'half', 'rect': False, 'pick': 'PJC-BF[local,b=,half]'} (the no-reset member: one phase, deterministic 50/50 count tracking, joint Bennett-FPC width), monitored at the same 77 dense times with its own checkpoint ledger K = 77 (valid at those times)",
+   "TU-PJC": "rect_tu_v9.make_tu_pjc(**frozen PJC-local* config of the layer; X5: PJC-BF[local,b=,half]): Lemma TU applied to the no-reset count-only PJC-local*, widths frozen at the latest K = 20 block point; time-uniform for t >= t_1 under the deterministic count-tracking schedule (external reviewer v9 r1 P1)"
+  },
+  "descriptive": [
+   "dense grid: PJC-local* (K = 77 ledger; block A), FDC-BF[K77] (fresh widths, K' = 77 ledger), RECT-ck-HG* (K = 77 ledger), TU-LOC (TU form of FDC-LOC)",
+   "K = 20 grid: FDC-BF, HC-WoR*, RECT-ck-HG*, RECT-ck-BF, RECT-ck-BF+box, PJC-local*, FDC-MR[front3], FDC-HG (exact-HG envelope, NO-GO candidate), FDC-LOC (gap-localised union, NO-GO candidate)"
+  ]
+ },
+ "blocks": {
+  "A": {
+   "role": "CONFIRMATORY (verdict 1 of 2)",
+   "table": "Criteo CR9 eval half (pool_replay split seed 4242), K = 20 frozen grid -> dense grid of 77 evaluation times (fdc_loc.dense_grid(ck, 4))",
+   "table_reuse": "fresh seeds only; the CR9 eval half was used by v5 (30000-30199), v6 A (31000-31199), v6 C (continuation of the v5 streams), v7 A (33000-33199) and v8 C (post hoc, v7 streams): this is the 4th fresh-stream use of the table",
+   "problems": "fr.cr_problems('visit'): 15 budgets, 512 policies",
+   "eps": 0.001,
+   "seeds": "37000-37199 (200 new streams)",
+   "stop": "stop_k = 15 (N80 at 12/15 from the same trajectory)",
+   "tasks": {
+    "v9a_full_d": {
+     "grid": "D",
+     "methods": [
+      "TU-FDC",
+      "HC-WoR",
+      "RECT-ck-BF-TU",
+      "PJC-local",
+      "TU-PJC",
+      "FDC-BF[K77]",
+      "RECT-ck-HG",
+      "TU-LOC"
+     ]
+    },
+    "v9a_full_k": {
+     "grid": "K",
+     "methods": [
+      "FDC-BF",
+      "HC-WoR",
+      "RECT-ck-HG",
+      "RECT-ck-BF",
+      "RECT-ck-BF+box",
+      "PJC-local",
+      "FDC-MR[front3]"
+     ]
+    },
+    "v9a_full_x": {
+     "grid": "K",
+     "methods": [
+      "FDC-HG",
+      "FDC-LOC"
+     ]
+    }
+   },
+   "primary": "TU-FDC@D",
+   "rivals": [
+    "HC-WoR@D",
+    "RECT-ck-BF-TU@D"
+   ],
+   "decision_rule": {
+    "positive_result_achieved": "UB95(TU-FDC@D / r, N80_pen) < 0.85 for r in {HC-WoR@D, RECT-ck-BF-TU@D} AND TU-FDC@D 0/200 false streams (whole run) AND replica pass for v9a_full_d / _k / _x incl. cross-task R2b and cross-task frozen-design R2 (IUT)",
+    "positive_result_not_achieved": "otherwise; components rival_superiority_failed (sub-label faster_below_1 / not_faster), validity_failure, replica_fail",
+    "threshold_origin": "dev dense grid (cr9d, seeds 950-999): TU-FDC/HC-WoR* 0.708, UB 0.737; 0.85 leaves ~0.11 for a different stream set (authors design)"
+   }
+  },
+  "B": {
+   "role": "CONFIRMATORY (verdict 2 of 2)",
+   "table": "X5 RetailHero X9 eval half (blinded hashed split, 100,393 rows), dense grid of 77 times",
+   "table_reuse": "used once before (v8 block A, seeds 35000-35199); fresh seeds",
+   "eval_access": "dsswm.envs.x5_v9.X5V9Env('eval', task): v9b_full* tasks passing prereg_v9.addendum_gate; files checked against PROVENANCE.json",
+   "problems": "fr.cr_problems('visit')",
+   "eps": 0.02,
+   "seeds": "37200-37399 (200 new streams)",
+   "stop": "stop_k = 15",
+   "tasks": {
+    "v9b_full_d": {
+     "grid": "D",
+     "methods": [
+      "TU-FDC",
+      "HC-WoR",
+      "RECT-ck-BF-TU",
+      "PJC-local",
+      "TU-PJC",
+      "FDC-BF[K77]",
+      "RECT-ck-HG",
+      "TU-LOC"
+     ]
+    },
+    "v9b_full_k": {
+     "grid": "K",
+     "methods": [
+      "FDC-BF",
+      "HC-WoR",
+      "RECT-ck-HG",
+      "RECT-ck-BF",
+      "RECT-ck-BF+box",
+      "PJC-local",
+      "FDC-MR[front3]"
+     ]
+    },
+    "v9b_full_x": {
+     "grid": "K",
+     "methods": [
+      "FDC-HG",
+      "FDC-LOC"
+     ]
+    }
+   },
+   "primary": "TU-FDC@D",
+   "rivals": [
+    "HC-WoR@D",
+    "RECT-ck-BF-TU@D"
+   ],
+   "non_inferiority": [
+    "PJC-local@D",
+    "TU-PJC@D"
+   ],
+   "decision_rule": {
+    "positive_result_achieved": "UB95(TU-FDC@D / r) < 0.50 for r in {HC-WoR@D, RECT-ck-BF-TU@D} AND UB95(TU-FDC@D / g) < 1.05 for g in {PJC-local@D, TU-PJC@D} AND TU-FDC@D 0/200 false streams AND replica pass for v9b_full_d / _k / _x (IUT)",
+    "positive_result_not_achieved": "otherwise; components rival_superiority_failed, joint_rival_not_inferior_failed, validity_failure, replica_fail",
+    "wording": "a pass supports 'faster than the two registered time-uniform rectangles' and 'not slower by more than 5% than the frozen PJC-local configuration (K = 77 ledger) and its time-uniform form TU-PJC'; never 'faster than PJC'",
+    "threshold_origin": "dev dense grid (x5d, 950-999): TU-FDC/HC-WoR* 0.356, UB 0.365; 1.05 inherited from v8 G"
+   }
+  },
+  "joint": {
+   "rule": "the time-uniform speed headline ('at matched time-uniform guarantee strength, lower paired geometric-mean N80_pen than both registered time-uniform rectangle rivals (HC-WoR*, RECT-ck-BF-TU), on fresh streams of each reused finite table') requires A AND B positive (IUT across tables); each block's verdict is also reported on its own",
+   "scope": "confirmation is conditional on the two reused finite tables (fresh streams of the same populations), not an independent replication across populations, and covers only the two registered rectangle constructions, not every possible time-uniform rectangle (external reviewer v9 r1 P0)"
+  },
+  "C": {
+   "role": "DESCRIPTIVE ONLY: pre-registered re-use of an outcome-exposed log; no verdict, not in any IUT / Holm family, not merged with A / B, never called a holdout or confirmatory",
+   "exposure": "plan/hillstrom_exposure_audit.md: r4 computed full-table cell means of visit, conversion and spend (HR6 / HR16) and eval-half truth tables (HR8); every row is outcome-exposed",
+   "data": "hillstrom/tidy.pkl sha256 3dab9ed72bfdcaf51f6d993975a7ca052ef9355690489ca854217b7f0a68b296; hashed split salt 'ds-swm/v9/hillstrom/2026-10-04' (dev 32,119 / eval 31,881 rows)",
+   "main": {
+    "task": "v9c_full_b",
+    "design": "B: CZ6 = cat3 x urban (S = 6, 729 policies), visit, kappa (0, 1, 0.5) = womens e-mail HALF PRICE, budgets 0.10-0.80, 12/15",
+    "eps": [
+     0.01,
+     0.0125,
+     0.015
+    ],
+    "primary_eps": 0.0125,
+    "seeds": "37400-37599",
+    "methods": [
+     "FDC-BF",
+     "RECT-ck-HG[0.2]",
+     "HC-WoR{nstar,0.75,1}[0.2]",
+     "PJC-BF[local,b=4,neyman]",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "FDC-BF[0.5]",
+     "FDC-BF[ney]",
+     "RECT-ck-HG[bal]"
+    ]
+   },
+   "supplement": {
+    "task": "v9c_full_a",
+    "design": "A: CR6 / F3 (0, 1.5, 1) / visit (rivals piled up at tau_R on dev)",
+    "eps": [
+     0.006,
+     0.0075,
+     0.01
+    ],
+    "primary_eps": 0.0075,
+    "seeds": "37600-37799",
+    "methods": [
+     "FDC-BF",
+     "RECT-ck-HG[bal]",
+     "HC-WoR{prpl,0.5,-}[bal]",
+     "PJC-BF[local,b=,bal]",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "PJC-BF[local,b=2,neyman]"
+    ]
+   },
+   "wording_rule": "wording only, no test: UB95(FDC-BF/r) < 0.95 for every tuned rectangle (RECT-ck-HG*, HC-WoR*) at the primary eps AND FDC-BF 0 false streams -> 'on the 3-arm Hillstrom log, FDC-BF is also faster than the tuned rectangles (descriptive)'; else 'no speed advantage on Hillstrom' plus the running-certificate-bound ratio at checkpoint K-2 (conditional on both trajectories reaching it with positive finite bounds; eligible / total reported; 'unavailable' below 10 eligible pairs); PJC-local*: ratio and CI only",
+   "disclosures": [
+    "the design depends on an UNSOURCED womens e-mail half price (F2); under F1 / F3 no design met rule B on the dev half, so F2 was the only qualifying cost family",
+    "design-rule revision history v1 -> v2 (design A) -> B is disclosed",
+    "tau_R = whole eval half read; checkpoints coarse near tau_R, ratios are quantised",
+    "dev reference (950-999): FDC-BF/RECT-ck-HG* UB 0.858, /HC-WoR* UB 0.848, /PJC 1.011"
+   ],
+   "configs": "exp/results/v9_gates/hv9_configs.json (written by run_r5s_v9.py --freeze-hv9 from the dev selection files; Neyman plan of FDC-BF[ney] from dev-half cell variances)"
+  }
+ },
+ "frozen_configs": {
+  "CR": {
+   "RECT-ck-HG": {
+    "plan": "0.5",
+    "pick": "RECT-ck-HG"
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2,
+    "plan": "0.5",
+    "pick": "HC-WoR (v6 CR9 config)"
+   },
+   "PJC-local": {
+    "mode": "local",
+    "boundaries": [],
+    "rule": "half",
+    "rect": false,
+    "pick": "PJC-BF[local,b=,half]"
+   },
+   "PJC-menu": {
+    "mode": "menu",
+    "boundaries": [
+     2
+    ],
+    "rule": "proj",
+    "menu": [
+     0.4,
+     0.5
+    ],
+    "pick": "PJC-BF-M[b=2,menu=0.4/0.5,proj]"
+   },
+   "RECT-ck-HG[ney]": {
+    "plan": "ney",
+    "alloc": [
+     [
+      0.1,
+      0.9
+     ],
+     [
+      0.484956013278,
+      0.515043986722
+     ],
+     [
+      0.495842620947,
+      0.504157379053
+     ],
+     [
+      0.460229275175,
+      0.539770724825
+     ],
+     [
+      0.412309415215,
+      0.587690584785
+     ],
+     [
+      0.469390480309,
+      0.530609519691
+     ],
+     [
+      0.492669174561,
+      0.507330825439
+     ],
+     [
+      0.43726897343,
+      0.56273102657
+     ],
+     [
+      0.474099781865,
+      0.525900218135
+     ]
+    ]
+   },
+   "HC-WoR[ney]": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2,
+    "plan": "ney",
+    "alloc": [
+     [
+      0.1,
+      0.9
+     ],
+     [
+      0.484956013278,
+      0.515043986722
+     ],
+     [
+      0.495842620947,
+      0.504157379053
+     ],
+     [
+      0.460229275175,
+      0.539770724825
+     ],
+     [
+      0.412309415215,
+      0.587690584785
+     ],
+     [
+      0.469390480309,
+      0.530609519691
+     ],
+     [
+      0.492669174561,
+      0.507330825439
+     ],
+     [
+      0.43726897343,
+      0.56273102657
+     ],
+     [
+      0.474099781865,
+      0.525900218135
+     ]
+    ]
+   },
+   "B4-bal": {
+    "share": 0.5
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   }
+  },
+  "X9": {
+   "RECT-ck-HG": {
+    "plan": "0.5",
+    "pick": "RECT-ck-HG"
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.6,
+    "plan": "ney",
+    "pick": "HC-WoR{nstar,0.75,0.6}[ney]",
+    "alloc": [
+     [
+      0.500974792787,
+      0.499025207213
+     ],
+     [
+      0.503277065749,
+      0.496722934251
+     ],
+     [
+      0.504962216461,
+      0.495037783539
+     ],
+     [
+      0.502523761222,
+      0.497476238778
+     ],
+     [
+      0.504864528999,
+      0.495135471001
+     ],
+     [
+      0.512134418272,
+      0.487865581728
+     ],
+     [
+      0.504226286299,
+      0.495773713701
+     ],
+     [
+      0.503287305662,
+      0.496712694338
+     ],
+     [
+      0.503968980022,
+      0.496031019978
+     ]
+    ]
+   },
+   "PJC-local": {
+    "mode": "local",
+    "boundaries": [],
+    "rule": "half",
+    "rect": false,
+    "pick": "PJC-BF[local,b=,half]"
+   },
+   "PJC-menu": {
+    "mode": "menu",
+    "boundaries": [
+     2
+    ],
+    "rule": "proj",
+    "menu": [
+     0.4,
+     0.5
+    ],
+    "pick": "PJC-BF-M[b=2,menu=0.4/0.5,proj]"
+   },
+   "B4-bal": {
+    "share": 0.5
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   }
+  },
+  "HCZ6": {
+   "segmentation": "CZ6",
+   "family": "F2",
+   "kappa": [
+    0.0,
+    1.0,
+    0.5
+   ],
+   "outcome": "visit",
+   "eps_dev": 0.0125,
+   "eps_report": [
+    0.01,
+    0.0125,
+    0.015
+   ],
+   "picks": {
+    "RECT-ck-HG": "RECT-ck-HG[0.2]",
+    "HC-WoR": "HC-WoR{nstar,0.75,1}[0.2]",
+    "PJC-local": "PJC-BF[local,b=4,neyman]"
+   },
+   "selection_file": "exp/results/pilots/hillstrom_v9/selection_b.json",
+   "design_file": "exp/results/pilots/hillstrom_v9/design_b.json",
+   "sigma2_dev": [
+    [
+     0.098503440692,
+     0.145036647929,
+     0.099604748233
+    ],
+    [
+     0.083709856221,
+     0.137376002981,
+     0.096519460486
+    ],
+    [
+     0.090597518706,
+     0.14266381559,
+     0.145782122013
+    ],
+    [
+     0.080500442759,
+     0.132562915614,
+     0.129919276753
+    ],
+    [
+     0.150562914962,
+     0.218112244898,
+     0.196944830198
+    ],
+    [
+     0.134211033951,
+     0.209733482136,
+     0.175390089163
+    ]
+   ],
+   "sigma2_note": "dev-half cell variances mu(1-mu) (dev outcomes only); used only by the descriptive FDC-BF[ney] plan"
+  },
+  "HCR6": {
+   "segmentation": "CR6",
+   "family": "F3",
+   "kappa": [
+    0.0,
+    1.5,
+    1.0
+   ],
+   "outcome": "visit",
+   "eps_dev": 0.0075,
+   "eps_report": [
+    0.006,
+    0.0075,
+    0.01
+   ],
+   "picks": {
+    "RECT-ck-HG": "RECT-ck-HG[bal]",
+    "HC-WoR": "HC-WoR{prpl,0.5,-}[bal]",
+    "PJC-local": "PJC-BF[local,b=,bal]"
+   },
+   "selection_file": "exp/results/pilots/hillstrom_v9/selection.json",
+   "design_file": "exp/results/pilots/hillstrom_v9/design.json",
+   "sigma2_dev": [
+    [
+     0.109972006331,
+     0.157372400756,
+     0.113978568956
+    ],
+    [
+     0.076037298926,
+     0.126104081869,
+     0.082492611237
+    ],
+    [
+     0.102979162671,
+     0.157983690301,
+     0.148809960908
+    ],
+    [
+     0.069526690105,
+     0.119122935743,
+     0.130847395724
+    ],
+    [
+     0.161534062812,
+     0.226173774734,
+     0.192341626556
+    ],
+    [
+     0.106829802776,
+     0.191616492296,
+     0.182032751937
+    ]
+   ],
+   "sigma2_note": "dev-half cell variances mu(1-mu) (dev outcomes only); used only by the descriptive FDC-BF[ney] plan"
+  }
+ },
+ "seed_manifest": {
+  "dev_runner_check": "CR9 / X5 / Hillstrom dev halves, seeds 950-999 (dev only; used before by the FDC-HG, v9-candidates and Hillstrom dev reports)",
+  "A_eval": "37000-37199",
+  "B_eval": "37200-37399",
+  "C_eval": "37400-37599",
+  "C_supplement": "37600-37799",
+  "bootstrap_seed": 42,
+  "never_used_check": "2026-10-04: grep of every json/jsonl under the workspace for seed / perm_seed 37xxx: 0 hits; no code references 37000-37799 except the v9 runner / analysis / tests",
+  "previously_used_eval": "30000-30199 (v5, v6 C), 31000-31199 (v6 A), 32000-32199 (v6 B), 33000-33199 (v7 A, v8 C), 34000-34199 (v7 B), 35000-35199 (v8 A), 35200-35399 (v8 B), 36000-36199 (v8 post-hoc F)"
+ },
+ "replica_check": {
+  "implementation": "dsswm/stats/v9_replica.py + run_r5s_v9.py --task <t> --replica",
+  "R1": "independent process re-runs the first 10 seeds of each eval task; canonical rows identical",
+  "R1_excluded_fields": [
+   "sec",
+   "rs_sec_plan",
+   "rs_sec_cert",
+   "rs_sec_total"
+  ],
+  "R2": "schedule_digest identical within every (seed, eps) across each registered frozen-design group",
+  "R2_groups": {
+   "v9a_full_d": [
+    [
+     "TU-FDC",
+     "RECT-ck-BF-TU",
+     "FDC-BF[K77]",
+     "TU-LOC",
+     "RECT-ck-HG",
+     "HC-WoR"
+    ]
+   ],
+   "v9a_full_k": [
+    [
+     "FDC-BF",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "FDC-MR[front3]",
+     "RECT-ck-HG",
+     "HC-WoR"
+    ]
+   ],
+   "v9a_full_x": [
+    [
+     "FDC-HG",
+     "FDC-LOC"
+    ]
+   ],
+   "v9b_full_d": [
+    [
+     "TU-FDC",
+     "RECT-ck-BF-TU",
+     "FDC-BF[K77]",
+     "TU-LOC",
+     "RECT-ck-HG"
+    ]
+   ],
+   "v9b_full_k": [
+    [
+     "FDC-BF",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "FDC-MR[front3]",
+     "RECT-ck-HG"
+    ]
+   ],
+   "v9b_full_x": [
+    [
+     "FDC-HG",
+     "FDC-LOC"
+    ]
+   ],
+   "v9c_full_b": [
+    [
+     "FDC-BF",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "RECT-ck-HG[bal]"
+    ]
+   ],
+   "v9c_full_a": [
+    [
+     "FDC-BF",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "RECT-ck-HG[bal]",
+     "HC-WoR{prpl,0.5,-}[bal]"
+    ]
+   ]
+  },
+  "R2b": "arrival_digest identical across ALL methods of a task within every (seed, eps)",
+  "cross_task": "blocks A / B: R2b across the d / k / x tasks (same streams on both grids) and R2 across every frozen-design member of the three tasks; R2c (v9_replica.check_cross_grid): each method's own schedule digest and realised block counts identical across the dense and K = 20 grids (covers HC-WoR's Neyman schedule and PJC count paths); all three enter the replica status",
+  "on_failure": {
+   "A": "replica_fail -> positive_result_not_achieved",
+   "B": "same",
+   "C": "flag replica_fail"
+  }
+ },
+ "eval_tasks": {
+  "v9a_full_d": {
+   "block": "A",
+   "layer": "CR9",
+   "grid": "D",
+   "seeds": "37000-37199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "TU-FDC",
+    "HC-WoR",
+    "RECT-ck-BF-TU",
+    "PJC-local",
+    "TU-PJC",
+    "FDC-BF[K77]",
+    "RECT-ck-HG",
+    "TU-LOC"
+   ]
+  },
+  "v9a_full_k": {
+   "block": "A",
+   "layer": "CR9",
+   "grid": "K",
+   "seeds": "37000-37199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "HC-WoR",
+    "RECT-ck-HG",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "PJC-local",
+    "FDC-MR[front3]"
+   ]
+  },
+  "v9a_full_x": {
+   "block": "A",
+   "layer": "CR9",
+   "grid": "K",
+   "seeds": "37000-37199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-HG",
+    "FDC-LOC"
+   ]
+  },
+  "v9b_full_d": {
+   "block": "B",
+   "layer": "X9",
+   "grid": "D",
+   "seeds": "37200-37399",
+   "eps": [
+    0.02
+   ],
+   "stop_k": 15,
+   "methods": [
+    "TU-FDC",
+    "HC-WoR",
+    "RECT-ck-BF-TU",
+    "PJC-local",
+    "TU-PJC",
+    "FDC-BF[K77]",
+    "RECT-ck-HG",
+    "TU-LOC"
+   ]
+  },
+  "v9b_full_k": {
+   "block": "B",
+   "layer": "X9",
+   "grid": "K",
+   "seeds": "37200-37399",
+   "eps": [
+    0.02
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "HC-WoR",
+    "RECT-ck-HG",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "PJC-local",
+    "FDC-MR[front3]"
+   ]
+  },
+  "v9b_full_x": {
+   "block": "B",
+   "layer": "X9",
+   "grid": "K",
+   "seeds": "37200-37399",
+   "eps": [
+    0.02
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-HG",
+    "FDC-LOC"
+   ]
+  },
+  "v9c_full_b": {
+   "block": "C",
+   "layer": "HCZ6",
+   "grid": "K",
+   "seeds": "37400-37599",
+   "eps": [
+    0.01,
+    0.0125,
+    0.015
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "RECT-ck-HG[0.2]",
+    "HC-WoR{nstar,0.75,1}[0.2]",
+    "PJC-BF[local,b=4,neyman]",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "FDC-BF[0.5]",
+    "FDC-BF[ney]",
+    "RECT-ck-HG[bal]"
+   ]
+  },
+  "v9c_full_a": {
+   "block": "C",
+   "layer": "HCR6",
+   "grid": "K",
+   "seeds": "37600-37799",
+   "eps": [
+    0.006,
+    0.0075,
+    0.01
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "RECT-ck-HG[bal]",
+    "HC-WoR{prpl,0.5,-}[bal]",
+    "PJC-BF[local,b=,bal]",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "PJC-BF[local,b=2,neyman]"
+   ]
+  }
+ },
+ "command": "cd exp/code && python run_r5s_v9.py --task <task> [--workers 4]; --task <task> --replica; --analyse A|B|C. Every step re-checks the locked v9 addendum (and through it v8, v7, v6, v5).",
+ "eval_seal": "as v8 (v9_seal: seal committed alone at task completion + sidecar ref commit; single-commit history anchor)",
+ "threat_model": "as v6-v8: accidental drift, partial / resumed runs and post-hoc edits are detected against git history; deliberate history rewriting is out of scope. X5 blinding of v8 is procedural; the X5 eval half has since been read once by the v8 block-A runs (35000-35199), and its v8 results are public inside this project.",
+ "declarations": [
+  "Primary procedure = FDC-BF code unchanged since v7; the time-uniform guarantee (Theorem TU-1) is a post-hoc theoretical observation applied to that unchanged procedure; on the K = 20 grid TU-FDC = FDC-BF.",
+  "Residual asymmetry: HC-WoR is time-uniform under any predictable sampling rule; TU-FDC and RECT-ck-BF-TU only under the frozen outcome-free schedule. Methods use outcome-free, METHOD-SPECIFIC allocation schedules with shared arrivals and pool orders (X5 HC-WoR* uses its frozen Neyman plan; PJC uses deterministic count tracking); R2 checks the registered 50/50 group, R2c checks each method's own schedule digest and realised block counts across the dense and K = 20 grids.",
+  "The v9 primary design is the former secondary dense-grid experiment: the confirmatory procedure is TU-FDC evaluated at 77 monitoring times through a new wrapper, which can change stopping times and sticky answers relative to K = 20 FDC-BF; the inherited width parameters are unchanged and the two are numerically identical when evaluated only on the K = 20 grid.",
+  "PJC asymmetry: PJC-local@D carries its own K = 77 checkpoint ledger (an extra ln(77/20) ~ 1.348 in beta and smaller variance-box tail levels) but uses fresh widths, so its net cost is not predetermined; the same-grid time-uniform form TU-PJC (Lemma TU applied to the no-reset count-only PJC-local*, widths frozen at the K = 20 block points) is therefore registered as a second non-inferiority rival in B. NI wording is limited to these two registered PJC formulations; the matched K = 20 comparison is reported as before.",
+  "Inherited validation scope: v9 introduces no additional input drift; it inherits v8's documented exceptions (v8 accepts the recorded v7-input erratum in exp/results/full/v6_summary.md, and the gate cascade does not revalidate v5's input manifest).",
+  "RECT-ck-BF-TU is a new rival constructed for v9 (time-uniform upgrade of the v8 matched rectangle); it has no tuning parameter.",
+  "Thresholds 0.85 (A) and 0.50 (B) were set by the authors from dev dense-grid numbers (CR9 UB 0.737, X5 UB 0.365 vs HC-WoR*, seeds 950-999) before the v9 dev runner check; the runner check (first measurement of TU-FDC vs RECT-ck-BF-TU and PJC-local@D) did not change them.",
+  "The CR9 eval half is used for the 4th time with fresh streams; the X5 eval half for the 2nd time.",
+  "FDC-HG and FDC-LOC were NO-GO on dev and enter only as descriptive rows.",
+  "Block C (Hillstrom) is descriptive only: outcome-exposed log; design depends on an unsourced womens half price, the only qualifying cost family; design A in the supplement.",
+  "Timings: up to 3 runner processes x 4 workers concurrently with other jobs on the host; biased up."
+ ],
+ "code_sha256": {
+  "run_r5s_v9.py": "db27a9b7dcc3fac57f2db6cebf6592bccfd2787d71625d4c3e9ea99f4e178a5d",
+  "run_r5s_v8.py": "d9c8115f5249008d622fcc1ed2809115be7d3600f385b20b50a174ceb88f0738",
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "run_hillstrom_v9_dev.py": "adcf26ce29a23fb29fcdabcc5887711076814f4fe9d15a7d046641bd1837fd4b",
+  "dsswm/baselines/rect_tu_v9.py": "b9c4451d89bcda7c04993b622676c46735a78c2249aaaf69f0f4db291cd3b96f",
+  "dsswm/baselines/fdc_loc.py": "fb3706bb10d2cdc1111e34bac95defd969e105eb8a6aa64c0cd32ef67e2b6ccd",
+  "dsswm/baselines/fdc_hg.py": "5a923d409b4269e5702eb88d2ce955e167431284ccda7d088cce110d0c9d8a98",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/multiarm_v9.py": "33ce0e8e0d2bb19999edb2af2664b7d34f0843448dcaa80024879b137b3837a3",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/envs/x5_v9.py": "18b6bc86aa0b0cc51cc4a6d844ec35046120ac64dbf89707e9caf5ed46d653f1",
+  "dsswm/envs/x5_v8.py": "71141c7acdc396ae1179a871a0a8b9f4aee8643ba2ed6c9ccd63f6803fe4b323",
+  "dsswm/envs/hillstrom_v9.py": "72138bc861b8e92a7876ee2bbefc39e64e56f4ff158f8688e35b2d0a8dfd8556",
+  "dsswm/envs/data_v9.py": "9c42cccbb1fd5cd55a05e0effeb546f4932d02076956b28ce562e5d3ba887413",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/envs/pool_replay.py": "0454727f1ac54af7eec6a2e202accdb372f5e602c8b812594d5e7aeedc4d53eb",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/streams/frontier_runner.py": "f1ec7b16b6ba23399b384aceeb2188601058e86eb381ad83075ac13effcba144",
+  "dsswm/streams/frontier.py": "ce0aec93bb3be06c65fc36f267799a25759967fbfe6fad8c6758ee7034af8325",
+  "dsswm/stats/prereg_v9.py": "0b7c18b6ade8271fd7243dc9b19bb793effe23cac503997f2bb78d751deca211",
+  "dsswm/stats/v9_analysis.py": "d899fce4a449ad7a43a564154da411a8aab6009ca9251d97d0d7758865d4d648",
+  "dsswm/stats/v9_replica.py": "5434c3a4c003c0a7371fe8aefc0b458957d2c28feb6fcd8b14ddeb6c72337766",
+  "dsswm/stats/v9_seal.py": "98faf8284f5ce9cfde4347096136a6c707c677a24e775dd2fcf82f7909ed1536",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/v8_analysis.py": "849cc18138ebc23463d4be27e8ce425f3323e574263288ac821f53537d715566",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5",
+  "build_v9_addendum_draft.py": "1439e2cb76c4d3e8251afbd61fb8dd9d95e2b5971687489ef2a095406d71678d",
+  "dsswm/tests/test_v9_addendum.py": "c5c99e826ebde2b792cfc62e43775c9883f9ebeb1a1a3ff1e10a0e72e38ddfa8",
+  "dsswm/tests/test_v9_candidates.py": "c45555fdd42a354738a8fc44b9ca006ebadfc52488768b5f22a4793d2e36efd4",
+  "run_v9_candidates_dev.py": "a6829ad9bd4e360336de1f9f7ac916b56c2f0f42962e0c88af7002baa83ad654",
+  "analyze_v9_candidates_dev.py": "521d49a325a9d72c5a2cc06581c2780172fb01d343f9a6df89195672f026bf5d",
+  "dsswm/tests/test_multiarm_v9.py": "0761bb576acda8b43b5db7ebac07a1592c86db6f02df76ff3710af66b9059bd9"
+ },
+ "input_sha256": {
+  "plan/prereg_lock.json": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+  "plan/prereg_lock_v6_addendum.json": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+  "plan/prereg_lock_v7_addendum.json": "1f1a67d1a7edb915effca9b64360372af00c0c41db3371d19a89030d9b2d4b87",
+  "plan/prereg_lock_v8_addendum.json": "fd8d4e4487f8111f160b469f8b85a3023bf5b6a50f07c19a5fa1f0573c3d019f",
+  "plan/prereg_lock_v9_addendum_DRAFT.md": "926728c39c4ab5e77693dfaaffdca12abc7812dffb96cc998aaec3eae4fc7c9d",
+  "plan/prereg_lock_v9_addendum.md": "7e920d0e7988b38bba38d0e74c592788f6f952f91dbc3d2184d6fcdd742f2d84",
+  "plan/v9_candidates_theory.md": "ca78392575e844010504d2f365c112972498863cf07221e1a4f1661e8d5b0c89",
+  "plan/v9_candidates_report.md": "a028c7df2fba355961f8576b0760242686d6fab2b95c9118bb9b9b875dd0b9ea",
+  "plan/fdc_hg_dev_report.md": "04f490cc322ca2d3b0e9a3576496760f20cf1ba551e0606b2e0f801004a24a2d",
+  "plan/hillstrom_v9_dev_report.md": "b42260033f45d14499f29a9a187da7de34b6551e25f21880582f37caaadad237",
+  "plan/hillstrom_exposure_audit.md": "1883ec3e0bf034a3e8d0b4cf97e4dc935435486fd7eaa00c112adc80d4f9e211",
+  "reviews/v9_candidates_review.md": "239299ce9361ad389945f27e10f6725f0991cf71c4c700bd561943c1abda9997",
+  "reviews/fdc_hg_review.md": "585d6442e23834ab7bd9b7e45c3a77d9d0f9c9455bc54354c0274b34f33d5a9a",
+  "reviews/v9_lock_review.md": "7c91fed6b2b54398d27f9f3c8b79b823bf900fc085137b48856c2ff04d88f70e",
+  "exp/results/v8_gates/x9_configs.json": "c6c8f498f1297699f3d45739da49d23b1144332816408f9330e5cd982bb91637",
+  "exp/results/v8_gates/cr_configs.json": "926ea7eee6e25e6a498d042d44f6771402525a51608ba137f2c0e4afadd0c281",
+  "exp/results/v9_gates/hv9_configs.json": "018cfc2d69d3f759758e2be43f057f8a2dc902fb64a48c8739561b373d6b60a7",
+  "exp/results/pilots/hillstrom_v9/selection_b.json": "fcbadca86f48181fa194041f71d2138942830e76d93ea1724334402094216772",
+  "exp/results/pilots/hillstrom_v9/design_b.json": "78ff325029bf70bb9326abaad8bb8c00fb9aed1d29399ac4b7c2c041c0ccd360",
+  "exp/results/pilots/hillstrom_v9/selection.json": "8ce16ae01d57e64a26d926190ac77866c0e7cd3d1307272f4057ba9cabb6857c",
+  "exp/results/pilots/hillstrom_v9/design.json": "99a0cd4a7549e7069cfb337d494785127ca6bc3d1cc5a2e015f669fc1af01d9b",
+  "exp/results/pilots/hillstrom_v9/summary_b.json": "5f22b4940a274a24f03dbf90a0cdec07280710f1f9b07aeca6cf8f8e5b00ca38",
+  "exp/results/pilots/hillstrom_v9/summary.json": "4367b731333c858f6760c8d85678708beb0e9b883b5a238d5851315126c14f6a",
+  "exp/results/pilots/v9_candidates/analysis_dev.json": "69219799b18104491d000a91eec39f23acfcd5fe75dfe252e5f5d5946e0b7ddc",
+  "exp/results/pilots/fdc_hg/analysis_dev.json": "ebc1faf05994448bc50fd669bb1059800639ac4bf571105da3cbbd1f06390ee0",
+  "exp/results/pilots/v9_analysis_A_dev.json": "5517ae381f5bc836050d8431438192d675de9c976ddfb083891ac7dc0f2a0009",
+  "exp/results/pilots/v9_analysis_B_dev.json": "e094f5757b63f6a70497d17b04a1baaf3bb0e0a6678ccb51f1ea86493f9869ea",
+  "exp/results/pilots/v9_analysis_C_dev.json": "c2f6013e0e3e90c33182cbd86c95077371286804f215c7d0518a33a39a99b27d",
+  "exp/results/pilots/v9_toy_dense/summary.json": "8f0d76ed75c1c1d048e683328169c7a581b7e99e7abb88ec3f899550d50acb33"
+ },
+ "data_sha256": {
+  "criteo_tidy": {
+   "path": "$DATA_DIR/criteo_uplift_real/tidy.pkl",
+   "sha256": "600a9a57a0e93a90c659552f482609321d97c58b1c9c90a6a391e05811546cd8"
+  },
+  "criteo_gz": {
+   "path": "$DATA_DIR/criteo_uplift_real/criteo-research-uplift-v2.1.csv.gz",
+   "sha256": "2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc"
+  },
+  "lenta_tidy": {
+   "path": "$DATA_DIR/lenta/tidy.pkl",
+   "sha256": "6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43"
+  },
+  "x5_dev": {
+   "path": "$DATA_DIR/x5_retailhero/dev.pkl",
+   "sha256": "3a8a5d8e35599f69461f403c36210dfa497073d9f679d1f6e039d165aa85eae4"
+  },
+  "x5_eval_labels": {
+   "path": "$DATA_DIR/x5_retailhero/eval_labels.pkl",
+   "sha256": "500fb32edaa522812adb6728df8bdbeb1fa2e6d8db0c08f750b1f1827b223eaa"
+  },
+  "x5_eval_outcome": {
+   "path": "$DATA_DIR/x5_retailhero/eval_outcome.npy",
+   "sha256": "ed0f95f4a4cbbdee8f81c9dc548bfe37e9e8b31beee9045dc7c0f62daa0e322d"
+  },
+  "x5_provenance": {
+   "path": "$DATA_DIR/x5_retailhero/PROVENANCE.json",
+   "sha256": "bfa0f78de54495548b42154d15ed7092dd3d4615dcb2851d673b4e73a794ce36"
+  },
+  "hillstrom_tidy": {
+   "path": "$DATA_DIR/hillstrom/tidy.pkl",
+   "sha256": "3dab9ed72bfdcaf51f6d993975a7ca052ef9355690489ca854217b7f0a68b296"
+  }
+ },
+ "dev_runner_check": {
+  "A": {
+   "seeds": "dev 950-999 (v9 runner check, final code, frozen configs)",
+   "TU-FDC@D/r": {
+    "HC-WoR@D": {
+     "ratio": 0.708,
+     "ub95": 0.737
+    },
+    "RECT-ck-BF-TU@D": {
+     "ratio": 0.52,
+     "ub95": 0.546
+    },
+    "PJC-local@D": {
+     "ratio": 0.999,
+     "ub95": 1.016
+    },
+    "TU-PJC@D": {
+     "ratio": 1.0,
+     "ub95": 1.004
+    },
+    "FDC-BF[K77]@D": {
+     "ratio": 0.999,
+     "ub95": 1.016
+    },
+    "RECT-ck-HG@D": {
+     "ratio": 0.624,
+     "ub95": 0.653
+    },
+    "TU-LOC@D": {
+     "ratio": 1.07,
+     "ub95": 1.094
+    }
+   },
+   "FDC-BF@K/r": {
+    "HC-WoR@K": {
+     "ratio": 0.663,
+     "ub95": 0.695
+    },
+    "RECT-ck-HG@K": {
+     "ratio": 0.649,
+     "ub95": 0.677
+    },
+    "RECT-ck-BF@K": {
+     "ratio": 0.525,
+     "ub95": 0.556
+    },
+    "RECT-ck-BF+box@K": {
+     "ratio": 0.539,
+     "ub95": 0.567
+    },
+    "PJC-local@K": {
+     "ratio": 1.0,
+     "ub95": 1.01
+    },
+    "FDC-MR[front3]@K": {
+     "ratio": 1.042,
+     "ub95": 1.076
+    },
+    "FDC-HG@K": {
+     "ratio": 1.032,
+     "ub95": 1.053
+    },
+    "FDC-LOC@K": {
+     "ratio": 1.081,
+     "ub95": 1.11
+    }
+   },
+   "false_streams_total_all_rigorous": 0,
+   "decision_if_applied": "positive_result_achieved",
+   "failing": [],
+   "replica": "pass"
+  },
+  "B": {
+   "seeds": "dev 950-999 (v9 runner check, final code, frozen configs)",
+   "TU-FDC@D/r": {
+    "HC-WoR@D": {
+     "ratio": 0.356,
+     "ub95": 0.365
+    },
+    "RECT-ck-BF-TU@D": {
+     "ratio": 0.299,
+     "ub95": 0.308
+    },
+    "PJC-local@D": {
+     "ratio": 0.962,
+     "ub95": 0.975
+    },
+    "TU-PJC@D": {
+     "ratio": 1.001,
+     "ub95": 1.016
+    },
+    "FDC-BF[K77]@D": {
+     "ratio": 0.972,
+     "ub95": 0.985
+    },
+    "RECT-ck-HG@D": {
+     "ratio": 0.341,
+     "ub95": 0.351
+    },
+    "TU-LOC@D": {
+     "ratio": 1.0,
+     "ub95": 1.0
+    }
+   },
+   "FDC-BF@K/r": {
+    "HC-WoR@K": {
+     "ratio": 0.329,
+     "ub95": 0.342
+    },
+    "RECT-ck-HG@K": {
+     "ratio": 0.336,
+     "ub95": 0.347
+    },
+    "RECT-ck-BF@K": {
+     "ratio": 0.306,
+     "ub95": 0.316
+    },
+    "RECT-ck-BF+box@K": {
+     "ratio": 0.306,
+     "ub95": 0.316
+    },
+    "PJC-local@K": {
+     "ratio": 0.988,
+     "ub95": 1.004
+    },
+    "FDC-MR[front3]@K": {
+     "ratio": 0.828,
+     "ub95": 0.848
+    },
+    "FDC-HG@K": {
+     "ratio": 1.025,
+     "ub95": 1.042
+    },
+    "FDC-LOC@K": {
+     "ratio": 1.0,
+     "ub95": 1.0
+    }
+   },
+   "false_streams_total_all_rigorous": 0,
+   "decision_if_applied": "positive_result_achieved",
+   "failing": [],
+   "replica": "pass"
+  },
+  "C": {
+   "v9c_pilot_b": {
+    "wording_if_applied": "faster_descriptive",
+    "per_rectangle_ub": {
+     "RECT-ck-HG[0.2]": 0.8577960624594092,
+     "HC-WoR{nstar,0.75,1}[0.2]": 0.8484489107399362
+    },
+    "replica": "pass"
+   },
+   "v9c_pilot_a": {
+    "wording_if_applied": "faster_descriptive",
+    "per_rectangle_ub": {
+     "RECT-ck-HG[bal]": 0.8330894486129701,
+     "HC-WoR{prpl,0.5,-}[bal]": 0.8330894486129701
+    },
+    "replica": "pass"
+   }
+  },
+  "toy_dense": {
+   "RECT-ck-BF-TU": {
+    "false_streams": 0,
+    "n": 200
+   },
+   "TU-FDC": {
+    "false_streams": 0,
+    "n": 200
+   },
+   "TU-PJC": {
+    "false_streams": 0,
+    "n": 200
+   },
+   "RECT-ck-BF+box[K20]": {
+    "false_streams": 0,
+    "n": 200
+   },
+   "INVALID-fresh-K20-ledger": {
+    "false_streams": 0,
+    "n": 200
+   }
+  }
+ },
+ "lock_procedure": "external reviewer review (<= 2 rounds) -> code-freeze commit -> prereg_v9.finalize_addendum(git_commit) -> commit the lock file alone -> eval tasks, replicas, analyses.",
+ "git_commit": "29be77b7b132160c7d5a4ba93d16bd3ea9807165",
+ "locked_by": "authors (external reviewer 2 rounds, r2 verdict lock)",
+ "locked_at": "2026-10-05T02:29:14.994596",
+ "eval_touched_at_lock": false,
+ "draft_sha256": "7e939273361465dafa956bbe3c65907aaa02f2c64f23990275014cb2f2704887",
+ "sha256": "9540de0c7266e931b8c7945cb7382e7809f47196a8e41cf49267db67541fda79"
+}

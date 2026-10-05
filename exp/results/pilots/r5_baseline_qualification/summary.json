@@ -1,0 +1,356 @@
+{
+ "task_id": "r5_baseline_qualification",
+ "mode": "pilot",
+ "started_at": "2026-10-03T13:40:00.305433",
+ "timing_note": "concurrent run (<=4 workers; 3 other r5 tasks share the 20-core host)",
+ "tests": {
+  "r5_rivals": {
+   "returncode": 0,
+   "tail": "20 passed in 1.70s",
+   "sec": 2.0
+  },
+  "baselines_r4a": {
+   "returncode": 0,
+   "tail": "21 passed in 14.12s",
+   "sec": 14.4
+  },
+  "no_truth_import": {
+   "returncode": 0,
+   "tail": "164 passed in 2.63s",
+   "sec": 3.1
+  }
+ },
+ "toy_fwer": {
+  "eps": 0.02,
+  "delta": 0.05,
+  "problems": 5,
+  "stop_k": 4,
+  "populations": "r4 near-tie toy (_toy_population) dev seeds 900-919 x perm 0-9",
+  "sec": 5.9,
+  "by_config": {
+   "B4-bal[share=0.40]": {
+    "config": "B4-bal[share=0.40]",
+    "method": "B4-bal",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 969,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5854,
+    "streams_with_exhaustion": 100,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "B4-bal[share=0.45]": {
+    "config": "B4-bal[share=0.45]",
+    "method": "B4-bal",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 965,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5857,
+    "streams_with_exhaustion": 93,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "B4-bal[share=0.50]": {
+    "config": "B4-bal[share=0.50]",
+    "method": "B4-bal",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 963,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.586,
+    "streams_with_exhaustion": 78,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.02,gamma=2/3]": {
+    "config": "Hait-SW[p_min=0.02,gamma=2/3]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 962,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5857,
+    "streams_with_exhaustion": 76,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.05,gamma=2/3]": {
+    "config": "Hait-SW[p_min=0.05,gamma=2/3]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 962,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5857,
+    "streams_with_exhaustion": 75,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.10,gamma=2/3]": {
+    "config": "Hait-SW[p_min=0.10,gamma=2/3]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 962,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5857,
+    "streams_with_exhaustion": 74,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.02,gamma=1]": {
+    "config": "Hait-SW[p_min=0.02,gamma=1]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 963,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5854,
+    "streams_with_exhaustion": 78,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.05,gamma=1]": {
+    "config": "Hait-SW[p_min=0.05,gamma=1]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 963,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5854,
+    "streams_with_exhaustion": 78,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Hait-SW[p_min=0.10,gamma=1]": {
+    "config": "Hait-SW[p_min=0.10,gamma=1]",
+    "method": "Hait-SW",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 963,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5854,
+    "streams_with_exhaustion": 76,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "Molitor-WoR": {
+    "config": "Molitor-WoR",
+    "method": "Molitor-WoR",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 997,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 1.0,
+    "streams_with_exhaustion": 0,
+    "billing_mismatch": 0,
+    "gate_0_of_200": true
+   },
+   "B4 (r4 ref)": {
+    "config": "B4 (r4 ref)",
+    "method": "B4",
+    "validity": "rigorous",
+    "streams": 200,
+    "false_streams": 0,
+    "fwer_cp_upper": 0.0149,
+    "certs_total": 964,
+    "false_certs": 0,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.5961,
+    "streams_with_exhaustion": 0,
+    "billing_mismatch": 0,
+    "gate_0_of_200": null
+   },
+   "NAIVE-control": {
+    "config": "NAIVE-control",
+    "method": "NAIVE-control",
+    "validity": "none",
+    "streams": 200,
+    "false_streams": 4,
+    "fwer_cp_upper": 0.0452,
+    "certs_total": 954,
+    "false_certs": 9,
+    "reached_stop": 200,
+    "median_N80_over_tau": 0.0773,
+    "streams_with_exhaustion": 0,
+    "billing_mismatch": 0,
+    "gate_0_of_200": null
+   }
+  },
+  "all_new_rivals_0_of_200": true,
+  "cp_upper_0_of_200": 0.0149,
+  "naive_control_detects": true
+ },
+ "timing": {
+  "layer": "CR9",
+  "half": "dev",
+  "eps": 0.001,
+  "K": 20,
+  "seeds": [
+   900,
+   901,
+   902,
+   903
+  ],
+  "sec_env_build": 4.4,
+  "tau_R": 6989793,
+  "replan": 3495,
+  "by_method": {
+   "B4-bal": {
+    "sec_per_stream_mean": 3.14,
+    "sec_per_stream_max": 4.57,
+    "billing_ok": true
+   },
+   "Hait-SW": {
+    "sec_per_stream_mean": 1.4,
+    "sec_per_stream_max": 1.48,
+    "billing_ok": true
+   },
+   "Molitor-WoR": {
+    "sec_per_stream_mean": 1.81,
+    "sec_per_stream_max": 1.86,
+    "billing_ok": true
+   }
+  },
+  "note": "seconds only; N80 / certification outcomes / checkpoint reached / plan counts intentionally not recorded (they reveal stopping times)"
+ },
+ "qualification_table": {
+  "path": "plan/baseline_qualification_r5.md",
+  "exists": true
+ },
+ "billing_ok": true,
+ "unit_tests_pass": true,
+ "registry": {
+  "rigorous_set_R": [
+   "B1",
+   "B4",
+   "B4-bal",
+   "B2-rect",
+   "B3-rect",
+   "Peace-rect",
+   "Hait-SW",
+   "Molitor-WoR",
+   "QFC-pool"
+  ],
+  "all_names": [
+   "FDC",
+   "QFC-pool",
+   "B1",
+   "B4",
+   "B4-bal",
+   "B2-rect",
+   "B3-rect",
+   "Peace-rect",
+   "Hait-SW",
+   "Molitor-WoR",
+   "QFC-half",
+   "B2-nominal",
+   "B3-nominal",
+   "Peace-nominal",
+   "B2-fav",
+   "B3-fav",
+   "Peace-fav",
+   "B5",
+   "H8-JPC1",
+   "H8-Tboot",
+   "H8-MisLid"
+  ],
+  "tuning_grid": {
+   "B4-bal": [
+    {
+     "share": 0.4
+    },
+    {
+     "share": 0.45
+    },
+    {
+     "share": 0.5
+    }
+   ],
+   "Hait-SW": [
+    {
+     "p_min": 0.02,
+     "gamma": 0.6666666666666666
+    },
+    {
+     "p_min": 0.05,
+     "gamma": 0.6666666666666666
+    },
+    {
+     "p_min": 0.1,
+     "gamma": 0.6666666666666666
+    },
+    {
+     "p_min": 0.02,
+     "gamma": 1.0
+    },
+    {
+     "p_min": 0.05,
+     "gamma": 1.0
+    },
+    {
+     "p_min": 0.1,
+     "gamma": 1.0
+    }
+   ],
+   "B2-rect": "forced-exploration constant in {sqrt(n_s), 0.5 sqrt(n_s)} (r5_rival_tuning; r4 module is frozen)",
+   "B3-rect": "r4 frozen config (published constants, no tuning)",
+   "Peace-rect": "r4 frozen config (published constants, no tuning)",
+   "B1": "no free parameter",
+   "B4": "no free parameter",
+   "Molitor-WoR": "no free parameter",
+   "QFC-pool": "no free parameter (r4 ledger)"
+  }
+ },
+ "file_sha256": {
+  "dsswm/baselines/b4_bal.py": "588c6ed77e7e87659f76dbce8d299e7a0dcb07d3eb4c00b56d5fd1d0554db2e7",
+  "dsswm/baselines/hait_sw.py": "3005211c9326ec55fb68f05b6659f0ec01db227eb00b823b4670aab30109ab7f",
+  "dsswm/baselines/molitor_wor.py": "798a9fbb492ec790a79f713978a51ba8a1bde3ded40d5a5383ce5aaec758fa4d",
+  "dsswm/streams/r5_registry.py": "66204450eedead2cd71008ed44486b8b3bb5410168ac5862f14aa0cd821a983d",
+  "dsswm/tests/test_r5_rivals.py": "6f48fd28377b935fe8b9ea4880852c172c93893b73f8b3522bcb9e6866c6487c",
+  "run_r5_baseline_qualification.py": "b2d54aa3624400493f6b8af24374bbe29205002df8eed4e0cd5b024c62739c2c"
+ },
+ "git_head": "5ecc7da20a1e557248f2bf814668c5608c7f2402",
+ "verdict": "GO",
+ "finished_at": "2026-10-03T13:40:36.515947",
+ "wall_min": 0.6,
+ "disclosure": "A first identical run (13:28-13:35) wrote a 'checkpoints_visited' column for the 4 CR9 timing streams (seeds 900-903), which reveals the stopping checkpoint index; the experimenter saw it. It was removed and the task re-run; no decision in this task used it. Timing seeds overlap the tuning seeds 900-949 by plan design.",
+ "deviations_from_methodology": [
+  "Hait-SW default allocation gamma=2/3 (Hait Prop 4.2 eq 4.11, 'Neither rule is the Neyman allocation'); Neyman (gamma=1, methodology s4.2 wording) kept as a tuning point; grid p_min x gamma = 6 configs.",
+  "Molitor-WoR: U_q over pi' != pi_hat and leader = argmax LCB (faithful to Molitor Thm 1; methodology formula included pi'=pi_hat). Favourable to the rival.",
+  "B2-rect forced-exploration grid not implemented here (r4 module frozen); left to r5_rival_tuning (subclass)."
+ ],
+ "pilot_go_no_go": "GO"
+}

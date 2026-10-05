@@ -1,0 +1,68 @@
+{
+ "note": "post-hoc descriptive re-analysis of sealed lock-v7 block A rows; not part of any verdict",
+ "source": "results/full/v7a_full_b/results.jsonl",
+ "source_sha256": "699af1bde6155e1db8f3dc08d36c92258747cb9148a729576991e86df9567868",
+ "same_schedule_digest_as_FDC_BF": {
+  "RECT-ck-Bern": true,
+  "FDC": true,
+  "RECT-ck-HG": true,
+  "FDC-BF": true,
+  "HC-WoR": true,
+  "B4-bal": true
+ },
+ "geomean_N80_pen": {
+  "RECT-ck-Bern": 2470481.000000001,
+  "FDC": 1194450.387909352,
+  "RECT-ck-HG": 1414381.8376339264,
+  "FDC-BF": 909078.0874204352,
+  "HC-WoR": 1387067.5685388218,
+  "B4-bal": 2464065.855764377
+ },
+ "aggregation_effect_bernstein_cells (FDC / RECT-ck-Bern)": {
+  "ratio": 0.48348899987870825,
+  "ci95": [
+   0.46741955833639637,
+   0.5001108783447636
+  ],
+  "ub95_one_sided": 0.4975169619475004
+ },
+ "aggregation_effect_fpc_cells (FDC-BF / RECT-ck-HG)": {
+  "ratio": 0.6427388016670252,
+  "ci95": [
+   0.6246161760487692,
+   0.6613872251944714
+  ],
+  "ub95_one_sided": 0.6579568304760117
+ },
+ "cell_effect_rectangle (RECT-ck-HG / RECT-ck-Bern)": {
+  "ratio": 0.5725127364403627,
+  "ci95": [
+   0.5629182148067008,
+   0.5815143036184296
+  ],
+  "ub95_one_sided": 0.5800042750904173
+ },
+ "cell_effect_joint (FDC-BF / FDC)": {
+  "ratio": 0.7610848442283104,
+  "ci95": [
+   0.7425156006639875,
+   0.7801184495908341
+  ],
+  "ub95_one_sided": 0.7770817919148096
+ },
+ "both (FDC-BF / RECT-ck-Bern)": {
+  "ratio": 0.36797615015878815,
+  "ci95": [
+   0.356672120321372,
+   0.3796384246152688
+  ],
+  "ub95_one_sided": 0.3776693606119857
+ },
+ "interaction_I_log": {
+  "I": 0.28470985985331365,
+  "ci95": [
+   0.250908584509371,
+   0.3185111010606327
+  ]
+ }
+}

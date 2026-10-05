@@ -1,0 +1,74 @@
+{
+ "task_id": "v6c_full_a",
+ "status": "pass",
+ "checks": [
+  {
+   "different": [],
+   "duplicates": [],
+   "missing": [],
+   "n_compared": 10,
+   "pass": true,
+   "rule": "R1"
+  },
+  {
+   "note": "no 50/50 comparison group in this task",
+   "pass": true,
+   "rule": "R2"
+  },
+  {
+   "bad": [],
+   "n_bad": 0,
+   "pass": true,
+   "rule": "R3"
+  }
+ ],
+ "is_eval": true,
+ "addendum_sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+ "code_sha256": {
+  "run_r5s_v6.py": "f549eb047b235252099b43b44c5dce14625c6090ad8984788f9e5f4269205c0e",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058"
+ },
+ "data_sha256": "10c764db14b16a615369873190ec6386284bef8695b78a13e5c84c727c99f294",
+ "results_content_sha256": "138587c656a8cad005981ca617435f1c357abe8e8f4b859388044b6c6e0d9d45",
+ "replica_content_sha256": "cace1c77fa5f8f266febf3106eb690932d6ee3f2a91ab52acba81ae03f0ee8e4",
+ "v5_reference_sha256": "99c43173802f8ddf50dfd0b9eafd6099cd9f80e09fb57f6a380496ecf5af5623",
+ "n_rows": 200,
+ "n_replica_rows": 10,
+ "methods": [
+  "Peace-rect"
+ ],
+ "eps": [
+  0.001
+ ],
+ "seeds": [
+  30000,
+  30199,
+  200
+ ],
+ "r1_seeds": [
+  30000,
+  30001,
+  30002,
+  30003,
+  30004,
+  30005,
+  30006,
+  30007,
+  30008,
+  30009
+ ],
+ "required_rules": [
+  "R1",
+  "R2",
+  "R3"
+ ],
+ "written_at": "2026-10-04T03:10:06.274350"
+}

@@ -1,0 +1,507 @@
+{
+ "version": "5+v11-addendum",
+ "status": "locked",
+ "written_at": "2026-10-05",
+ "written_by": "experimenter (v11 OBD retarget; design plan/v11_obd_plan.md, committed before any v11 dev stream)",
+ "addendum_to": {
+  "version": 5,
+  "path": "plan/prereg_lock.json",
+  "sha256": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+  "git_commit": "ad9dbbc826bef2ca12be99f8547efe197e18c29a"
+ },
+ "v6_addendum": {
+  "path": "plan/prereg_lock_v6_addendum.json",
+  "sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+  "git_commit": "1098518537f7b80ff377d87cbcc2a4506aaa4766"
+ },
+ "v7_addendum": {
+  "path": "plan/prereg_lock_v7_addendum.json",
+  "sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+  "git_commit": "bfd929bde6c850d0ef8819da6eb45b0bd2dea686"
+ },
+ "v8_addendum": {
+  "path": "plan/prereg_lock_v8_addendum.json",
+  "sha256": "729bdcbd32f821b842db8c52594388bdf5fbeb4dfa790748c1f80a9852a1cff0",
+  "git_commit": "5de13da14f52ab250bf010beec5bb2c6da7113ed"
+ },
+ "v9_addendum": {
+  "path": "plan/prereg_lock_v9_addendum.json",
+  "sha256": "9540de0c7266e931b8c7945cb7382e7809f47196a8e41cf49267db67541fda79",
+  "git_commit": "29be77b7b132160c7d5a4ba93d16bd3ea9807165"
+ },
+ "v10_addendum": {
+  "path": "plan/prereg_lock_v10_addendum.json",
+  "sha256": "ecaf78e1c5424d996ed775194a6f0f8041e0ce3c5c1b9effc4a99388069d82d8",
+  "git_commit": "2984121d73bde1e3fddd306c721d8c805b711e4e"
+ },
+ "v10_known_input_drift": {},
+ "statement": "Append-only addendum. It edits neither lock v5 nor the v6-v10 addenda and cannot change their verdicts. It registers ONE confirmatory block: TU-FDC-DP(b) -- the FDC-BF joint certificate computed exactly (up to an abstaining node cap) over the segment-policy class by multiple-choice knapsack DP and branch-and-bound, read under its time-uniform guarantee and monitored at the K = 40 block grid -- against the matched, parameter-free time-uniform Bennett rectangle RECT-BF-DP-TU, on the eval half of a real uniform-random recommendation log that no earlier lock has replayed (Open Bandit Dataset, random/all; first use; fresh seeds 39000-39199), under a design frozen from the dev half (9 user-feature segments, 2 item-group arms, exposure-cost knapsack, 15 budgets). eps was chosen on dev by the pre-stated rival-success rule; THRESH by the pre-stated dev rule. Inference is conditional on the finite eval table (fresh replay randomness only).",
+ "primary_method": {
+  "name": "TU-FDC-DP(b)",
+  "construction": "dsswm.baselines.fdc_dp.FDCDPTimeUniform(block_points = the K = 40 checkpoint grid, scheme='b', node_limit 200000, grid ratio 2000^(1/160)); identical construction to lock v10 except K",
+  "guarantee": "Theorem DP-1 (plan/fdc_dp_theory.md) + Lemma TU: FWER <= 0.05 per stream and problem family, for all t >= t_1, under the frozen outcome-free 50/50 schedule",
+  "fdc_dp_sha256": "9b6d42182c59fd8a0473f375f2875c7e2f3ad4efe437ae4dc4cb5818313686da",
+  "rect_dp_sha256": "a1bc150ad74b39f09fc626a3e64fc5556b322a391578f07fff33f65825994167"
+ },
+ "rivals": {
+  "governing": {
+   "RECT-BF-DP-TU": "dsswm.baselines.rect_dp.RectBFDPTU(block_points = K = 40 grid, box=True): Bennett-FPC rectangle matched to FDC-DP, exact worst-gap DP, parameter-free"
+  },
+  "descriptive": {
+   "HC-WoR-DP[tuned]": "hedged-capital WoR CS rectangle (time-uniform), tuned on dev by the block-G3 rule at the selected eps: {'schedule': 'nstar', 'c': 0.5, 'tf': 0.6, 'source': 'v11_eps_hc.json (block-G3 rule at the selected eps, dev seeds 950-999)'}",
+   "RECT-HG-DP": "exact hypergeometric per-cell rectangle at delta / (2 S A K) with the worst-gap DP; CHECKPOINT-STRENGTH (CP) guarantee (valid at the K grid points only); labelled CP"
+  },
+  "claim_scope": "claims are restricted to the named implementations; not 'the best valid rectangle'"
+ },
+ "block": {
+  "role": "CONFIRMATORY (single verdict)",
+  "table": "Open Bandit Dataset random/all eval half (688,159 rows; blinded salted row-level split of PROVENANCE.json), the whole half is the replay population (tau = eval N)",
+  "table_use": "first use of this eval half; no eval-outcome statistic computed before the lock",
+  "layer": "OBD-UF0X3-A2-S9",
+  "task": "v11_obd_full",
+  "seeds": "39000-39199 (200 new streams)",
+  "eps": 0.0003,
+  "methods": [
+   "TU-FDC-DP(b)",
+   "RECT-BF-DP-TU",
+   "HC-WoR-DP[tuned]",
+   "RECT-HG-DP"
+  ]
+ },
+ "design": {
+  "segments": "uf0 x uf3; cells < 2 % of dev rows -> '<uf0>|other'; residual < 1 % -> largest cell; segments ordered by dev size (desc); frozen explicit map in exp/results/v11_gates/obd_v11_frozen.json; unseen (uf0, uf3) pair -> other_map['<uf0>|other']; unseen uf0 -> fallback_segment (the largest dev segment) (fallback row counts reported)",
+  "arms": "arm 1 = 40 items with the highest dev click rate (ties by item id), arm 0 = the other 40; arm a = show a uniformly random item of group a; frozen item lists",
+  "costs": "kappa[s, 0] = 0, kappa[s, 1] = max(1, round(8 S w_s^dev)); budgets floor(b_q sum kappa[s, 1]), b_q = 0.10 .. 0.80 (15 problems); frozen from dev (identical classes on dev and eval); policy values use the eval segment weights",
+  "cost_vector": [
+   26,
+   14,
+   14,
+   4,
+   3,
+   3,
+   3,
+   2,
+   2
+  ],
+  "budgets": [
+   7,
+   10,
+   14,
+   17,
+   21,
+   24,
+   28,
+   31,
+   35,
+   39,
+   42,
+   46,
+   49,
+   53,
+   56
+  ],
+  "allocation": "frozen outcome-free 50/50 design balanced_alloc(S, A, 0.5) for every method",
+  "checkpoints": "fr.checkpoints(5000, tau = eval N, K = 40); K changed from 20 (v7-v10, feasibility) to 40 so that ratios are not quantised to ~0.77 / 0.60 / 0.46 grid steps",
+  "delta": 0.05,
+  "horizon": "every stream runs to 15/15 certified or tau",
+  "endpoint": "N80_pen = the K = 40 checkpoint at which 12/15 problems are first certified if no false certificate by then, else tau; a false stream = any false certificate over the whole run"
+ },
+ "eps": 0.0003,
+ "eps_selection": {
+  "rule": "smallest eps of the grid at which the dev-best of {RECT-BF-DP-TU, HC-WoR-DP tuned at that eps} (lower dev geomean N80_pen; tie -> RECT-BF-DP-TU) has strict N80_pen < tau on >= 40/50 dev streams (seeds 950-999); FDC-DP never read",
+  "hc_rule": "per eps, lowest dev geomean N80_pen over HC_GRID (nstar; c in {0.5, 0.75}; tf in {0.2, 0.4, 0.6, 0.8}); ties -> grid order",
+  "grid": [
+   0.0003,
+   0.0005,
+   0.00075,
+   0.001,
+   0.0015
+  ],
+  "result": {
+   "selected_eps": 0.0003,
+   "rival": "HC-WoR-DP[tuned]",
+   "rival_method": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "successes": 47,
+   "n": 50
+  },
+  "trace": [
+   {
+    "eps": 0.0003,
+    "best": "HC-WoR-DP[tuned]",
+    "best_method": "HC-WoR-DP[c=0.5,tf=0.6]",
+    "qualifies": true,
+    "per_rect": {
+     "RECT-BF-DP-TU": {
+      "method": "RECT-BF-DP-TU",
+      "successes": 48,
+      "geomean_N80_pen": 607877.751687734
+     },
+     "HC-WoR-DP[tuned]": {
+      "method": "HC-WoR-DP[c=0.5,tf=0.6]",
+      "successes": 47,
+      "geomean_N80_pen": 606345.4060406052
+     }
+    }
+   }
+  ],
+  "implementation": "dsswm.stats.v11_analysis.select_hc / select_eps (select_eps refuses FDC-DP rows), via run_v11.py --select on the rule-task rows only",
+  "units": {
+   "absolute_ctr": 0.0003,
+   "relative_to_dev_base_ctr": 0.0855926819126819,
+   "dev_base_ctr": 0.003504972543167271,
+   "dev_mean_share_of_feasible_policies_eps_optimal": 0.14164758798363972,
+   "eval_reporting": "eval base CTR, eps / eval base and the eval eps-optimal share are reported descriptively after the eval run"
+  }
+ },
+ "thresh": 0.9,
+ "thresh_rule": {
+  "rule": "THRESH = min(0.90, UB95_dev + 0.10), rounded up to 3 decimals (plan/v11_obd_plan.md s6)",
+  "ub95_dev": 0.8401682806588635,
+  "ratio_dev": 0.825454908447896,
+  "value": 0.9,
+  "source": "exp/results/pilots/v11_dev/v11_analysis_dev.json",
+  "rule_written": "plan/v11_obd_plan.md s6 (before any v11 dev stream)"
+ },
+ "decision_rule": {
+  "statistic": "paired geometric-mean ratio of N80_pen, TU-FDC-DP(b) / RECT-BF-DP-TU, paired percentile bootstrap over the 200 streams (B = 10^4, seed 42, one resample matrix for all comparators), one-sided UB95; two-sided CI reported",
+  "positive_result_achieved": "UB95 < THRESH = 0.9 AND TU-FDC-DP(b) 0/200 false streams (whole run to 15/15 or tau) AND replica pass",
+  "positive_result_not_achieved": "otherwise; components rival_superiority_failed (sub-label faster_below_1 / not_faster), validity_failure, replica_fail",
+  "implementation": "dsswm.stats.v11_analysis.decide via run_v11.py --analyse",
+  "descriptive": "ratios vs HC-WoR-DP[tuned] and RECT-HG-DP (CP), RECT-BF-DP-TU vs each; per-method false streams with Clopper-Pearson UB; exhaustion at N80; share reaching 15/15; eps-optimal share on the eval truth; fallback row counts"
+ },
+ "frozen_configs": {
+  "eps": 0.0003,
+  "delta": 0.05,
+  "K": 40,
+  "n80_k": 12,
+  "stop_k": "Q = 15 (stop_frac 1.0)",
+  "checkpoints": "fr.checkpoints(n_min = 5000, tau_R = replay N, K = 40)",
+  "design": "balanced_alloc(S, A, 0.5) for every method",
+  "TU-FDC-DP(b)": {
+   "scheme": "b",
+   "node_limit": 200000,
+   "grid_ratio": 1.0486521158927813,
+   "split": [
+    0.045,
+    0.005
+   ],
+   "block_points": "the K = 40 grid"
+  },
+  "RECT-BF-DP-TU": {
+   "box": true,
+   "split": [
+    0.045,
+    0.005
+   ],
+   "block_points": "the K = 40 grid"
+  },
+  "HC-WoR-DP[tuned]": {
+   "schedule": "nstar",
+   "c": 0.5,
+   "tf": 0.6,
+   "source": "v11_eps_hc.json (block-G3 rule at the selected eps, dev seeds 950-999)"
+  },
+  "RECT-HG-DP": {
+   "guarantee": "checkpoint-strength (CP): valid at the K grid points only",
+   "alpha_side": "delta / (2 S A K)"
+  },
+  "thresh": 0.9
+ },
+ "frozen_gates": {
+  "exp/results/v11_gates/obd_v11_frozen.json": "6ee81e02b26a872b377c1301154056110cc2c094c13c8cfa5dce78ec2cc614b2",
+  "exp/results/v11_gates/v11_eps_hc.json": "0e06adf6b2ed3750f6c440042b2fd0f7c7b337dc69457569a97b3c067bd7c90f",
+  "exp/results/v11_gates/v11_thresh.json": "aeb8122fa1b9af85f65749cad63ad7453872e21cae79345dd28a1723af028929"
+ },
+ "seed_manifest": {
+  "dev": "950-999 on the whole dev half (rule tasks, dev cell; the feasibility pilot used 950-979 at K = 20)",
+  "eval": "39000-39199",
+  "bootstrap_seed": 42,
+  "previously_used_eval": "30000-30199, 31000-31199, 32000-32199, 33000-33199, 34000-34199, 35000-35399, 36000-36199, 37000-37799, 38000-38999 (all on other tables)"
+ },
+ "replica_check": {
+  "implementation": "dsswm/stats/v11_replica.py + run_v11.py --task v11_obd_full --replica",
+  "R1": "independent process re-runs the first 10 eval seeds; canonical rows identical",
+  "R1_excluded_fields": [
+   "sec",
+   "rs_sec_plan",
+   "rs_sec_cert",
+   "rs_sec_total"
+  ],
+  "R2": "schedule_digest identical across all four methods per seed (frozen 50/50 design)",
+  "R2_groups": [
+   [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP[tuned]",
+    "RECT-HG-DP"
+   ]
+  ],
+  "R2b": "arrival_digest identical across all methods per seed",
+  "on_failure": "replica_fail -> positive_result_not_achieved"
+ },
+ "eval_tasks": {
+  "v11_obd_full": {
+   "role": "confirmatory",
+   "layer": "OBD-UF0X3-A2-S9",
+   "eps": 0.0003,
+   "seeds": "39000-39199",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP[tuned]",
+    "RECT-HG-DP"
+   ],
+   "K": 40,
+   "stop_k": 15,
+   "n80_k": 12
+  }
+ },
+ "eval_access": {
+  "reader": "dsswm.envs.obd_v11_eval.read_eval_rows: prereg_v11 gate (locked addendum, all hashes, registered task) -> task registered for exactly layer OBD-UF0X3-A2-S9 -> caller's lock sha256 equals the locked addendum's -> one line appended to exp/results/full/v11_obd/eval_access_log.jsonl -> data hashes vs lock and PROVENANCE -> read",
+  "pre_lock_reads": "Split preparation (2026-10-05, before v11): the split script read all.csv, wrote the eval files, hashed them and computed eval LABEL-only statistics recorded in PROVENANCE.json (position / item shares; no outcome statistic). v11 code before the lock: no eval OUTCOME byte was opened or hashed. eval_labels.pkl bytes were hashed (never deserialised) by the first v11 dev runs and the first draft build (commits 8ed70164 / 393dbb15, before external reviewer lock review r1); after r1 (F1/F3) both eval hashes are taken from the hash-bound PROVENANCE.json, the gate never opens an eval file, and eval bytes are hashed only inside the authorised, logged reader.",
+  "gate_order": "caller layer + sha format -> v11 gate (status, schema, task membership, inherited chain, canonical hash, code / input / non-eval data drift, single-commit history) -> registered layer -> caller sha equals lock -> access-log line (fsync) -> eval bytes vs lock and PROVENANCE -> deserialise"
+ },
+ "command": "cd exp/code && python run_v11.py --task v11_obd_full [--workers 4]; --task v11_obd_full --replica; --analyse. Every step re-checks the locked v11 addendum (and through it v10-v5).",
+ "eval_seal": "v11_seal (as v8-v10: seal committed alone at task completion + sidecar ref commit; single-commit history anchor); exp/results/full/v11_seals",
+ "threat_model": "as v6-v10: accidental drift, partial / resumed runs and post-hoc edits are detected against git history; deliberate history rewriting is out of scope.",
+ "declarations": [
+  "FDC-DP's statistical certificate is FDC-BF's (Theorem DP-1); the contribution is computational; the block tests speed against named implementations.",
+  "Headline claim restricted to methods with proven finite-sample / anytime-valid guarantees (user ruling 2026-10-03); plug-in methods are not run.",
+  "The arm grouping (top-40 vs bottom-40 items by dev CTR) and the uf0 x uf3 segmentation (picked for visible heterogeneity) used dev outcomes; legitimate because eval is untouched; the eval uplift gap shrinks by selection. The feasibility holdout (ratio 0.78 vs 0.72 at eps 5e-4, K = 20) froze only the ITEM GROUPS on the even-row half; segment lists and costs were recomputed on the odd replay half (external reviewer v11 lock r1 F4), so it is an item-group holdout, not a rehearsal of the full frozen-design transfer.",
+  "Dev block regenerated once: the first v11 dev run (commit 8ed70164) was bound to pre-r1 code; after the r1 gate fix (no change to any stream computation) the rule tasks, eps / HC selection, dev cell, dev replica, dev analysis and THRESH were regenerated on the fixed code; the gate files were rewritten once for that reason only (values compared in plan/v11_dev_report.md).",
+  "Row-level split: 3.3 % of dev rows share an exact timestamp with an eval row (multi-position impressions); user ids are absent, so repeat users can occur in both halves; dev and eval are weakly dependent.",
+  "First use of the OBD eval half; inference conditional on the finite table.",
+  "K changed from 20 to 40 (pre-stated in plan/v11_obd_plan.md); costs frozen from dev segment shares rather than eval label shares (feasibility suggestion), so no eval read was needed before the lock.",
+  "HC-WoR-DP is tuned on the same dev streams used by the eps rule (selection-optimistic for HC; HC is descriptive). RECT-HG-DP has a checkpoint-strength (CP) guarantee only (descriptive).",
+  "THRESH = min(0.90, UB95_dev + 0.10) is a dev-calibrated threshold (rule pre-stated before any v11 dev stream; value computed after the dev run, before the lock).",
+  "The multi-arm (A = 3) cell is not registered (control-pool exhaustion on dev; feasibility s4).",
+  "random/men, random/women and bts/* stay unread (reserved).",
+  "Timings: up to 5 runner processes x 4 workers concurrently; biased up."
+ ],
+ "code_sha256": {
+  "run_v11.py": "9f3068f132db2a3d0339e62acdd8429ded6fbbbf953b84fa784153917f6c03b0",
+  "dsswm/envs/obd_v11_eval.py": "434d7b6e8957fa43898f45b14591669f3193be4b76831a4ebcaa011c24be671b",
+  "dsswm/envs/obd_v11.py": "b13178e3da12b6853216b603b431703d35793ba298191bf6660bf9c342c042ea",
+  "dsswm/stats/prereg_v11.py": "28976324c34c576b6d196566fafa1fb6d0dd7a74562c571e6e40ab5d2efb9eb7",
+  "dsswm/stats/v11_analysis.py": "3990c3411c2183add94367c627392eb1424b8847f5786d1fce9e505d0bca71fe",
+  "dsswm/stats/v11_replica.py": "1d0a2f1e00de9b05752e7774110669c9ad67b21212d4eb2d5c2716d51ffb9c29",
+  "dsswm/stats/v11_seal.py": "265f6d89aeaa2f2ce6a16884cbd5b4687f6cf97b32cb8f1050497b4c98f879f9",
+  "dsswm/baselines/rect_hg_dp.py": "9a5ec2a1d22d848fad361445743ff85541581674dc9e9e5b29a23bbcec526f27",
+  "dsswm/baselines/fdc_dp.py": "9b6d42182c59fd8a0473f375f2875c7e2f3ad4efe437ae4dc4cb5818313686da",
+  "dsswm/baselines/rect_dp.py": "a1bc150ad74b39f09fc626a3e64fc5556b322a391578f07fff33f65825994167",
+  "dsswm/envs/seg_v10.py": "7e788046d50e9c7f9c34ead2eac8b7e35cb1d6e1687821e0d0338282d8b115f5",
+  "dsswm/envs/seg_v10_eval.py": "931ace630d2d8ff517046a8903330857c6c4ec2779711eda429ea7fb07b5bc3a",
+  "dsswm/stats/prereg_v10.py": "631e1eed94216e3b27dd1eed5ecfe775363a403dd81a82583832bf22b1f58298",
+  "dsswm/baselines/rect_tu_v9.py": "b9c4451d89bcda7c04993b622676c46735a78c2249aaaf69f0f4db291cd3b96f",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/b4_bal.py": "588c6ed77e7e87659f76dbce8d299e7a0dcb07d3eb4c00b56d5fd1d0554db2e7",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/frontier_common.py": "d48673e6c377395c3deb1d91be03774b4f1cf164b2749d1e5c3736cee302735f",
+  "dsswm/streams/frontier_runner.py": "f1ec7b16b6ba23399b384aceeb2188601058e86eb381ad83075ac13effcba144",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/streams/frontier.py": "ce0aec93bb3be06c65fc36f267799a25759967fbfe6fad8c6758ee7034af8325",
+  "dsswm/envs/pool_replay.py": "0454727f1ac54af7eec6a2e202accdb372f5e602c8b812594d5e7aeedc4d53eb",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/envs/base.py": "736501702e4107f96c0d2596b34cfa15ca1a562676ef27a87b3cbc750468ae79",
+  "dsswm/stats/prereg.py": "ec41100519c3ec70b2e8ca35074f804e959479bc832d94cd71d84ddaae4fe629",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/prereg_v9.py": "0b7c18b6ade8271fd7243dc9b19bb793effe23cac503997f2bb78d751deca211",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/stats/v9_seal.py": "98faf8284f5ce9cfde4347096136a6c707c677a24e775dd2fcf82f7909ed1536",
+  "dsswm/baselines/fdc.py": "b092130ffd86ae744ed73c2a67c6e7eadaef3e1af5a7dde85ddc38782f8b5d43",
+  "dsswm/core/actions.py": "901130940b511768abbf8dc0e04cfdc023e494f0fe6b4aaf355947c82969e876",
+  "dsswm/core/state.py": "73638938acfa5c3debce1df753573495c76d0abdc780d5a730cec2062d1145ca",
+  "dsswm/stats/fp_eb.py": "81998d9c6bc2bb9af8f32fd71849c45638edb467ed81f643fa5cfe5066ba8a6e",
+  "build_v11_addendum_draft.py": "48c440f8c737e5128e939310d18ce6ddf3232df5e8cdea40860bf755946207cf",
+  "dsswm/tests/test_v11_addendum.py": "16921e7d4fd12cce9aaa3d3dea590c9738dca2ed6eed4b4f2e18b4140231da06"
+ },
+ "input_sha256": {
+  "plan/prereg_lock.json": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+  "plan/prereg_lock_v6_addendum.json": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+  "plan/prereg_lock_v7_addendum.json": "1f1a67d1a7edb915effca9b64360372af00c0c41db3371d19a89030d9b2d4b87",
+  "plan/prereg_lock_v8_addendum.json": "fd8d4e4487f8111f160b469f8b85a3023bf5b6a50f07c19a5fa1f0573c3d019f",
+  "plan/prereg_lock_v9_addendum.json": "e7d8772530b336be5451206957ec87579f63430f5f3ab93c1a1bc4fd0ced65e2",
+  "plan/prereg_lock_v10_addendum.json": "fc9ff22625d205d8d8ce2aae10639400705b4c5235da9c6f349c653c32e0a173",
+  "plan/prereg_lock_v11_addendum_DRAFT.md": "04b5edc33e27781accc1e078696ffcfc201825f604fef0b3f8433a54084ac5bc",
+  "plan/v11_obd_plan.md": "98828f34c99ba7421b07d856f6643603f6c079f69c0bc479a7a1dc78f422fc85",
+  "plan/obd_feasibility.md": "dea460f0204b9f911f9491e385143f2288b182ef8826f29e77cd3ce4d30f92fd",
+  "plan/v11_dev_report.md": "780f07dc8271394c87c1c7282052b8af331bc8656b790e5da8e6f5882be53350",
+  "plan/fdc_dp_theory.md": "18a310eba4aa7f165579affaac1ef2bcff8db221f3796d90c3342b6f36e0946e",
+  "exp/results/v11_gates/obd_v11_frozen.json": "6ee81e02b26a872b377c1301154056110cc2c094c13c8cfa5dce78ec2cc614b2",
+  "exp/results/v11_gates/v11_eps_hc.json": "0e06adf6b2ed3750f6c440042b2fd0f7c7b337dc69457569a97b3c067bd7c90f",
+  "exp/results/v11_gates/v11_thresh.json": "aeb8122fa1b9af85f65749cad63ad7453872e21cae79345dd28a1723af028929",
+  "exp/results/v11_gates/MANIFEST.json": "96a98f891245a7ea718a20ef29c6f86d8ef029e659cb719284c10ec2c065e146",
+  "exp/results/pilots/v11_dev/v11_analysis_dev.json": "59fb55702ce84c116c13daf8e3cc7ee7ccf9a097781d00e3c61da258b1392903",
+  "exp/results/pilots/v11_dev/v11_obd_pilot/results.jsonl": "65d3195e28084f38c80ca1e2cdac2be5d72658a1d529fe71789d3c194d5530cb",
+  "exp/results/pilots/v11_dev/v11_obd_pilot/replica_report.json": "cad208612b168f5ce8931613ffd5447762ca6d02be6ea327a2322436dec2c50f",
+  "exp/results/pilots/obd_dev/describe.json": "90266bd559b2c17c6e2111cdccc1667a5a7574f64bc5d136d1e53bc0932257d5",
+  "exp/results/pilots/obd_dev/describe_holdout.json": "53b8dd0ae1302101c93104ffde0ea03bee0e39375f49843de2a06cf3636b7346",
+  "exp/results/pilots/v11_dev/v11_dev_rule_e0/results.jsonl": "944c306e356a7093db7b23f070308c175521f50dd5274c146a7bd3580b3f161e",
+  "exp/results/pilots/v11_dev/v11_dev_rule_e1/results.jsonl": "a9f93717eef263014f3e208360c721c1839d63b6814bf89474a2f3ac9c4f702b",
+  "exp/results/pilots/v11_dev/v11_dev_rule_e2/results.jsonl": "d8ab77c20e03c76cc7497ddc421b7098d5cd7c1d15c416a6ce9bb0d69c2e56b0",
+  "exp/results/pilots/v11_dev/v11_dev_rule_e3/results.jsonl": "3d647a0190c206f5fa64721d99630cb7a18323f713c8633904486dd0f1485f78",
+  "exp/results/pilots/v11_dev/v11_dev_rule_e4/results.jsonl": "59b3721f58bb70276f719947cd20d8bf5ddfebe0784e4caa1ddf6516b25e24e0",
+  "reviews/v11_lock_review_r1.md": "b4befc08d153015119c8fa89a67cfd8c3145484746df55bbdce5504c5827d6ea",
+  "reviews/v11_lock_review_r2.md": "f7a7acfaaef072bb3d359dcaa761e31a9aa9b196f32e98b26ee9efb61fac9c79"
+ },
+ "data_sha256": {
+  "obd_dev": {
+   "path": "$DATA_DIR/open_bandit/dev.pkl",
+   "sha256": "ac59e8b9b40ee29f026daf8b1057a455678d60fb4a5201e75ec6acd0157ee748",
+   "source": "file bytes"
+  },
+  "obd_eval_labels": {
+   "path": "$DATA_DIR/open_bandit/eval_labels.pkl",
+   "sha256": "b27cd3b93d56e2a14ef6417f2f9d9623b5b125688578efa419aa22e7adaeb8af",
+   "source": "PROVENANCE.json record (file not opened before the lock)"
+  },
+  "obd_eval_outcome": {
+   "path": "$DATA_DIR/open_bandit/eval_outcome.npy",
+   "sha256": "cd0e23a339de3ed0aba6a14af1ab00f468a0c400966e0ad4c5b66dd190436ca8",
+   "source": "PROVENANCE.json record (file not opened before the lock)"
+  },
+  "obd_provenance": {
+   "path": "$DATA_DIR/open_bandit/PROVENANCE.json",
+   "sha256": "656ca6fc973c3b7df775cbe197c9c4f8f657d83982b49cae6cf22be5c6683118",
+   "source": "file bytes"
+  }
+ },
+ "dev_runner_check": {
+  "seeds": "dev 950-999 on the whole dev half (final code, frozen design, frozen configs)",
+  "eps": 0.0003,
+  "comparisons": {
+   "TU-FDC-DP(b)/RECT-BF-DP-TU": {
+    "geomean_ratio": 0.825454908447896,
+    "ub95_one_sided": 0.8401682806588635,
+    "ci95_two_sided": [
+     0.806915743005778,
+     0.8422915162538005
+    ],
+    "frac_faster": 1.0,
+    "frac_tied": 0.0,
+    "frac_slower": 0.0
+   },
+   "TU-FDC-DP(b)/HC-WoR-DP[tuned]": {
+    "geomean_ratio": 0.8275409838485855,
+    "ub95_one_sided": 0.8401684305242219,
+    "ci95_two_sided": [
+     0.810999206501407,
+     0.844420091301001
+    ],
+    "frac_faster": 1.0,
+    "frac_tied": 0.0,
+    "frac_slower": 0.0
+   },
+   "TU-FDC-DP(b)/RECT-HG-DP": {
+    "geomean_ratio": 0.8401683733075633,
+    "ub95_one_sided": 0.8508383592264588,
+    "ci95_two_sided": [
+     0.8254550110947174,
+     0.852988516924555
+    ],
+    "frac_faster": 1.0,
+    "frac_tied": 0.0,
+    "frac_slower": 0.0
+   },
+   "RECT-BF-DP-TU/HC-WoR-DP[tuned]": {
+    "geomean_ratio": 1.002527182744133,
+    "ub95_one_sided": 1.0101469871398887,
+    "ci95_two_sided": [
+     0.9949648565369666,
+     1.0101470513169466
+    ],
+    "frac_faster": 0.02,
+    "frac_tied": 0.94,
+    "frac_slower": 0.04
+   },
+   "RECT-BF-DP-TU/RECT-HG-DP": {
+    "geomean_ratio": 1.0178246742603216,
+    "ub95_one_sided": 1.0281525281407025,
+    "ci95_two_sided": [
+     1.007600564292303,
+     1.0307508247251227
+    ],
+    "frac_faster": 0.0,
+    "frac_tied": 0.86,
+    "frac_slower": 0.14
+   }
+  },
+  "methods": {
+   "TU-FDC-DP(b)": {
+    "false_streams": 0,
+    "geomean_N80_over_tau": 0.731272332529222,
+    "share_N80_lt_tau": 1.0,
+    "share_reached_15": 1.0,
+    "exhaustion_at_k80_mean": {
+     "all": 0.0,
+     "ctrl": 0.0,
+     "treat": 0.0,
+     "n_streams": 50
+    }
+   },
+   "RECT-BF-DP-TU": {
+    "false_streams": 0,
+    "geomean_N80_over_tau": 0.8859022159117503,
+    "share_N80_lt_tau": 0.96,
+    "share_reached_15": 1.0,
+    "exhaustion_at_k80_mean": {
+     "all": 0.04,
+     "ctrl": 0.04,
+     "treat": 0.04,
+     "n_streams": 50
+    }
+   },
+   "HC-WoR-DP[tuned]": {
+    "false_streams": 0,
+    "geomean_N80_over_tau": 0.8836690228057906,
+    "share_N80_lt_tau": 0.94,
+    "share_reached_15": 1.0,
+    "exhaustion_at_k80_mean": {
+     "all": 0.06,
+     "ctrl": 0.06,
+     "treat": 0.06,
+     "n_streams": 50
+    }
+   },
+   "RECT-HG-DP": {
+    "false_streams": 0,
+    "geomean_N80_over_tau": 0.87038783625044,
+    "share_N80_lt_tau": 1.0,
+    "share_reached_15": 1.0,
+    "exhaustion_at_k80_mean": {
+     "all": 0.0,
+     "ctrl": 0.0,
+     "treat": 0.0,
+     "n_streams": 50
+    }
+   }
+  },
+  "eps_units": {
+   "absolute_ctr": 0.0003,
+   "dev_base_ctr": 0.003504972543167271,
+   "relative_to_dev_base": 0.0855926819126819,
+   "replay_half_base_ctr": 0.003504972543167271,
+   "relative_to_replay_base": 0.0855926819126819
+  },
+  "eps_optimal_share": 0.14164758798363972,
+  "replica": "pass",
+  "thresh_if_frozen_now": 0.9
+ },
+ "lock_procedure": "external reviewer lock review -> rebuild draft -> code-freeze commit -> prereg_v11.finalize_addendum(git_commit) -> commit the lock file alone -> eval task, replica, analysis.",
+ "git_commit": "1741ebcf7bf15e772c58bb8e0d10962200903365",
+ "locked_by": "authors",
+ "locked_at": "2026-10-05T15:12:05.971748",
+ "eval_touched_at_lock": false,
+ "draft_sha256": "a15cf505eeadf2bed1b4c77a0e1c5e1484cc56992fe7fcf33ce6d58f0fe32c65",
+ "sha256": "4ee733915bf2ac7759bcf90b2bc945b5dce88d3c3625bd1e2d7531a65e629963"
+}

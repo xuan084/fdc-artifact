@@ -1,0 +1,841 @@
+{
+ "version": "5+v10-addendum",
+ "status": "draft",
+ "written_at": "2026-10-05",
+ "written_by": "author (round 10; design by the authors 2026-10-05; external reviewer FDC-DP r1 fixes)",
+ "addendum_to": {
+  "version": 5,
+  "path": "plan/prereg_lock.json",
+  "sha256": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+  "git_commit": "ad9dbbc826bef2ca12be99f8547efe197e18c29a"
+ },
+ "v6_addendum": {
+  "path": "plan/prereg_lock_v6_addendum.json",
+  "sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+  "git_commit": "1098518537f7b80ff377d87cbcc2a4506aaa4766"
+ },
+ "v7_addendum": {
+  "path": "plan/prereg_lock_v7_addendum.json",
+  "sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+  "git_commit": "bfd929bde6c850d0ef8819da6eb45b0bd2dea686"
+ },
+ "v8_addendum": {
+  "path": "plan/prereg_lock_v8_addendum.json",
+  "sha256": "729bdcbd32f821b842db8c52594388bdf5fbeb4dfa790748c1f80a9852a1cff0",
+  "git_commit": "5de13da14f52ab250bf010beec5bb2c6da7113ed"
+ },
+ "v9_addendum": {
+  "path": "plan/prereg_lock_v9_addendum.json",
+  "sha256": "9540de0c7266e931b8c7945cb7382e7809f47196a8e41cf49267db67541fda79",
+  "git_commit": "29be77b7b132160c7d5a4ba93d16bd3ea9807165"
+ },
+ "v9_known_input_drift": {},
+ "statement": "Append-only addendum. It edits neither lock v5 nor the v6-v9 addenda and cannot change their verdicts. It registers two confirmatory blocks testing FDC-DP -- the FDC-BF joint certificate computed exactly (up to an abstaining node cap) over exponentially large segment-policy classes by multiple-choice knapsack DP and branch-and-bound -- read under its time-uniform guarantee and monitored at the K = 20 block grid, against the matched, parameter-free time-uniform Bennett rectangle RECT-BF-DP-TU, on frozen dev-trained uplift-score segmentations: A on the X5 RetailHero eval half (fresh seeds 38000-38199) and B on the Lenta LR9 eval half (fresh seeds 38200-38399). Each block is an IUT over its cells; the blocks are reported separately and a joint statement needs both. Confirmatory cells and their eps were chosen on dev by the pre-stated rival-success rule (v2 dev, after the external reviewer FDC-DP r1 fixes). Inference is conditional on the two reused finite tables (fresh replay randomness only).",
+ "primary_method": {
+  "name": "TU-FDC-DP(b)",
+  "construction": "dsswm.baselines.fdc_dp.FDCDPTimeUniform(block_points = the K = 20 checkpoint grid, scheme='b', node_limit 200000, grid ratio 2000^(1/160)): FDC-BF cells (Bennett-FPC, exact-HG variance box at delta_var / (2 S A K)), ledger beta = ln(sum_q |Pi_q| K / 0.045) by exact counting DP, one centre-independent lambda grid per checkpoint, scheme (a) then exact branch-and-bound; capped search abstains (not certified). Weighted empirical centre (external reviewer r1 B1). Monitoring grid = block grid, so it is numerically identical to FDC-DP(b) (unit tests).",
+  "guarantee": "Theorem DP-1 (plan/fdc_dp_theory.md; external reviewer FDC-DP r1: valid) + Lemma TU: FWER <= 0.05 per stream and problem family, for all t >= t_1, under the frozen outcome-free 50/50 schedule; NOT under adaptive sampling; not simultaneous across seeds, tables, S or methods",
+  "contribution": "computational: the statistical certificate is FDC-BF's; the new part is exact certification over implicit classes of size up to ~1e19 (S = 64)",
+  "fdc_dp_sha256": "9b6d42182c59fd8a0473f375f2875c7e2f3ad4efe437ae4dc4cb5818313686da",
+  "rect_dp_sha256": "a1bc150ad74b39f09fc626a3e64fc5556b322a391578f07fff33f65825994167"
+ },
+ "rivals": {
+  "primary": {
+   "RECT-BF-DP-TU": "dsswm.baselines.rect_dp.RectBFDPTU(block_points = K = 20 grid, box=True): the Bennett-FPC rectangle matched to FDC-DP (same cell inequality, exact-HG variance box, (0.045, 0.005) split, 50/50 design, 2 S A K one-sided events), radii frozen at block points (Lemma TU), exact DP over the policy class; parameter-free; identical to RECT-BF-DP on the block grid (unit test)"
+  },
+  "descriptive": {
+   "HC-WoR-DP": "hedged-capital WoR CS rectangle (time-uniform under any predictable sampling) with the frozen v8 S = 9 configuration transferred UNTUNED at the 50/50 plan: {'x5': {'schedule': 'nstar', 'c': 0.75, 'target_frac': 0.6, 'plan': '0.5', 'source': 'exp/results/v8_gates/x9_configs.json (S = 9 tuning; plan forced to 0.5; untuned transfer)'}, 'lenta': {'schedule': 'nstar', 'c': 0.75, 'target_frac': 0.2, 'plan': '0.5', 'source': 'exp/results/v8_gates/cr_configs.json (S = 9 tuning; plan forced to 0.5; untuned transfer)'}}",
+   "FDC-DP(a)": "single-column scheme (a) (conservative, no branch-and-bound)"
+  },
+  "claim_scope": "claims are restricted to the two named rectangle implementations (RECT-BF-DP-TU; HC-WoR-DP as an untuned transfer); not 'the best valid rectangle' (external reviewer r1 s4)"
+ },
+ "blocks": {
+  "A": {
+   "role": "CONFIRMATORY (verdict 1 of 2)",
+   "table": "X5 RetailHero eval half (blinded hashed split of ingest_v8_fresh, 100,393 rows), the whole half is the replay population",
+   "table_reuse": "3rd use of this eval half (v8 A 35000-35199, v9 B 37200-37399); fresh seeds; new segmentation = new problem on old rows",
+   "seeds": "38000-38199 (200 new streams)",
+   "cells": {
+    "v10a_full_s16": {
+     "data": "x5",
+     "S": 16,
+     "eps": 0.03
+    },
+    "v10a_full_s32": {
+     "data": "x5",
+     "S": 32,
+     "eps": 0.04
+    }
+   }
+  },
+  "B": {
+   "role": "CONFIRMATORY (verdict 2 of 2)",
+   "table": "Lenta LR9 eval half (lenta_v6 split seed 6006 = complement of the dev half), the whole half is the replay population",
+   "table_reuse": "this eval half was used by v6 B (32000-32199) and v7 B (34000-34199), both DESCRIPTIVE, and the table is outcome-exposed (r4 computed full-table LR8 cell means that include these rows; v6 exposure statement). v10 B is the first confirmatory use and the 3rd fresh-stream use; fresh seeds; new segmentation",
+   "seeds": "38200-38399 (200 new streams)",
+   "cells": {
+    "v10b_full_s16": {
+     "data": "lenta",
+     "S": 16,
+     "eps": 0.004
+    },
+    "v10b_full_s32": {
+     "data": "lenta",
+     "S": 32,
+     "eps": 0.006
+    },
+    "v10b_full_s64": {
+     "data": "lenta",
+     "S": 64,
+     "eps": 0.008
+    }
+   },
+   "exhaustion_qualification": "Lenta is ~25 % control, so the 50/50 design exhausts control pools; certification can be exhaustion-driven. Every cell reports the mean fraction of exhausted cells (all / control / treatment) at each method's N80 checkpoint; a mechanism claim about pre-exhaustion widths is made only where these fractions are 0 for both methods"
+  },
+  "D": {
+   "role": "DESCRIPTIVE (no verdict)",
+   "cells": {
+    "v10d_full_x5s64": {
+     "data": "x5",
+     "S": 64,
+     "eps": 0.05,
+     "block": "A"
+    }
+   },
+   "reason": "the rule found no eps on the declared grid at which the rectangles succeed (rivals censored); reported as descriptive with the block-A seeds; its grid is never enlarged after eval"
+  },
+  "decision_rule": {
+   "statistic": "paired geometric-mean ratio of N80_pen, TU-FDC-DP(b) / RECT-BF-DP-TU, paired percentile bootstrap over the 200 streams (B = 10^4, seed 42, one resample matrix for all cells and comparators), one-sided UB95",
+   "positive_result_achieved": "per block, for EVERY registered cell: UB95 < 0.80 AND TU-FDC-DP(b) 0/200 false streams (whole run to 15/15 or tau); AND replica pass for every task of the block (IUT)",
+   "positive_result_not_achieved": "otherwise; per-cell components rival_superiority_failed (sub-label faster_below_1 / not_faster), validity_failure; replica_fail",
+   "per_cell_reporting": "each cell is also reported on its own",
+   "multiplicity": "IUT within each block; the two blocks are reported separately; a joint X5 + Lenta statement only if both blocks are positive; no other combination",
+   "threshold_origin": "0.80 = go criterion 4 of plan/fdc_dp_theory.md (written before any dev run)"
+  },
+  "endpoint": {
+   "N80_pen": "K = 20 checkpoint at which 12/15 problems are first certified, if no false certificate by then, else tau_R",
+   "horizon": "stop_k = 15 (or tau_R); a false stream = any false certificate over the whole run",
+   "dev_deviation": "v1 dev runs (fdc_dp_dev_report v1) stopped at 12/15; v2 dev and v10 run to 15/15 (external reviewer r1 B2)"
+  }
+ },
+ "eps_selection": {
+  "rule": "plan/v10_plan.md (written before the eps >= 0.03 dev runs): smallest eps on the declared grid (X5 0.02 / 0.03 / 0.04 / 0.05; Lenta 0.003 / 0.004 / 0.006 / 0.008) at which the dev-best of the two named rectangles (lower geometric-mean N80_pen; tie -> RECT-BF-DP) has strict N80_pen < tau on >= 40/50 dev streams; none -> descriptive cell; FDC-DP's speed is never used",
+  "implementation": "run_fdc_dp_dev.select_eps (external reviewer r1 B2), applied mechanically to the v2 dev results (exp/results/pilots/fdc_dp_v2/analysis.json)",
+  "v2_result": {
+   "lenta16": {
+    "selected_eps": 0.004,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "lenta32": {
+    "selected_eps": 0.006,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "lenta64": {
+    "selected_eps": 0.008,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_16": {
+    "selected_eps": 0.03,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_32": {
+    "selected_eps": 0.04,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_64": {
+    "selected_eps": null,
+    "rival": null,
+    "successes": null,
+    "n": 50,
+    "fallback": "rivals_censored (descriptive cell)"
+   }
+  }
+ },
+ "frozen_segmentation": {
+  "seg_v10_frozen.json": "67239f553c8d8c5d087b6190d685558207aea13aa64399d9305e55f4d6960949",
+  "score_model_x5.pkl": "f0676115edb65c852b319084a87759aa41a5e5244630a0be60a44e71babe631c",
+  "score_model_lenta.pkl": "8ee2a8ea7111f52ab7e072a297ac647aec94141316c40857a8bc6ec5f1de0747"
+ },
+ "frozen_segmentation_detail": {
+  "score_model": "seg_v10 T-learner: two HistGradientBoostingClassifier (one per arm) with {'max_iter': 200, 'learning_rate': 0.05, 'max_leaf_nodes': 15, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'random_state': 0}, fit on the 30 % dev model split (seed 10010); sklearn 1.9.1; pickled; eval scoring uses the pickles (no refit)",
+  "features": {
+   "x5": [
+    "age_valid",
+    "age_invalid",
+    "g_F",
+    "g_M",
+    "issue_day",
+    "redeem_day",
+    "redeem_minus_issue",
+    "no_redeem"
+   ],
+   "lenta": [
+    "x_age",
+    "x_children",
+    "x_main_format",
+    "x_months_from_register",
+    "x_promo_share_15d",
+    "x_food_share_1m",
+    "x_k_var_cheque_3m",
+    "x_mean_discount_depth_15d"
+   ]
+  },
+  "segmentation": "cut points = minimum dev replay-pool score of seg_v10's equal-size score-quantile segments 1..S-1 (ties broken by seed 10011 on dev); assignment segment = #{j : cut_j <= score} (ties at a cut go up); dev rows reassigned vs seg_v10: {\"x5\": {\"16\": 4, \"32\": 12, \"64\": 22}, \"lenta\": {\"16\": 231, \"32\": 628, \"64\": 2166}}",
+  "problems": "frozen from dev: kappa[s, 1] = 8 for every segment, budgets floor(b_q 8 S), b_q = 0.10, 0.15, ..., 0.80 (treat at most floor(b_q S) segments); NOT recomputed from eval weights; policy value uses the eval segment weights",
+  "rows": "X5: eval_labels.pkl rows in file order (row ids 0..N-1), outcome eval_outcome.npy; Lenta: tidy.pkl rows of the LR9 eval half (np.flatnonzero), outcome response_att",
+  "checkpoints": "fr.checkpoints(n_min, tau_R, 20) with n_min 2000 (X5) / 5000 (Lenta), tau_R = eval N"
+ },
+ "frozen_configs": {
+  "HC-WoR-DP": {
+   "x5": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.6,
+    "plan": "0.5",
+    "source": "exp/results/v8_gates/x9_configs.json (S = 9 tuning; plan forced to 0.5; untuned transfer)"
+   },
+   "lenta": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2,
+    "plan": "0.5",
+    "source": "exp/results/v8_gates/cr_configs.json (S = 9 tuning; plan forced to 0.5; untuned transfer)"
+   }
+  },
+  "TU-FDC-DP(b)": {
+   "scheme": "b",
+   "node_limit": 200000,
+   "grid_ratio": 1.0486521158927813,
+   "split": [
+    0.045,
+    0.005
+   ],
+   "block_points": "the K = 20 grid env.checkpoints(20)"
+  },
+  "FDC-DP(a)": {
+   "scheme": "a",
+   "grid_ratio": 1.0486521158927813,
+   "split": [
+    0.045,
+    0.005
+   ]
+  },
+  "RECT-BF-DP-TU": {
+   "box": true,
+   "split": [
+    0.045,
+    0.005
+   ],
+   "block_points": "the K = 20 grid"
+  },
+  "design": "balanced_alloc(S, A, 0.5) for every method",
+  "delta": 0.05,
+  "K": 20,
+  "checkpoints": "fr.checkpoints(n_min, tau_R, 20): n_min 2000 (X5) / 5000 (Lenta), tau_R = replay N",
+  "stop_k": "Q = 15 (stop_frac 1.0)",
+  "n80_k": 12
+ },
+ "seed_manifest": {
+  "dev_runner_check": "seeds 950-999 on the dev replay pools (used before by the FDC-DP v1 / v2 dev runs)",
+  "A_eval": "38000-38199",
+  "B_eval": "38200-38399",
+  "D_eval": "38000-38199 (block-A seeds)",
+  "bootstrap_seed": 42,
+  "never_used_check": "see plan/prereg_lock_v10_addendum_DRAFT.md s7",
+  "previously_used_eval": "30000-30199, 31000-31199, 32000-32199, 33000-33199, 34000-34199, 35000-35199, 35200-35399, 36000-36199, 37000-37799"
+ },
+ "replica_check": {
+  "implementation": "dsswm/stats/v10_replica.py + run_v10.py --task <t> --replica",
+  "R1": "independent process re-runs the first 10 seeds of each eval task; canonical rows identical",
+  "R1_excluded_fields": [
+   "sec",
+   "rs_sec_plan",
+   "rs_sec_cert",
+   "rs_sec_total"
+  ],
+  "R2": "schedule_digest identical across all four methods (frozen 50/50 design) per (seed, eps)",
+  "R2_groups": {
+   "v10a_full_s16": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ],
+   "v10a_full_s32": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ],
+   "v10b_full_s16": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ],
+   "v10b_full_s32": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ],
+   "v10b_full_s64": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ],
+   "v10d_full_x5s64": [
+    [
+     "TU-FDC-DP(b)",
+     "RECT-BF-DP-TU",
+     "HC-WoR-DP",
+     "FDC-DP(a)"
+    ]
+   ]
+  },
+  "R2b": "arrival_digest identical across all methods of a task per (seed, eps)",
+  "on_failure": "replica_fail -> positive_result_not_achieved for the block"
+ },
+ "eval_tasks": {
+  "v10a_full_s16": {
+   "block": "A",
+   "role": "confirmatory",
+   "layer": "X5-SR16",
+   "data": "x5",
+   "S": 16,
+   "eps": 0.03,
+   "seeds": "38000-38199",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  },
+  "v10a_full_s32": {
+   "block": "A",
+   "role": "confirmatory",
+   "layer": "X5-SR32",
+   "data": "x5",
+   "S": 32,
+   "eps": 0.04,
+   "seeds": "38000-38199",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  },
+  "v10b_full_s16": {
+   "block": "B",
+   "role": "confirmatory",
+   "layer": "LENTA-SR16",
+   "data": "lenta",
+   "S": 16,
+   "eps": 0.004,
+   "seeds": "38200-38399",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  },
+  "v10b_full_s32": {
+   "block": "B",
+   "role": "confirmatory",
+   "layer": "LENTA-SR32",
+   "data": "lenta",
+   "S": 32,
+   "eps": 0.006,
+   "seeds": "38200-38399",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  },
+  "v10b_full_s64": {
+   "block": "B",
+   "role": "confirmatory",
+   "layer": "LENTA-SR64",
+   "data": "lenta",
+   "S": 64,
+   "eps": 0.008,
+   "seeds": "38200-38399",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  },
+  "v10d_full_x5s64": {
+   "block": "A",
+   "role": "descriptive",
+   "layer": "X5-SR64",
+   "data": "x5",
+   "S": 64,
+   "eps": 0.05,
+   "seeds": "38000-38199",
+   "methods": [
+    "TU-FDC-DP(b)",
+    "RECT-BF-DP-TU",
+    "HC-WoR-DP",
+    "FDC-DP(a)"
+   ],
+   "K": 20,
+   "stop_k": 15,
+   "n80_k": 12
+  }
+ },
+ "command": "cd exp/code && python run_v10.py --task <task> [--workers 4]; --task <task> --replica; --analyse A|B|D. Every step re-checks the locked v10 addendum (and through it v9-v5).",
+ "eval_seal": "as v8 / v9 (v10_seal: seal committed alone at task completion + sidecar ref commit; single-commit history anchor)",
+ "threat_model": "as v6-v9: accidental drift, partial / resumed runs and post-hoc edits are detected against git history; deliberate history rewriting is out of scope.",
+ "declarations": [
+  "FDC-DP's statistical certificate is FDC-BF's (Theorem DP-1); the contribution is computational.",
+  "eps per cell chosen on dev by the pre-stated rival-success rule (rule written before the eps >= 0.03 dev runs; applied mechanically to the v2 dev results after the external reviewer r1 fixes).",
+  "Table reuse: X5 eval half 3rd use; Lenta eval half 3rd fresh-stream use (v6 B, v7 B descriptive) and outcome-exposed by r4 full-table cell means; inference is conditional on the reused finite tables.",
+  "HC-WoR-DP is an untuned transfer of the v8 S = 9 configuration (descriptive only).",
+  "Lenta control-pool exhaustion: certification can be exhaustion-driven; exhaustion fractions at N80 are reported per cell and method.",
+  "Dev deviation: v1 dev streams stopped at 12/15; v2 dev and v10 run to 15/15 (N80 at 12/15).",
+  "v1 dev numbers (fdc_dp_dev_report v1) are superseded by v2 (weighted-centre fix B1).",
+  "Claims are restricted to the named rectangle implementations.",
+  "Inherited validation scope (external reviewer v10 lock r1 F2): v10 adds no input drift; it inherits v8/v9's documented exceptions (v8 accepts the recorded v7-input erratum in exp/results/full/v6_summary.md; the cascade does not revalidate v5's input manifest).",
+  "Integrity scope (external reviewer v10 lock r1 F3): no eval outcome was USED by any v10 computation before the lock; _lenta_dev deserialises the whole Lenta pickle and keeps only dev outcomes, the LR9 split uses full-table covariates, and manifest hashing reads file bytes. Every v10 eval reader, including the exported read_eval_rows, runs eval_gate first.",
+  "v2 reproduces all 4,800 common-stream N80_pen endpoints of v1 (hence ratios, bounds and eps selections); horizon, runtimes, recorded certificates and branch-only counts (25 vs 27) differ (F4).",
+  "Timings: up to 3 runner processes x 4 workers concurrently with other jobs; biased up."
+ ],
+ "code_sha256": {
+  "run_v10.py": "2f0ca2ad57495a1e1b1538588f4666bf5ef26f926cfd95a5c1c96b0ebd889173",
+  "dsswm/baselines/fdc_dp.py": "9b6d42182c59fd8a0473f375f2875c7e2f3ad4efe437ae4dc4cb5818313686da",
+  "dsswm/baselines/rect_dp.py": "a1bc150ad74b39f09fc626a3e64fc5556b322a391578f07fff33f65825994167",
+  "dsswm/envs/seg_v10.py": "7e788046d50e9c7f9c34ead2eac8b7e35cb1d6e1687821e0d0338282d8b115f5",
+  "dsswm/envs/seg_v10_eval.py": "931ace630d2d8ff517046a8903330857c6c4ec2779711eda429ea7fb07b5bc3a",
+  "dsswm/stats/prereg_v10.py": "631e1eed94216e3b27dd1eed5ecfe775363a403dd81a82583832bf22b1f58298",
+  "dsswm/stats/v10_analysis.py": "7bee6bfbebf450cd48fee60f4d03410c6aad75364db30fa9ba3c6d91df06358f",
+  "dsswm/stats/v10_replica.py": "9e359ecacfd757aefada7a75a8cb133008f1fb0b67b81c596b1d0d67100726e0",
+  "dsswm/stats/v10_seal.py": "ea6fa2ebe95ebb375aa357f00323de0fbb8228ed4adb0aa9004a233ef404f7da",
+  "dsswm/baselines/rect_tu_v9.py": "b9c4451d89bcda7c04993b622676c46735a78c2249aaaf69f0f4db291cd3b96f",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/b4_bal.py": "588c6ed77e7e87659f76dbce8d299e7a0dcb07d3eb4c00b56d5fd1d0554db2e7",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/frontier_common.py": "d48673e6c377395c3deb1d91be03774b4f1cf164b2749d1e5c3736cee302735f",
+  "dsswm/streams/frontier_runner.py": "f1ec7b16b6ba23399b384aceeb2188601058e86eb381ad83075ac13effcba144",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/streams/frontier.py": "ce0aec93bb3be06c65fc36f267799a25759967fbfe6fad8c6758ee7034af8325",
+  "dsswm/envs/pool_replay.py": "0454727f1ac54af7eec6a2e202accdb372f5e602c8b812594d5e7aeedc4d53eb",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/envs/base.py": "736501702e4107f96c0d2596b34cfa15ca1a562676ef27a87b3cbc750468ae79",
+  "dsswm/stats/prereg.py": "ec41100519c3ec70b2e8ca35074f804e959479bc832d94cd71d84ddaae4fe629",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/prereg_v9.py": "0b7c18b6ade8271fd7243dc9b19bb793effe23cac503997f2bb78d751deca211",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/stats/v9_seal.py": "98faf8284f5ce9cfde4347096136a6c707c677a24e775dd2fcf82f7909ed1536",
+  "build_v10_addendum_draft.py": "bfee1fe26bb8b0765b2ebb8b42e4bf2ea9cedcc0ee449e55939c88564ac43de7",
+  "dsswm/tests/test_v10_addendum.py": "7e2eaf58322cb6c94c7bd39ee96d54ea19c472a15ad9a98358a3f560dd5103a5",
+  "dsswm/tests/test_fdc_dp.py": "c3780b3275d1b805457b6158ec9af73b96e97eb3883f67ae36638b7acafe444c",
+  "run_fdc_dp_dev.py": "dcc5e6878dfa4fff897370800bbd259ff7b304ede6cf89a515ba41e982bb2c4f"
+ },
+ "input_sha256": {
+  "plan/prereg_lock.json": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+  "plan/prereg_lock_v6_addendum.json": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+  "plan/prereg_lock_v7_addendum.json": "1f1a67d1a7edb915effca9b64360372af00c0c41db3371d19a89030d9b2d4b87",
+  "plan/prereg_lock_v8_addendum.json": "fd8d4e4487f8111f160b469f8b85a3023bf5b6a50f07c19a5fa1f0573c3d019f",
+  "plan/prereg_lock_v9_addendum.json": "e7d8772530b336be5451206957ec87579f63430f5f3ab93c1a1bc4fd0ced65e2",
+  "plan/prereg_lock_v10_addendum_DRAFT.md": "c005b977ac7eaf7fb355b6d2f33715a5efd26f7aed7d424b4f7614b61fad07a3",
+  "plan/fdc_dp_theory.md": "18a310eba4aa7f165579affaac1ef2bcff8db221f3796d90c3342b6f36e0946e",
+  "plan/fdc_dp_dev_report.md": "dd1900da5ec15663962316eb5db0121b8a9a0cd3647d10df6976904c771ae19a",
+  "plan/v10_plan.md": "d1a59e3b1874dc11a8b3f065d391e2e6ac9f585444f7391357207081eb159147",
+  "reviews/fdc_dp_review_r1.md": "32199206b8db41c5229f8743694d87a76f5faa335b831d9d2a896c8985f58a87",
+  "reviews/v10_lock_review.md": "362e43a0de7ccf2f08467f72ae76666952131d14928210fa8bfe8afcfc7e3957",
+  "exp/results/v8_gates/x9_configs.json": "c6c8f498f1297699f3d45739da49d23b1144332816408f9330e5cd982bb91637",
+  "exp/results/v8_gates/cr_configs.json": "926ea7eee6e25e6a498d042d44f6771402525a51608ba137f2c0e4afadd0c281",
+  "exp/results/v10_gates/seg_v10_frozen.json": "67239f553c8d8c5d087b6190d685558207aea13aa64399d9305e55f4d6960949",
+  "exp/results/v10_gates/score_model_x5.pkl": "f0676115edb65c852b319084a87759aa41a5e5244630a0be60a44e71babe631c",
+  "exp/results/v10_gates/score_model_lenta.pkl": "8ee2a8ea7111f52ab7e072a297ac647aec94141316c40857a8bc6ec5f1de0747",
+  "exp/results/pilots/fdc_dp/analysis.json": "d14cfc37c07edfb6307a39fb1bfe7e56b1737248e46a0ddd7e570da4a56670ad",
+  "exp/results/pilots/fdc_dp_v2/analysis.json": "cf28b78a079e6360d566c6a4aa1a929b94baa67547cbfe3afa1468b3119b5af9",
+  "exp/results/pilots/v10_analysis_A_dev.json": "a3d0db990fd3433674d93b7f63e29a9af611dd76fa451b17a7421f590bd3794a",
+  "exp/results/pilots/v10_analysis_B_dev.json": "f88a26d75d34676600681a2a38266a37bb1725861a358a2cf61bbf528148c9c3",
+  "exp/results/pilots/v10_analysis_D_dev.json": "89e04872fdc4152f7158ca70e73a40dce9e2a6769c5fd38a0a7321e35349ec8f"
+ },
+ "data_sha256": {
+  "lenta_tidy": {
+   "path": "$DATA_DIR/lenta/tidy.pkl",
+   "sha256": "6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43"
+  },
+  "x5_dev": {
+   "path": "$DATA_DIR/x5_retailhero/dev.pkl",
+   "sha256": "3a8a5d8e35599f69461f403c36210dfa497073d9f679d1f6e039d165aa85eae4"
+  },
+  "x5_eval_labels": {
+   "path": "$DATA_DIR/x5_retailhero/eval_labels.pkl",
+   "sha256": "500fb32edaa522812adb6728df8bdbeb1fa2e6d8db0c08f750b1f1827b223eaa"
+  },
+  "x5_eval_outcome": {
+   "path": "$DATA_DIR/x5_retailhero/eval_outcome.npy",
+   "sha256": "ed0f95f4a4cbbdee8f81c9dc548bfe37e9e8b31beee9045dc7c0f62daa0e322d"
+  },
+  "x5_provenance": {
+   "path": "$DATA_DIR/x5_retailhero/PROVENANCE.json",
+   "sha256": "bfa0f78de54495548b42154d15ed7092dd3d4615dcb2851d673b4e73a794ce36"
+  }
+ },
+ "dev_runner_check": {
+  "A": {
+   "seeds": "dev 950-999 (v10 runner check: final code, frozen segmentation, frozen configs)",
+   "cells": {
+    "v10a_pilot_s16": {
+     "eps": 0.03,
+     "ratio_vs_rival": 0.251,
+     "ub95_vs_rival": 0.256,
+     "ratio_vs_hc": 0.251,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 1.0,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.0,
+       "ctrl": 0.0,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.024375,
+       "ctrl": 0.04875,
+       "treat": 0.0,
+       "n_streams": 50
+      }
+     }
+    },
+    "v10a_pilot_s32": {
+     "eps": 0.04,
+     "ratio_vs_rival": 0.221,
+     "ub95_vs_rival": 0.224,
+     "ratio_vs_hc": 0.221,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 1.0,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.0,
+       "ctrl": 0.0,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.015625,
+       "ctrl": 0.03125,
+       "treat": 0.0,
+       "n_streams": 50
+      }
+     }
+    }
+   },
+   "decision_if_applied": "positive_result_achieved",
+   "replica": "pass"
+  },
+  "B": {
+   "seeds": "dev 950-999 (v10 runner check: final code, frozen segmentation, frozen configs)",
+   "cells": {
+    "v10b_pilot_s16": {
+     "eps": 0.004,
+     "ratio_vs_rival": 0.662,
+     "ub95_vs_rival": 0.665,
+     "ratio_vs_hc": 0.54,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 1.0,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.49,
+       "ctrl": 0.98,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.5,
+       "ctrl": 1.0,
+       "treat": 0.0,
+       "n_streams": 50
+      }
+     }
+    },
+    "v10b_pilot_s32": {
+     "eps": 0.006,
+     "ratio_vs_rival": 0.596,
+     "ub95_vs_rival": 0.611,
+     "ratio_vs_hc": 0.486,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 1.0,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.23,
+       "ctrl": 0.46,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.5,
+       "ctrl": 1.0,
+       "treat": 0.0,
+       "n_streams": 50
+      }
+     }
+    },
+    "v10b_pilot_s64": {
+     "eps": 0.008,
+     "ratio_vs_rival": 0.586,
+     "ub95_vs_rival": 0.601,
+     "ratio_vs_hc": 0.478,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 1.0,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.1890625,
+       "ctrl": 0.378125,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.5,
+       "ctrl": 1.0,
+       "treat": 0.0,
+       "n_streams": 50
+      }
+     }
+    }
+   },
+   "decision_if_applied": "positive_result_achieved",
+   "replica": "pass"
+  },
+  "D": {
+   "seeds": "dev 950-999 (v10 runner check: final code, frozen segmentation, frozen configs)",
+   "cells": {
+    "v10d_pilot_x5s64": {
+     "eps": 0.05,
+     "ratio_vs_rival": 0.202,
+     "ub95_vs_rival": 0.206,
+     "ratio_vs_hc": 0.197,
+     "primary_false_streams": 0,
+     "all_rigorous_false_streams": 0,
+     "rival_share_N80_lt_tau": 0.14,
+     "exhaustion_at_k80": {
+      "TU-FDC-DP(b)": {
+       "all": 0.0,
+       "ctrl": 0.0,
+       "treat": 0.0,
+       "n_streams": 50
+      },
+      "RECT-BF-DP-TU": {
+       "all": 0.86109375,
+       "ctrl": 0.8621875,
+       "treat": 0.86,
+       "n_streams": 50
+      }
+     }
+    }
+   },
+   "decision_if_applied": null,
+   "replica": "pass"
+  },
+  "eps_rule_v2": {
+   "lenta16": {
+    "selected_eps": 0.004,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "lenta32": {
+    "selected_eps": 0.006,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "lenta64": {
+    "selected_eps": 0.008,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_16": {
+    "selected_eps": 0.03,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_32": {
+    "selected_eps": 0.04,
+    "rival": "RECT-BF-DP",
+    "successes": 50,
+    "n": 50,
+    "fallback": null
+   },
+   "x5_64": {
+    "selected_eps": null,
+    "rival": null,
+    "successes": null,
+    "n": 50,
+    "fallback": "rivals_censored (descriptive cell)"
+   }
+  },
+  "rule_selected_cells_v2": {
+   "lenta16": {
+    "eps": 0.004,
+    "rival": "RECT-BF-DP",
+    "rival_successes": 50,
+    "ratio": 0.6651794592003752,
+    "ub95": 0.6651794592003752,
+    "no_false_rigorous": true
+   },
+   "lenta32": {
+    "eps": 0.006,
+    "rival": "RECT-BF-DP",
+    "rival_successes": 50,
+    "ratio": 0.6007232551345825,
+    "ub95": 0.615598987772452,
+    "no_false_rigorous": true
+   },
+   "lenta64": {
+    "eps": 0.008,
+    "rival": "RECT-BF-DP",
+    "rival_successes": 50,
+    "ratio": 0.5958449924411524,
+    "ub95": 0.6105999244758417,
+    "no_false_rigorous": true
+   },
+   "x5_16": {
+    "eps": 0.03,
+    "rival": "RECT-BF-DP",
+    "rival_successes": 50,
+    "ratio": 0.24887010121950887,
+    "ub95": 0.2545169565323551,
+    "no_false_rigorous": true
+   },
+   "x5_32": {
+    "eps": 0.04,
+    "rival": "RECT-BF-DP",
+    "rival_successes": 50,
+    "ratio": 0.22080461323311032,
+    "ub95": 0.22413186546334,
+    "no_false_rigorous": true
+   },
+   "x5_64": {
+    "cell": "descriptive (rivals censored)",
+    "rule": "rivals_censored (descriptive cell)"
+   }
+  },
+  "go_gate_v2": {
+   "go_criterion_3": true,
+   "go_criterion_4_v1_primary_eps": true,
+   "go_criterion_4_rule_selected": true
+  }
+ },
+ "lock_procedure": "external reviewer lock review -> rebuild draft -> code-freeze commit -> prereg_v10.finalize_addendum(git_commit) -> commit the lock file alone -> eval tasks, replicas, analyses.",
+ "git_commit": null,
+ "cells_registry": {
+  "v10a_full_s16": {
+   "data": "x5",
+   "S": 16,
+   "eps": 0.03,
+   "block": "A",
+   "role": "confirmatory"
+  },
+  "v10a_full_s32": {
+   "data": "x5",
+   "S": 32,
+   "eps": 0.04,
+   "block": "A",
+   "role": "confirmatory"
+  },
+  "v10b_full_s16": {
+   "data": "lenta",
+   "S": 16,
+   "eps": 0.004,
+   "block": "B",
+   "role": "confirmatory"
+  },
+  "v10b_full_s32": {
+   "data": "lenta",
+   "S": 32,
+   "eps": 0.006,
+   "block": "B",
+   "role": "confirmatory"
+  },
+  "v10b_full_s64": {
+   "data": "lenta",
+   "S": 64,
+   "eps": 0.008,
+   "block": "B",
+   "role": "confirmatory"
+  },
+  "v10d_full_x5s64": {
+   "data": "x5",
+   "S": 64,
+   "eps": 0.05,
+   "block": "A",
+   "role": "descriptive"
+  }
+ },
+ "sha256_draft": "ea95b1156e36826f84ffca59fc004aab476f0b1228256d11602830a97cfbabc8"
+}

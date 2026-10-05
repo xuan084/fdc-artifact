@@ -1,0 +1,60 @@
+{
+ "addendum_sha256": "729bdcbd32f821b842db8c52594388bdf5fbeb4dfa790748c1f80a9852a1cff0",
+ "code_sha256": {
+  "dsswm/baselines/b2_rect_fe.py": "386d7eb50c66c1ad5a3ee53dab64fab9b2038a6575f7f40c42365f95a10988ff",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/plugin_r5.py": "8985cc6b245fda9a0867def5b6847665f56ef8272998cb8dee323f2e5043b17c",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/envs/x5_v8.py": "71141c7acdc396ae1179a871a0a8b9f4aee8643ba2ed6c9ccd63f6803fe4b323",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5",
+  "dsswm/stats/v8_analysis.py": "849cc18138ebc23463d4be27e8ce425f3323e574263288ac821f53537d715566",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "run_r5s_v8.py": "d9c8115f5249008d622fcc1ed2809115be7d3600f385b20b50a174ceb88f0738"
+ },
+ "coverage_complete": true,
+ "data_sha256": "cf513b526df25f14ecf25be488d507b11013ad09fbee7790c9331b1ccd894df2",
+ "eps": [
+  0.02
+ ],
+ "methods": [
+  "B2-fav",
+  "B3-fav",
+  "Peace-fav",
+  "B5",
+  "B2-fav-tight",
+  "FIX-bal-fav",
+  "Peace-fav-bal",
+  "B1",
+  "B4",
+  "B4-bal",
+  "B2-rect",
+  "B3-rect",
+  "Peace-rect",
+  "Hait-SW",
+  "Molitor-WoR",
+  "QFC-pool"
+ ],
+ "n_rows": 3200,
+ "results_content_sha256": "bf4684dadbbc9abf7831499f406c3d94bf16c4c5eea59cbeaeb7ad4310abfb10",
+ "sealed_at": "2026-10-04T10:39:40.092267",
+ "seeds": [
+  35000,
+  35199,
+  200
+ ],
+ "task_id": "v8a_full_b"
+}

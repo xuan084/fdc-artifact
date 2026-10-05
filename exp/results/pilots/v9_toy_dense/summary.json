@@ -1,0 +1,51 @@
+{
+ "written_at": "2026-10-05T02:22:32.858899",
+ "toy": "r4 near-tie toy, pop seeds 900-919 x perm 0-9, eps 0.02",
+ "table": {
+  "RECT-ck-BF-TU": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper95": 0.014867039231272054,
+   "geomean_N80_over_tau": 0.3692908390572511,
+   "K_eval": 77,
+   "validity": "rigorous"
+  },
+  "TU-FDC": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper95": 0.014867039231272054,
+   "geomean_N80_over_tau": 0.20661754556559775,
+   "K_eval": 77,
+   "validity": "rigorous"
+  },
+  "TU-PJC": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper95": 0.014867039231272054,
+   "geomean_N80_over_tau": 0.2062776445072479,
+   "K_eval": 77,
+   "validity": "rigorous"
+  },
+  "RECT-ck-BF+box[K20]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper95": 0.014867039231272054,
+   "geomean_N80_over_tau": 0.3759924354253072,
+   "K_eval": 20,
+   "validity": "rigorous"
+  },
+  "INVALID-fresh-K20-ledger": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper95": 0.014867039231272054,
+   "geomean_N80_over_tau": 0.33551807521596866,
+   "K_eval": 77,
+   "validity": "none"
+  }
+ }
+}

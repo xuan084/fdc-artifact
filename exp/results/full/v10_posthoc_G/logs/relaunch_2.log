@@ -1,0 +1,7 @@
+[G1-eval-x5-64] 3600 jobs to run (0 done), code 02f90692448956a9
+[G1-eval-x5-64] done: 3600/3600 rows, 0 errors, wall 55.54 min
+[G3-eval-x5-32] 800 jobs to run (0 done), code 02f90692448956a9
+[G3-eval-x5-32] done: 800/800 rows, 0 errors, wall 5.54 min
+[G3-eval-x5-64] 800 jobs to run (0 done), code 02f90692448956a9
+[G3-eval-x5-64] done: 800/800 rows, 0 errors, wall 10.44 min
+RELAUNCH 2 FINISHED Mon Oct  5 12:16:16 AEDT 2026

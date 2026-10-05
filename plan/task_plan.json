@@ -1,0 +1,1656 @@
+{
+  "version": 5,
+  "round": 5,
+  "front_runner": "cand_fdc",
+  "candidates_compared_in_pilot": [
+    "cand_fdc"
+  ],
+  "conditional_candidates": {
+    "cand_cqbn": "已按自设 Hc2（novelty 3<4）出局；不安排任务",
+    "cand_fccq": "只能作多步次要支柱；本轮不安排任务",
+    "on_fdc_out": "T2 失败 ⇒ FDC 出局，控制面重新评估；若 10-08 前仍无通过的正结果路线，上报 WWW'27 不可达"
+  },
+  "headline": "fastest among the listed and verified rigorous competitors R (user ruling 2026-10-03; disclosed deviation)",
+  "compute_notes": {
+    "estimated_cpu_hours": 14,
+    "with_margin_1_3": 18,
+    "slots": 4,
+    "workers_per_task": 4,
+    "n_tasks": 24,
+    "per_stream_sec_concurrent": {
+      "FDC": 1.0,
+      "QFC-pool": 1.0,
+      "B1": 2.6,
+      "B4": 2.1,
+      "B4-bal": 2.1,
+      "B2-rect": 2.9,
+      "B3-rect": 2.7,
+      "Peace-rect": 24,
+      "Hait-SW": "~3 (est.)",
+      "Molitor-WoR": "~2 (est.)",
+      "B2-fav": 1.1,
+      "Peace-fav": 22,
+      "B5": 1.2
+    },
+    "gpu": "none needed; gpu_count=1 is a scheduler slot token",
+    "timeline": "Phase A (T0, T-spec, impl, qualification, plugin, decision log) 10-03..10-04; tuning + T1 + T2 + T3 10-04..10-05; gate decision 10-05 (hard deadline 10-08); lock v5 10-06; eval 10-06..10-07; aggregate 10-08; writing 10-08..10-17; WWW'27 abstract 10-18, full 10-25 AoE",
+    "cut_order": [
+      "r5_cr12_scale to 30 streams",
+      "r5_cr_k60_sens to 50 streams",
+      "r5_cr_plugin_b (E-cost on 100 streams only)"
+    ],
+    "never_cut": "FDC + every rival in R on all cr_n_streams eval streams; full-horizon FWER audit"
+  },
+  "global_settings": {
+    "delta": 0.05,
+    "delta_ledger": {
+      "main": 0.045,
+      "var": 0.005,
+      "C_var": "S*A (18 on CR9)",
+      "beta_formula": "ln(sum_q |Pi_{B_q}| * K / delta_main)",
+      "beta_CR9": 14.22423,
+      "x_v_formula": "ln(2 * C_var * K / delta_var)",
+      "x_v_CR9": 11.87757,
+      "overrides": "forbidden in FDCMethod; overridden instances are validity='none'"
+    },
+    "design": "frozen 50/50 per segment; exhausted control -> treatment; data-independent; two-stage variant deleted",
+    "layer": "CR9 Criteo v2.1 (S=9, A=2, |Pi|=512), dev half / eval half (split seed 4242), tau_R 6,989,793 / 6,989,799",
+    "problems": "visit x unit treatment cost x budget 0.10..0.80 step 0.05 = 15; stop at 12/15",
+    "eps": 0.001,
+    "checkpoints_K": 20,
+    "endpoint": "N80_pen (error-penalised truncated certification cost; see methodology 5.1)",
+    "sap": "paired log-ratio, paired bootstrap B=1e4 seed 42, one-sided 95% UB, IUT across R; wording '>=10% faster' only if point<=0.90",
+    "rigorous_set_R": [
+      "B1",
+      "B4",
+      "B4-bal",
+      "B2-rect",
+      "B3-rect",
+      "Peace-rect",
+      "Hait-SW",
+      "Molitor-WoR",
+      "QFC-pool"
+    ],
+    "plugin_descriptive": [
+      "B2-fav",
+      "B2-fav-tight",
+      "FIX-bal-fav",
+      "Peace-fav",
+      "Peace-fav-bal",
+      "B3-fav",
+      "B5"
+    ],
+    "ablation_not_rival": [
+      "QFC-half"
+    ],
+    "seeds": {
+      "dev": "900-999",
+      "rival_tuning": "900-949",
+      "c4_model_fit": "900-949",
+      "c4_model_validation_dev": "950-999",
+      "cr_eval_main": "30000-30199",
+      "cr_eval_ext": "30200-30399 (only if cr_n_streams=400)",
+      "cr12_eval": "30000-30049",
+      "synthetic_mc": "seed 42",
+      "forbidden_before_lock": "all >= 30000"
+    },
+    "eval_half_exposure": "r4_g_eps_select read eval-half nontrivial-problem counts (truth aggregate) for eps guard; must be disclosed",
+    "pilot_defaults": {
+      "samples_min": 100,
+      "seed": 42,
+      "timeout_sec": 900
+    }
+  },
+  "tasks": [
+    {
+      "id": "r5_t0_alloc_audit",
+      "name": "T0: audit oracle-Neyman 40/40-at-tau_R anomaly on the fixed-allocation path",
+      "type": "setup",
+      "description": "排查 idea/r5_offline/pragmatist/offline_qfc_alloc.py 中 QFC-ney（oracle Neyman 份额）在 40/40 条开发流上 N80=τ_R 的异常。步骤：(1) 复现（开发种子 900–909，只读）；(2) 逐层定位：alloc 矩阵形状/臂顺序（对照=0、处理=1）→ envs.pool_replay.make_schedule 的计划臂抽取 → StreamEngine.advance_planned/_resel 的耗尽重选 → 证书中耗尽单元删除与 n=0→+inf；(3) 打印每个检查点每单元 n_c、剩余池、U_q 的分解（Δ̂、V、b），判定是采样路径 bug、证书路径 bug 还是 Neyman 份额本身导致某单元 n 极小使 b 项爆炸（真实机制也要写清）；(4) 新增回归单测 tests/test_r5_fixed_alloc.py：非对称份额 (0.3,0.7)/(0.7,0.3) 的臂索引对拍逐到达引擎 ReplayStream、耗尽后重选到剩余臂、50/50 与 0.40 路径计数守恒、日程摘要对 outcome 置换不变。只写新文件，不改 r4 冻结模块；若 bug 在冻结模块中，新建修复版模块并在 summary 写明影响范围（是否影响 r4 已报告的 QFC/A-Ney 数字）。门：根因定位 + 单测通过；或证明 50/50 路径不受影响。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [],
+      "expected_output": "exp/results/pilots/r5_t0_alloc_audit/{summary.json,diagnosis.md,cell_trace.csv}; exp/code/dsswm/tests/test_r5_fixed_alloc.py",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 40,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "T0"
+      ],
+      "baselines": [],
+      "metrics": [
+        "root_cause",
+        "tests_passed",
+        "affects_r4_numbers"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "10 dev streams (900-909) x 10 checkpoints of per-cell traces for QFC-ney and QFC-half",
+        "pass_criteria": "root cause identified with cell-level evidence AND new regression tests pass AND (bug fixed OR 50/50 path proven unaffected by arm-index/exhaustion tests)",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "same as pilot (diagnostic task)",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": [],
+      "gate": "T0"
+    },
+    {
+      "id": "r5_fdc_spec_theory",
+      "name": "T-spec: unique FDC specification + Theorem FDC-1 full proof + full-certificate MC",
+      "type": "setup",
+      "description": "写 plan/theory/fdc_theorem.md（英文正文，中文摘要），在 plan/theory/qfc_lemma.md（r4 已签字）基础上给出 FDC 唯一规格与定理 FDC-1 的完整证明：(a) 概率空间：𝒜=完整预生成日程（段序列、计划臂、重选均匀数），仅由置换种子+标签决定、与池内置换独立；50/50 冻结时 n_c(k) 是 𝒜 的函数；(b) 同时事件 E=∩_{q,k,π∈Π_{B_q}}{J(π*_q)−J(π)≤Ĵ_k(π*_q)−Ĵ_k(π)+w_k(π*_q,π)}，π*_q 固定未知（确定性并列规则），证明覆盖数据依赖的 π̂_q(k) 与对全部可行挑战者取 max 的证书；(c) 方差：E_main 以真方差表述，E_var（Lemma L2 反演，双尾，C_var=S·A=18，K=20，δ_var=0.005，x_v=ln(720/0.005)=11.8776）上 σ²≤σ̄²，宽度对 V 单调 ⇒ 交集论证，禁止把随机方差当已知方差代入 MGF；(d) 并集：β=ln(Σ_q|Π_{B_q}|·K/δ_main)，CR9 开发半 Σ=3386，δ_main=0.045 ⇒ β=14.2242（必须由代码从 ctx 计算并在文中给出数值；并写明 β=14.1 只给 0.05595>δ）；(e) 仅检查点停止；FWER 对'停在 12/15'和'运行到 τ_R 认证全部 15 题'两窗口都成立；(f) 边界：n=0（+∞）、μ̂∈{0,1}、池耗尽（精确、删除）、单段两臂都耗尽、π̂ 与 π′ 只在耗尽单元不同；(g) 自检清单逐条签字（沿用 qfc_lemma §10 格式）。数值核验（seed 42）：40 个合成近并列有限池配置 × 500 流 + 20 个含早耗尽配置 × 500 流，用 FDC 账本跑完整证书（停在 12/15 与到 τ_R 两窗口），错误认证计数（门：0 违例，CP 上界报告）；对照：去掉 E_var（用 plug-in 方差）与 β=ln(1/δ) 的无效证书须能被检出违例（功效对照）。不得读取任何 CR 评价种子。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [],
+      "expected_output": "plan/theory/fdc_theorem.md; exp/results/pilots/r5_fdc_spec_theory/{summary.json,mc_cert_coverage.csv,power_control.csv}; exp/code/dsswm/theory_checks/mc_fdc.py",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 55,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        }
+      ],
+      "hypotheses": [
+        "C2",
+        "T-spec"
+      ],
+      "baselines": [],
+      "metrics": [
+        "n_false_mc",
+        "cp_upper",
+        "selfcheck_signed",
+        "beta",
+        "x_v"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "(synthetic pool config, 500-stream batch) cells: 60 configs x 2 windows (>=100 cells)",
+        "pass_criteria": "proof self-check all items signed AND 0 false certifications across all MC streams AND the invalid control certificate shows violations (test has power) AND beta/x_v printed from code equal 14.2242/11.8776 on CR9 dev ctx",
+        "estimated_time_min": 15,
+        "dev_seeds": "none (synthetic only)"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": [],
+      "gate": "T-spec"
+    },
+    {
+      "id": "r5_fdc_impl",
+      "name": "FDCMethod implementation + proof-code-evidence table",
+      "type": "setup",
+      "description": "新增 exp/code/dsswm/baselines/fdc.py：class FDCMethod(QFCMethod)，alloc_p=全段 [0.5,0.5]（数据无关），setup() 从 ctx 自动计算 Σ_q|Π_{B_q}|、K、C_var=S·A，得 L1=β=ln(Σ·K/0.045)、x_v=ln(2·C_var·K/0.005)；证书直接调用 certify.quadknap.qfc_certificate_enum + make_stats（Lemma L2 反演），不得使用 contrarian 离线的逐检查点经验 Bernstein 公式。构造函数不接受 β/x_v/份额/δ 覆盖；另提供 FDCAblation(design∈{pool,half}, union∈{qstar,feas}, ledger∈{r4,r5}, share=None, K_override=None) 用于 C4 析因与 T1 对账，其中 8 个合法格子 validity='rigorous'，任何非账本合法的覆盖（如 β 常数、share≠0.5 用于头条）validity='none' 且名字带 '-explore'。单测 tests/test_r5_fdc.py：(1) β、x_v 数值（CR9 dev ctx）；(2) FDC 与 FDCAblation(half,feas,r5) 逐流 N80 完全一致（10 流）；(3) FDCAblation(pool,qstar,r4) 与 r4 QFC 在 r4 开发流 900–999 上 N80 100/100 一致（证明未改动 r4 路径）；(4) 覆盖参数时 validity 自动降级；(5) 证书宽度对 β、x_v 单调（FDC 宽度 ≤ QFC-half 宽度，同一状态逐题）；(6) 耗尽/n=0 边界。全量测试须通过。产出 plan/theory/fdc_proof_code_table.md：每行 = 数学对象 → 定理段落 → 代码 文件:行 + git 哈希 → 单测名 → 数值证据；覆盖 methodology §3 所列全部项。git commit（dev 分支规则按项目，提交信息 feat(r5): FDCMethod）。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_fdc_spec_theory",
+        "r5_t0_alloc_audit"
+      ],
+      "expected_output": "exp/code/dsswm/baselines/fdc.py; exp/code/dsswm/tests/test_r5_fdc.py; plan/theory/fdc_proof_code_table.md; exp/results/pilots/r5_fdc_impl/summary.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        },
+        {
+          "type": "results",
+          "name": "r4 dev streams 900-999 (QFC/B1/B4/B2-*/B3-*/Peace-*) for consistency checks only",
+          "path": "exp/results/pilots/r4_g1_shape_{a,b,c}"
+        }
+      ],
+      "hypotheses": [
+        "C2"
+      ],
+      "baselines": [],
+      "metrics": [
+        "tests_passed",
+        "r4_identity",
+        "beta",
+        "x_v"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "100 r4 dev streams (900-999) for the r4-path identity check + 10 streams FDC identity",
+        "pass_criteria": "all new unit tests pass AND full test suite passes AND r4 QFC N80 identity 100/100 AND proof-code table covers every row of methodology section 3",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-999 (identity check only; QFC/FDC, no rival comparison)"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_baseline_qualification",
+      "name": "Strict-rival qualification table + new rigorous rivals (B4-bal, Hait-SW, Molitor-WoR)",
+      "type": "setup",
+      "description": "(1) 产出 plan/baseline_qualification_r5.md（中文控制面 + 英文方法名/定理引用）：对 methodology §4.2–4.3 每个方法逐行写 论文/定理号、适用假设、本设定是否满足（不放回、自适应计数、检查点停止、15 题单 δ）、移植变更、有效性类（rigorous/nominal/none/asymptotic/model/ablation）、调参网格、是否计入 𝓡 与理由。必须用 arXiv MCP 核对 Hait 2609.37873（Thm 6.2、§4.2 式 4.4、§7、§12.1）与 Molitor 2606.17515（Thm 1、Prop 1）原文段落并引用；处理 B2-nominal/B2-CG（d0=2S）为 nominal 的理由；QFC-half 归为 FDC 消融；Hait-pooled、Shekhar&Howard 2605.21736 排除理由。(2) 实现新的严格对手（新文件，不改 r4 冻结模块）：baselines/b4_bal.py（UniformRS 证书 + 冻结份额，份额参数化以便调参）；baselines/hait_sw.py（每 replan 批次段内可预测 Neyman 份额 p_{s,a}∝σ̂_{s,a}，σ̂ 用上一批次之前的数据做 Laplace 平滑 plug-in，下限 p_min，按份额生成臂偏好；证书 = rect_certificate，即 WSR20 单元时间一致 CS 半径和）；baselines/molitor_wor.py（池比例；逐策略价值 CS = Σ_s w_s·单元 CS 区间；U_q=max_{π′∈Π_{B_q}} UCB(π′)−LCB(π̂)）。注册进一个新的工厂 streams/r5_registry.py（含 r4 方法与 r5 新方法，名字统一）。(3) toy FWER：每个新严格方法在 r4 toy 合成池（SyntheticPoolEnv 近并列配置）上 200 流，门 0/200（CP 上界 0.0149）；计费一致性；CR9 开发流 900–903 计时冒烟（只记录单流秒数，不读比较结果）。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [],
+      "expected_output": "plan/baseline_qualification_r5.md; exp/code/dsswm/baselines/{b4_bal,hait_sw,molitor_wor}.py; exp/code/dsswm/streams/r5_registry.py; exp/code/dsswm/tests/test_r5_rivals.py; exp/results/pilots/r5_baseline_qualification/{summary.json,toy_fwer.csv,timing.csv}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 60,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1"
+      ],
+      "baselines": [
+        "B4-bal",
+        "Hait-SW",
+        "Molitor-WoR"
+      ],
+      "metrics": [
+        "toy_false_streams",
+        "sec_per_stream"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 200,
+        "sample_unit": "toy streams per new rigorous rival (x3 rivals)",
+        "pass_criteria": "qualification table complete for every method in methodology 4.2-4.3 with quoted theorem passages for Hait/Molitor AND each new rigorous rival 0/200 toy false streams AND billing_ok AND unit tests pass",
+        "estimated_time_min": 20,
+        "dev_seeds": "900-903 timing only"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_setup_plugin_variants",
+      "name": "Tuned plug-in descriptive variants (B2-fav-tight, FIX-bal-fav, Peace-fav-bal) promoted into dsswm",
+      "type": "setup",
+      "description": "把 contrarian 离线脚本中的 plug-in 变体正式化为带测试的模块（新文件 baselines/plugin_r5.py，经 streams/r5_registry.py 注册）：B2-fav-tight = CombGameJoint('fav') + β=ln(Σ_q|Π_{B_q}|·K/δ)（由 ctx 计算，≈14.12），validity='none'；FIX-bal-fav = 冻结 50/50 + plug-in 方差 GLR（glr_certificate，β 同上），validity='none'；Peace-fav-bal = 冻结 50/50 + Peace-fav 的 Gaussian width 停止（Alg.2 α=4 常数，同 r4），validity='none'。单测：与 idea/r5_offline/contrarian/offline_ctr.py 对应配置在开发流 900–909 上逐流 N80 一致（B2-tight、POOL/FIX-fav），validity 标签正确，计费一致。只记录一致性与计时，不读比较结果。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [],
+      "expected_output": "exp/code/dsswm/baselines/plugin_r5.py; exp/code/dsswm/tests/test_r5_plugin.py; exp/results/pilots/r5_setup_plugin_variants/summary.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 35,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "E-cost"
+      ],
+      "baselines": [
+        "B2-fav-tight",
+        "FIX-bal-fav",
+        "Peace-fav-bal"
+      ],
+      "metrics": [
+        "identity",
+        "sec_per_stream"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "10 dev streams x 3 variants x 20 checkpoints identity checks vs offline scripts (>=100 checkpoint comparisons)",
+        "pass_criteria": "N80 identity with offline scripts 10/10 per variant (where an offline counterpart exists) AND unit tests pass",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909 identity only"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_decision_log",
+      "name": "Decision log, deviation disclosure, contribution statement (deliverable 6)",
+      "type": "analysis",
+      "description": "产出 plan/decision_log_r5.md 与 plan/decision_log_r5.json（机器可读，供 lock v5 引用 sha256）：按时间顺序记录 (a) 用户 2026-10-03 主张收窄裁决（时间、理由、晚于第 4 轮开发块结果这一事实、开发证据文件）；(b) 份额 0.40/0.45/0.50、β∈{10,11,12,14.1}、K∈{20,60}、tight/rig/fav 变体的全部探索（引用 idea/r5_offline/contrarian/ci_out.txt、run2/run3.json、pragmatist/offline_k60.json、offline_qfc_alloc.json），标注全部为探索性、不进确认性证据；(c) 优效对象变更（B2-fav/Peace-fav → 严格集 𝓡）与效应量门槛变更（0.67 → 上界<1.0 + 0.90 措辞门槛）；(d) C3 由门降为估计量；(e) r4_g_eps_select 读取评价半非平凡题计数（引用 exp/results/r4_gates/eps.json 与 summary.json 字段）——分别披露结果记录、汇总真值、随机种子三类接触；(f) C_var 48→18、δ 拆分 0.04/0.01→0.045/0.005（写明在开发比较之前已出现在提案/离线默认值中的证据：offline_ctr.py:26 时间戳/提交）；(g) QFC-half 50/50 为看过 r4 后选定；(h) 两阶段读表与 CS 紧会计模块删除。另写贡献说明（中文 + 英文一段供论文 deviation 段落）：r4 已用 Q*-并集，FDC 新增仅为 Σ_q|Π_q| 收紧与 δ 拆分；可测能力为'冻结设计换来方向级证书的合法性'（C4：FDC vs B4-bal；CR12 规模层）；引用 Hait 2609.37873、de Heide 2608.19903、GK16、Peace、Kato 2405.19317、Dang 2608.06512。只读文件，不跑实验。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [],
+      "expected_output": "plan/decision_log_r5.md; plan/decision_log_r5.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 30,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        }
+      ],
+      "hypotheses": [
+        "deviation"
+      ],
+      "baselines": [],
+      "metrics": [
+        "n_entries",
+        "n_sources_verified"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "decision-log entries cross-checked against source files (>=100 field/file checks incl. numbers)",
+        "pass_criteria": "every entry cites a file path (and field/line) that exists; every number matches its source file",
+        "estimated_time_min": 15,
+        "dev_seeds": "n/a"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "updated after r5_gate_decision with T0-T3 outcomes"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_rival_tuning",
+      "name": "Pre-declared tuning of rigorous rivals on dev seeds 900-949 (fairness)",
+      "type": "experiment",
+      "description": "在 CR9 开发半、ε*=0.001、K=20、种子 900–949（50 流）上按 methodology §4.4 的预声明网格调参，并冻结每个严格对手的配置：B4-bal 份额∈{0.40,0.45,0.50}；Hait-SW p_min∈{0.02,0.05,0.10}；B2-rect 强制探索∈{√n_s, 0.5√n_s}。选择准则：N80_pen 几何均值最小（并列取网格首项）；同时记录每个配置的开发 FWER（要求 0/50，否则该配置淘汰）。FDC 不参与本任务、不读 FDC 结果。产出 exp/results/r5_gates/rival_configs.json（冻结配置 + 网格全表）。并发运行，4 worker。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_baseline_qualification",
+        "r5_t0_alloc_audit"
+      ],
+      "expected_output": "exp/results/pilots/r5_rival_tuning/{summary.json,results.jsonl,grid_table.csv}; exp/results/r5_gates/rival_configs.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 35,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1-fairness"
+      ],
+      "baselines": [
+        "B4-bal",
+        "Hait-SW",
+        "B2-rect"
+      ],
+      "metrics": [
+        "geomean_N80_pen",
+        "false_streams"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 400,
+        "sample_unit": "(config, dev stream) runs: 8 configs x 50 streams",
+        "pass_criteria": "every grid cell run on all 50 streams, billing_ok, each selected config has 0/50 false streams; configs frozen to rival_configs.json",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-949"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "configs unchanged"
+      },
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Rival tuning grid (config x geomean N80_pen, FWER)",
+          "paper_section": "appendix"
+        }
+      ]
+    },
+    {
+      "id": "r5_t1_reconcile",
+      "name": "T1: version reconciliation (0.856 / 0.887 / 0.97) + dev 2x2x2 factorial + frozen C4 prediction model",
+      "type": "experiment",
+      "description": "开发种子 900–999（100 流），ε*=0.001。(A) 复现三个数字（各 ±2% 内）：0.856=FIX0.40-rig-b14.1（contrarian offline_ctr RB 类，K=20）对 B2-fav；0.887=QFC-half（r4 账本，K=60，pragmatist offline_k60.py）对 B2-fav；0.97=FIX0.50-fav β=18.5 对 B2-fav。(B) 逐因子对换路径（同一批流）：份额 0.40→0.50；方差公式 contrarian 逐检查点 EB → Lemma L2 反演；β 14.1 → 14.2242（FDC）→ 15.161（r4）；K 60→20；plug-in → 严格；输出对账表 exp/results/pilots/r5_t1_reconcile/reconcile_table.md：每步的几何均值 N80_pen、对 B2-fav 比值与 CI、逐步 log 变化及 log 可加性残差。(C) C4 开发析因：FDCAblation 8 格（design×union×ledger）× 100 流，主效应、交互、Shapley；另 FDC vs B4-bal（用 r5_rival_tuning 冻结的份额）。(D) 预测模型：theoretical 的确定性等价模型（idea/r5_offline/theoretical/offline_proj.py；阈值换成各格实际 β/x_v），只用 900–949 的开发半真值与计数校准后冻结（写 exp/results/r5_gates/c4_model.json，含 sha256），在 950–999 上逐格预测几何均值 N80 并报告 log 误差与 bootstrap CI。注意：所有 β=14.1 配置结果标注 exploratory。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_fdc_impl",
+        "r5_setup_plugin_variants",
+        "r5_rival_tuning"
+      ],
+      "expected_output": "exp/results/pilots/r5_t1_reconcile/{summary.json,results.jsonl,reconcile_table.md,factorial_dev.csv,shapley_dev.json}; exp/results/r5_gates/c4_model.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 50,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        },
+        {
+          "type": "results",
+          "name": "r4 dev streams 900-999 (QFC/B1/B4/B2-*/B3-*/Peace-*) for consistency checks only",
+          "path": "exp/results/pilots/r4_g1_shape_{a,b,c}"
+        }
+      ],
+      "hypotheses": [
+        "T1",
+        "C4"
+      ],
+      "baselines": [
+        "B2-fav",
+        "QFC-half",
+        "FIX-bal-fav",
+        "B4-bal"
+      ],
+      "metrics": [
+        "reproduction_error",
+        "log_residual",
+        "design_share",
+        "model_log_error"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "dev streams 900-999 (paired across ~20 configs)",
+        "pass_criteria": "three numbers reproduced within +-2% AND reconciliation table complete with log-additivity residuals AND 8-cell factorial run on 100 streams AND C4 model frozen (sha256) before validation streams are scored",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-999"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Reconciliation ladder: config step x geomean N80_pen x ratio vs B2-fav",
+          "paper_section": "appendix"
+        },
+        {
+          "type": "bar_chart",
+          "description": "Dev factorial Shapley shares (design/union/ledger/interaction)",
+          "paper_section": "experiments"
+        }
+      ],
+      "gate": "T1"
+    },
+    {
+      "id": "r5_t2_gate_strict",
+      "name": "T2 (C1 dev gate): final FDC vs every rival in R on the same dev streams + T3 at stop",
+      "type": "experiment",
+      "description": "开发种子 900–999（100 流），CR9 开发半，ε*=0.001，K=20。方法：FDC（最终版，fdc.py）+ 𝓡 = {B1, B4, B4-bal, B2-rect, B3-rect, Peace-rect, Hait-SW, Molitor-WoR, QFC-pool}，对手配置取 exp/results/r5_gates/rival_configs.json（冻结），其余为 r4 冻结配置。每条流逐方法记录 run_stream 全部字段（N80_pen、N80_raw、completed、fwer_event、cert_k、billing），保存原始 results.jsonl、配置、代码 git 哈希、方法 describe()。统计：对每个 r 配对几何平均比 FDC/r，配对 bootstrap B=10⁴（seed 42）单侧 95% 上界与双侧 CI，更快/并列/更慢流占比，log 比 SD（供功效）。门 T2：对每个 r ∈ 𝓡 上界 < 1.0。T3（停止窗口）：FDC 错误流数与 CP 上界；任何错误流逐条审计（写 audit/）。一致性：QFC-pool、B1、B4、B2-rect、B3-rect、Peace-rect 的 N80 与 r4 已存 results.jsonl 逐流比对（报告不一致数；不一致须解释）。并发运行，4 worker；Peace-rect 约 24 s/流。不得读取评价种子。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_fdc_impl",
+        "r5_rival_tuning",
+        "r5_baseline_qualification"
+      ],
+      "expected_output": "exp/results/pilots/r5_t2_gate_strict/{summary.json,results.jsonl,paired_ratios.csv,audit/,certified_vs_arrivals.png}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 50,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        },
+        {
+          "type": "results",
+          "name": "r4 dev streams 900-999 (QFC/B1/B4/B2-*/B3-*/Peace-*) for consistency checks only",
+          "path": "exp/results/pilots/r4_g1_shape_{a,b,c}"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2",
+        "T2",
+        "T3"
+      ],
+      "baselines": [
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool"
+      ],
+      "metrics": [
+        "geomean_ratio",
+        "ub95_one_sided",
+        "frac_faster",
+        "sd_log_ratio",
+        "false_streams",
+        "cp_upper"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "dev streams 900-999 x 10 methods (paired)",
+        "pass_criteria": "GATE T2: for every r in R the one-sided 95% paired-bootstrap upper bound of geomean(N80_pen FDC / N80_pen r) < 1.0; T3(stop): FDC false streams <= 1/100 with every false stream audited; billing_ok all",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-999"
+      },
+      "full": {
+        "samples": "same as pilot (dev gate; confirmatory evidence comes from r5_cr_main_*)",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Dev T2 table: rival x ratio [CI] x UB x frac faster",
+          "paper_section": "appendix"
+        },
+        {
+          "type": "line_plot",
+          "description": "Certified problems vs arrivals (median, IQR) per method",
+          "x": "arrivals",
+          "y": "n_certified",
+          "paper_section": "experiments"
+        }
+      ],
+      "gate": "T2"
+    },
+    {
+      "id": "r5_t2_gate_plugin_t3",
+      "name": "T2-plugin (E-cost dev estimate) + T3 full-horizon FWER audit",
+      "type": "experiment",
+      "description": "开发种子 900–999（100 流）。(A) E-cost 描述性对照：FDC 对 {B2-fav, B2-fav-tight, FIX-bal-fav, Peace-fav, Peace-fav-bal, B3-fav, B5} 的配对比、双侧 95% CI、错误流数（plug-in 的错误流如实报告，不作门）。(B) T3 全视界审计：FDC 不在 12/15 停止，运行到 τ_R 直到 15/15 或池尽，记录每个证书的正确性、N100、逐预算认证时刻；B2-fav-tight 同样跑全视界作对照。门 T3：FDC 两窗口错误流 ≤1/100 且逐条审计（预期 0）。(C) K=60 敏感性预览：FDC 与 B2-fav 在 K=60（各自重算时间并集）下的比值，只记录。并发运行，4 worker；Peace-fav/Peace-fav-bal 约 22 s/流。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_fdc_impl",
+        "r5_setup_plugin_variants"
+      ],
+      "expected_output": "exp/results/pilots/r5_t2_gate_plugin_t3/{summary.json,results.jsonl,fullhorizon.jsonl,paired_ratios.csv,audit/}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 50,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "E-cost",
+        "C2",
+        "T3"
+      ],
+      "baselines": [
+        "B2-fav",
+        "B2-fav-tight",
+        "FIX-bal-fav",
+        "Peace-fav",
+        "Peace-fav-bal",
+        "B3-fav",
+        "B5"
+      ],
+      "metrics": [
+        "geomean_ratio",
+        "ci95",
+        "false_streams",
+        "N100"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "dev streams 900-999 x 8 methods + full-horizon FDC/B2-fav-tight",
+        "pass_criteria": "GATE T3: FDC false streams <= 1/100 in both windows (stop at 12/15; full horizon) with audit; E-cost ratios + CIs reported for all 7 plug-in variants; billing_ok",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-999"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": [
+        {
+          "type": "scatter",
+          "description": "Speed vs guarantee: geomean N80 vs validity class with false-stream rates",
+          "paper_section": "experiments"
+        }
+      ],
+      "gate": "T3"
+    },
+    {
+      "id": "r5_gate_decision",
+      "name": "Gate decision T0/T-spec/T1/T2/T3 + power calculation for eval stream count",
+      "type": "analysis",
+      "description": "只读各门 summary.json，产出 exp/results/r5_gate_decision.json 与 exp/results/pilots/r5_gate_decision/gate_table.md（每格标注来源字段）。规则（不得事后修改）：T0、T-spec、T3 必须通过；T2 对 𝓡 全部上界<1.0 ⇒ GO；任一对手上界≥1.0 ⇒ FDC 出局（verdict='fdc_out'），按项目规则写明 WWW'27 是否仍可达（若日期 > 10-08 未过 ⇒ 'www27_unreachable' 上报）。T1 是交付物：若 C4 模型验证 log 误差>0.095 ⇒ c4_mode='descriptive'（C4 降级，C1 不受影响）。功效：以开发 log 比 SD 与点估计，对 C1 最难对手做 IUT 蒙特卡洛功效（10³ 复制 × 2000 bootstrap），N∈{200,400}；N=200 功效≥0.8 ⇒ cr_n_streams=200，否则 400（启用 r5_cr_main_ext_*）。同时给出 C2 在 N 下的 CP 临界值（200:≤4；400:≤12）。更新 plan/decision_log_r5.md 的 T0–T3 结果条目。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_t0_alloc_audit",
+        "r5_fdc_spec_theory",
+        "r5_fdc_impl",
+        "r5_baseline_qualification",
+        "r5_t1_reconcile",
+        "r5_t2_gate_strict",
+        "r5_t2_gate_plugin_t3",
+        "r5_decision_log"
+      ],
+      "expected_output": "exp/results/r5_gate_decision.json; exp/results/pilots/r5_gate_decision/{gate_table.md,power.csv,summary.json}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 25,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        }
+      ],
+      "hypotheses": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "C4"
+      ],
+      "baselines": [],
+      "metrics": [
+        "verdict",
+        "power_N200",
+        "power_N400",
+        "cr_n_streams",
+        "c4_mode"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 1000,
+        "sample_unit": "power-simulation replications",
+        "pass_criteria": "every gate cell sourced to a summary.json field; verdict in {GO, fdc_out, www27_unreachable}; cr_n_streams in {200,400} chosen by the pre-declared power rule",
+        "estimated_time_min": 10,
+        "dev_seeds": "read-only"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "verdict unchanged"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_prereg_lock",
+      "name": "Pre-registration lock v5 (method, rivals, endpoints, SAP, seeds, code hash)",
+      "type": "setup",
+      "description": "写 plan/prereg_lock.json version 5（保留 v4 于 plan/history/r4_final/ 并保证 check_lock(version=4) 仍有效）。冻结：FDC 规格（份额 0.5、K=20、β/x_v 计算式与数值、δ 拆分、耗尽/n=0 规则、仅检查点停止）；𝓡 列表与 rival_configs.json sha256；plug-in 对照列表；终点定义（N80_pen、N80_raw、completed、censored、N100）；SAP（配对 bootstrap B=10⁴ seed 42、IUT、0.90 措辞门槛、E-cost 双侧 CI、K=60 敏感性、C2 CP 规则与临界值）；C4 析因 8 格 + FDC vs B4-bal + c4_model.json sha256 + 0.095 门；cr_n_streams（来自 gate decision）；种子（eval 30000–30199 [+30200–30399]、CR12 30000–30049）；decision_log_r5.json 与 fdc_theorem.md、baseline_qualification_r5.md 的 sha256；代码冻结提交哈希（先 commit 代码，再把哈希写回 lock 的第二个提交）。dsswm/stats/prereg.py：LOCK_VERSION=5、validate_lock v5、assert_locked(version=5) 拒绝在 status≠locked 时运行评价任务；若 gate verdict≠GO 则 status='locked_no_eval'。单测 tests/test_prereg_v5.py。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_gate_decision",
+        "r5_decision_log"
+      ],
+      "expected_output": "plan/prereg_lock.json (v5); exp/code/dsswm/stats/prereg.py; exp/code/dsswm/tests/test_prereg_v5.py; exp/results/pilots/r5_prereg_lock/summary.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 35,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        }
+      ],
+      "hypotheses": [
+        "prereg"
+      ],
+      "baselines": [],
+      "metrics": [
+        "lock_sha256",
+        "code_commit",
+        "status"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "lock fields validated (>=100 keys/hashes)",
+        "pass_criteria": "validate_lock v5 passes; check_lock(version=4) still valid; assert_locked(version=5) blocks eval tasks unless status=locked; code commit hash recorded; full test suite passes",
+        "estimated_time_min": 15,
+        "dev_seeds": "n/a"
+      },
+      "full": {
+        "samples": "same as pilot",
+        "pass_criteria": "lock unchanged"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_main_a",
+      "name": "Eval C1/C2 block A: FDC + R, seeds 30000-30099",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30099，方法 ['FDC', 'B1', 'B4', 'B4-bal', 'B2-rect', 'B3-rect', 'Peace-rect', 'Hait-SW', 'Molitor-WoR', 'QFC-pool']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_main_a/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2"
+      ],
+      "baselines": [
+        "FDC",
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30099",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_main_b",
+      "name": "Eval C1/C2 block B: FDC + R, seeds 30100-30199",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30100–30199，方法 ['FDC', 'B1', 'B4', 'B4-bal', 'B2-rect', 'B3-rect', 'Peace-rect', 'Hait-SW', 'Molitor-WoR', 'QFC-pool']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_main_b/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2"
+      ],
+      "baselines": [
+        "FDC",
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30100–30199",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_main_ext_a",
+      "name": "Eval C1/C2 extension A: seeds 30200-30299 (conditional)",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30200–30299，方法 ['FDC', 'B1', 'B4', 'B4-bal', 'B2-rect', 'B3-rect', 'Peace-rect', 'Hait-SW', 'Molitor-WoR', 'QFC-pool']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。 并发运行，4 worker；计时注明并发。 条件：仅当 lock v5 cr_n_streams=400；否则写 status='skipped_by_lock'（不得因中期结果启用）。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_main_ext_a/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2"
+      ],
+      "baselines": [
+        "FDC",
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30200–30299",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_main_ext_b",
+      "name": "Eval C1/C2 extension B: seeds 30300-30399 (conditional)",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30300–30399，方法 ['FDC', 'B1', 'B4', 'B4-bal', 'B2-rect', 'B3-rect', 'Peace-rect', 'Hait-SW', 'Molitor-WoR', 'QFC-pool']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。 并发运行，4 worker；计时注明并发。 条件：仅当 lock v5 cr_n_streams=400；否则写 status='skipped_by_lock'。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_main_ext_b/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2"
+      ],
+      "baselines": [
+        "FDC",
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30300–30399",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_plugin_a",
+      "name": "Eval E-cost block A: FDC + plug-in variants, seeds 30000-30099",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30099，方法 ['FDC', 'B2-fav', 'B2-fav-tight', 'FIX-bal-fav', 'Peace-fav', 'Peace-fav-bal', 'B3-fav', 'B5']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。FDC 行与 r5_cr_main_a 应逐流一致（同代码同种子），作为复现核查记录。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_plugin_a/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "E-cost"
+      ],
+      "baselines": [
+        "FDC",
+        "B2-fav",
+        "B2-fav-tight",
+        "FIX-bal-fav",
+        "Peace-fav",
+        "Peace-fav-bal",
+        "B3-fav",
+        "B5"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30099",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_plugin_b",
+      "name": "Eval E-cost block B: FDC + plug-in variants, seeds 30100-30199",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30100–30199，方法 ['FDC', 'B2-fav', 'B2-fav-tight', 'FIX-bal-fav', 'Peace-fav', 'Peace-fav-bal', 'B3-fav', 'B5']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。FDC 行与 r5_cr_main_b 应逐流一致。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_plugin_b/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "E-cost"
+      ],
+      "baselines": [
+        "FDC",
+        "B2-fav",
+        "B2-fav-tight",
+        "FIX-bal-fav",
+        "Peace-fav",
+        "Peace-fav-bal",
+        "B3-fav",
+        "B5"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30100–30199",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_factorial",
+      "name": "Eval C4: 2x2x2 factorial (design x union x ledger) + FDC vs B4-bal",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30199，方法 ['FDCAblation x8', 'B4-bal']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。8 个 FDCAblation 格（其中 (half,feas,r5)=FDC、(pool,qstar,r4)=QFC-pool 须与主块逐流一致）。冻结的 c4_model.json 在任何评价结果读取前加载并输出逐格预测，写入 predictions.json（带时间戳）后再汇总实测。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_factorial/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 40,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C4"
+      ],
+      "baselines": [
+        "FDCAblation x8",
+        "B4-bal"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30199",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": [
+        {
+          "type": "bar_chart",
+          "description": "Shapley waterfall: design / union / ledger / interaction (log N80)",
+          "paper_section": "experiments"
+        }
+      ]
+    },
+    {
+      "id": "r5_cr_k60_sens",
+      "name": "Eval sensitivity: K=60 common finer grid (FDC, QFC-pool, B4-bal, B2-rect, Peace-rect, B2-fav-tight)",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30099，方法 ['FDC', 'QFC-pool', 'B4-bal', 'B2-rect', 'Peace-rect', 'B2-fav-tight']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。K=60 下每个方法按自身规则重算时间并集预算（FDC β=ln(Σ·60/0.045)，x_v 同理）；只报告，不作门，不与 K=20 数字混合引用。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_k60_sens/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 50,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "sensitivity"
+      ],
+      "baselines": [
+        "FDC",
+        "QFC-pool",
+        "B4-bal",
+        "B2-rect",
+        "Peace-rect",
+        "B2-fav-tight"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30099",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_cr_fwer_audit",
+      "name": "Eval C2 full-horizon FWER audit + N100 (FDC)",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30199，方法 ['FDC (full horizon)', 'B2-fav-tight (full horizon, descriptive)']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。不在 12/15 停止，运行到 τ_R：记录全部 15 题证书正确性、N100、逐预算认证时刻。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr_fwer_audit/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 35,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C2"
+      ],
+      "baselines": [
+        "FDC (full horizon)",
+        "B2-fav-tight (full horizon, descriptive)"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30199",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": [
+        {
+          "type": "line_plot",
+          "description": "Per-budget completion curves and N100",
+          "paper_section": "experiments"
+        }
+      ]
+    },
+    {
+      "id": "r5_cr12_scale",
+      "name": "Supporting: CR12 (|Pi|=4096) scale layer, FDC vs B1/B4/B4-bal/Hait-SW",
+      "type": "experiment",
+      "description": "评价块（确认性）。开始前调用 dsswm.stats.prereg.assert_locked(version=5)，status≠locked 则立即退出并写 summary.status='skipped_by_lock'。CR9 评价半，ε*=0.001，K=20，种子 30000–30049（CR12 评价半），方法 ['FDC', 'B1', 'B4', 'B4-bal', 'Hait-SW']，全部配置取 lock v5（对手取 rival_configs.json）。每条流逐方法写 run_stream 全部字段 + 代码哈希；write-ahead jsonl 可续跑。CR12：|Π|=4096 枚举，FDC 账本由 ctx 自动计算（Σ_q|Π_{B_q}| 按 CR12 重算）；支持性结果，不作门、不进 C1。另记录每检查点证书计算毫秒数（规模证据）。 并发运行，4 worker；计时注明并发。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_prereg_lock"
+      ],
+      "expected_output": "exp/results/full/r5_cr12_scale/{summary.json,results.jsonl}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 50,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "supporting-scale"
+      ],
+      "baselines": [
+        "FDC",
+        "B1",
+        "B4",
+        "B4-bal",
+        "Hait-SW"
+      ],
+      "metrics": [
+        "N80_pen",
+        "N80_raw",
+        "completed",
+        "fwer_event",
+        "cert_k"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = smoke/timing on DEV streams 900-909 x methods (>=100 stream-method runs); never eval seeds in pilot",
+        "pass_criteria": "billing_ok all; no exceptions; projected full-block runtime <= 55 min at 4 workers; lock assertion path tested",
+        "estimated_time_min": 12,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "eval seeds 30000–30049（CR12 评价半）",
+        "pass_criteria": "all streams x methods complete, billing_ok, results hashed; no analysis inside the block"
+      },
+      "visualizations": [
+        {
+          "type": "bar_chart",
+          "description": "CR9 vs CR12 ratio of FDC to rigorous rivals (scale)",
+          "paper_section": "appendix"
+        }
+      ]
+    },
+    {
+      "id": "r5_replica_check",
+      "name": "Replica check: independent re-run of 20 eval streams + hash verification",
+      "type": "analysis",
+      "description": "从评价块随机（seed 42）抽 20 条流 × 全部方法，在全新进程中独立重跑，逐字段比对 N80_pen、cert_k、decided_pi、billing；校验 results.jsonl sha256 与代码哈希等于 lock v5。不一致即报告并阻塞汇总。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_cr_main_a",
+        "r5_cr_main_b",
+        "r5_cr_plugin_a",
+        "r5_cr_plugin_b",
+        "r5_cr_factorial",
+        "r5_cr_fwer_audit"
+      ],
+      "expected_output": "exp/results/full/r5_replica_check/summary.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 30,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "reproducibility"
+      ],
+      "baselines": [],
+      "metrics": [
+        "n_mismatch"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "(stream, method) re-runs on DEV streams in pilot (10 streams x 10 methods)",
+        "pass_criteria": "100% field identity",
+        "estimated_time_min": 10,
+        "dev_seeds": "900-909"
+      },
+      "full": {
+        "samples": "20 eval streams x all methods",
+        "pass_criteria": "100% identity; hashes equal lock v5"
+      },
+      "visualizations": []
+    },
+    {
+      "id": "r5_analysis_aggregate",
+      "name": "Aggregate: C1 (IUT), C2, C4, E-cost, practical significance, verdict 正结果达成/未达成",
+      "type": "analysis",
+      "description": "只读评价块原始 results.jsonl（不得重跑或剔除流），按 lock v5 SAP 计算：C1 每个对手配对几何均值比、单侧 95% 上界（B=10⁴ seed 42）、IUT 结论、0.90 措辞门槛；C2 两窗口错误流与 CP 上界；C4 析因主效应/交互/Shapley、设计份额 ≥2/3 判定、FDC vs B4-bal 上界、预测 log 误差 ≤0.095 判定（失败 ⇒ 描述性）；E-cost 双侧 CI；K=60 敏感性；CR12 支持性；实际意义（少读行数、墙钟、证书 ms/检查点，标注并发计时）。另报：N80_raw、完成率、格点差分布、并列比例、逐预算完成、N100。最终 verdict ∈ {'positive_result_achieved','not_achieved'}，规则：C1 IUT 通过 ∧ C2 通过 ⇒ achieved（C4 只决定机制措辞）。产出主表 Table 1/2、Fig 1–5（matplotlib，PDF+PNG，色盲友好）与 exp/results/full/r5_analysis_aggregate/claims.json（每主张：状态、数值、证伪条件、文件位置），供写作直接引用。",
+      "candidate_id": "cand_fdc",
+      "depends_on": [
+        "r5_cr_main_a",
+        "r5_cr_main_b",
+        "r5_cr_main_ext_a",
+        "r5_cr_main_ext_b",
+        "r5_cr_plugin_a",
+        "r5_cr_plugin_b",
+        "r5_cr_factorial",
+        "r5_cr_k60_sens",
+        "r5_cr_fwer_audit",
+        "r5_cr12_scale",
+        "r5_replica_check"
+      ],
+      "expected_output": "exp/results/full/r5_analysis_aggregate/{summary.json,claims.json,table1.csv,table2.md,fig1_certified_vs_arrivals.pdf,fig2_factorial_shapley.pdf,fig3_speed_vs_guarantee.pdf,fig4_per_budget_completion.pdf,fig5_cr12_k60.pdf}",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "max_batch_size_hint": "auto-detect",
+      "estimated_minutes": 45,
+      "cpu_workers": 4,
+      "gpu_usage": "none (CPU numpy; gpu_count=1 is a scheduler slot token, slots 1-3 are virtual CPU slots)",
+      "shared_resources": [
+        {
+          "type": "code",
+          "name": "dsswm package (r0-r4 modules, r4 frozen at 6297e7f2; r5 adds new modules only)",
+          "path": "exp/code/dsswm"
+        },
+        {
+          "type": "dataset",
+          "name": "Criteo Uplift v2.1 (CR9/CR12 layers, dev/eval halves, split seed 4242)",
+          "path": "$DATA_DIR/criteo_uplift + exp/code/dsswm/envs/pool_replay.py"
+        }
+      ],
+      "hypotheses": [
+        "C1",
+        "C2",
+        "C4",
+        "E-cost"
+      ],
+      "baselines": [
+        "B1",
+        "B4",
+        "B4-bal",
+        "B2-rect",
+        "B3-rect",
+        "Peace-rect",
+        "Hait-SW",
+        "Molitor-WoR",
+        "QFC-pool",
+        "B2-fav",
+        "B2-fav-tight",
+        "FIX-bal-fav",
+        "Peace-fav",
+        "Peace-fav-bal",
+        "B3-fav",
+        "B5"
+      ],
+      "metrics": [
+        "geomean_ratio",
+        "ub95",
+        "iut_pass",
+        "false_streams",
+        "cp_upper",
+        "design_share",
+        "model_log_error",
+        "rows_saved"
+      ],
+      "pilot": {
+        "seed": 42,
+        "timeout": 900,
+        "samples": 100,
+        "sample_unit": "pilot = full pipeline on DEV T2 results (100 dev streams) to validate code paths; eval only in full",
+        "pass_criteria": "pipeline reproduces r5_t2_gate_strict dev ratios exactly; all figures/tables render",
+        "estimated_time_min": 15,
+        "dev_seeds": "900-999 (read-only, existing results)"
+      },
+      "full": {
+        "samples": "all eval blocks",
+        "pass_criteria": "claims.json complete; verdict computed by the locked rule"
+      },
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Table 1: method x validity class x geomean N80_pen x ratio vs FDC [CI] x frac faster x completion x FWER",
+          "columns": [
+            "Method",
+            "Validity",
+            "GeoMean N80",
+            "FDC/Method [95% CI]",
+            "UB95",
+            "Faster %",
+            "Completion",
+            "False streams (CP UB)"
+          ],
+          "paper_section": "experiments"
+        },
+        {
+          "type": "table",
+          "description": "Table 2: rigorous-rival qualification",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "line_plot",
+          "description": "Fig 1: certified problems vs arrivals",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "bar_chart",
+          "description": "Fig 2: factorial Shapley + certificate-shape bar",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "scatter",
+          "description": "Fig 3: speed vs guarantee",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "line_plot",
+          "description": "Fig 4: per-budget completion + N100",
+          "paper_section": "experiments"
+        }
+      ]
+    }
+  ],
+  "revision": {
+    "tag": "r5_plan",
+    "date": "2026-10-03",
+    "archived_to": "plan/history/r4_final/",
+    "basis": "external reviewer r5 REVISE 4/10 six blocking deliverables + user ruling 2026-10-03 + convergence review",
+    "summary": "FDC = QFC certificate + frozen 50/50 + auto ledger (beta 14.2242, x_v 11.8776); strict set R incl. B4-bal, Hait-SW, Molitor-WoR, QFC-pool; QFC-half = ablation; C3 -> E-cost estimand; C4 = 2x2x2 factorial + frozen prediction model; T0-T3 dev gates before lock v5"
+  }
+}

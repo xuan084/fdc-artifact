@@ -1,0 +1,624 @@
+{
+ "version": "5+v7-addendum",
+ "status": "locked",
+ "written_at": "2026-10-04",
+ "written_by": "author (r5 follow-up, FDC-bet)",
+ "addendum_to": {
+  "version": 5,
+  "path": "plan/prereg_lock.json",
+  "sha256": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+  "git_commit": "ad9dbbc826bef2ca12be99f8547efe197e18c29a"
+ },
+ "v6_addendum": {
+  "path": "plan/prereg_lock_v6_addendum.json",
+  "sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+  "git_commit": "1098518537f7b80ff377d87cbcc2a4506aaa4766",
+  "block_A_verdict": "downgrade (UB* = 0.888 vs HC-WoR; FDC/RECT-ck-HG 0.851 [UB 0.871])"
+ },
+ "statement": "Append-only addendum. It edits neither lock v5 nor the v6 addendum and cannot change their verdicts. It registers ONE confirmatory test (block A) of a NEW primary method, FDC-BF, on fresh eval seeds, plus one descriptive block (B). Disclosure: FDC-BF was devised on 2026-10-04 AFTER the v6 eval results were known (v6 block A downgraded FDC vs same-strength exact-checkpoint / betting rectangles). It is a post-hoc deviation from the v5/v6 primary method and is reported as such. Selection used dev data only: CR9 dev seeds 900-949 (tuning of FDC-MR weights) and 950-999 (comparison of ~22 certificate variants), Lenta LR9 dev half seeds 950-999, and a toy FWER check; no v7 eval seed and no LR9 eval outcome was used. The dev seeds 950-999 that selected FDC-BF are therefore NOT confirmatory. Only block A is confirmatory, and only over fresh replay randomisation (permutation seeds 33000-33199) CONDITIONAL on the Criteo CR9 eval table, which v5/v6 already used with other seeds; block B is descriptive. The method's DESIGN was informed by the published v6 eval results (which rival construction was tight); only the comparison among candidate variants used dev data. The success threshold is 0.80, i.e. RELAXED relative to v6 block A's 0.70 'keep' threshold; this is fixed prospectively here and does not reverse the v6 verdict (downgrade).",
+ "primary_method": {
+  "name": "FDC-BF",
+  "module": "dsswm.baselines.fdc_bet.make_variant('FDC-BF') -> FDCBet(kind='bennett', var_box='HG', fpc=True, rect=False, split=(0.045, 0.005))",
+  "frozen_hyperparameters": {
+   "variant_tuple": [
+    "bennett",
+    "HG",
+    true,
+    false,
+    [
+     0.045,
+     0.005
+    ]
+   ],
+   "delta": 0.05,
+   "delta_main": 0.045,
+   "delta_var": 0.005,
+   "cell_bound": "Bennett with exact finite-population variance n m (1-m) (N-n)/(N-1) phi(|u|/n), phi(x) = e^x - 1 - x (Poisson-binomial representation of the hypergeometric law)",
+   "variance_box": "exact hypergeometric two-sided test inversion per (cell, checkpoint), alpha_side = delta_var / (2 S A K), running intersection over checkpoints (rect_v6.hg_mean_interval)",
+   "union": "FDC's (q, pi, k) union: beta = ln(sum_q |Pi_{B_q}| K / delta_main)",
+   "width": "w = min over lambda in lambda_0 * G of (beta + sum_c sup_{m in box} Psi_c(lambda a_c; m)) / lambda, lambda_0 = sqrt(2 beta / V_bar_pair)",
+   "lambda_grid": {
+    "form": "exp(linspace(ln(1/200), ln 10, 161))",
+    "n": 161,
+    "min": 0.005000000000000002,
+    "max": 10.000000000000002
+   },
+   "design": "frozen 50/50 (b4_bal.balanced_alloc 0.5), identical schedule digest to FDC",
+   "certification": "U_q(k) = max_{pi' in Pi_{B_q}} [Delta_hat(pi', pi_hat_q) + w(pi', pi_hat_q)] <= eps at the K = 20 pre-specified checkpoints, sticky answers, stop at 12/15 (block A: run continued to 15/15 for N100; see block A)"
+  },
+  "no_tuning_parameter_fitted": "FDC-BF has no data-fitted parameter; the lambda grid, split and box were fixed by design and are the same as for every other FDC-bet variant",
+  "origin_commit": "ec56177f4e67a430b304d10c764a121372851a38",
+  "origin_blob_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "current_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "guarantee": "Theorem FDC-bet-1 (plan/fdc_bet_exploration.md s2.6): FWER <= 0.05 at the K pre-specified checkpoints (both observation windows of fdc_theorem s6). Same guarantee strength as FDC, RECT-ck-HG and RECT-ck-HG-live; weaker than the time-uniform HC-WoR / WSR rectangles.",
+  "selection_disclosure": {
+   "date": "2026-10-04",
+   "variants_compared_on_dev": [
+    "FDC-re",
+    "FDC-FPC",
+    "FDC-BF-L2",
+    "FDC-BF",
+    "FDC-KLF",
+    "FDC-KLF+R",
+    "FDC-MR[uniform]",
+    "FDC-MR[geo2]",
+    "FDC-MR[inv_d2]",
+    "FDC-MR[front3]",
+    "FDC-MR[uniform,nopart]",
+    "FDC-MR[uniform,norect]",
+    "FDC-MR[uniform,split.025]",
+    "FDC-MR[front2]",
+    "FDC-MR[front3x]",
+    "FDC-MR[mixF50]",
+    "FDC-MR[mixF30]",
+    "FDC-MR[mixF50x]"
+   ],
+   "selection_rule": "authors judgement on dev 950-999 + Lenta dev (not a pre-declared rule): most stable across datasets, simplest; MR[front3] slightly better on CR9 dev but ~0.1 worse on Lenta dev",
+   "dev_gate": "GO if dev UB95(FDC-BF / strongest same-strength rectangle) < 0.70 (met: 0.677 vs HG, 0.695 vs HC-WoR)",
+   "dev_numbers_selection_run": {
+    "FDC-BF/RECT-ck-HG": [
+     0.649,
+     0.677
+    ],
+    "FDC-BF/HC-WoR": [
+     0.663,
+     0.695
+    ],
+    "FDC-BF/FDC": [
+     0.808,
+     0.838
+    ],
+    "format": "[geomean ratio, UB95]"
+   },
+   "dev_numbers_v7_runner_check": {
+    "A@0.001": {
+     "FDC-MR[front3]": {
+      "ratio": 1.042,
+      "ub95": 1.076
+     },
+     "FDC": {
+      "ratio": 0.808,
+      "ub95": 0.838
+     },
+     "B4-bal": {
+      "ratio": 0.32,
+      "ub95": 0.337
+     },
+     "RECT-ck-HG": {
+      "ratio": 0.649,
+      "ub95": 0.677
+     },
+     "RECT-ck-HG-live": {
+      "ratio": 0.649,
+      "ub95": 0.677
+     },
+     "RECT-ck-Bern": {
+      "ratio": 0.325,
+      "ub95": 0.343
+     },
+     "HC-WoR": {
+      "ratio": 0.663,
+      "ub95": 0.695
+     },
+     "B1": {
+      "ratio": 0.243,
+      "ub95": 0.257
+     },
+     "B4": {
+      "ratio": 0.161,
+      "ub95": 0.171
+     },
+     "B2-rect": {
+      "ratio": 0.32,
+      "ub95": 0.337
+     },
+     "B3-rect": {
+      "ratio": 0.238,
+      "ub95": 0.267
+     },
+     "Peace-rect": {
+      "ratio": 0.314,
+      "ub95": 0.334
+     },
+     "Hait-SW": {
+      "ratio": 0.32,
+      "ub95": 0.337
+     },
+     "Molitor-WoR": {
+      "ratio": 0.112,
+      "ub95": 0.118
+     },
+     "QFC-pool": {
+      "ratio": 0.417,
+      "ub95": 0.44
+     }
+    },
+    "B@0.002": {
+     "FDC-MR[front3]": {
+      "ratio": 0.911,
+      "ub95": 0.935
+     },
+     "FDC": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "B4-bal": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "QFC-pool": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "B2-rect": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "Peace-rect": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "Hait-SW": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "RECT-ck-HG": {
+      "ratio": 0.772,
+      "ub95": 0.797
+     },
+     "RECT-ck-HG-live": {
+      "ratio": 0.822,
+      "ub95": 0.844
+     },
+     "RECT-ck-Bern": {
+      "ratio": 0.676,
+      "ub95": 0.691
+     },
+     "HC-WoR": {
+      "ratio": 0.703,
+      "ub95": 0.723
+     }
+    },
+    "B@0.003": {
+     "FDC-MR[front3]": {
+      "ratio": 0.875,
+      "ub95": 0.899
+     },
+     "FDC": {
+      "ratio": 0.745,
+      "ub95": 0.766
+     },
+     "B4-bal": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "QFC-pool": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "B2-rect": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "Peace-rect": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "Hait-SW": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "RECT-ck-HG": {
+      "ratio": 0.679,
+      "ub95": 0.694
+     },
+     "RECT-ck-HG-live": {
+      "ratio": 0.697,
+      "ub95": 0.716
+     },
+     "RECT-ck-Bern": {
+      "ratio": 0.531,
+      "ub95": 0.541
+     },
+     "HC-WoR": {
+      "ratio": 0.67,
+      "ub95": 0.685
+     }
+    },
+    "B@0.004": {
+     "FDC-MR[front3]": {
+      "ratio": 0.86,
+      "ub95": 0.879
+     },
+     "FDC": {
+      "ratio": 0.793,
+      "ub95": 0.811
+     },
+     "B4-bal": {
+      "ratio": 0.437,
+      "ub95": 0.447
+     },
+     "QFC-pool": {
+      "ratio": 0.435,
+      "ub95": 0.445
+     },
+     "B2-rect": {
+      "ratio": 0.437,
+      "ub95": 0.447
+     },
+     "Peace-rect": {
+      "ratio": 0.437,
+      "ub95": 0.447
+     },
+     "Hait-SW": {
+      "ratio": 0.437,
+      "ub95": 0.447
+     },
+     "RECT-ck-HG": {
+      "ratio": 0.67,
+      "ub95": 0.685
+     },
+     "RECT-ck-HG-live": {
+      "ratio": 0.682,
+      "ub95": 0.697
+     },
+     "RECT-ck-Bern": {
+      "ratio": 0.435,
+      "ub95": 0.445
+     },
+     "HC-WoR": {
+      "ratio": 0.667,
+      "ub95": 0.685
+     }
+    }
+   }
+  }
+ },
+ "secondary_method": {
+  "name": "FDC-MR[front3]",
+  "module": "dsswm.baselines.fdc_mr.FDCMR(rho='front3') (kind 'min', HG box, FPC, free rectangle, partition DP, split 0.045/0.005)",
+  "role": "descriptive only (both blocks); rho profile selected on CR9 tuning seeds 900-949"
+ },
+ "blocks": {
+  "A": {
+   "name": "confirmatory: FDC-BF vs same-design same-or-stronger-guarantee rectangles",
+   "role": "CONFIRMATORY (the only verdict of this addendum)",
+   "layer": "CR9",
+   "half": "eval",
+   "eps": 0.001,
+   "K": 20,
+   "delta": 0.05,
+   "Q": 15,
+   "eps_check": "same as v6 block A (eps 0.001)",
+   "seeds": "33000-33199 (200 NEW eval streams)",
+   "n_streams": 200,
+   "run": "one run per (method, stream) with stop_k = 15; N80_pen (first checkpoint with >= 12/15 certified and no false certificate up to it, else tau_R) and x12 are read off the same trajectory -- the trajectory up to the 12/15 stop is a deterministic function of the seed and identical to a stop-at-12 run (v6 R3 verified this for the v5 rivals; test test_continuation_prefix_matches_stop_at_12)",
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "B4-bal",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR",
+    "B1",
+    "B4",
+    "B2-rect",
+    "B3-rect",
+    "Peace-rect",
+    "Hait-SW",
+    "Molitor-WoR",
+    "QFC-pool"
+   ],
+   "primary_family": [
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "HC-WoR"
+   ],
+   "primary_family_note": "RECT-ck-HG / RECT-ck-HG-live have the same K-checkpoint guarantee as FDC-BF; HC-WoR is time-uniform (stronger). RECT-ck-Bern is not in the family (dominated by RECT-ck-HG, matched-lemma contrast).",
+   "rival_configs": "v5 frozen configs (CR9) + v6 tuned HC-WoR (exp/results/v6_gates/hc_config_cr9.json); RECT-ck-* and FDC have no parameter. No rival is re-tuned.",
+   "primary_endpoint": "N80_pen (v5 definition)",
+   "analysis": "dsswm.stats.v7_analysis.analyse_block('A'): validated complete matrix (16 methods x 200 seeds), paired FDC-BF/r geomean ratio, paired percentile bootstrap B = 10^4 seed 42 (same resample matrix for all rivals and endpoints), one-sided 95% UB, two-sided 95% CI",
+   "decision_rule": {
+    "positive_result_achieved": "UB95(FDC-BF / r) < 0.80 for EVERY r in the primary family {RECT-ck-HG, RECT-ck-HG-live, HC-WoR} (IUT, conjunctive: no multiplicity correction) AND FDC-BF has 0/200 false streams (any false certificate up to the end of its run, i.e. up to 15/15 or tau_R; Clopper-Pearson 95% UB reported) AND replica pass",
+    "positive_result_not_achieved": "otherwise; components: faster_below_1 (0.80 <= UB* < 1), not_faster (UB* >= 1), validity_failure, replica_fail. All estimates are reported as they are.",
+    "threshold_origin": "0.80 given by the authors before any v7 run (dev UB was 0.677/0.695)"
+   },
+   "secondary_descriptive": [
+    "FDC-BF/r on N80_pen for RECT-ck-Bern, FDC (v5), B4-bal and the nine v5 rigorous rivals",
+    "FDC-BF/r on x12 (log-linear interpolated arrival count of the 12th sticky crossing; unpenalised)",
+    "FDC-BF/r on N100_pen (15/15, penalised) for every rival",
+    "FDC-MR[front3]/r on the same endpoints",
+    "per method: geomean N/tau_R, share at tau_R, false streams (CP UB), false streams by 12/15"
+   ]
+  },
+  "B": {
+   "name": "Lenta LR9 descriptive re-use of an outcome-exposed log",
+   "role": "DESCRIPTIVE ONLY: no verdict; not an untouched holdout (r4 computed full-table LR8 means; v6 block B ran on the same LR9 eval half with seeds 32000-32199)",
+   "dataset": "as v6 block B (lenta tidy.pkl, LR9 segmentation, split seed 6006), eval half",
+   "eval_access": "dsswm.envs.lenta_v7.LentaLayerEnvV7: eval outcomes only for v7b_* tasks that pass prereg_v7.addendum_gate",
+   "seeds": "34000-34199 (200 NEW streams)",
+   "eps": [
+    0.002,
+    0.003,
+    0.004
+   ],
+   "eps_selection": "none: all three reported",
+   "stop": "12/15 (as v6 block B)",
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "B4-bal",
+    "QFC-pool",
+    "B2-rect",
+    "Peace-rect",
+    "Hait-SW",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR"
+   ],
+   "rival_configs": "v6 LR9 frozen configs (exp/results/v6_gates/rival_configs_lr9.json)",
+   "reported": "per eps: FDC-BF/r and FDC-MR[front3]/r ratios (N80_pen, x12) with CIs, geomean N/tau_R, share at tau_R, false streams (CP UB)",
+   "replica_fail": "appendix only with flag 'replica_fail'",
+   "no_pooling": "never pooled with Criteo"
+  }
+ },
+ "frozen_configs": {
+  "CR9": {
+   "B4-bal": {
+    "share": 0.5
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2
+   }
+  },
+  "LR9": {
+   "B4-bal": {
+    "share": 0.4
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.5
+   }
+  }
+ },
+ "seed_manifest": {
+  "fdc_bet_tuning_dev": "900-949 (CR9 dev)",
+  "fdc_bet_selection_dev": "950-999 (CR9 dev, LR9 dev)",
+  "v7_runner_check_dev": "950-999 (v7a_pilot, v7b_pilot; reproduce the selection run)",
+  "A_eval": "33000-33199",
+  "B_eval": "34000-34199",
+  "bootstrap_seed": 42,
+  "lr9_split_seed": 6006,
+  "never_used_check": "2026-10-04: grep of every results json/jsonl under the workspace for seed / perm_seed 33000-33199 and 34000-34199: 0 hits; no code references these ranges except the v7 runner/analysis; supports 'no saved run', cannot prove no unsaved access",
+  "previously_used_eval": "30000-30199 (v5, v6 C), 31000-31199 (v6 A), 32000-32199 (v6 B)"
+ },
+ "replica_check": {
+  "implementation": "dsswm/stats/v7_replica.py + run_r5s_v7.py --task <t> --replica",
+  "R1": "independent process re-runs the first 10 seeds of each eval task for every method and eps; canonical rows (all fields except timing) identical",
+  "R1_excluded_fields": [
+   "sec",
+   "rs_sec_plan",
+   "rs_sec_cert",
+   "rs_sec_total"
+  ],
+  "R2": "schedule_digest identical within every (seed, eps) across the registered 50/50 group, full matrix",
+  "R2_groups": {
+   "v7a_full_a": [],
+   "v7a_full_b": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "B4-bal",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR"
+   ],
+   "v7b_full_a": [],
+   "v7b_full_b": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR"
+   ]
+  },
+  "integrity": "as v6: analysis recomputes R1/R2 from actual rows, the stored report must reconcile exactly; eval rows must equal the git-committed seal (exp/results/full/v7_seals)",
+  "on_failure": {
+   "A": "verdict component 'replica_fail' -> positive_result_not_achieved",
+   "B": "appendix only, flag 'replica_fail'"
+  }
+ },
+ "eval_tasks": {
+  "v7a_full_a": {
+   "block": "A",
+   "seeds": "33000-33199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "Peace-rect"
+   ]
+  },
+  "v7a_full_b": {
+   "block": "A",
+   "seeds": "33000-33199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "B4-bal",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR",
+    "B1",
+    "B4",
+    "B2-rect",
+    "B3-rect",
+    "Hait-SW",
+    "Molitor-WoR",
+    "QFC-pool"
+   ]
+  },
+  "v7b_full_a": {
+   "block": "B",
+   "seeds": "34000-34199",
+   "eps": [
+    0.002,
+    0.003,
+    0.004
+   ],
+   "stop_k": null,
+   "methods": [
+    "Peace-rect"
+   ]
+  },
+  "v7b_full_b": {
+   "block": "B",
+   "seeds": "34000-34199",
+   "eps": [
+    0.002,
+    0.003,
+    0.004
+   ],
+   "stop_k": null,
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "B4-bal",
+    "QFC-pool",
+    "B2-rect",
+    "Hait-SW",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR"
+   ]
+  }
+ },
+ "command": "cd exp/code && python run_r5s_v7.py --task <task> [--workers 4]; then --task <task> --replica; then --analyse A|B. Every step re-checks the locked v7 addendum (and through it v5 + v6).",
+ "eval_seal": "as v6 (v7_seal.write_and_commit_seal: seal committed alone at task completion, sidecar ref commit; replica and analysis verify the seal against git history and the current rows)",
+ "threat_model": "as v6: accidental drift (code, inputs, raw data, configs), partial / resumed runs and post-hoc edits of results, reports or seals are detected against git history; deliberate rewriting of git history is out of scope.",
+ "declarations": [
+  "Post-hoc deviation: FDC-BF replaces FDC as the primary method after the v6 eval block A downgrade. The paper must state this (date 2026-10-04, reason: v6 block A, dev-only selection among the variants listed) and must not present FDC-BF as the originally registered method.",
+  "Dev seeds 950-999 were used both to select FDC-BF and for the v7 runner check; dev numbers are not evidence.",
+  "Rivals are not re-tuned for v7; HC-WoR keeps its v6 dev-tuned config; no stronger rival family was searched for after v6. Stronger valid rivals may exist; conclusions are limited to the registered ones.",
+  "Block A runs every method to 15/15 (stop_k = 15) so N80, x12 and N100 come from one trajectory; the 12/15 prefix equals the stop-at-12 run by construction.",
+  "Block B re-uses the outcome-exposed LR9 eval half already used by v6 block B (different seeds) and is descriptive.",
+  "Timings: up to 3 runner processes x 4 workers concurrently; biased up."
+ ],
+ "code_sha256": {
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/envs/lenta_v7.py": "3d89007696037e343bdc5f61a7ce63358845cb0ee42c8db0444215955a4a05e6",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/v7_analysis.py": "01a916765a29f43c990237d664477c226fbbf36a7880f4eb1d26bc5861cf21bc",
+  "dsswm/stats/v7_replica.py": "5fc31c2f15f07218bbdb7add7c0c639747576c1ac3ed5fda8bdd02f64531d867",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "build_v7_addendum_draft.py": "ebe3782df0749c33aa531514d6aeed5e30cf4ab8518d35b6f6019858b58db7e6",
+  "dsswm/tests/test_fdc_bet.py": "b45ddc92b1f438a22d41acdffc13bab7af6a81a7fb571845233548e68a66cdee",
+  "dsswm/tests/test_v7_addendum.py": "e32e609ead38ccb0d73794483c6f67ef7e6e4f9e9013bbf795228e8db3a50ba0"
+ },
+ "input_sha256": {
+  "plan/prereg_lock.json": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+  "plan/prereg_lock_v6_addendum.json": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+  "plan/theory/fdc_theorem.md": "48f0d583c449ff4c886de09c7a5df5253be4b13b02c77d9a5f17fde433aff822",
+  "plan/fdc_bet_exploration.md": "ad8a384c2fabbe1735b69eda504f6f68a248fc1e51c5e5a88e999c47eb5d832d",
+  "exp/results/v6_gates/hc_config_cr9.json": "7fc14de22fdbffa22781d4d565edbf99943139c29f25d10c34671a9658f2598a",
+  "exp/results/v6_gates/rival_configs_lr9.json": "b285a8662eb6b1f474a2d8744ad78a1d84e98e73185c747a9f51ae2d0c6afffd",
+  "exp/results/r5_gates/rival_configs.json": "e1c3b9380a922431a116300f5fb3f9353b24f814ec1201db955c6298fd8dcdb0",
+  "exp/results/full/v6_summary.md": "d94717cb9e8595bfe444bd0c200c4cd6e85b86c968a79380c7cb4df956c11906",
+  "exp/results/full/v6_analysis_A.json": "ab9fb735a95c7ca566996f33a9250beddc3c370db8c00dda12d9062ea7470200",
+  "exp/results/pilots/fdc_bet/analysis_dev.json": "8e2f15f8f19f0530482b6ea6c154111eb4e9d6e9695c44b1d1e59b9f9a03b9ec",
+  "exp/results/pilots/fdc_bet/analysis_tune.json": "e0984476661e2ff6e189f090921c336b527e205dfb94633786ccf4f62fe06549",
+  "exp/results/pilots/fdc_bet/dev/results.jsonl": "f8e54645e87728fedba704a55dfd0a1239beb7e60d7a06069d55415d924ef8d7",
+  "exp/results/pilots/fdc_bet/tune/results.jsonl": "67614f022baa159b781dbc60ec77c82ec22422a548b192f55784cad83a67c985",
+  "exp/results/pilots/fdc_bet/lenta/results.jsonl": "110bd99e69c3bd4accd8b5fad8f3b0670daca0db0dd671c5c3e8690adcb6aa54",
+  "exp/results/pilots/fdc_bet/toy/summary.json": "42163537dbd799d0c96e84418d37f0e3421c88174574fc9d2b43f44fe6edf0b3",
+  "exp/results/pilots/v7a_pilot/summary.json": "7e5f497655713134a5c7be2a978e571f81e61a278ff1f6f35db84e33d7fd2391",
+  "exp/results/pilots/v7b_pilot/summary.json": "4bc375e6faad9dc8cae5e3e0fb8e7bfb8a9e5d23678733825b61ec4f645a6edc",
+  "exp/results/pilots/v7_analysis_A_dev.json": "bcb5a1068d6bcf19d21ad1292456c55e4c50eae83c9544ee1a27e99956fb35f6",
+  "exp/results/pilots/v7_analysis_B_dev.json": "8293461158af7b655dc0bf2b5821c56fbce0371e11269d5aa06b1e0f9d4a2bd6"
+ },
+ "data_sha256": {
+  "criteo_tidy": {
+   "path": "$DATA_DIR/criteo_uplift_real/tidy.pkl",
+   "sha256": "600a9a57a0e93a90c659552f482609321d97c58b1c9c90a6a391e05811546cd8"
+  },
+  "criteo_gz": {
+   "path": "$DATA_DIR/criteo_uplift_real/criteo-research-uplift-v2.1.csv.gz",
+   "sha256": "2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc"
+  },
+  "lenta_tidy": {
+   "path": "$DATA_DIR/lenta/tidy.pkl",
+   "sha256": "6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43"
+  }
+ },
+ "lock_procedure": "review (external reviewer <= 2 rounds) -> git commit (code + inputs) -> prereg_v7.finalize_addendum(git_commit) writes plan/prereg_lock_v7_addendum.json (refuses to overwrite; verifies the commit contains the bound code) -> commit the lock -> eval tasks, replicas, analyses.",
+ "git_commit": "bfd929bde6c850d0ef8819da6eb45b0bd2dea686",
+ "locked_by": "author (task delegated by authors; external reviewer OK to lock)",
+ "locked_at": "2026-10-04T06:35:02.579620",
+ "eval_touched_at_lock": false,
+ "draft_sha256": "35b7f1e411e881a9f0112546e65ca2bc2243c3e2b648247b1f87bc653d2f59fe",
+ "sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f"
+}

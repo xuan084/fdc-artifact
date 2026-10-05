@@ -1,0 +1,55 @@
+{
+ "task_id": "v6c_full_a",
+ "status": "complete",
+ "layer": "CR9",
+ "half": "eval",
+ "seeds": [
+  30000,
+  30199
+ ],
+ "n_streams": 200,
+ "eps": [
+  0.001
+ ],
+ "stop_k": 15,
+ "tau_R": 6989799,
+ "n_rows": 200,
+ "expected_rows": 200,
+ "started_at": "2026-10-04T01:46:02.047244",
+ "ended_at": "2026-10-04T03:08:50.771666",
+ "wall_min": 82.81,
+ "cpu_sec_sum": 5422.3,
+ "timing_note": "4 worker processes, BLAS=1; concurrent with other host load (biased up)",
+ "code_sha256": {
+  "run_r5s_v6.py": "f549eb047b235252099b43b44c5dce14625c6090ad8984788f9e5f4269205c0e",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058"
+ },
+ "code_sha256_combined": "1e5328467c8fa0d0c1d00c1068269700db9861ff2ba92d65412a6554761b4d55",
+ "addendum_sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+ "data_sha256": "10c764db14b16a615369873190ec6386284bef8695b78a13e5c84c727c99f294",
+ "eval_touched": true,
+ "R2_design_identity": {
+  "rule": "R2",
+  "pass": true,
+  "note": "no 50/50 comparison group in this task"
+ },
+ "configs": {
+  "Peace-rect": null
+ },
+ "seal": {
+  "results_content_sha256": "138587c656a8cad005981ca617435f1c357abe8e8f4b859388044b6c6e0d9d45",
+  "seal_commit": "b97203a87dab72b9f5a0c2ed0bc61ce14fc89a7a",
+  "seal_path": "exp/results/full/v6_seals/v6c_full_a.seal.json"
+ },
+ "per_method_cpu_sec": {
+  "Peace-rect": 5422.3
+ }
+}

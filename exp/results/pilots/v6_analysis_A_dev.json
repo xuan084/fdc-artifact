@@ -1,0 +1,120 @@
+{
+ "block": "A",
+ "key": "N80_pen",
+ "n_streams": 50,
+ "per_eps": {
+  "0.001": {
+   "B4-bal": {
+    "geomean_ratio": 0.39627996231625334,
+    "ub95_one_sided": 0.41960888472916413,
+    "ci95_two_sided": [
+     0.3703759005781287,
+     0.4239957533666681
+    ],
+    "frac_faster": 1.0,
+    "frac_tied": 0.0,
+    "frac_slower": 0.0,
+    "mean_log_ratio": -0.9256343419710505,
+    "sd_log_ratio": 0.24728128475089428,
+    "n": 50
+   },
+   "RECT-ck-HG": {
+    "geomean_ratio": 0.8037973612049356,
+    "ub95_one_sided": 0.8379419005563882,
+    "ci95_two_sided": [
+     0.763066554430746,
+     0.8467022765883664
+    ],
+    "frac_faster": 0.66,
+    "frac_tied": 0.34,
+    "frac_slower": 0.0,
+    "mean_log_ratio": -0.21840807987248026,
+    "sd_log_ratio": 0.19200367498494839,
+    "n": 50
+   },
+   "RECT-ck-HG-live": {
+    "geomean_ratio": 0.8037973612049356,
+    "ub95_one_sided": 0.8379419005563882,
+    "ci95_two_sided": [
+     0.763066554430746,
+     0.8467022765883664
+    ],
+    "frac_faster": 0.66,
+    "frac_tied": 0.34,
+    "frac_slower": 0.0,
+    "mean_log_ratio": -0.21840807987248026,
+    "sd_log_ratio": 0.19200367498494839,
+    "n": 50
+   },
+   "RECT-ck-Bern": {
+    "geomean_ratio": 0.4025106356219577,
+    "ub95_one_sided": 0.4239957591383629,
+    "ci95_two_sided": [
+     0.37816068997382674,
+     0.4284284888376847
+    ],
+    "frac_faster": 1.0,
+    "frac_tied": 0.0,
+    "frac_slower": 0.0,
+    "mean_log_ratio": -0.9100337585671392,
+    "sd_log_ratio": 0.23047389373185487,
+    "n": 50
+   },
+   "HC-WoR": {
+    "geomean_ratio": 0.8206920848395305,
+    "ub95_one_sided": 0.8600148723346707,
+    "ci95_two_sided": [
+     0.7791051778959298,
+     0.8644987912103322
+    ],
+    "frac_faster": 0.6,
+    "frac_tied": 0.4,
+    "frac_slower": 0.0,
+    "mean_log_ratio": -0.19760728879467165,
+    "sd_log_ratio": 0.19343547642337292,
+    "n": 50
+   }
+  }
+ },
+ "decision": {
+  "UB_star": 0.8600148723346707,
+  "governing_rival": "HC-WoR",
+  "verdict": "downgrade",
+  "replica_status": "pass",
+  "per_rival_ub": {
+   "RECT-ck-HG": 0.8379419005563882,
+   "RECT-ck-HG-live": 0.8379419005563882,
+   "RECT-ck-Bern": 0.4239957591383629,
+   "HC-WoR": 0.8600148723346707
+  },
+  "thresholds": {
+   "keep": "UB* < 0.70",
+   "downgrade": "0.70 <= UB* < 1.0",
+   "withdraw": "UB* >= 1.0"
+  },
+  "scope": "registered rivals and frozen configs only"
+ },
+ "mode": "dev_exploratory",
+ "addendum_sha256": null,
+ "tasks": [
+  "v6a_pilot"
+ ],
+ "replica_statuses": {
+  "v6a_pilot": "pass"
+ },
+ "replica_content_sha256": [
+  "c4967ab1cc4567414aefae3e207c6b6e20e036a357c975d5fd21569209dcd196"
+ ],
+ "code_sha256": {
+  "run_r5s_v6.py": "bbccae2493c5f40dc63c7ae70dabdcb16fec0c04d961f8525f94993bd5259ff8",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "e1af46341daf3b0c524aa443adbc1af9df91630dc25348bde49303dc848d9a87",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32"
+ },
+ "written_at": "2026-10-04T01:12:38.818097"
+}

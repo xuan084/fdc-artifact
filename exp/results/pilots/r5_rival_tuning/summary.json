@@ -1,0 +1,347 @@
+{
+ "task_id": "r5_rival_tuning",
+ "mode": "pilot (== full: same grid and seeds)",
+ "started_at": "2026-10-03T13:47:59.474371",
+ "ended_at": "2026-10-03T13:52:42.308415",
+ "wall_min": 4.7,
+ "sec_env_build": 4.3,
+ "timing_note": "concurrent run (4 workers; other r5 tasks share the host)",
+ "runs": 550,
+ "configs": 11,
+ "pass_criteria": {
+  "every_cell_50_streams": true,
+  "billing_ok": true,
+  "selected_configs_0_of_50_false": true,
+  "b2_explore_c1_identical_to_r4": true
+ },
+ "go_no_go": "GO",
+ "selected": {
+  "B4-bal": {
+   "config": "B4-bal[share=0.50]",
+   "params": {
+    "share": 0.5
+   },
+   "geomean_N80_pen": 2394588.2536423802,
+   "false_streams": 0,
+   "tie_with": [],
+   "rule": "argmin geomean N80_pen among 0/50-false configs; ties -> first grid item"
+  },
+  "Hait-SW": {
+   "config": "Hait-SW[p_min=0.02,gamma=2/3]",
+   "params": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "geomean_N80_pen": 2394588.2536423802,
+   "false_streams": 0,
+   "tie_with": [
+    "Hait-SW[p_min=0.05,gamma=2/3]",
+    "Hait-SW[p_min=0.10,gamma=2/3]",
+    "Hait-SW[p_min=0.05,gamma=1]",
+    "Hait-SW[p_min=0.10,gamma=1]"
+   ],
+   "rule": "argmin geomean N80_pen among 0/50-false configs; ties -> first grid item"
+  },
+  "B2-rect": {
+   "config": "B2-rect[explore=sqrt(n_s)]",
+   "params": {
+    "explore_c": 1.0
+   },
+   "geomean_N80_pen": 2419622.8619918004,
+   "false_streams": 0,
+   "tie_with": [
+    "B2-rect[explore=0.5sqrt(n_s)]"
+   ],
+   "rule": "argmin geomean N80_pen among 0/50-false configs; ties -> first grid item"
+  }
+ },
+ "grid_table": [
+  {
+   "method": "B4-bal",
+   "config": "B4-bal[share=0.40]",
+   "params": {
+    "share": 0.4
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2602348.5711770724,
+   "geomean_N80_over_tau": 0.37230695832867616,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.77192489187141,
+   "sd_log_N80_pen": 0.1286713203338462,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 5.525340000000001
+  },
+  {
+   "method": "B4-bal",
+   "config": "B4-bal[share=0.45]",
+   "params": {
+    "share": 0.45
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2432238.1439444683,
+   "geomean_N80_over_tau": 0.3479699819357266,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.704322438304041,
+   "sd_log_N80_pen": 0.06237579636859542,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 2.31882
+  },
+  {
+   "method": "B4-bal",
+   "config": "B4-bal[share=0.50]",
+   "params": {
+    "share": 0.5
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 2.7762000000000007
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.02,gamma=2/3]",
+   "params": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.24624
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.05,gamma=2/3]",
+   "params": {
+    "p_min": 0.05,
+    "gamma": 0.6666666666666666
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.2546000000000002
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.10,gamma=2/3]",
+   "params": {
+    "p_min": 0.1,
+    "gamma": 0.6666666666666666
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.25742
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.02,gamma=1]",
+   "params": {
+    "p_min": 0.02,
+    "gamma": 1.0
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2407073.011682469,
+   "geomean_N80_over_tau": 0.34436971333521166,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.6939220493681,
+   "sd_log_N80_pen": 0.07879484510979995,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.2517
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.05,gamma=1]",
+   "params": {
+    "p_min": 0.05,
+    "gamma": 1.0
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.26904
+  },
+  {
+   "method": "Hait-SW",
+   "config": "Hait-SW[p_min=0.10,gamma=1]",
+   "params": {
+    "p_min": 0.1,
+    "gamma": 1.0
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2394588.2536423802,
+   "geomean_N80_over_tau": 0.34258357202314577,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.68872185490013,
+   "sd_log_N80_pen": 0.08535097970124758,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.26588
+  },
+  {
+   "method": "B2-rect",
+   "config": "B2-rect[explore=sqrt(n_s)]",
+   "params": {
+    "explore_c": 1.0
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2419622.8619918004,
+   "geomean_N80_over_tau": 0.3461651671218018,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.69912224383607,
+   "sd_log_N80_pen": 0.07125501873385436,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.8441199999999998
+  },
+  {
+   "method": "B2-rect",
+   "config": "B2-rect[explore=0.5sqrt(n_s)]",
+   "params": {
+    "explore_c": 0.5
+   },
+   "streams": 50,
+   "geomean_N80_pen": 2419622.8619918004,
+   "geomean_N80_over_tau": 0.3461651671218018,
+   "median_N80_pen": 2470480.0,
+   "mean_log_N80_pen": 14.69912224383607,
+   "sd_log_N80_pen": 0.07125501873385436,
+   "completed": 50,
+   "censored": 0,
+   "false_streams": 0,
+   "fwer_cp_upper": 0.0582,
+   "false_certs": 0,
+   "billing_ok_all": true,
+   "eligible": true,
+   "sec_per_stream_mean": 1.9433599999999998
+  }
+ ],
+ "rival_configs": "exp/results/r5_gates/rival_configs.json",
+ "fdc_read": false,
+ "k_stop_distribution": {
+  "B4-bal[share=0.40]": {
+   "14": 2,
+   "15": 36,
+   "16": 12
+  },
+  "B4-bal[share=0.45]": {
+   "14": 3,
+   "15": 47
+  },
+  "B4-bal[share=0.50]": {
+   "14": 6,
+   "15": 44
+  },
+  "Hait-SW[p_min=0.02,gamma=2/3]": {
+   "14": 6,
+   "15": 44
+  },
+  "Hait-SW[p_min=0.05,gamma=2/3]": {
+   "14": 6,
+   "15": 44
+  },
+  "Hait-SW[p_min=0.10,gamma=2/3]": {
+   "14": 6,
+   "15": 44
+  },
+  "Hait-SW[p_min=0.02,gamma=1]": {
+   "14": 5,
+   "15": 45
+  },
+  "Hait-SW[p_min=0.05,gamma=1]": {
+   "14": 6,
+   "15": 44
+  },
+  "Hait-SW[p_min=0.10,gamma=1]": {
+   "14": 6,
+   "15": 44
+  },
+  "B2-rect[explore=sqrt(n_s)]": {
+   "14": 4,
+   "15": 46
+  },
+  "B2-rect[explore=0.5sqrt(n_s)]": {
+   "14": 4,
+   "15": 46
+  }
+ },
+ "resolution_note": "All 11 configs stop at checkpoint index 14 or 15 (0-based, K=20, adjacent ratio ~1.297); 9 of 11 configs share the identical geomean N80_pen 2,394,588 (=0.3426 tau_R). Tuning differences are below checkpoint resolution; selection ties are resolved by the pre-declared first-grid-item rule. Implication for T2: a paired ratio < 1 requires FDC to certify 12/15 at least one checkpoint earlier on most streams (one checkpoint step = factor 1/1.297)."
+}

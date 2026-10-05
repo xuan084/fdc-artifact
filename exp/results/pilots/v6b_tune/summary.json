@@ -1,0 +1,244 @@
+{
+ "task_id": "v6b_tune",
+ "status": "complete",
+ "layer": "LR9",
+ "half": "dev",
+ "seeds": [
+  900,
+  949
+ ],
+ "n_streams": 50,
+ "eps": [
+  0.003
+ ],
+ "stop_k": null,
+ "tau_R": 343516,
+ "n_rows": 850,
+ "expected_rows": 850,
+ "started_at": "2026-10-03T23:48:40.680138",
+ "ended_at": "2026-10-03T23:52:35.795529",
+ "wall_min": 3.92,
+ "cpu_sec_sum": 938.8,
+ "timing_note": "4 worker processes, BLAS=1; concurrent with other host load (biased up)",
+ "code_sha256": {
+  "run_r5s_v6.py": "9175660c61c3a225f636c8e77a53ef2fedb0638cd3e2380e65ac0d891fa8ac5c",
+  "dsswm/baselines/rect_v6.py": "9e24da5cce4b9a849461631da510a76f742ad38e0695028a8dc809f2942ef579",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "c26a798e91bca79436e4a43f4d21d45fefc5425838083c776a0b3f9c2cd7f5b9",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "0cd19a7f1ac3b03c7f06d81660306c01cbab8b8f6a6d8e0dd293bd5cb9ec4fbd"
+ },
+ "code_sha256_combined": "d10bc3a7afc5948558e618396d21a4fdc7a26747a56b67d11e438eeb24ad4ec2",
+ "addendum_sha256": null,
+ "eval_touched": false,
+ "tuning": {
+  "selected": {
+   "B4-bal": {
+    "share": 0.4
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.5
+   }
+  },
+  "table": {
+   "B4-bal": [
+    {
+     "params": {
+      "share": 0.4
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "share": 0.45
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "share": 0.5
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    }
+   ],
+   "Hait-SW": [
+    {
+     "params": {
+      "p_min": 0.02,
+      "gamma": 0.6666666666666666
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "p_min": 0.05,
+      "gamma": 0.6666666666666666
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "p_min": 0.1,
+      "gamma": 0.6666666666666666
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "p_min": 0.02,
+      "gamma": 1.0
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "p_min": 0.05,
+      "gamma": 1.0
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "p_min": 0.1,
+      "gamma": 1.0
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    }
+   ],
+   "B2-rect": [
+    {
+     "params": {
+      "explore_c": 1.0
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "explore_c": 0.5
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    }
+   ],
+   "HC-WoR": [
+    {
+     "params": {
+      "schedule": "prpl",
+      "c": 0.5,
+      "target_frac": null
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "schedule": "prpl",
+      "c": 0.75,
+      "target_frac": null
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "schedule": "nstar",
+      "c": 0.75,
+      "target_frac": 0.1
+     },
+     "geomean_N80_pen": 343516.00000000023,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "schedule": "nstar",
+      "c": 0.75,
+      "target_frac": 0.2
+     },
+     "geomean_N80_pen": 327096.98488927115,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "schedule": "nstar",
+      "c": 0.75,
+      "target_frac": 0.35
+     },
+     "geomean_N80_pen": 277415.39090799744,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    },
+    {
+     "params": {
+      "schedule": "nstar",
+      "c": 0.75,
+      "target_frac": 0.5
+     },
+     "geomean_N80_pen": 271307.77749716927,
+     "n": 50,
+     "eligible": true,
+     "n_false_streams": 0
+    }
+   ]
+  },
+  "rule": "argmin geomean N80_pen over tuning seeds among grid points with 0 false streams and billing_ok; ties -> first grid item (lock v5 rule)"
+ },
+ "gate_file": "exp/results/v6_gates/rival_configs_lr9.json",
+ "per_method_cpu_sec": {
+  "B2-rect": 255.3,
+  "B4-bal": 131.7,
+  "HC-WoR": 490.4,
+  "Hait-SW": 61.4
+ }
+}

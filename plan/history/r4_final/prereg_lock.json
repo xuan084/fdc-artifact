@@ -1,0 +1,1900 @@
+{
+ "version": 4,
+ "status": "locked_no_eval",
+ "mode": "pilot",
+ "written_by": "r4_prereg_lock",
+ "written_at": "2026-10-03T02:25:17",
+ "candidate_id": "cand_qfc",
+ "note": "Round-4 lock v4. Both pillars were judged dead at r4_gate_decision (real: G1-shape failed vs B2-fav 1.669 and Peace-fav 0.987; MS2: dead_fac, MS-H non-vacuity 0.047 < 0.20). The lock is written for the record (status=locked_no_eval); every confirmatory task is skipped_by_gate. Only the listed descriptive/safety tasks may still be scheduled by the control plane; they cannot change any verdict.",
+ "eval_seeds_touched": false,
+ "declarations": {
+  "pre_pilot_revision": "修订（Pilot 后锁前修订 R1-R7，2026-10-02）是在任何方法对比之前、只依据宽度/平凡性诊断作出的；诊断文件 plan/feasibility_r4/ 的 sha256 见 feasibility_r4_sha256。",
+  "fcc_revision": "FCC 锁前修订 F1-F5（2026-10-03）只依据 FCC 自身宽度/间隙诊断（plan/feasibility_r4/fcc_redesign_diag.*，开发种子 800-803，探索性），未运行任何基线、未看到方法对基线结果、未触碰评价种子；sha256 见 fcc_redesign_diag_sha256。",
+  "lock_after_gates": "本 lock 写于全部开发门（开发种子 800-999）之后；冻结值（ε*、主比较变体、Guard c、MisLid κ）由开发门按预注册规则产生，门阈值未改。评价种子 20000-20799 / 30000-30399 / 31000-31199 / 32000-32099 未触碰。",
+  "data_choice_disclosure": "CR9 选择时看过评价半的平凡性与宽度诊断（真值层面，不涉及方法比较）（methodology R1）。"
+ },
+ "feasibility_r4_sha256": {
+  "plan/feasibility_r4/coarse_diag.py": "89ed6ab28aa85a27b3c91a33d501e9b4eaedc717bb42d0bde001a8475c6a62fb",
+  "plan/feasibility_r4/criteo_diag3.py": "60674f9e441f59b0a8b1b8ebd61fd434f48563e7540f515ac75936cc1eace1ac",
+  "plan/feasibility_r4/criteo_visit.jsonl": "de4ab53c16c660d7d00d9acf042d9cd617fa375da3a294db4f17d4bd9c116f97",
+  "plan/feasibility_r4/fcc_redesign_diag.csv": "b2e0d0fe3ee04e36e74ceeaa52b32b141a5187c8d0b6a38e0fac1eaeaca459c8",
+  "plan/feasibility_r4/fcc_redesign_diag.json": "71090a3f52947f74f11540206eb278605f47c38742a277271cf41225b918a4b5",
+  "plan/feasibility_r4/fcc_redesign_diag.log": "94f1059150185b529b3dd6d8832a34247582dea869deb94456f7c9f91963589b",
+  "plan/feasibility_r4/fcc_redesign_diag.py": "0ffa3655236b52d87a03a6284e5443d5611d7ecebc984d6de262ba5960ec04d3",
+  "plan/feasibility_r4/feas16.py": "34765a7546fbe0170f6a7a43482865c196eb37720bb609cf2075b86305e9405b",
+  "plan/feasibility_r4/feas_HR6_visit_dev.json": "88bbda06ec6d626b19637b59c6302f05c67e6f1fa3b1d3c99583b2d86a13ff7b",
+  "plan/feasibility_r4/feas_HR6_visit_full.json": "c502793393153d2a19df27a26b21c09fec2cd43dafe235b41f169ebb105bbb29",
+  "plan/feasibility_r4/feas_diag.py": "c3d1beee5b1cac5a29c90a5970a73a7bb9ef69acd5a017f808811e8651372763",
+  "plan/feasibility_r4/hr16_conversion_dev.log": "325d6a0580938735bf27f6dd681ffe9126c5588fe43a70da56f7a846868b94ee",
+  "plan/feasibility_r4/hr16_visit_dev.log": "bca75122d267ac381224cd3cca9cd754cf91188abbb52874f593fe821e2a83a4",
+  "plan/feasibility_r4/hr16_visit_full.log": "4adae730409a2d2f76f2aa94f88fb82b024f5f51025aaec8f8283ffce1f6885d",
+  "plan/feasibility_r4/hr6vf.log": "43187c0267e0ab1b82c6a587d3eb6bc3a5bbabbd81e42b18d43b7e39c05ae40c",
+  "plan/feasibility_r4/hr_coarse_visit.jsonl": "884d1de528c7176bd94665d9dd7991d977e37a7ac858c3132e21f1a9ae4dc462"
+ },
+ "fcc_redesign_diag_sha256": {
+  "plan/feasibility_r4/fcc_redesign_diag.csv": "b2e0d0fe3ee04e36e74ceeaa52b32b141a5187c8d0b6a38e0fac1eaeaca459c8",
+  "plan/feasibility_r4/fcc_redesign_diag.json": "71090a3f52947f74f11540206eb278605f47c38742a277271cf41225b918a4b5",
+  "plan/feasibility_r4/fcc_redesign_diag.log": "94f1059150185b529b3dd6d8832a34247582dea869deb94456f7c9f91963589b",
+  "plan/feasibility_r4/fcc_redesign_diag.py": "0ffa3655236b52d87a03a6284e5443d5611d7ecebc984d6de262ba5960ec04d3"
+ },
+ "input_sha256": {
+  "plan/methodology.md": "92f5d6d7c207784f78b4466a584a3028ace51bf86eb583014adaeca420663140",
+  "plan/task_plan.json": "aa0894cd19904bad696d0e3811628bfa94a00536e240bef74b6db5df95ce9817",
+  "plan/pilot_plan.json": "7853354b0a9e875889a4816c0da9cc5fda9c042d027577e93638e1fe26065195",
+  "idea/hypotheses.md": "3a7047a9ebfa022689b0d4dc2aef37f84f6cb97a35e9fb91b96c733fc4f43a05",
+  "idea/proposal.md": "4fb56128036e571cd5329fc390efd08c3a4fc102a37237c84ff846c0b0959cea",
+  "idea/candidates.json": "9721b2f385b9d9cf1a8dd0398b1a444f6a2ebe11dad02f1e129aa2b6989aa708",
+  "exp/results/r4_gate_decision.json": "f21edd7f7301ce7788d40bdb57e962610b2eba6a0cf45523357d70daf2fab0f8",
+  "exp/results/r4_gates/eps.json": "ac056cc04e492e088877dc1e7b3024f493411d918a09e82ebe34f149e192b31a",
+  "exp/results/r4_gates/ms_frozen.json": "5904886206ac33e462b533016ecd597b076f22f899c345beca726dc54fa3aa05",
+  "exp/results/pilots/r4_setup_fcc/contract_table.md": "640d3355aed80700769f03abb5259c939ff0bbe67e08e20f3c27702b7b7e2b01",
+  "plan/history/round3_final/prereg_lock.json": "f4c3da807cf75bc1fbe6c04a2de607cc2c1af69fa719c74a30ff052fd5814c55",
+  "plan/theory/qfc_lemma.md": "65345a330ded8f6fdfce827e4f666143a75b3ab19d96d619103b6ce13efc9af1"
+ },
+ "gate_decision": {
+  "real_pillar": "dead",
+  "ms_pillar": "dead",
+  "ms2_status": "dead_fac",
+  "positive_result_reachable_this_round": false,
+  "lr_in_E2": false,
+  "eps_star": 0.001,
+  "eps_star_lr": null,
+  "eps_star_hr8": null,
+  "primary_variant": {
+   "B2": "B2-fav",
+   "B3": "B3-fav",
+   "Peace": "Peace-fav"
+  },
+  "guard_c": 3.0,
+  "guard_c_flag": "no c in {1.5,2,3} passes FWER CP upper <= 0.05; c=3 frozen as fallback (descriptive comparator only)",
+  "mislid_hparam": {
+   "kappa": 1.0,
+   "note": "0 certifications for every kappa at T_max=6000 (structural); tie -> smaller kappa; post-hoc rule clarification 2026-10-03T01:55, no rerun"
+  },
+  "pivot": "cand_rollout",
+  "pivot_alternatives": [
+   "cand_llm"
+  ],
+  "pivot_not_viable": [
+   "cand_fcc"
+  ],
+  "user_req2_partial": true,
+  "gates": {
+   "G0-lit": true,
+   "G-theory": true,
+   "G-dp": true,
+   "G-eps": true,
+   "G1-shape": {
+    "all": false,
+    "B1": true,
+    "B4": true,
+    "B2": false,
+    "B3": true,
+    "Peace": false
+   },
+   "G-size": true,
+   "G-haz": {
+    "all": true,
+    "MS-H": true,
+    "MS-S": true
+   },
+   "G-fac_prime": {
+    "all": false,
+    "a_safety": true,
+    "a_nonvacuity": false,
+    "a_runtime": true,
+    "b_safety": true,
+    "b_nonvacuity": true,
+    "b_runtime": true
+   }
+  }
+ },
+ "constants": {
+  "delta": 0.05,
+  "delta_ledger_real": {
+   "main_pairs_x_checkpoints": 0.04,
+   "variance_cs": 0.01
+  },
+  "real_primary_layer": "CR9",
+  "CR9": {
+   "data": "Criteo Uplift v2.1 (HF criteo/criteo-uplift), shared/datasets/criteo_uplift_real, fallback=false",
+   "segments": "non-mode indicators of f0, f2, f3, f9 (f6==f0, f8==f2 dropped); 9 non-empty segments",
+   "A": 2,
+   "arms": [
+    "control",
+    "treatment"
+   ],
+   "Pi_size": 512,
+   "certificate_sup": "exact enumeration",
+   "outcome": "visit",
+   "problems": [
+    {
+     "q": 0,
+     "treat_cost": 1.0,
+     "budget": 0.1
+    },
+    {
+     "q": 1,
+     "treat_cost": 1.0,
+     "budget": 0.15
+    },
+    {
+     "q": 2,
+     "treat_cost": 1.0,
+     "budget": 0.2
+    },
+    {
+     "q": 3,
+     "treat_cost": 1.0,
+     "budget": 0.25
+    },
+    {
+     "q": 4,
+     "treat_cost": 1.0,
+     "budget": 0.3
+    },
+    {
+     "q": 5,
+     "treat_cost": 1.0,
+     "budget": 0.35
+    },
+    {
+     "q": 6,
+     "treat_cost": 1.0,
+     "budget": 0.4
+    },
+    {
+     "q": 7,
+     "treat_cost": 1.0,
+     "budget": 0.45
+    },
+    {
+     "q": 8,
+     "treat_cost": 1.0,
+     "budget": 0.5
+    },
+    {
+     "q": 9,
+     "treat_cost": 1.0,
+     "budget": 0.55
+    },
+    {
+     "q": 10,
+     "treat_cost": 1.0,
+     "budget": 0.6
+    },
+    {
+     "q": 11,
+     "treat_cost": 1.0,
+     "budget": 0.65
+    },
+    {
+     "q": 12,
+     "treat_cost": 1.0,
+     "budget": 0.7
+    },
+    {
+     "q": 13,
+     "treat_cost": 1.0,
+     "budget": 0.75
+    },
+    {
+     "q": 14,
+     "treat_cost": 1.0,
+     "budget": 0.8
+    }
+   ],
+   "N80_target": "12/15",
+   "eps_grid": [
+    0.001,
+    0.0015,
+    0.002,
+    0.003
+   ],
+   "eps_star": 0.001,
+   "checkpoints": {
+    "n_min": 50000,
+    "K": 20,
+    "spacing": "log",
+    "to": "tau_R",
+    "dev_example": [
+     50000,
+     64847,
+     84103,
+     109077,
+     141466,
+     183474,
+     237955,
+     308614,
+     400254,
+     519107,
+     673252,
+     873169,
+     1132450,
+     1468723,
+     1904849,
+     2470480,
+     3204070,
+     4155495,
+     5389439,
+     6989793
+    ]
+   },
+   "replan_every": "max(200, ceil(tau_R/2000)) arrivals",
+   "split_seed": 4242,
+   "split_strata": "(CR12 segment x arm)",
+   "billing": "every arrival billed; exhaustion reselect; censor at tau_R"
+  },
+  "QFC": {
+   "union": "Q*-union x = S ln A + ln(Q K / delta_main) (qfc_lemma §9 option 1)",
+   "x_CR9": 15.16098292456391,
+   "variance": "Lemma L2 Bernstein inversion UCB (binary), delta_var=0.01 over cells x checkpoints",
+   "exhausted_cells": "removed exactly from V, b",
+   "finite_population_corrections": "NOT used (unproven)",
+   "allocation": "pool proportions (non-adaptive pre-generated schedule)"
+  },
+  "HR8": {
+   "segments": "Hillstrom hs3 x category",
+   "Pi_size": 6561,
+   "role": "E1 (safety) + descriptive N80 only",
+   "eps_star_hr8": null,
+   "eps_hr8_note": "HR8 网格 {0.01,0.0125,0.015,0.0175} 上 QFC 未删失比例全部 0（τ_R=31,999），无 ε* 满足规则；开发 FWER 0。HR8 只能报告 E1，描述性 N80 全删失。",
+   "cost_tiers": {
+    "C1": [
+     0.0,
+     1.0,
+     1.0
+    ],
+    "C2": [
+     0.0,
+     1.5,
+     1.0
+    ],
+    "C3": [
+     0.0,
+     2.0,
+     1.0
+    ]
+   },
+   "budgets": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+   ],
+   "own_delta_ledger": true
+  },
+  "LR8": {
+   "role": "E1 only (QFC), eps 0.0025, 100 streams",
+   "lr_in_E2": false
+  },
+  "CR12": {
+   "role": "descriptive scale / S-gap only",
+   "own_delta_ledger": true
+  },
+  "FCC": {
+   "certificate": "dsswm.certify.fcc.decide_pdl (pair-difference PDL, uniform random behaviour, no BnB)",
+   "eps": 0.02,
+   "delta": 0.05,
+   "H": "original H in {6, 8}, never shortened",
+   "T_ext": 200000,
+   "checkpoints": [
+    1000,
+    3000,
+    6000,
+    20000,
+    60000,
+    100000,
+    150000,
+    200000
+   ],
+   "no_certification_off_checkpoints": true,
+   "instances_per_layer": 100,
+   "streams_per_instance": 1,
+   "noise_seed": 42,
+   "problems_per_instance": 15
+  },
+  "JPC_r3": {
+   "T_max": 6000,
+   "tau": 3000,
+   "eps": 0.02,
+   "version": "r3 locked, via r4 harness"
+  },
+  "guard_c": 3.0,
+  "mislid_kappa": 1.0
+ },
+ "variants": {
+  "opponents": {
+   "B1": "CLUCB-frontier-joint, WSR20 WoR cell CS radius sum (rigorous)",
+   "B4": "uniform A/B (pool) + cell CS radius sum (rigorous)",
+   "B2": [
+    "B2-rect",
+    "B2-nominal",
+    "B2-fav"
+   ],
+   "B3": [
+    "B3-rect",
+    "B3-nominal",
+    "B3-fav"
+   ],
+   "Peace": [
+    "Peace-rect",
+    "Peace-nominal",
+    "Peace-fav"
+   ],
+   "B5": "maq / multi-arm Qini, descriptive only (not finite-sample valid)",
+   "A-Ney / A-XY": "QFC certificate + frozen non-adaptive allocation (ablation)"
+  },
+  "B2_nominal_threshold": "min over {beta_dir, beta_KK, beta_CG(d0=2S)} at the planned median arrivals, frozen before data",
+  "primary_variant_rule": "on the SAME evaluation block, for each of B2, B3, Peace take the first variant in the order fav -> nominal -> rect that satisfies S1 AND S2; written before unblinding, immutable",
+  "dev_reference_primary": {
+   "B2": "B2-fav",
+   "B3": "B3-fav",
+   "Peace": "Peace-fav"
+  },
+  "B2_min": "deleted"
+ },
+ "acceptance": {
+  "S1": {
+   "rule": "streams with >= 1 false certification k; one-sided exact CP upper <= 0.05",
+   "max_k": {
+    "n100": 1,
+    "n200": 4,
+    "n400": 12
+   }
+  },
+  "S2": "FCR_old = sum n_false / sum n_cert; one-sided 95% instance-cluster bootstrap upper (B=1e4, seed 42) <= 0.05",
+  "report": "E[V/(R v 1)]",
+  "E1": "CR9: QFC satisfies S1 AND S2 (HR8 and LR8 E1 are separate safety reports with their own delta ledger)",
+  "E2": "CR9: for each X in {B1, B2-primary, B3-primary, Peace-primary, B4}: paired mean log(N80_QFC / N80_X) 95% stream-bootstrap CI upper < log 0.80; Holm over the 5 comparisons with one-sided bootstrap p = P*(mean >= log 0.8); censored N80 := tau_R",
+  "E3": "CR9: QFC uncensored N80 share point >= 0.6 AND one-sided 95% CP lower >= 0.5",
+  "E1_ms_prime": "MS-H and MS-S: FCC(PDL) at T_ext satisfies S1 (<= 1/100 false streams, CP upper 0.0466) AND S2 AND non-vacuity (>= 20% of problems certified within T_ext)",
+  "E_ms_d": "same eval block: r3 JPC (T_max 6000) fails S1 or S2 (FWER CP lower > delta OR FCR_old cluster lower > delta)",
+  "E_ms_abc": "deleted (diagnosed unreachable before the lock; F2)",
+  "descriptive_only": [
+   "Guard (c frozen)",
+   "MisLid-ms (kappa frozen)",
+   "DF-sep-ledger",
+   "PolicyCert-tab",
+   "whole-trial BAI",
+   "always-dynamic JPC",
+   "PERP-fact",
+   "H8 in-model certifiers",
+   "B5",
+   "MS-R3",
+   "MS-F"
+  ],
+  "verdicts": {
+   "positive_result": "E1 AND E2 AND E3 (CR9) -> '正结果达成', else '正结果未达成'",
+   "ms2_secondary": "E1-ms' AND E-ms(d) on MS-H and MS-S -> '多步次要主张成立', else '不成立'",
+   "independent": true,
+   "no_alternative_exit": true
+  },
+  "suspicious_checks": [
+   "QFC/B1 or QFC/B4 N80 ratio < 0.3 -> truth-leak AST audit",
+   "any method FWER 0 with uncensored > 0.95 -> eps looseness cross-check",
+   "FCC completion > 0.9 -> contract / zero-width audit"
+  ]
+ },
+ "power": {
+  "source": "pilots/r4_g1_shape_{a,b,c} dev streams 900-999 (CR9, eps*=0.001)",
+  "opponents_primary": [
+   "B1",
+   "B4",
+   "B2-fav",
+   "B3-fav",
+   "Peace-fav"
+  ],
+  "n_comparisons_holm": 5,
+  "n_comparisons_note": "real count: CR9 x {B1, B2-primary, B3-primary, Peace-primary, B4}; lr_in_E2=false, HR8 E1-only",
+  "method": "joint stream resampling of dev paired log ratios, recentred to log 0.70 per opponent; per replicate stream bootstrap (B draws) -> 95% CI upper and p = P*(mean >= log 0.8); Holm alpha 0.05; E2 pass = all comparisons Holm-rejected AND CI upper < log 0.8",
+  "reps": 1000,
+  "B_boot": 2000,
+  "seed": 42,
+  "tau_R_dev": 6989793,
+  "dev": {
+   "B1": {
+    "mean_log_ratio": -0.5408198669548989,
+    "geomean_ratio": 0.5822706721417202,
+    "sd_log_ratio": 0.2656733816110668,
+    "frac_zero_diff": 0.05,
+    "censored_opponent": 0
+   },
+   "B4": {
+    "mean_log_ratio": -0.9490350707672125,
+    "geomean_ratio": 0.38711438127651987,
+    "sd_log_ratio": 0.25703800086812567,
+    "frac_zero_diff": 0.0,
+    "censored_opponent": 0
+   },
+   "B2-fav": {
+    "mean_log_ratio": 0.5122190124239215,
+    "geomean_ratio": 1.6689905997915813,
+    "sd_log_ratio": 0.2436165276707151,
+    "frac_zero_diff": 0.04,
+    "censored_opponent": 0
+   },
+   "B3-fav": {
+    "mean_log_ratio": -1.3182488064156055,
+    "geomean_ratio": 0.2676035174411309,
+    "sd_log_ratio": 0.26457873577312147,
+    "frac_zero_diff": 0.0,
+    "censored_opponent": 100
+   },
+   "Peace-fav": {
+    "mean_log_ratio": -0.01300045637929289,
+    "geomean_ratio": 0.9870836845356308,
+    "sd_log_ratio": 0.25166845169612434,
+    "frac_zero_diff": 0.42,
+    "censored_opponent": 0
+   }
+  },
+  "dev_corr": [
+   [
+    1.0,
+    0.868,
+    0.6727,
+    0.8883,
+    0.7926
+   ],
+   [
+    0.868,
+    1.0,
+    0.6112,
+    0.8681,
+    0.7891
+   ],
+   [
+    0.6727,
+    0.6112,
+    1.0,
+    0.644,
+    0.6221
+   ],
+   [
+    0.8883,
+    0.8681,
+    0.644,
+    1.0,
+    0.8271
+   ],
+   [
+    0.7926,
+    0.7891,
+    0.6221,
+    0.8271,
+    1.0
+   ]
+  ],
+  "results": {
+   "200": {
+    "joint_power_E2": 1.0,
+    "per_comparison_power": {
+     "B1": 1.0,
+     "B4": 1.0,
+     "B2-fav": 1.0,
+     "B3-fav": 1.0,
+     "Peace-fav": 1.0
+    },
+    "analytic_bonferroni_per": {
+     "B1": 0.9999991309044243,
+     "B4": 0.9999997423141102,
+     "B2-fav": 0.9999999710643949,
+     "B3-fav": 0.9999992495207821,
+     "Peace-fav": 0.9999998874102999
+    },
+    "analytic_bonferroni_joint_lower": 0.9999979812153498
+   },
+   "400": {
+    "joint_power_E2": 1.0,
+    "per_comparison_power": {
+     "B1": 1.0,
+     "B4": 1.0,
+     "B2-fav": 1.0,
+     "B3-fav": 1.0,
+     "Peace-fav": 1.0
+    },
+    "analytic_bonferroni_per": {
+     "B1": 0.9999999999999944,
+     "B4": 0.9999999999999997,
+     "B2-fav": 1.0,
+     "B3-fav": 0.999999999999996,
+     "Peace-fav": 0.9999999999999999
+    },
+    "analytic_bonferroni_joint_lower": 0.99999999999999
+   }
+  },
+  "rule": "power(N=200) < 0.8 -> cr_n_streams = 400 (+30200-30399, r4_cr_main_ext enabled)",
+  "cr_n_streams": 200,
+  "ext_enabled": false,
+  "caveat": "N80 lives on 20 log checkpoints (adjacent ratio ~1.30), so dev log ratios are lattice-valued; the simulation keeps that lattice. Power is evaluated at a hypothetical true ratio 0.70 as pre-registered, NOT at the dev-observed ratios (B2-fav 1.67, Peace-fav 0.99 at which E2 cannot pass).",
+  "sec": 21.9
+ },
+ "cr_n_streams": 200,
+ "hr_n_streams": 200,
+ "hr_n_streams_note": "legacy key read by r4_cr_main_ext (== cr_n_streams)",
+ "unit_prices_sec": {
+  "CR9": {
+   "A-Ney": {
+    "mean": 2.8266700000000005,
+    "p90": 5.3867,
+    "max": 6.068,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "QFC": {
+    "mean": 0.8463200000000001,
+    "p90": 0.907,
+    "max": 0.966,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B4": {
+    "mean": 2.0782599999999998,
+    "p90": 2.4893,
+    "max": 2.716,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B1": {
+    "mean": 2.56667,
+    "p90": 3.0128000000000004,
+    "max": 3.55,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "A-XY": {
+    "mean": 2.69485,
+    "p90": 4.1536,
+    "max": 6.391,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B5": {
+    "mean": 1.18817,
+    "p90": 1.3969000000000003,
+    "max": 1.604,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B2-fav": {
+    "mean": 1.1384299999999998,
+    "p90": 1.3515000000000004,
+    "max": 1.531,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B2-nominal": {
+    "mean": 2.08082,
+    "p90": 2.2889999999999997,
+    "max": 2.596,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B2-rect": {
+    "mean": 2.92133,
+    "p90": 3.2762000000000002,
+    "max": 3.596,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B3-fav": {
+    "mean": 1.79855,
+    "p90": 2.0039,
+    "max": 2.291,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B3-nominal": {
+    "mean": 1.8129999999999997,
+    "p90": 2.0467000000000004,
+    "max": 2.254,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "B3-rect": {
+    "mean": 2.6460400000000006,
+    "p90": 2.8796,
+    "max": 3.074,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "Peace-fav": {
+    "mean": 22.1723,
+    "p90": 22.805999999999997,
+    "max": 23.787,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "Peace-nominal": {
+    "mean": 18.87842,
+    "p90": 19.0801,
+    "max": 19.307,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   },
+   "Peace-rect": {
+    "mean": 23.952370000000002,
+    "p90": 24.7923,
+    "max": 28.366,
+    "n": 100,
+    "source": "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+   }
+  },
+  "CR12": {
+   "QFC": {
+    "mean": 1.244,
+    "max": 1.866,
+    "n": null,
+    "source": "r4_gate_decision unit_prices_sec.CR12 (max = 1.5 x mean, assumed)"
+   },
+   "QFC-DP": {
+    "mean": 1.61,
+    "max": 2.415,
+    "n": null,
+    "source": "r4_gate_decision unit_prices_sec.CR12 (max = 1.5 x mean, assumed)"
+   },
+   "B1": {
+    "mean": 8.593,
+    "max": 12.8895,
+    "n": null,
+    "source": "r4_gate_decision unit_prices_sec.CR12 (max = 1.5 x mean, assumed)"
+   },
+   "B4": {
+    "mean": 1.588,
+    "max": 2.382,
+    "n": null,
+    "source": "r4_gate_decision unit_prices_sec.CR12 (max = 1.5 x mean, assumed)"
+   }
+  },
+  "HR8": {
+   "QFC": {
+    "mean": 0.383,
+    "max": 0.406,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "A-Ney": {
+    "mean": 0.407,
+    "max": 0.418,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "A-XY": {
+    "mean": 0.511,
+    "max": 0.532,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B4": {
+    "mean": 0.109,
+    "max": 0.111,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B1": {
+    "mean": 1.02,
+    "max": 1.046,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B2-rect": {
+    "mean": 1.001,
+    "max": 1.023,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B2-nominal": {
+    "mean": 1.056,
+    "max": 1.076,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B2-fav": {
+    "mean": 1.044,
+    "max": 1.07,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_a HR8 smoke"
+   },
+   "B3-rect": {
+    "mean": 12.445,
+    "max": 14.474,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "B3-nominal": {
+    "mean": 5.529,
+    "max": 5.796,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "B3-fav": {
+    "mean": 11.8,
+    "max": 12.369,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "Peace-rect": {
+    "mean": 49.295,
+    "max": 50.885,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "Peace-nominal": {
+    "mean": 24.098,
+    "max": 24.767,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "Peace-fav": {
+    "mean": 46.065,
+    "max": 49.228,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "B5": {
+    "mean": 0.095,
+    "max": 0.098,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "H8-JPC1": {
+    "mean": 0.126,
+    "max": 0.13,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "H8-Tboot": {
+    "mean": 1.634,
+    "max": 1.803,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "H8-MisLid": {
+    "mean": 1.143,
+    "max": 1.196,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   },
+   "H8-MisLid0": {
+    "mean": 1.02,
+    "max": 1.044,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b HR8 smoke"
+   }
+  },
+  "CR_H8": {
+   "H8-JPC1": {
+    "mean": 0.869,
+    "max": 0.882,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b CR9 smoke"
+   },
+   "H8-Tboot": {
+    "mean": 0.884,
+    "max": 0.917,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b CR9 smoke"
+   },
+   "H8-MisLid": {
+    "mean": 2.839,
+    "max": 2.863,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b CR9 smoke"
+   },
+   "H8-MisLid0": {
+    "mean": 0.629,
+    "max": 0.653,
+    "n": 4,
+    "source": "pilots/r4_setup_baselines_b CR9 smoke"
+   }
+  },
+  "LR8": {
+   "QFC": {
+    "mean": 1.4815200000000002,
+    "max": 2.9630400000000003,
+    "source": "EXTRAPOLATED: LR8 schedule 0.635 s (r4_setup_pool_replay) + CR9 QFC certify cost; no LR QFC pilot"
+   }
+  },
+  "MS": {
+   "MS-H|FCC": {
+    "mean": 71.31425094650331,
+    "max": 91.9300539639953,
+    "source": "r4_g_fac_a (T_ext, 8 ck)"
+   },
+   "MS-S|FCC": {
+    "mean": 69.3376386159997,
+    "max": 87.10352644599334,
+    "source": "r4_g_fac_b"
+   },
+   "MS-R3|FCC": {
+    "mean": 67.76577252040151,
+    "max": 73.57739399299317,
+    "source": "r4_g_fac_b smoke (5)"
+   },
+   "MS-F|FCC": {
+    "mean": 62.726984356998585,
+    "max": 68.95614495300106,
+    "source": "r4_g_fac_b smoke (5)"
+   },
+   "MS-H|JPC": {
+    "mean": 30.94121553876709,
+    "max": 121.69736904399178,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-H|Guard_c3": {
+    "mean": 62.315397131167025,
+    "max": 302.6420618770062,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-H|MisLid-ms": {
+    "mean": 101.67681866039638,
+    "max": 102.84886501899746,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-S|JPC": {
+    "mean": 4.57213491577495,
+    "max": 20.367604119994212,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-S|Guard_c3": {
+    "mean": 7.618240417747802,
+    "max": 43.17462242099282,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-S|MisLid-ms": {
+    "mean": 99.32564944440091,
+    "max": 103.00893361899944,
+    "source": "r4_g_haz (T_max 6000)"
+   },
+   "MS-H|DF-sep-ledger": {
+    "mean": 80.7851140650746,
+    "max": 121.17767109761189,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-H|PolicyCert-tab": {
+    "mean": 139.43955455628384,
+    "max": 209.15933183442576,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-H|always-dynamic-JPC": {
+    "mean": 42.24468524254917,
+    "max": 63.36702786382375,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-H|PERP-fact": {
+    "mean": 188.6737307999647,
+    "max": 283.01059619994703,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-S|DF-sep-ledger": {
+    "mean": 71.99412616879272,
+    "max": 107.99118925318908,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-S|PolicyCert-tab": {
+    "mean": 145.61960645620275,
+    "max": 218.42940968430412,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-S|always-dynamic-JPC": {
+    "mean": 6.419085161214753,
+    "max": 9.628627741822129,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-R3|DF-sep-ledger": {
+    "mean": 75.15662705998693,
+    "max": 112.7349405899804,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-R3|PolicyCert-tab": {
+    "mean": 139.9406951099445,
+    "max": 209.91104266491675,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-R3|always-dynamic-JPC": {
+    "mean": 184.66197142877718,
+    "max": 276.99295714316577,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-R3|JPC": {
+    "mean": 92.26603480496124,
+    "max": 138.39905220744185,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-F|DF-sep-ledger": {
+    "mean": 82.40716312122458,
+    "max": 123.61074468183688,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-F|PolicyCert-tab": {
+    "mean": 153.6902738887693,
+    "max": 230.53541083315395,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-F|always-dynamic-JPC": {
+    "mean": 22.304172757467313,
+    "max": 33.45625913620097,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-F|JPC": {
+    "mean": 19.214017510021222,
+    "max": 28.821026265031833,
+    "source": "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+   },
+   "MS-H|PolicyCert-tab@T_ext": {
+    "mean": 104.69291339958359,
+    "max": 157.0393700993754,
+    "source": "EXTRAPOLATED: smoke@6000 x (FCC T_ext / FCC smoke) ratio; task must self-time first 4 instances"
+   },
+   "MS-H|whole-trial-BAI@T_ext": {
+    "mean": 2692.8371355024865,
+    "max": 4039.2557032537297,
+    "source": "EXTRAPOLATED: DF-sep smoke@6000 scaled linearly to 200k steps (no BAI pilot price)"
+   },
+   "MS-H|whole-trial-BAI@T_ext/problem": {
+    "mean": 179.52247570016576,
+    "max": 269.28371355024865,
+    "source": "EXTRAPOLATED: BAI@T_ext per instance / 15 problems"
+   }
+  },
+  "note": "并发运行（4 槽），计时偏高；EXTRAPOLATED 条目没有直接 pilot 单价"
+ },
+ "timing_projection": {
+  "rule": "projected = units x sum(mean sec/unit) / 4 workers / 60 x 1.2 + max unit / 60 + 2.0 min; > 55.0 min -> bisect the seed range (suffix _s1.._sK) until each part <= 55.0; the control plane adds the suffixed tasks",
+  "per_task": {
+   "r4_cr_main_a": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "QFC",
+     "B1",
+     "B4",
+     "A-Ney",
+     "A-XY",
+     "B5"
+    ],
+    "sec_per_unit_sum_mean": 12.201,
+    "max_unit_sec": 6.39,
+    "projected_min_full": 14.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 14.3,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_b": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "B2-rect",
+     "B2-nominal",
+     "B2-fav"
+    ],
+    "sec_per_unit_sum_mean": 6.141,
+    "max_unit_sec": 3.6,
+    "projected_min_full": 8.2,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 8.2,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_c1": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "B3-rect",
+     "B3-nominal"
+    ],
+    "sec_per_unit_sum_mean": 4.459,
+    "max_unit_sec": 3.07,
+    "projected_min_full": 6.5,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 6.5,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_c2": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "B3-fav"
+    ],
+    "sec_per_unit_sum_mean": 1.799,
+    "max_unit_sec": 2.29,
+    "projected_min_full": 3.8,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 3.8,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_d1": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "Peace-rect",
+     "Peace-nominal"
+    ],
+    "sec_per_unit_sum_mean": 42.831,
+    "max_unit_sec": 28.37,
+    "projected_min_full": 45.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 45.3,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_d2": {
+    "layer": "CR9",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "Peace-fav"
+    ],
+    "sec_per_unit_sum_mean": 22.172,
+    "max_unit_sec": 23.79,
+    "projected_min_full": 24.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 24.6,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_ext": {
+    "layer": "CR9",
+    "seeds": "30200-30399",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "QFC",
+     "B1",
+     "B4",
+     "B2-fav",
+     "B3-fav",
+     "Peace-fav"
+    ],
+    "sec_per_unit_sum_mean": 30.601,
+    "max_unit_sec": 23.79,
+    "projected_min_full": 33.0,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 33.0,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_main_ext_b": {
+    "layer": "CR9",
+    "seeds": "30200-30399",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "A-Ney",
+     "A-XY",
+     "B5",
+     "B2-rect",
+     "B2-nominal",
+     "B3-rect",
+     "B3-nominal"
+    ],
+    "sec_per_unit_sum_mean": 16.171,
+    "max_unit_sec": 6.39,
+    "projected_min_full": 18.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 18.3,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_lock (cr_n_streams=200)"
+   },
+   "r4_cr_main_ext_c": {
+    "layer": "CR9",
+    "seeds": "30200-30399",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "Peace-rect",
+     "Peace-nominal"
+    ],
+    "sec_per_unit_sum_mean": 42.831,
+    "max_unit_sec": 28.37,
+    "projected_min_full": 45.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 45.3,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_g1_shape_{a,b,c} dev 900-999 (4-slot concurrent)"
+    ],
+    "status_after_gate": "skipped_by_lock (cr_n_streams=200)"
+   },
+   "r4_cr12_scale": {
+    "layer": "CR12",
+    "seeds": "30000-30099",
+    "unit": "stream",
+    "n_units": 100,
+    "methods": [
+     "QFC",
+     "QFC-DP",
+     "B1",
+     "B4"
+    ],
+    "sec_per_unit_sum_mean": 13.035,
+    "max_unit_sec": 12.89,
+    "projected_min_full": 8.7,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 8.7,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_gate_decision unit_prices_sec.CR12 (max = 1.5 x mean, assumed)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_cr_h8": {
+    "layer": "CR_H8",
+    "seeds": "30000-30199",
+    "unit": "stream",
+    "n_units": 200,
+    "methods": [
+     "H8-JPC1",
+     "H8-Tboot",
+     "H8-MisLid"
+    ],
+    "sec_per_unit_sum_mean": 4.592,
+    "max_unit_sec": 2.86,
+    "projected_min_full": 6.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 6.6,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_setup_baselines_b CR9 smoke"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_hr8_secondary": {
+    "layer": "HR8",
+    "seeds": "32000-32099",
+    "unit": "stream",
+    "n_units": 100,
+    "methods": [
+     "QFC",
+     "B1",
+     "B4",
+     "B2-fav",
+     "B3-fav",
+     "Peace-fav"
+    ],
+    "sec_per_unit_sum_mean": 60.421,
+    "max_unit_sec": 49.23,
+    "projected_min_full": 33.0,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 33.0,
+    "extrapolated": false,
+    "price_sources": [
+     "pilots/r4_setup_baselines_a HR8 smoke",
+     "pilots/r4_setup_baselines_b HR8 smoke"
+    ],
+    "status_after_gate": "permitted_descriptive"
+   },
+   "r4_lr_e1": {
+    "layer": "LR8",
+    "seeds": "31000-31099",
+    "unit": "stream",
+    "n_units": 100,
+    "methods": [
+     "QFC"
+    ],
+    "sec_per_unit_sum_mean": 1.482,
+    "max_unit_sec": 2.96,
+    "projected_min_full": 2.8,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 2.8,
+    "extrapolated": true,
+    "price_sources": [
+     "EXTRAPOLATED: LR8 schedule 0.635 s (r4_setup_pool_replay) + CR9 QFC certify cost; no LR QFC pilot"
+    ],
+    "status_after_gate": "permitted_descriptive"
+   },
+   "r4_ms_h_a": {
+    "layer": "MS",
+    "seeds": "20000-20049",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-H|FCC",
+     "MS-H|JPC"
+    ],
+    "sec_per_unit_sum_mean": 102.255,
+    "max_unit_sec": 121.7,
+    "projected_min_full": 29.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 29.6,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_a (T_ext, 8 ck)",
+     "r4_g_haz (T_max 6000)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_h_b": {
+    "layer": "MS",
+    "seeds": "20050-20099",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-H|FCC",
+     "MS-H|JPC"
+    ],
+    "sec_per_unit_sum_mean": 102.255,
+    "max_unit_sec": 121.7,
+    "projected_min_full": 29.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 29.6,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_a (T_ext, 8 ck)",
+     "r4_g_haz (T_max 6000)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_h_c": {
+    "layer": "MS",
+    "seeds": "20000-20099",
+    "unit": "instance",
+    "n_units": 100,
+    "methods": [
+     "MS-H|Guard_c3",
+     "MS-H|MisLid-ms",
+     "MS-H|DF-sep-ledger"
+    ],
+    "sec_per_unit_sum_mean": 244.777,
+    "max_unit_sec": 302.64,
+    "projected_min_full": 129.4,
+    "split_needed": true,
+    "split": [
+     {
+      "task_id": "r4_ms_h_c_s1",
+      "seeds": "20000-20024",
+      "projected_min": 37.6
+     },
+     {
+      "task_id": "r4_ms_h_c_s2",
+      "seeds": "20025-20049",
+      "projected_min": 37.6
+     },
+     {
+      "task_id": "r4_ms_h_c_s3",
+      "seeds": "20050-20074",
+      "projected_min": 37.6
+     },
+     {
+      "task_id": "r4_ms_h_c_s4",
+      "seeds": "20075-20099",
+      "projected_min": 37.6
+     }
+    ],
+    "projected_min_max_part": 37.6,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_haz (T_max 6000)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "permitted_descriptive"
+   },
+   "r4_ms_s_a": {
+    "layer": "MS",
+    "seeds": "20200-20249",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-S|FCC",
+     "MS-S|JPC"
+    ],
+    "sec_per_unit_sum_mean": 73.91,
+    "max_unit_sec": 87.1,
+    "projected_min_full": 21.9,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 21.9,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b",
+     "r4_g_haz (T_max 6000)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_s_b": {
+    "layer": "MS",
+    "seeds": "20250-20299",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-S|FCC",
+     "MS-S|JPC"
+    ],
+    "sec_per_unit_sum_mean": 73.91,
+    "max_unit_sec": 87.1,
+    "projected_min_full": 21.9,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 21.9,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b",
+     "r4_g_haz (T_max 6000)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_s_c": {
+    "layer": "MS",
+    "seeds": "20200-20299",
+    "unit": "instance",
+    "n_units": 100,
+    "methods": [
+     "MS-S|Guard_c3",
+     "MS-S|MisLid-ms",
+     "MS-S|DF-sep-ledger"
+    ],
+    "sec_per_unit_sum_mean": 178.938,
+    "max_unit_sec": 107.99,
+    "projected_min_full": 93.3,
+    "split_needed": true,
+    "split": [
+     {
+      "task_id": "r4_ms_s_c_s1",
+      "seeds": "20200-20249",
+      "projected_min": 48.5
+     },
+     {
+      "task_id": "r4_ms_s_c_s2",
+      "seeds": "20250-20299",
+      "projected_min": 48.5
+     }
+    ],
+    "projected_min_max_part": 48.5,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_haz (T_max 6000)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "permitted_descriptive"
+   },
+   "r4_ms_r3_a": {
+    "layer": "MS",
+    "seeds": "20400-20449",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-R3|FCC",
+     "MS-R3|JPC"
+    ],
+    "sec_per_unit_sum_mean": 160.032,
+    "max_unit_sec": 138.4,
+    "projected_min_full": 44.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 44.3,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b smoke (5)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_r3_b": {
+    "layer": "MS",
+    "seeds": "20450-20499",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-R3|FCC",
+     "MS-R3|JPC"
+    ],
+    "sec_per_unit_sum_mean": 160.032,
+    "max_unit_sec": 138.4,
+    "projected_min_full": 44.3,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 44.3,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b smoke (5)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_f_a": {
+    "layer": "MS",
+    "seeds": "20600-20649",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-F|FCC",
+     "MS-F|JPC"
+    ],
+    "sec_per_unit_sum_mean": 81.941,
+    "max_unit_sec": 68.96,
+    "projected_min_full": 23.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 23.6,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b smoke (5)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_f_b": {
+    "layer": "MS",
+    "seeds": "20650-20699",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-F|FCC",
+     "MS-F|JPC"
+    ],
+    "sec_per_unit_sum_mean": 81.941,
+    "max_unit_sec": 68.96,
+    "projected_min_full": 23.6,
+    "split_needed": false,
+    "split": null,
+    "projected_min_max_part": 23.6,
+    "extrapolated": false,
+    "price_sources": [
+     "r4_g_fac_b smoke (5)",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_desc": {
+    "layer": "MS",
+    "seeds": "20000-20049",
+    "unit": "instance",
+    "n_units": 50,
+    "methods": [
+     "MS-H|PolicyCert-tab@T_ext",
+     "MS-H|always-dynamic-JPC",
+     "MS-H|PERP-fact"
+    ],
+    "sec_per_unit_sum_mean": 335.611,
+    "max_unit_sec": 283.01,
+    "projected_min_full": 90.6,
+    "split_needed": true,
+    "split": [
+     {
+      "task_id": "r4_ms_desc_s1",
+      "seeds": "20000-20024",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_s2",
+      "seeds": "20025-20049",
+      "projected_min": 48.7
+     }
+    ],
+    "projected_min_max_part": 48.7,
+    "extrapolated": true,
+    "price_sources": [
+     "EXTRAPOLATED: smoke@6000 x (FCC T_ext / FCC smoke) ratio; task must self-time first 4 instances",
+     "r4_setup_ms_baselines smoke (2 problems x15, T_max 6000; max assumed 1.5x)"
+    ],
+    "status_after_gate": "skipped_by_gate"
+   },
+   "r4_ms_desc_bai": {
+    "layer": "MS",
+    "seeds": "0-749",
+    "unit": "instance_x_problem",
+    "n_units": 750,
+    "methods": [
+     "MS-H|whole-trial-BAI@T_ext/problem"
+    ],
+    "sec_per_unit_sum_mean": 179.522,
+    "max_unit_sec": 269.28,
+    "projected_min_full": 679.7,
+    "split_needed": true,
+    "split": [
+     {
+      "task_id": "r4_ms_desc_bai_s1",
+      "seeds": "0-46",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s2",
+      "seeds": "47-93",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s3",
+      "seeds": "94-140",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s4",
+      "seeds": "141-187",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s5",
+      "seeds": "188-234",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s6",
+      "seeds": "235-281",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s7",
+      "seeds": "282-328",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s8",
+      "seeds": "329-375",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s9",
+      "seeds": "376-422",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s10",
+      "seeds": "423-469",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s11",
+      "seeds": "470-516",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s12",
+      "seeds": "517-563",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s13",
+      "seeds": "564-610",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s14",
+      "seeds": "611-657",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s15",
+      "seeds": "658-704",
+      "projected_min": 48.7
+     },
+     {
+      "task_id": "r4_ms_desc_bai_s16",
+      "seeds": "705-749",
+      "projected_min": 46.9
+     }
+    ],
+    "projected_min_max_part": 48.7,
+    "extrapolated": true,
+    "price_sources": [
+     "EXTRAPOLATED: BAI@T_ext per instance / 15 problems"
+    ],
+    "status_after_gate": "lock_defined_split_of_r4_ms_desc (cut order 1; ms2 dead)"
+   }
+  }
+ },
+ "seed_manifest": {
+  "row_split": 4242,
+  "real_dev": "900-999",
+  "ms_dev": "800-899",
+  "motivation_only": "600-799",
+  "r3_eval_forbidden": "10000-10799",
+  "CR9_eval": "30000-30199",
+  "CR12_eval": "30000-30099",
+  "CR_H8": "30000-30199",
+  "HR8_eval": "32000-32099",
+  "LR8_eval": "31000-31099",
+  "MS-H": "20000-20099",
+  "MS-S": "20200-20299",
+  "MS-R3": "20400-20499",
+  "MS-F": "20600-20699",
+  "MS_desc": "20000-20049",
+  "post_unblinding_exploratory": ">= 40000",
+  "assert_locked": "assert_locked(version=4, task_id=<task>) at start-up of every evaluation task"
+ },
+ "cut_order": [
+  "1. skip r4_ms_desc (and its lock-defined split r4_ms_desc_bai)",
+  "2. HR8 secondary layer down to 50 streams (orig.: HR secondary 50 streams)",
+  "3. orig. 'B2-min and B2-fav only 100 streams' -> B2-min deleted; r4 adaptation: CR12 scale layer down to 50 streams (fav can be a primary variant under the r4 rule, so it is never cut)",
+  "4. LR: QFC only (already the r4 design; nothing further to cut)",
+  "primary-endpoint methods and stream counts are never cut"
+ ],
+ "contract_table": {
+  "path": "exp/results/pilots/r4_setup_fcc/contract_table.md",
+  "written_before_any_fcc_result": true,
+  "m4_drift": "violates stationarity; FCC makes no claim on m4"
+ },
+ "eval_tasks": {
+  "r4_cr_main_a": "skipped_by_gate",
+  "r4_cr_main_b": "skipped_by_gate",
+  "r4_cr_main_c1": "skipped_by_gate",
+  "r4_cr_main_c2": "skipped_by_gate",
+  "r4_cr_main_d1": "skipped_by_gate",
+  "r4_cr_main_d2": "skipped_by_gate",
+  "r4_cr_main_ext": "skipped_by_gate",
+  "r4_cr_main_ext_b": "skipped_by_lock (cr_n_streams=200)",
+  "r4_cr_main_ext_c": "skipped_by_lock (cr_n_streams=200)",
+  "r4_cr12_scale": "skipped_by_gate",
+  "r4_cr_h8": "skipped_by_gate",
+  "r4_hr8_secondary": "permitted_descriptive",
+  "r4_lr_e1": "permitted_descriptive",
+  "r4_ms_h_a": "skipped_by_gate",
+  "r4_ms_h_b": "skipped_by_gate",
+  "r4_ms_h_c": "permitted_descriptive",
+  "r4_ms_s_a": "skipped_by_gate",
+  "r4_ms_s_b": "skipped_by_gate",
+  "r4_ms_s_c": "permitted_descriptive",
+  "r4_ms_r3_a": "skipped_by_gate",
+  "r4_ms_r3_b": "skipped_by_gate",
+  "r4_ms_f_a": "skipped_by_gate",
+  "r4_ms_f_b": "skipped_by_gate",
+  "r4_ms_desc": "skipped_by_gate",
+  "r4_ms_desc_bai": "lock_defined_split_of_r4_ms_desc (cut order 1; ms2 dead)"
+ },
+ "confirmatory_tasks": {
+  "skipped_by_gate": [
+   "r4_cr_main_a",
+   "r4_cr_main_b",
+   "r4_cr_main_c1",
+   "r4_cr_main_c2",
+   "r4_cr_main_d1",
+   "r4_cr_main_d2",
+   "r4_cr_main_ext",
+   "r4_cr12_scale",
+   "r4_cr_h8",
+   "r4_ms_h_a",
+   "r4_ms_h_b",
+   "r4_ms_s_a",
+   "r4_ms_s_b",
+   "r4_ms_r3_a",
+   "r4_ms_r3_b",
+   "r4_ms_f_a",
+   "r4_ms_f_b",
+   "r4_ms_desc"
+  ],
+  "may_still_run_descriptive": [
+   "r4_hr8_secondary",
+   "r4_lr_e1",
+   "r4_ms_h_c",
+   "r4_ms_s_c"
+  ],
+  "note": "真实层死 → CR 主比较全部 skipped_by_gate；MS2 死 → MS FCC 任务 skipped_by_gate，G-haz 通过所以描述对照 r4_ms_*_c 按计划可跑；r4_prereg_lock 写 status=locked_no_eval 留痕。是否仍跑安全层/描述任务由控制面在转向时决定（不影响正结果判定）。"
+ },
+ "no_eval_permitted_tasks": [
+  "r4_hr8_secondary",
+  "r4_lr_e1",
+  "r4_ms_h_c",
+  "r4_ms_s_c"
+ ],
+ "code_sha256": {
+  "dsswm/__init__.py": "433b23dec9ea3b0dc18e3e8e46a73be64b79070e119bd6055157cff68fa0070e",
+  "dsswm/acquire/__init__.py": "2c218a4d3055b0eb486c85220c0ce9b5fe7b23cec247010506d72eb9371db0a8",
+  "dsswm/acquire/multi_regime_probe.py": "dfe0a91cf80781c8362f42c61f99146490d605ea25ad2d3b6c8bac3df1f4ed75",
+  "dsswm/acquire/nl_factor_acq.py": "cbf11bf829570232fececc088f5dd770d50fb76daa81dc0e17c420c0617ad51e",
+  "dsswm/acquire/nl_kl_dda.py": "7f25e8c604d40a8983cd218dea8f4a3a934bd1a2d3ddaeeaba5c124ac21deb73",
+  "dsswm/audit/__init__.py": "2c218a4d3055b0eb486c85220c0ce9b5fe7b23cec247010506d72eb9371db0a8",
+  "dsswm/audit/agc.py": "7147d45816980912e5c097269c4e48831b79c51cf050aecdf9b908cc486fb395",
+  "dsswm/audit/eprocess.py": "5bdd9aad9810439d55cb1d9fac584f21f7d20f7a00a480af63c8de473601d64e",
+  "dsswm/baselines/__init__.py": "2c218a4d3055b0eb486c85220c0ce9b5fe7b23cec247010506d72eb9371db0a8",
+  "dsswm/baselines/b11_taskfisher.py": "3b68a8262db9338bbf01755ff08fb7e178f5f198d1ac55d3bae1146f048f25d1",
+  "dsswm/baselines/b12_tas.py": "8e2c7f8bf682854c3f6d61ee32b4e3595bb5f8368acd5c9083a85c72d89dc9c2",
+  "dsswm/baselines/b3_ui.py": "57cdab353752e26c6d048f9a1eade549d61b1f22ea6e5e8396e160cc7b8b3854",
+  "dsswm/baselines/clucb_joint.py": "5ac58e40b142b2d56cc9aa3c6c92333382fe7ec0239b695e66777e1e3372cc3d",
+  "dsswm/baselines/combgame_joint.py": "8d2694c8f3f5cc02fe50ee5b339a44c2c065d8bbcdc31629c6d5245d03568147",
+  "dsswm/baselines/dfsep_ledger.py": "5753e1495920e7baac59e03ed0d4f4655aae6b867440feefc82dcedc2766d207",
+  "dsswm/baselines/frontier_common.py": "d48673e6c377395c3deb1d91be03774b4f1cf164b2749d1e5c3736cee302735f",
+  "dsswm/baselines/frozen_alloc.py": "dfa0fdc9cb3ee6ab9824e369352dda136800c6bc730c25c8287693d9fa39644b",
+  "dsswm/baselines/glm_linearised.py": "95d113da4d5948ea91f22f5c1947058c769daf9be3830915d21ad4e699d7293c",
+  "dsswm/baselines/guard.py": "b4f247832b12331c0836a11fa60cad0b261f520956bd838fb29bee26fbae8840",
+  "dsswm/baselines/h8_models.py": "5ee9c9385bbd392fa95dd7d4cd8c0a8cb8e75ff06fcd30377601d4252654e2fb",
+  "dsswm/baselines/lin_rage.py": "ac8defdb2c9109b408280a5a39594dcb255e77ed7484df197a228fe5286495f8",
+  "dsswm/baselines/maq_desc.py": "b02782fffa1958b00eea720eb998f804b8f34af249a0caa004de62fea5370120",
+  "dsswm/baselines/mislid_ms.py": "3163049fbc6b4a97f6dfba01772df0b3e838bee3003fc9a6d954ff1cddcdebee",
+  "dsswm/baselines/ms_common.py": "4a07320d0cf10f53343fe0052eca3d18a3e09a7ab82b50d6438ae7ff66b5e2c1",
+  "dsswm/baselines/oracle_rho_nl.py": "6e348682b2502eeea4e5202ee8700832bad0739a8f6a7a36aff6edc21d5e8c98",
+  "dsswm/baselines/peace_frontier.py": "4f71fa81c45e6dbfd6747759b04231c58af9e8eda037550164921c68fa189eba",
+  "dsswm/baselines/perp_fact.py": "d32aad60f600c5b1f9a1ce5f58ff531b2782b94fbf258b025b5a3bee87b0e828",
+  "dsswm/baselines/policycert_tab.py": "4af049d24122e2815a318ba0b2914d7e1261c2009f42baea6c8299a511b33abd",
+  "dsswm/baselines/rage_frontier.py": "4f069b95ab904508ed19023f4496553f6cb2dc2e107ae049f1d30d273cc56c12",
+  "dsswm/baselines/switched_nl.py": "d2c0dfb75f18a8c27258ba7cc22bf3180b9d2f172db30ec878b166d0ffebcc1e",
+  "dsswm/baselines/uniform_rs.py": "d38f5702065852fbb09d83383716455eac5a32eea64de674d20b47957391c356",
+  "dsswm/baselines/whole_trial_bai.py": "3729bc99ca616f90edc1b1c414f9f719a2e416312706c2f6d1a579fa9de3e21a",
+  "dsswm/certify/__init__.py": "3bb715787e23b0f10b50462af7f1392fcf2db6b08f3f0303f311e35ebbff2586",
+  "dsswm/certify/dual_bnb.py": "5cf242fac8f41cb8d2ce6c439bdd5329054cfcdf73ed141ba2ae4f17a65600e4",
+  "dsswm/certify/enum_exact.py": "015a237018837bee536a07f0e1041ef0f2f8574395685939efd229a49d2528af",
+  "dsswm/certify/eta_loc.py": "b9023d8cd1bedb62378890183b0a22c124a3cb62cb8ea10abb63285d1f2cbc5c",
+  "dsswm/certify/fcc.py": "93b3bd541adf4083d9f2242b146a0581edee9e7c5d772923d08233c08ac058a9",
+  "dsswm/certify/lin_closed.py": "21537c1fb537b62f8369e5308bc8cab83c2ac500390eddec45a7a62ada3d3f27",
+  "dsswm/certify/minimax_enum.py": "c408d29069ebd5606170a34411672debc9fab23b49b58aa1f8fdd143df4e3e54",
+  "dsswm/certify/minimax_infl.py": "b4eb3fcbeb2e2aa0ebd29c18576e094fdb7597f74e38a2e6139784588c575474",
+  "dsswm/certify/quadknap.py": "ce190c3e13e49726fa4f92cb253d3646ffa3e6b1a8849054cd36781547fe8b89",
+  "dsswm/certify/status.py": "15164347d21c835ac6fe522e260b8e4342935bacfc55e41181457c86229900db",
+  "dsswm/core/__init__.py": "f30fb2bf749c898ac77ca69e18bbc0d0f36ea1ed4f31dd1247b24f3378101712",
+  "dsswm/core/actions.py": "901130940b511768abbf8dc0e04cfdc023e494f0fe6b4aaf355947c82969e876",
+  "dsswm/core/dynamics.py": "1dc95db2f20d13118ef540d90ed80e987f6499097146c01cbc48392f0b988587",
+  "dsswm/core/provenance.py": "0490480b6335be01c989b7c96ed41e80a111dcb000adb951206166ceb079a4ff",
+  "dsswm/core/state.py": "73638938acfa5c3debce1df753573495c76d0abdc780d5a730cec2062d1145ca",
+  "dsswm/envs/__init__.py": "0b4a046610799d873be902ec4b0c67386b725f3099efc06bf9b95a3d84712855",
+  "dsswm/envs/base.py": "736501702e4107f96c0d2596b34cfa15ca1a562676ef27a87b3cbc750468ae79",
+  "dsswm/envs/e2.py": "824ae36c5496801fcd7c1d6bdee4d46834b3b0ea250bbf5111c0103ef91fc4b5",
+  "dsswm/envs/lin.py": "062baf5648defd820719e37b4f533c7655f8afa40f83030fc48ddbc5ea8ce6e0",
+  "dsswm/envs/mis.py": "2166e6cef56df4757dabd4848486b010e56b08bf56fc8933d6a4ab0311107f49",
+  "dsswm/envs/nl.py": "92806514c1c2c4dc597ec2e7f8a26dff3321d7f0464b6041586740a84ae2931b",
+  "dsswm/envs/pool_replay.py": "0454727f1ac54af7eec6a2e202accdb372f5e602c8b812594d5e7aeedc4d53eb",
+  "dsswm/envs/static.py": "b08284b224c2599b4e99776ab05c8a7ca6dfc5d6918489ffb60e438b6bc51699",
+  "dsswm/evidence/__init__.py": "8d07bd7be06e3be75e99d3099db188a317bcfda43beaa14c201453628befbd72",
+  "dsswm/evidence/ellipsoid.py": "ec601f57f79a058bf6645f47e7568c7834d0c360a03ba557dddd796db3030059",
+  "dsswm/evidence/ext_plugin.py": "6c7c6a3f92bf2008683bc110fca2a0ead2a87a8865092669278ea2558373b827",
+  "dsswm/evidence/ledger.py": "93368657669befbddbcbeb70ee08cfa4c96c6db9691be923f29cac6cea5859a1",
+  "dsswm/evidence/lr_set.py": "fbb9956bc378bb9ca6dab5e9ffaf8462d1d9e513e64ecaac0c8eb3c576297977",
+  "dsswm/evidence/mixed_lr.py": "e26f994c28ae4283f846fddf882ddeefc7874912d621a88a08be3faca507cb42",
+  "dsswm/evidence/orth_design.py": "1ce302b835c554a39659dd04f7a33d2a1c2f66d195b6cdc326cc29cb375ac988",
+  "dsswm/evidence/regimes.py": "e668fa40c8d8752921fb8abf6a2eb81f797bb2418cdcaab169b461239ff797c2",
+  "dsswm/evidence/replay.py": "1df3da776f64a5bd6e6ee61874db73593077b8e7d65afee92e65e75d1cd3d192",
+  "dsswm/evidence/reuse_switch.py": "c73a781e87ec266ccb76a3e5b8fdd11b878327c98548cc333e758cf585b33e8e",
+  "dsswm/evidence/versioned.py": "07c1e5e9112d4a292aa76b88fe88d0f401a0eccffc77804ce48a9e4f02cb2513",
+  "dsswm/exact/__init__.py": "e8ce293bef64b6b4b439a9e3b08ab2d375eb1f204a7f730fadef3cd57860d161",
+  "dsswm/exact/nl_contrib.py": "b1482efd0c5162ef8cf2427a1b83e814c9263b8069473832f54bae3ea095dee5",
+  "dsswm/exact/nl_propagate.py": "81a482eec3be7059a8d79e96ecf0007e440bcdc83891f305b4a9d319639bb9ad",
+  "dsswm/mechanism/__init__.py": "beabb9b57f5cc9fda71c7447bc7bead69651a354e5cf26440f021a7b1fe04fb3",
+  "dsswm/mechanism/leverage.py": "10e5d7b1c6ad93237e9962772a3113fd9146f1d2e1786d12e8fd95c9c5360a26",
+  "dsswm/mechanism/oracle_check.py": "c744ceef04fec68c08b042df366eec5aca0ef5c8c6acba5b71482d8dda2ade5f",
+  "dsswm/mechanism/predictor_log.py": "06375f6f273424db4d6d6230d957fa62e677104077209198c1086fad10b14fac",
+  "dsswm/models/__init__.py": "07f0f654a3b82b7bb7400fc5bb170d88e0c14fbf8c43dd20dfc0ba40fe9f5d5b",
+  "dsswm/models/e2_model.py": "4fdd52df17956a4f51c18319ffce85f8d3fd03b76abcafb0c0f4511c92f476ee",
+  "dsswm/models/grid_ladder.py": "65a1772ee0d13ede312b378d8380bf5b2f239391772b6b69cf01daea9613b22b",
+  "dsswm/models/lin_class.py": "1404aa937265894804e0001e1c2d96c6f3a7b6ca1abc294033e2f2939edc2203",
+  "dsswm/models/nl_class.py": "f493f7678a26ebe7a798e60120e4af9ae5212e16839341e9f9e9a2fee926eaf5",
+  "dsswm/stats/__init__.py": "d49a94d1beeb6de0b963e9bd6f7f1cc983dcd068e244995856f52505c426b3d2",
+  "dsswm/stats/acceptance_r4.py": "1a0606ee91b178e16f283ea85453beb343301a9cf60199a91446fe46c5e67878",
+  "dsswm/stats/auc.py": "3021f2682d7d2554dfbb23ae039dcf0f53446e3c43672692f87b799a8c754a1c",
+  "dsswm/stats/bootstrap.py": "6f9f076cc374d84e3eb3efb604025818fb355eb2a1f58a5328dc05613f3b57f6",
+  "dsswm/stats/cp.py": "68189a09ccd14f53a94ec25850fd4ff9c910ba58ff1781c1a8ce284b5188449c",
+  "dsswm/stats/fp_eb.py": "81998d9c6bc2bb9af8f32fd71849c45638edb467ed81f643fa5cfe5066ba8a6e",
+  "dsswm/stats/km_rmst.py": "73a332b87c86f6c6c1455f961665658052195b775ad70e589a553b8175397fc8",
+  "dsswm/stats/mh.py": "6f83eff322059b947dcda8b8a39014b8ffcb6f6bb71b722e1b0b86de8ad0552b",
+  "dsswm/stats/prereg.py": "53b53cd7c293c47ba39735a4b5679306d1c04e04833c7514928ba1fc3cc99e63",
+  "dsswm/stats/tier_decision.py": "7e41547725044a5296dbc69c851fcfdb18f09cb1239c98f893cb2ce03d0fb3c6",
+  "dsswm/stats/tier_decision_r3.py": "b847ed909556c06cbc6c12618857ebe50aa66e2547433e2722cb5656585082fd",
+  "dsswm/streams/__init__.py": "549fc6a02abaaac8822c8a547ffa2ed06de4ed9e23ffa80103d421e3b49463be",
+  "dsswm/streams/e2_generator.py": "2d2b53559f26584e02089f0bdbd072842ae02c845dbf000df54659d1bc7038fa",
+  "dsswm/streams/e2_policies.py": "f9423e84cd39a9cf5eed0095b007578d862b174ec821fcb7e734c89a55873f6c",
+  "dsswm/streams/frontier.py": "ce0aec93bb3be06c65fc36f267799a25759967fbfe6fad8c6758ee7034af8325",
+  "dsswm/streams/frontier_runner.py": "f1ec7b16b6ba23399b384aceeb2188601058e86eb381ad83075ac13effcba144",
+  "dsswm/streams/gap_quota.py": "8f741f3fbf8cec3e0f9395069dae3e709922cde3e355c6430a876d1deafc6ca8",
+  "dsswm/streams/generator.py": "8f07dda42e5d83ae336b51b3e5fcf1edac470454561cb5af233c49f8d3505103",
+  "dsswm/streams/lin_oos.py": "9353b84f9558a02d9a5a6748d51715564bd2c4d49ef35fcff456bac5de11438a",
+  "dsswm/streams/lin_stream.py": "4204e6d372c97d7fcdf3b4d56e7998e6b663e08a9fee2bb5448152ac6b60d9ae",
+  "dsswm/streams/ms_r4.py": "b4857f8b896bda1b6341549ab687a87dde297f0bc90982226754fdf1c4be98f6",
+  "dsswm/streams/offgrid.py": "5a092a4d533766a999a801555d15a98ee1af051ebc08b7ad48762f1efb4177a8",
+  "dsswm/streams/policies.py": "9165cd34534634a8660edb2ae7b44e91c825debf1699925dc8b0bb98b7c06eb2",
+  "dsswm/streams/r3_harness.py": "ae1243a06d02bbc9d35de6d941d6825036d44d7a69eaab5ef98355f39d8dacf2",
+  "dsswm/streams/utilities.py": "c41bbfdc96c7d9e6496a482114cabe4b7a96b73bf5e1f88a8af7543f005a7e16",
+  "dsswm/tests/__init__.py": "3b2bec5485bb3fb3bb29a41ff8b1d86feb92bbc6587a20491c94a0b29d2a195b",
+  "dsswm/tests/conftest.py": "8272fc84154cd247177f2aa759df74e5b588f170036aaf8a3a06c67be93d4500",
+  "dsswm/tests/test_baselines_r4a.py": "8343b638303c287a86e0c1be0d6790c1870dd1118b94097fc0d323e75296eb6b",
+  "dsswm/tests/test_baselines_r4b.py": "d3123b568180e7e4eae004e40c78f7784018ffaba54fc85ac935905c9b3407cd",
+  "dsswm/tests/test_core.py": "7ae0a6ae01501a5cde696300c2de2b92108460ab392022b597a277abc9b66d09",
+  "dsswm/tests/test_criteo_replay.py": "1555455b661ddc2c8f784e10386b4234c872d1912d91d67f447c6dcffb8c817b",
+  "dsswm/tests/test_dual_bnb.py": "b0782d2314a26b59893c20b9e2802906112c32c8bbfceb3b08b252fb2f994f2c",
+  "dsswm/tests/test_eta_loc.py": "d56d36f010e12cd224563cee2d1d4936316ce47049d6507a53ace229f9ec242f",
+  "dsswm/tests/test_evidence_boundary.py": "ad8e20efa1d8cd7f249debc74cf58753fb0b8aa31e4b33d145817f981efc4a50",
+  "dsswm/tests/test_exact_vs_mc.py": "a60d2038efa7fcf56a76741de417e2502ae14bc0f26714a60fcb650242b37f3e",
+  "dsswm/tests/test_falsify_layer.py": "206dfea4bda1f9a63d04ae9f164af382c1c39d72d8d5da1ab21902c552acaf0d",
+  "dsswm/tests/test_fcc.py": "9287e4fda2182029d0d59cdaa0f80e8ec720d736fe0717f477e671e664dc8211",
+  "dsswm/tests/test_fcc_pair.py": "8978a9a67c2478e22da2f87ad21a53271fa828e3754c857e666f8881bbae1631",
+  "dsswm/tests/test_fp_stats_r4.py": "7322e60a1133d4a126b8a710bbc1122d8cd1e79fcdbef9a73dedcb890b7f43d9",
+  "dsswm/tests/test_leverage.py": "169e0c541b62dfe01c4001761f235dcc7f01dbc66edff8dae5acce3f11152d91",
+  "dsswm/tests/test_lin_enum_vs_closed.py": "8e53d30e4f9ea4ac67e08d921783a3d33db0981df5ef3571d3d4160dffe48cf9",
+  "dsswm/tests/test_lin_stream.py": "01dbb798c31e67cffe258c462f907c68447871b77f43039f274c1fd5beef43ae",
+  "dsswm/tests/test_lr_set.py": "44121912a14d709152060e45ad8b70a8b1551769db20ab56aa25595a33d4162a",
+  "dsswm/tests/test_ms_r4.py": "8ef650c6091b69393a43c451184ce11a3afb401033312b9367d17fd366588913",
+  "dsswm/tests/test_nl_factor_acq.py": "ee36507358e9e0fbf5d9157b35b391f97da3ac4cefc5e9b72a36d284bb4627c1",
+  "dsswm/tests/test_nl_kl_dda.py": "dd5691a06d589e825bcd060e9495a2e6bfd7f8573be50b5dc07d42aabf99554e",
+  "dsswm/tests/test_no_truth_import.py": "be36acc0eb04555f5747769b05903206720fe2006aee4879b93372fac06faaf6",
+  "dsswm/tests/test_offgrid_crn.py": "cea2bc2d064c5458ecef054f1166d9533d2ad06b5df40a916b92e16e8382db23",
+  "dsswm/tests/test_orth_design.py": "e3ee55f86402543c254f62285bfd4eba7894549c95525ef105d44264475aeb2e",
+  "dsswm/tests/test_pool_replay.py": "29a8c6a9291694fabdc954013e11ace67eb1c58363c0bdda352606c87bf2941c",
+  "dsswm/tests/test_prereg_v4.py": "b8a99d3a63168993a32a30e4379f94c6dd34469307d14415732c72d24e24b2de",
+  "dsswm/tests/test_quadknap.py": "1fc0e1aa2624bc5ec611a58979f794a6ea704c4b1390f5924df6aa6acd07dc88",
+  "dsswm/tests/test_r2_baselines.py": "450958fd1d0c7572aef93232bbaf88d0ab3393d01aefce1b56108ddd063be29f",
+  "dsswm/tests/test_reuse_switch.py": "4acac7d8af28e0d1921458779763223edea0fd0f51f4102a19e6ca344c55b985",
+  "dsswm/tests/test_tier_decision_r3.py": "781201ee715d89a2855143c23bd73a053b54fdd026de33c3eec65eaec8731ba0",
+  "dsswm/theory_checks/__init__.py": "9bb958be719bdb537d0d678633ebed9dfab231d2d320cc1daa33c955ad3a5afb",
+  "dsswm/theory_checks/mc_l1.py": "cb9952da3b38cd94bdcbe91d2eb85294afbefc5bb08caae1408e5d56db481ebc",
+  "dsswm/theory_checks/width_diag.py": "2a3c171d62aad3e558d3e91f03a2377741d0e97f2fc02a5c5c228472677bfdb0",
+  "run_r4_g1_shape_a.py": "bbf5dc0d9217bf1138186a0c659d41ff634ad71846a136b5fbecdac89b97fbd7",
+  "run_r4_g1_shape_b.py": "359bcb638d38d7545e867dd4a9e0e6e73c9a91edbc8c83af9da9b61080e33d51",
+  "run_r4_g1_shape_c.py": "b96c6ef8c8ec51518bdbfde9230c2d9f060b8acce7b8bc0ca4138b9874519b3a",
+  "run_r4_g_eps_select.py": "6fbd88101b44610f90cc9840c80060379a98dac0c2d70819194333f65772dff1",
+  "run_r4_g_fac_a.py": "908d3dee333e65ddbc823c879434acf38dfe2edd73cb7e9354f15af98c547de3",
+  "run_r4_g_fac_b.py": "ddb819da29313e4a94df735b677580883ce9965f9ade6eb0dc39d72eff163512",
+  "run_r4_g_haz.py": "cefa87abcf715e6031bb40a879896bef51c69200ebec52a49acb44764638e259",
+  "run_r4_gate_decision.py": "84751ee860a501129b4c31f962dbf7b7cae79cb5afa01f4cce2e1624d77d3868",
+  "run_r4_prereg_lock.py": "36b551432d0848d44559f6153b7cfef393f19b84f74b4859068f9efb6d1ab099",
+  "run_r4_setup_baselines_a.py": "7219c8bfe2d6344f3b32f6819b9caf05c26f8ec8da1a284ffb224cdbd8540891",
+  "run_r4_setup_baselines_b.py": "966d883ae1ba62fe787757a9982990e26396c2fe8fba6fe0ac70e95a0b64cdf3",
+  "run_r4_setup_criteo_replay.py": "bffe8b17e73490b9a4394766254ad49f47b9fda2f81bf8f8c95b052fce575193",
+  "run_r4_setup_fcc.py": "1b4e6054a5fc6579386c7958a1a01ca99ba96aad53eb7d32704da688d08ca08d",
+  "run_r4_setup_fp_stats.py": "b1b401561bb9e85da3e73c72f6148815649cf5dd79551f9520e10db97b03d390",
+  "run_r4_setup_ms_baselines.py": "76e9b8a07b20517d3c9e3d347ca9e3fd7695b329f8025f26874605674351fedd",
+  "run_r4_setup_pool_replay.py": "37a6c07291027a3a591b6b625d2a985e29b08abd6d93414f41fa976b5021d514",
+  "run_r4_setup_quadknap.py": "c56f172c43b44f8712e1bbe7e366d0f03380bb6042eace62931449bbabbd1366"
+ },
+ "git_commit": "6297e7f209f0e4778f7a8c02fd57394afa3b6d85",
+ "sha256": "7d77aa0ddfa43151797509ea9ababb23bf0778751a977fa45440b6c831860ed6"
+}

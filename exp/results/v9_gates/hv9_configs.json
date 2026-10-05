@@ -1,0 +1,118 @@
+{
+ "written_at": "2026-10-04T18:20:23.730898",
+ "source": "run_r5s_v9.py --freeze-hv9 (dev files only)",
+ "layers": {
+  "HCZ6": {
+   "segmentation": "CZ6",
+   "family": "F2",
+   "kappa": [
+    0.0,
+    1.0,
+    0.5
+   ],
+   "outcome": "visit",
+   "eps_dev": 0.0125,
+   "eps_report": [
+    0.01,
+    0.0125,
+    0.015
+   ],
+   "picks": {
+    "RECT-ck-HG": "RECT-ck-HG[0.2]",
+    "HC-WoR": "HC-WoR{nstar,0.75,1}[0.2]",
+    "PJC-local": "PJC-BF[local,b=4,neyman]"
+   },
+   "selection_file": "exp/results/pilots/hillstrom_v9/selection_b.json",
+   "design_file": "exp/results/pilots/hillstrom_v9/design_b.json",
+   "sigma2_dev": [
+    [
+     0.098503440692,
+     0.145036647929,
+     0.099604748233
+    ],
+    [
+     0.083709856221,
+     0.137376002981,
+     0.096519460486
+    ],
+    [
+     0.090597518706,
+     0.14266381559,
+     0.145782122013
+    ],
+    [
+     0.080500442759,
+     0.132562915614,
+     0.129919276753
+    ],
+    [
+     0.150562914962,
+     0.218112244898,
+     0.196944830198
+    ],
+    [
+     0.134211033951,
+     0.209733482136,
+     0.175390089163
+    ]
+   ],
+   "sigma2_note": "dev-half cell variances mu(1-mu) (dev outcomes only); used only by the descriptive FDC-BF[ney] plan"
+  },
+  "HCR6": {
+   "segmentation": "CR6",
+   "family": "F3",
+   "kappa": [
+    0.0,
+    1.5,
+    1.0
+   ],
+   "outcome": "visit",
+   "eps_dev": 0.0075,
+   "eps_report": [
+    0.006,
+    0.0075,
+    0.01
+   ],
+   "picks": {
+    "RECT-ck-HG": "RECT-ck-HG[bal]",
+    "HC-WoR": "HC-WoR{prpl,0.5,-}[bal]",
+    "PJC-local": "PJC-BF[local,b=,bal]"
+   },
+   "selection_file": "exp/results/pilots/hillstrom_v9/selection.json",
+   "design_file": "exp/results/pilots/hillstrom_v9/design.json",
+   "sigma2_dev": [
+    [
+     0.109972006331,
+     0.157372400756,
+     0.113978568956
+    ],
+    [
+     0.076037298926,
+     0.126104081869,
+     0.082492611237
+    ],
+    [
+     0.102979162671,
+     0.157983690301,
+     0.148809960908
+    ],
+    [
+     0.069526690105,
+     0.119122935743,
+     0.130847395724
+    ],
+    [
+     0.161534062812,
+     0.226173774734,
+     0.192341626556
+    ],
+    [
+     0.106829802776,
+     0.191616492296,
+     0.182032751937
+    ]
+   ],
+   "sigma2_note": "dev-half cell variances mu(1-mu) (dev outcomes only); used only by the descriptive FDC-BF[ney] plan"
+  }
+ }
+}

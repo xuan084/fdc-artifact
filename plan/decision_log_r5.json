@@ -1,0 +1,2947 @@
+{
+ "schema": "decision_log_r5/v1",
+ "generated_at": "2026-10-03T13:55:05",
+ "generator": "exp/code/run_r5_decision_log.py",
+ "companion_md": "plan/decision_log_r5.md",
+ "source_sha256": {
+  "../.pipeline/project/MEMORY.md": "1a96023e16814a9a88c428de4ea1f38329d6558ec219bcc65e523b3083bd6275",
+  "../.pipeline/project/prompt_overlays/planner.md": "6d430bba94684725f2802f8829015cd4fdb3a5b6aa794bc875b30c364b6f6b8d",
+  "../logs/events.jsonl": "2cd1b5207236123f7ade7d0e3e553a8c2e2648dfdca257839434078bcce67a29",
+  "reviews/idea_debate_review.md": "c7478228c9e86a5a76ad3cf490989b2768f35193c1fed1050f7f1255af9d7187",
+  "exp/code/dsswm/baselines/frontier_common.py": "d48673e6c377395c3deb1d91be03774b4f1cf164b2749d1e5c3736cee302735f",
+  "exp/code/dsswm/certify/quadknap.py": "ce190c3e13e49726fa4f92cb253d3646ffa3e6b1a8849054cd36781547fe8b89",
+  "exp/code/run_r4_g_eps_select.py": "6fbd88101b44610f90cc9840c80060379a98dac0c2d70819194333f65772dff1",
+  "exp/code/run_r5_decision_log.py": "f4ae2ec836d81400a039e1d1603f68126208c9756bd952fa3c197b8e6126392a",
+  "exp/results/pilots/r4_g_eps_select/guard_tables.json": "d630275e41d24dd601f6166b893c547a5d31da6b7111c4d1faf1adab7605d169",
+  "exp/results/pilots/r4_g_eps_select/summary.json": "3d57ecaa7ae29a7499f745c3818b81cb09e228dd03589021a880fde8da68ce36",
+  "exp/results/pilots/r5_decision_log/checks.jsonl": "d1780ff269acc351fff786f188a3e626861a6073224ee09a004fef5857d6581a",
+  "exp/results/pilots/r5_fdc_spec_theory/summary.json": "c62275d211d6baff91feef8cc88912bd99e7366817f005c3712293e6353fc5d8",
+  "exp/results/r4_gate_decision.json": "f21edd7f7301ce7788d40bdb57e962610b2eba6a0cf45523357d70daf2fab0f8",
+  "exp/results/r4_gates/eps.json": "ac056cc04e492e088877dc1e7b3024f493411d918a09e82ebe34f149e192b31a",
+  "idea/history/convergence/proposal_20261003-1256_pre.md": "ff6d51c5b94b25b5b8d3e8d439895db2c115a9c5eb73adc78ed16c709c4d1738",
+  "idea/history/round5_debate/perspectives/contrarian.md": "d7573f320073c130330de3c29bc7babfaa1c25dd7f40297980da94a1a7e11305",
+  "idea/history/round5_debate/perspectives/innovator.md": "e4488a3664f15d070571f3e13bd787d4716299c6030e318486961d7e6f3407cb",
+  "idea/history/round5_debate/perspectives/theoretical.md": "906d3a322ea929669ebf32d5bed63d5a5a402965cfccbe45e29a164535533878",
+  "idea/novelty_report.md": "3e14ddf4cdf112c2bdafe8ef7dd2c5bd21a19b9507f57061dd626f54973d970f",
+  "idea/proposal.md": "f81a392a3738530e5272f468b8b4e3951c705aba51df7650b2dc6423eb6f14e3",
+  "idea/r5_offline/contrarian/ci_out.txt": "a9916e5fa6ec0bc1757d6c290c5bb45b0c168a9d36e748e060b443fa1e29d85d",
+  "idea/r5_offline/contrarian/offline_ctr.py": "c40e9e820acccd7ab10681cf5ca03bc5446a1c98df35a6d1371e8bfe2a776832",
+  "idea/r5_offline/contrarian/run2.json": "ede3f4c44145c7113359beab142485e91054625c10e06d7594f9708c667a5481",
+  "idea/r5_offline/contrarian/run3.json": "99cb4ea91608bda7f68be4f6c7c40d16994b5802c91d97e1980cb7343147cc50",
+  "idea/r5_offline/pragmatist/offline_k60.json": "70da13dd0f0cee2e5dfb1baed7f3cb577e5bd080de236d3b55516ce5384a56ba",
+  "idea/r5_offline/pragmatist/offline_k60.py": "6a53c1fd47de395c95dd08e369d2945b9c30369426ea25c96b5d3ce91d66d05f",
+  "idea/r5_offline/pragmatist/offline_qfc_alloc.json": "9bd08da4246f8510d2c7aafe947991f9159680f63e63618c4d309aa6fdc44f1a",
+  "idea/r5_offline/pragmatist/offline_qfc_alloc.py": "2d973b00df8d54d3133eb558de49f2ad46c5f030e0335a2e2b0a91a7876421cf",
+  "plan/decision_log_r5.json": "54c0e71557fe44cd57ba97552da21ebd99607e218d2e8c754f7577ca71607125",
+  "plan/history/r4_final/pilot_plan.json": "7853354b0a9e875889a4816c0da9cc5fda9c042d027577e93638e1fe26065195",
+  "plan/methodology.md": "5e4426b405402428eb1292e30cefa8adbc2a24d8bea57b8395e1a5a377db41b5",
+  "plan/theory/qfc_lemma.md": "65345a330ded8f6fdfce827e4f666143a75b3ab19d96d619103b6ce13efc9af1"
+ },
+ "verification": {
+  "n_checks": 228,
+  "n_checks_ok": 228,
+  "n_numeric_checks": 91,
+  "n_sources_verified": 32,
+  "pass": true
+ },
+ "entries": [
+  {
+   "id": "DL-01",
+   "item": "a",
+   "when": "2026-10-03, between 03:28:13 and 12:56:34 (+10:00); exact minute not recorded",
+   "type": "deviation (post hoc, user)",
+   "title": "User verdict narrows the headline claim to 'fastest among listed rigorous competitors'",
+   "fact": "Headline changed from superiority over published-config plug-in B2-fav / Peace-fav (old H1) to superiority over the rigorous set R; plug-in / asymptotic methods become descriptive comparators.",
+   "after_seeing": [
+    "r4 dev block: QFC/B2-fav 1.669, QFC/Peace-fav 0.987, QFC/B2-rect 0.769, QFC/Peace-rect 0.753, QFC/B3-rect 0.553, QFC/B1 0.582, QFC/B4 0.387, QFC/B2-nominal 0.499 (r4_gate_decision.json written 02:12:14)",
+    "r5 exploratory dev CIs incl. FIX0.40-rig-b14.1/B2-fav 0.856 [0.827, 0.885] (ci_out.txt mtime 02:38:33)",
+    "novelty v8 3/10 (novelty_report.md mtime 03:28:13, still evaluates old H1)"
+   ],
+   "rationale": "Synthesizer escalated (proposal snapshot section 13): if fair baselines include tuned plug-in variants, no candidate reaches significant improvement; user ruled that the headline is over guaranteed methods and plug-in speed is reported transparently.",
+   "sources": [
+    "../.pipeline/project/MEMORY.md:43",
+    "../.pipeline/project/prompt_overlays/planner.md:3",
+    "idea/history/convergence/proposal_20261003-1256_pre.md:46",
+    "idea/history/convergence/proposal_20261003-1256_pre.md:117",
+    "exp/results/r4_gate_decision.json#variant_ratios_QFC_over_X",
+    "idea/r5_offline/contrarian/ci_out.txt",
+    "idea/novelty_report.md:56",
+    "../logs/events.jsonl (idea_debate 02:30:19-13:09:26)",
+    "git ee02cd9f (absent) / 47a13eef (present)"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-02",
+   "item": "b",
+   "when": "2026-10-03 02:33-02:42 (+10:00)",
+   "type": "exploratory (forking paths)",
+   "title": "Share, beta, K and variant exploration on dev seeds",
+   "fact": "contrarian run2 (seeds 900-939, 40 streams): shares 0.30/0.40/0.50/0.60 with default rigorous beta; FIX0.40 rig beta 8 and 10; FIX0.40-fav-b10; FIX0.50-fav-tight. run3 (seeds 900-999): B2fav-b14.1, B2fav-b10, FIX0.40-rig-b{11,12,14.1}, FIX0.45-rig-b12. pragmatist: QFC-half and oracle QFC-ney at K=20 (seeds 900-939), QFC-half at K=60 (seeds 900-929). contrarian perspective: POOL+plug-in beta 18.5 = 1.74, 50/50+plug-in beta 18.5 = 0.97 (no raw file).",
+   "rationale": "Offline exploration during idea_debate; all on dev half and dev seeds; none enters confirmatory evidence.",
+   "sources": [
+    "idea/r5_offline/contrarian/run2.json",
+    "idea/r5_offline/contrarian/run3.json",
+    "idea/r5_offline/contrarian/ci_out.txt",
+    "idea/r5_offline/contrarian/offline_ctr.py",
+    "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+    "idea/r5_offline/pragmatist/offline_k60.json",
+    "idea/history/round5_debate/perspectives/contrarian.md:8-9"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-03",
+   "item": "c",
+   "when": "2026-10-03 (follows DL-01)",
+   "type": "deviation (post hoc)",
+   "title": "Superiority object and effect-size threshold change",
+   "fact": "Object: B2-fav / Peace-fav (pre-verdict H1) -> rigorous set R = {B1, B4, B4-bal, B2-rect, B3-rect, Peace-rect, Hait-SW, Molitor-WoR, QFC-pool}. Threshold: r4 G1-shape and r5 innovator ratio <= 0.67 -> pre-verdict H1 'UB < 1.0 and point <= 0.90' -> final: one-sided 95% UB < 1.0 per rival (IUT); point <= 0.90 only licenses the wording 'faster by >= 10%'.",
+   "rationale": "User verdict; 0.67 was unreachable under rigorous accounting (r5 theoretical perspective); 0.90 as hard gate was left open in the proposal and closed as a wording rule in methodology 5.2.",
+   "sources": [
+    "plan/history/r4_final/pilot_plan.json:15",
+    "idea/history/round5_debate/perspectives/innovator.md:18",
+    "idea/history/convergence/proposal_20261003-1256_pre.md:46",
+    "plan/methodology.md:13",
+    "plan/methodology.md:118"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-04",
+   "item": "d",
+   "when": "2026-10-03 planning (13:09-13:20)",
+   "type": "deviation (post hoc)",
+   "title": "C3 demoted from gate to estimator (E-cost)",
+   "fact": "Pre-verdict H2 co-primary non-inferiority UB <= 1.15 vs fastest tuned plug-in; proposal C3 and T2 kept <= 1.15; methodology reports the paired ratio with two-sided 95% CI and no pass line.",
+   "rationale": "Under the verdict plug-in methods are descriptive; a pass line on them would re-introduce a plug-in comparison as a claim. Dev point estimate FDC-proxy/B2-tight = 1.110 (no CI) already suggested the 1.15 line was marginal; this is disclosed.",
+   "sources": [
+    "idea/history/convergence/proposal_20261003-1256_pre.md:47",
+    "idea/proposal.md:17",
+    "idea/proposal.md:86",
+    "plan/methodology.md:16"
+   ],
+   "note": "methodology.md:9 says 'reason in section 6.3' but 6.3 is the C4 factorial; the actual reason is the user verdict (methodology.md:18).",
+   "confirmatory": false
+  },
+  {
+   "id": "DL-05",
+   "item": "e",
+   "when": "2026-10-02 23:22:39 (+10:00), round 4",
+   "type": "disclosure (eval-half contact)",
+   "title": "r4_g_eps_select read evaluation-half aggregate truth",
+   "fact": "Three contact classes. (1) Outcome records: yes, the eval half of CR9 and HR8 was loaded (PoolReplayEnv(layer,'eval')) to compute per-cell true means; no eval-half stream was replayed. (2) Aggregate truth: yes, guard_tables.json CR9|eval holds 15 rows with J_star, second_gap, eps_set_size, min_trivial_regret; the counts n_nontrivial_eval (CR9: 15 at every eps in {0.001, 0.0015, 0.002, 0.003}; HR8: 10/5/5/5) entered the eligibility rule via guard_ok. (3) Random seeds: no, only 900-999 used; eval_seeds_touched = false.",
+   "rationale": "The guard needed to rule out eps values that are trivial on the evaluation population. It did not bind on CR9 (15/15 at every eps), so eps* = 0.001 would be the same without it, but the contact must be disclosed.",
+   "sources": [
+    "exp/results/r4_gates/eps.json:17",
+    "exp/results/r4_gates/eps.json#per_eps.*.n_nontrivial_eval",
+    "exp/results/r4_gates/eps.json#integrity.eval_seeds_touched",
+    "exp/results/pilots/r4_g_eps_select/summary.json#guard_counts",
+    "exp/results/pilots/r4_g_eps_select/guard_tables.json#CR9|eval",
+    "exp/code/run_r4_g_eps_select.py:284-285",
+    "exp/code/run_r4_g_eps_select.py:298",
+    "exp/code/run_r4_g_eps_select.py:229"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-06",
+   "item": "f",
+   "when": "δ split first seen 2026-10-03 02:36:16 (offline_ctr.py mtime); fixed in methodology 13:16",
+   "type": "deviation (ledger tightening) + timing caveat",
+   "title": "C_var 48 -> 18 and δ split 0.04/0.01 -> 0.045/0.005",
+   "fact": "r4 ledger: delta_main 0.04, delta_var 0.01, C_var 48, L1 15.1610, x_v 12.1653 (frontier_common.py:204; r4 summary layer_info). FDC: Σ_q|Π_{B_q}| = 3386, β = ln(3386·20/0.045) = 14.2242; x_v = ln(2·18·20/0.005) = 11.8776. Hard-coded β = 14.1 gives 0.05595 > δ.",
+   "timing_evidence": "The split's earliest occurrence anywhere is offline_ctr.py:29-30 (external reviewer cited :26, which is the setup() header). File mtime 02:36:16 is 31 s after run2.json (02:35:45) and before run3.json (02:37:51); first git commit 47a13eef at 13:09:26. No older document contains it. run2's default-β FIX0.40-rig is >= run3's β=14.1 on 40/40 seeds (1 strictly larger), consistent with a default β > 14.1 at run2 time but not proof. No run varied the split.",
+   "correction": "methodology.md:44 ('written before development results') is only verifiable as: after r4 dev results (02:12:14), within the same minutes as the first r5 exploratory runs, and before every r5 gate (T0-T3). It must not be described as pre-dating all development data.",
+   "rationale": "C_var 48 was reserved for S=16 (qfc_lemma.md:68); CR9 has S·A = 18 cells, so 18 is exact. The split moves budget to the main event.",
+   "sources": [
+    "exp/code/dsswm/baselines/frontier_common.py:204",
+    "exp/results/pilots/r4_g_eps_select/summary.json#layer_info.CR9.params",
+    "plan/theory/qfc_lemma.md:68",
+    "plan/methodology.md:40-46",
+    "idea/r5_offline/contrarian/offline_ctr.py:29-30",
+    "reviews/idea_debate_review.md:39",
+    "exp/results/pilots/r5_fdc_spec_theory/summary.json#cr9_dev_ledger"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-07",
+   "item": "g",
+   "when": "2026-10-03 02:33:51 (+10:00)",
+   "type": "deviation (post hoc design choice)",
+   "title": "QFC-half 50/50 schedule chosen after seeing r4",
+   "fact": "offline_qfc_alloc.py (EXPLORATORY, r5 pragmatist) written 21 min after r4_gate_decision; it compares against stored r4_g1_shape dev streams. The r4 failure mechanism (pool-proportional reads starve the control pool) motivated 50/50. Dev evidence also showed 0.40 marginally faster than 0.50 (run2 geomean 950162 vs 956358); FDC locks 0.50 anyway.",
+   "rationale": "50/50 is data-independent and symmetric; choosing it after r4 is a researcher degree of freedom that is disclosed, and the share is frozen for FDC (no tuning).",
+   "sources": [
+    "idea/r5_offline/pragmatist/offline_qfc_alloc.py:1",
+    "idea/r5_offline/pragmatist/offline_qfc_alloc.py:36",
+    "exp/results/r4_gate_decision.json",
+    "idea/proposal.md:47",
+    "idea/r5_offline/contrarian/run2.json"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-08",
+   "item": "h",
+   "when": "2026-10-03 planning (methodology mtime 13:16:23)",
+   "type": "deletion (forking path removed)",
+   "title": "Two-stage read schedule and Cauchy-Schwarz tight-accounting module deleted",
+   "fact": "Two-stage (first 5% pool-proportional, estimate variance, then freeze) was a pre-registered alternative; deleted. The A=2 Cauchy-Schwarz 9-dim l2 module had a '10-06 or cut' rule; it was dropped on 10-03, before the deadline, without a proof attempt.",
+   "correction": "methodology.md:61 phrase '10-06 前没有证明，按提案规则删除' should read as a pre-emptive planning deletion on 10-03.",
+   "sources": [
+    "idea/history/convergence/proposal_20261003-1256_pre.md:54",
+    "idea/history/convergence/proposal_20261003-1256_pre.md:57",
+    "idea/proposal.md:63",
+    "idea/proposal.md:66",
+    "plan/methodology.md:32",
+    "plan/methodology.md:61"
+   ],
+   "confirmatory": false
+  },
+  {
+   "id": "DL-09",
+   "item": "extra",
+   "when": "2026-10-03",
+   "type": "demotion",
+   "title": "All β = 14.1 results (incl. 0.856) are exploratory only",
+   "fact": "FIX0.40-rig-b14.1 used the contrarian per-checkpoint empirical-Bernstein variance formula and a hard-coded β; neither is the FDC certificate. FDC uses Lemma L2 inversion UCB and auto-computed β; override instances are renamed validity='none'.",
+   "sources": [
+    "plan/methodology.md:33",
+    "plan/methodology.md:45-46",
+    "reviews/idea_debate_review.md:37"
+   ],
+   "confirmatory": false
+  }
+ ],
+ "checks": [
+  {
+   "id": "c001",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "../.pipeline/project/MEMORY.md",
+   "locator": "L43",
+   "expected": "主张收窄（用户 2026-10-03 裁决",
+   "observed": "## 主张收窄（用户 2026-10-03 裁决，覆盖第 4/5 轮\"fav 主变体\"规则）",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c002",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "../.pipeline/project/prompt_overlays/planner.md",
+   "locator": "L3",
+   "expected": "该裁决晚于第 4 轮开发结果",
+   "observed": "**用户裁决（2026-10-03，见 MEMORY.md \"主张收窄\"）**：头条 = 在**列明并核验过的严格有效对手集**中最快；plug-in / 渐近方法只作描述性对照，必须如实报告。该裁决晚于第 4 轮开发结果，须在 lock 与论文中作为 deviation 透明披露。目标仍为 WWW'27（摘要 10-18、全文 10-25）。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c003",
+   "entry": "a_user_verdict",
+   "kind": "git_content",
+   "file": ".pipeline/project/MEMORY.md",
+   "locator": "commit ee02cd9f",
+   "expected": false,
+   "observed": false,
+   "ok": true,
+   "note": "verdict section absent at 02:30:19 commit, present at 13:09:26 commit"
+  },
+  {
+   "id": "c004",
+   "entry": "a_user_verdict",
+   "kind": "git_content",
+   "file": ".pipeline/project/MEMORY.md",
+   "locator": "commit 47a13eef",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": "verdict section absent at 02:30:19 commit, present at 13:09:26 commit"
+  },
+  {
+   "id": "c005",
+   "entry": "a_user_verdict",
+   "kind": "mtime",
+   "file": ".pipeline/project/MEMORY.md",
+   "locator": "mtime (upper bound of verdict time)",
+   "expected": "2026-10-03T12:56:34",
+   "observed": "2026-10-03T12:56:34",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c006",
+   "entry": "a_user_verdict",
+   "kind": "mtime",
+   "file": "idea/novelty_report.md",
+   "locator": "mtime (lower bound: still evaluates old H1 vs B2-fav)",
+   "expected": "2026-10-03T03:28:13",
+   "observed": "2026-10-03T03:28:13",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c007",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "idea/novelty_report.md",
+   "locator": "L56",
+   "expected": "H1 的\"优效\"对象是发表配置的 B2-fav / Peace-fav",
+   "observed": "3. H1 的\"优效\"对象是发表配置的 B2-fav / Peace-fav。由于它们的劣势来自可移植的教科书设计，**H1 在审稿人眼里不构成方法优势**。这会加重第 13 节截止风险上报的分量：新颖性证据也支持\"公平基线应包括 tuned 变体\"。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c008",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L46",
+   "expected": "H1（主，优效）FDC 对 B2-fav 与 Peace-fav",
+   "observed": "H1（主，优效）FDC 对 B2-fav 与 Peace-fav（发表配置）的配对几何平均 N80 比，95% 上界 < 1.0，点估计 ≤ 0.90。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c009",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L117",
+   "expected": "截止风险上报",
+   "observed": "## 13. 截止风险上报（给控制面 / 用户）",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c010",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "written_at",
+   "expected": "2026-10-03T02:12:14.402316",
+   "observed": "2026-10-03T02:12:14.402316",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c011",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B2.B2-fav",
+   "expected": 1.669,
+   "observed": 1.6689905997915813,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c012",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.Peace.Peace-fav",
+   "expected": 0.987,
+   "observed": 0.9870836845356308,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c013",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B2.B2-rect",
+   "expected": 0.769,
+   "observed": 0.769041961471723,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c014",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.Peace.Peace-rect",
+   "expected": 0.753,
+   "observed": 0.7532105230723887,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c015",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B3.B3-rect",
+   "expected": 0.553,
+   "observed": 0.5527652024280043,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c016",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B1",
+   "expected": 0.582,
+   "observed": 0.58227067214172,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c017",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B4",
+   "expected": 0.387,
+   "observed": 0.38711438127651965,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c018",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "variant_ratios_QFC_over_X.B2.B2-nominal",
+   "expected": 0.499,
+   "observed": 0.49946110695613277,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c019",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "gates.G1-shape.all",
+   "expected": false,
+   "observed": false,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c020",
+   "entry": "a_user_verdict",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "real_pillar",
+   "expected": "dead",
+   "observed": "dead",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c021",
+   "entry": "a_user_verdict",
+   "kind": "mtime",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "mtime (verdict also later than r5 exploratory CIs)",
+   "expected": "2026-10-03T02:38:33",
+   "observed": "2026-10-03T02:38:33",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c022",
+   "entry": "a_user_verdict",
+   "kind": "event_log",
+   "file": "../logs/events.jsonl",
+   "locator": "idea_debate stage window",
+   "expected": "02:30:19 -> 13:09:26",
+   "observed": [
+    [
+     "stage_start",
+     "2026-10-03T02:30:19"
+    ],
+    [
+     "stage_end",
+     "2026-10-03T13:09:26"
+    ]
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c023",
+   "entry": "a_user_verdict",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L3",
+   "expected": "在列明并核验过的严格有效对手集中最快",
+   "observed": "> 归档：第 4 轮终版在 `plan/history/r4_final/`。本文件按 external reviewer 第 5 轮 4/10 REVISE（`reviews/idea_debate_review.md`）的六项阻塞交付重写，并按用户 2026-10-03 的\"主张收窄\"裁决执行。头条措辞固定为：**在列明并核验过的严格有效对手集中最快**。我们不主张\"在所有有保证的方法中最快\"。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c024",
+   "entry": "b_exploration",
+   "kind": "count",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "rows",
+   "expected": 360,
+   "observed": 360,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c025",
+   "entry": "b_exploration",
+   "kind": "count",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "rows",
+   "expected": 700,
+   "observed": 700,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c026",
+   "entry": "b_exploration",
+   "kind": "set",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "methods",
+   "expected": [
+    "B2-fav",
+    "FIX0.50-fav-tight",
+    "FIX0.30-rig",
+    "FIX0.40-rig",
+    "FIX0.50-rig",
+    "FIX0.60-rig",
+    "FIX0.40-fav-b10",
+    "FIX0.40-rig-b10",
+    "FIX0.40-rig-b8"
+   ],
+   "observed": [
+    "B2-fav",
+    "FIX0.50-fav-tight",
+    "FIX0.30-rig",
+    "FIX0.40-rig",
+    "FIX0.50-rig",
+    "FIX0.60-rig",
+    "FIX0.40-fav-b10",
+    "FIX0.40-rig-b10",
+    "FIX0.40-rig-b8"
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c027",
+   "entry": "b_exploration",
+   "kind": "range",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "seed range",
+   "expected": [
+    900,
+    939
+   ],
+   "observed": [
+    900,
+    939
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c028",
+   "entry": "b_exploration",
+   "kind": "set",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "methods",
+   "expected": [
+    "B2-fav",
+    "B2fav-b14.1",
+    "B2fav-b10",
+    "FIX0.40-rig-b12",
+    "FIX0.40-rig-b11",
+    "FIX0.40-rig-b14.1",
+    "FIX0.45-rig-b12"
+   ],
+   "observed": [
+    "B2-fav",
+    "B2fav-b14.1",
+    "B2fav-b10",
+    "FIX0.40-rig-b12",
+    "FIX0.40-rig-b11",
+    "FIX0.40-rig-b14.1",
+    "FIX0.45-rig-b12"
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c029",
+   "entry": "b_exploration",
+   "kind": "range",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "seed range",
+   "expected": [
+    900,
+    999
+   ],
+   "observed": [
+    900,
+    999
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c030",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 B2-fav",
+   "expected": 1132450,
+   "observed": 1132450.098989311,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c031",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.30-rig",
+   "expected": 1117823,
+   "observed": 1117823.0273648917,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c032",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.40-rig",
+   "expected": 950162,
+   "observed": 950161.7671850302,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c033",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.50-rig",
+   "expected": 956358,
+   "observed": 956358.1988210332,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c034",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.60-rig",
+   "expected": 987952,
+   "observed": 987951.6457748305,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c035",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.50-fav-tight",
+   "expected": 856307,
+   "observed": 856306.5461464041,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c036",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.40-fav-b10",
+   "expected": 572272,
+   "observed": 572271.5388770679,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c037",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.40-rig-b10",
+   "expected": 682062,
+   "observed": 682061.6078205126,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c038",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "run2 geomean N80 FIX0.40-rig-b8",
+   "expected": 529329,
+   "observed": 529329.2451527998,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c039",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 B2-fav",
+   "expected": 1120733,
+   "observed": 1120733.2103721704,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c040",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 B2fav-b14.1",
+   "expected": 864135,
+   "observed": 864134.798244989,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c041",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 B2fav-b10",
+   "expected": 592716,
+   "observed": 592715.685104192,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c042",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 FIX0.40-rig-b12",
+   "expected": 831081,
+   "observed": 831081.0401234414,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c043",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 FIX0.40-rig-b11",
+   "expected": 747043,
+   "observed": 747043.4830124588,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c044",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 FIX0.40-rig-b14.1",
+   "expected": 958848,
+   "observed": 958848.041976673,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c045",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "run3 geomean N80 FIX0.45-rig-b12",
+   "expected": 809751,
+   "observed": 809750.6513272986,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c046",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "B2fav-b14.1 ratio/CI/faster-share",
+   "expected": [
+    0.771,
+    0.73,
+    0.821,
+    0.8
+   ],
+   "observed": [
+    0.771,
+    0.7301,
+    0.8207,
+    0.8
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c047",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "B2fav-b10 ratio/CI/faster-share",
+   "expected": [
+    0.529,
+    0.489,
+    0.575,
+    0.97
+   ],
+   "observed": [
+    0.5289,
+    0.4892,
+    0.5747,
+    0.97
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c048",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "FIX0.40-rig-b12 ratio/CI/faster-share",
+   "expected": [
+    0.742,
+    0.711,
+    0.771,
+    0.8
+   ],
+   "observed": [
+    0.7416,
+    0.7113,
+    0.771,
+    0.8
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c049",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "FIX0.40-rig-b11 ratio/CI/faster-share",
+   "expected": [
+    0.667,
+    0.638,
+    0.697,
+    0.92
+   ],
+   "observed": [
+    0.6666,
+    0.6377,
+    0.6967,
+    0.92
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c050",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "FIX0.40-rig-b14.1 ratio/CI/faster-share",
+   "expected": [
+    0.856,
+    0.827,
+    0.885,
+    0.51
+   ],
+   "observed": [
+    0.8556,
+    0.8271,
+    0.885,
+    0.51
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c051",
+   "entry": "b_exploration",
+   "kind": "recompute",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "FIX0.45-rig-b12 ratio/CI/faster-share",
+   "expected": [
+    0.723,
+    0.695,
+    0.749,
+    0.89
+   ],
+   "observed": [
+    0.7225,
+    0.6949,
+    0.7493,
+    0.89
+   ],
+   "ok": true,
+   "note": "recomputed from run3.json with ci.py's exact bootstrap"
+  },
+  {
+   "id": "c052",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "B2fav-b14.1 false streams",
+   "expected": [
+    [
+     973,
+     6989793,
+     1
+    ]
+   ],
+   "observed": [
+    [
+     973,
+     6989793,
+     1
+    ]
+   ],
+   "ok": true,
+   "note": "error-penalised N80 = tau_R"
+  },
+  {
+   "id": "c053",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "B2fav-b10 false streams",
+   "expected": [
+    [
+     934,
+     6989793,
+     1
+    ]
+   ],
+   "observed": [
+    [
+     934,
+     6989793,
+     1
+    ]
+   ],
+   "ok": true,
+   "note": "error-penalised N80 = tau_R"
+  },
+  {
+   "id": "c054",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "FIX0.40-rig-b12 false streams",
+   "expected": 0,
+   "observed": 0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c055",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "FIX0.40-rig-b11 false streams",
+   "expected": 0,
+   "observed": 0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c056",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "FIX0.40-rig-b14.1 false streams",
+   "expected": 0,
+   "observed": 0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c057",
+   "entry": "b_exploration",
+   "kind": "records",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "FIX0.45-rig-b12 false streams",
+   "expected": 0,
+   "observed": 0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c058",
+   "entry": "b_exploration",
+   "kind": "number",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "paired geomean FIX0.40-rig-b14.1 / B2fav-b14.1 (proposal C3 '~1.11')",
+   "expected": 1.11,
+   "observed": 1.109604709732833,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c059",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L17",
+   "expected": "FDC/B2-tight ≈ 1.11",
+   "observed": "| C3（保证的代价） | FDC 对最快 plug-in 变体（B2-fav-tight、B2-fav+balanced、Peace-fav+balanced）的比值 95% 上界 ≤ 1.15：plug-in 更快，但快得有限且无保证 | 上界 > 1.15 | 计划：T2；开发：FDC/B2-tight ≈ 1.11（点估计，无 CI），B2-tight 1/100 错误流（`ci_out.",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c060",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-half/B2-fav.geomean_ratio",
+   "expected": 0.8896,
+   "observed": 0.8895813534131022,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c061",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-half/B2-fav.n",
+   "expected": 40,
+   "observed": 40,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c062",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-half/B2-rect.geomean_ratio",
+   "expected": 0.4185,
+   "observed": 0.4185192916219717,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c063",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-half/QFC.geomean_ratio",
+   "expected": 0.5323,
+   "observed": 0.5323131241827981,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c064",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-half/Peace-fav.geomean_ratio",
+   "expected": 0.5393,
+   "observed": 0.5392786463754148,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c065",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-ney.median_N80",
+   "expected": 6989793.0,
+   "observed": 6989793.0,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c066",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "tau_R",
+   "expected": 6989793,
+   "observed": 6989793,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c067",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "QFC-ney/B2-fav.geomean_ratio",
+   "expected": 6.172,
+   "observed": 6.172274616107365,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c068",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "L2",
+   "expected": "A-Ney uses TRUTH",
+   "observed": "Thm 1 applies) with frozen fixed allocations vs stored B2-fav / B2-rect N80 from r4_g1_shape_b. A-Ney uses TRUTH (oracle,",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c069",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "L28",
+   "expected": "seeds=list(range(900,940))",
+   "observed": "init(); seeds=list(range(900,940)); t=time.time()",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c070",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "K",
+   "expected": 60,
+   "observed": 60,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c071",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "QFC-half/B2-fav.geomean",
+   "expected": 0.8869,
+   "observed": 0.8869064208378932,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c072",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "QFC-half/B2-fav.ci95",
+   "expected": [
+    0.8505417193233769,
+    0.9222482611581883
+   ],
+   "observed": [
+    0.8505417193233769,
+    0.9222482611581883
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c073",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "QFC-half/B2-rect.geomean",
+   "expected": 0.4451,
+   "observed": 0.44512122084142686,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c074",
+   "entry": "b_exploration",
+   "kind": "json_field",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "QFC-half/Peace-fav.geomean",
+   "expected": 0.5706,
+   "observed": 0.5706358560689323,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c075",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/pragmatist/offline_k60.py",
+   "locator": "L27",
+   "expected": "seeds=list(range(900,930))",
+   "observed": "t=time.time(); seeds=list(range(900,930)); names=[\"QFC-half\",\"B2-fav\",\"B2-rect\",\"Peace-fav\"]",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c076",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/history/round5_debate/perspectives/contrarian.md",
+   "locator": "L8",
+   "expected": "β=ln(P²K/δ)=18.5 | 1.74",
+   "observed": "| POOL（池比例采样，QFC 的采样）+ plug-in GLR，β=ln(P²K/δ)=18.5 | 1.74 | 与 QFC/B2-fav=1.67 吻合，说明 QFC 输的根因是**采样**（池比例 85:15，控制组严重欠采），不是证书形状 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c077",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "idea/history/round5_debate/perspectives/contrarian.md",
+   "locator": "L9",
+   "expected": "β=18.5 | 0.97",
+   "observed": "| 冻结 50/50 分配 + 同一 plug-in GLR、β=18.5 | 0.97 | 光是把分配改成事先冻结的平衡设计，就追平 CombGame 的自适应 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c078",
+   "entry": "b_exploration",
+   "kind": "absence",
+   "file": "idea/r5_offline/contrarian/",
+   "locator": "raw record of 0.97 / 1.74 (50/50 or POOL + plug-in GLR, beta 18.5)",
+   "expected": "none (perspective text only)",
+   "observed": [],
+   "ok": true,
+   "note": "no surviving raw stream file; T1 must regenerate it"
+  },
+  {
+   "id": "c079",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L134",
+   "expected": "0.887（QFC-half，r4 账本，K = 60）",
+   "observed": "| T1 | 版本对账：把 0.856（FIX0.40，contrarian 方差公式，β = 14.1，K = 20）、0.887（QFC-half，r4 账本，K = 60）、0.97（50/50 + plug-in GLR，β = 18.5）逐因子对换到同一批流上复现。另外在开发集上冻结 C4 预测模型 | 三个数字各自在 ±2% 内复现；因子对换表完整；预测模型在验证流（950–999）上",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c080",
+   "entry": "b_exploration",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L32",
+   "expected": "0.40 / 0.45 份额只作为探索性记录写进决策日志",
+   "observed": "1. **冻结读表**：每段对照 / 处理各 0.5（数据无关规则）。某段对照池耗尽后，该段到达全部转处理臂（`StreamEngine._resel` 按 p 在剩余臂上重新归一化，对 50/50 就是全转）。两段都耗尽的到达跳过，但照样计费。整个日程只由置换种子和标签生成，与结果无关。**两阶段版本删除**，0.40 / 0.45 份额只作为探索性记录写进决策日志。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c081",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/history/r4_final/pilot_plan.json",
+   "locator": "L15",
+   "expected": "QFC geometric-mean N80 ratio <= 0.67 vs EACH of B1, B2, B3, Peace, B4",
+   "observed": "\"G1-shape\": \"CR9: QFC geometric-mean N80 ratio <= 0.67 vs EACH of B1, B2, B3, Peace, B4 (primary variant = first of fav -> nominal -> rect that passes S1 and S2) on 100 dev streams; Peace/B3 cannot be",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c082",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "idea/history/round5_debate/perspectives/innovator.md",
+   "locator": "L18",
+   "expected": "门槛预注册为 ≤ 0.67",
+   "observed": "**主终点（与有效性定理一致）：** 流级 FWER ≤ δ 的任意时刻有效证书下，对 B2-fav 与 Peace-fav 的配对几何平均 N80 比，门槛预注册为 ≤ 0.67；次终点为代理失效压力测试（把访问效应按预注册规则置乱/翻转）下的错误认证率 ≤ δ。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c083",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L46",
+   "expected": "95% 上界 < 1.0，点估计 ≤ 0.90",
+   "observed": "H1（主，优效）FDC 对 B2-fav 与 Peace-fav（发表配置）的配对几何平均 N80 比，95% 上界 < 1.0，点估计 ≤ 0.90。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c084",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L15",
+   "expected": "B1 CLUCB-joint, B4 uniform, B2-rect, B3-rect, Peace-rect",
+   "observed": "| C1（头条） | 在有可证明有限样本 / 任意时刻有效保证的方法中，FDC 认证最快：对严格对手集 {B1 CLUCB-joint, B4 uniform, B2-rect, B3-rect, Peace-rect} 中每一个，比值 95% 上界 < 1.0 | 对任一严格对手，比值 95% 上界 ≥ 1.0 | 计划：T2 评价块结果；间接开发证据：`exp/results/r4_gate_",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c085",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L13",
+   "expected": "单侧 95% 上界都 < 1.0",
+   "observed": "| C1（头条，优效） | 在评价流上，FDC 对严格对手集 𝓡（§4.2，锁前冻结）中**每一个**对手的配对几何平均 N80_pen 比的单侧 95% 上界都 < 1.0 | 任一 r ∈ 𝓡 的上界 ≥ 1.0 | Table 1；`exp/results/full/r5_analysis_aggregate/summary.json` |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c086",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L118",
+   "expected": "点估计 ≤ 0.90 且上界 < 1.0",
+   "observed": "- **措辞门槛（冻结）**：点估计 ≤ 0.90 且上界 < 1.0 时，才能对该对手写 \"faster by ≥10%\"；只有上界 < 1.0 时，只写 \"faster\"。提案中\"点估计 ≤ 0.90 是否保留\"的悬置问题，到此关闭。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c087",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "idea/history/round5_debate/perspectives/theoretical.md",
+   "locator": "L8",
+   "expected": "没有找到能把 N80 比压到 ≤0.67 的纯理论机制",
+   "observed": "2. **在严格（有限样本）证书口径下，我没有找到能把 N80 比压到 ≤0.67 的纯理论机制。** 非自适应 + 均衡 + 有限总体修正（FPC）最多到 0.118/τ_R，相对 B2-fav 模型值 0.1516 的比为 **0.78**（对实测 0.162 为 0.73）。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c088",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L18",
+   "expected": "E-cost 按用户裁决如实写出",
+   "observed": "主张之间的关系如下。C1 是唯一的优效主张，C2 是 C1 有意义的前提。C4 解释 C1 为什么成立，C4 失败只撤回机制解释，不否定 C1（external reviewer P1-2）。E-cost 按用户裁决如实写出\"plug-in 更快、但没有保证\"。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c089",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L101",
+   "expected": "B2-fav、Peace-fav（发表配置）、B3-fav、B5 maq、H8-*",
+   "observed": "| B2-fav、Peace-fav（发表配置）、B3-fav、B5 maq、H8-* | 描述性对照（plug-in / 渐近 / 模型内） | 没有有限样本保证。如实报告速度与错误流（E-cost） |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c090",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L89",
+   "expected": "Hait-SW",
+   "observed": "| **Hait-SW** | Hait 2609.37873 的分层架构（§4.2 式 4.4，§7 familywise），采用其宽度最优分配律（段内按 σ 做可预测的 plug-in 分配，即 Neyman）；局部 CS 由 PrPl-EB 换成 WSR20 不放回 EB CS（WSR20 本身就是 PrPl-EB 的不放回版） | Hait Thm 6.2 在可预测自适应分配下时间一致；不",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c091",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L90",
+   "expected": "Molitor-WoR",
+   "observed": "| **Molitor-WoR** | Molitor 2606.17515 的逐策略边际 CS 淘汰规则，按有限池移植：策略价值 CS = Σ_s w_s·单元 CS | WSR20 时间一致；Thm 1 的并集由单元级同时覆盖替代 | 池比例（日志策略） | max_{π′} UCB(π′) − LCB(π̂) | 新增；按构造被 B4 支配，如实标注 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c092",
+   "entry": "c_superiority_and_effect_size",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L85",
+   "expected": "B4-bal",
+   "observed": "| **B4-bal** | 均衡读表 + 矩形证书（**与 FDC 设计相同**） | 同上，冻结设计 | 50/50（份额在开发集上调） | 半径和 | 新增；用于隔离\"证书形状\"的贡献 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c093",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L47",
+   "expected": "比值 95% 上界 ≤ 1.15",
+   "observed": "H2（共同主，非劣）FDC 对 {B2-fav-tight, B2-fav+balanced, Peace-fav+balanced} 中最快者，比值 95% 上界 ≤ 1.15。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c094",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L17",
+   "expected": "95% 上界 ≤ 1.15",
+   "observed": "| C3（保证的代价） | FDC 对最快 plug-in 变体（B2-fav-tight、B2-fav+balanced、Peace-fav+balanced）的比值 95% 上界 ≤ 1.15：plug-in 更快，但快得有限且无保证 | 上界 > 1.15 | 计划：T2；开发：FDC/B2-tight ≈ 1.11（点估计，无 CI），B2-tight 1/100 错误流（`ci_out.",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c095",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L86",
+   "expected": "C3：最快 tuned 对手上界 ≤ 1.15",
+   "observed": "| T2 | 用数据无关规则重跑 100 流：**FDC 对全部严格对手（C1）**，以及 Peace-fav、三个 tuned plug-in 变体（C3） | C1：每个严格对手上界 < 1.0；C3：最快 tuned 对手上界 ≤ 1.15 | C1 失败则 FDC 出局 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c096",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L16",
+   "expected": "不设通过线",
+   "observed": "| E-cost（原 C3，只作估计） | 报告 FDC 对最快 tuned plug-in 变体的配对比及双侧 95% CI，即\"保证的代价\"。不设通过线 | — | Table 1 下半部、Fig. 3 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c097",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L9",
+   "expected": "原 C3 降为估计量，原因见 §6.3",
+   "observed": "主张如下。主张编号沿用提案，原 C3 降为估计量，原因见 §6.3。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c098",
+   "entry": "d_C3_to_estimator",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L147",
+   "expected": "### 6.3 C4 析因（机制）",
+   "observed": "### 6.3 C4 析因（机制）",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c099",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "L17",
+   "expected": "AND eval guard tables (min-over-simple-policies regret > eps)",
+   "observed": "\"rule\": \"eps* = min eps in grid with uncensored_share >= 0.7 (N80 < tau_R and no false cert) AND n_nontrivial >= 5/15 on dev AND eval guard tables (min-over-simple-policies regret > eps)\",",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c100",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "per_eps.0.001.n_nontrivial_eval",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c101",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.CR9.eval.0.001",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c102",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "per_eps.0.0015.n_nontrivial_eval",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c103",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.CR9.eval.0.0015",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c104",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "per_eps.0.002.n_nontrivial_eval",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c105",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.CR9.eval.0.002",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c106",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "per_eps.0.003.n_nontrivial_eval",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c107",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.CR9.eval.0.003",
+   "expected": 15,
+   "observed": 15,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c108",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.HR8.eval.0.01",
+   "expected": 10,
+   "observed": 10,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c109",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.HR8.eval.0.0125",
+   "expected": 5,
+   "observed": 5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c110",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.HR8.eval.0.015",
+   "expected": 5,
+   "observed": 5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c111",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "guard_counts.HR8.eval.0.0175",
+   "expected": 5,
+   "observed": 5,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c112",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "eps_star",
+   "expected": 0.001,
+   "observed": 0.001,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c113",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "integrity.eval_seeds_touched",
+   "expected": false,
+   "observed": false,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c114",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "dev_seeds",
+   "expected": "900-999",
+   "observed": "900-999",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c115",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "seeds",
+   "expected": [
+    900,
+    999
+   ],
+   "observed": [
+    900,
+    999
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c116",
+   "entry": "e_eval_half_contact",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/guard_tables.json",
+   "locator": "CR9|eval rows / keys",
+   "expected": [
+    15,
+    [
+     "J_star",
+     "eps_set_size",
+     "half",
+     "min_trivial_regret",
+     "qid",
+     "regret_pooled_uplift_sign",
+     "regret_treat_by_w_desc",
+     "second_gap"
+    ]
+   ],
+   "observed": [
+    15,
+    [
+     "J_star",
+     "eps_set_size",
+     "half",
+     "min_trivial_regret",
+     "qid",
+     "regret_pooled_uplift_sign",
+     "regret_treat_by_w_desc",
+     "second_gap"
+    ]
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c117",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L15",
+   "expected": "the eval half is touched only through the truth-side trivial guard",
+   "observed": "Only dev halves and dev seeds 900-999 are replayed; the eval half is touched only through the truth-side trivial guard",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c118",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L284",
+   "expected": "for half in (\"dev\", \"eval\"):",
+   "observed": "for half in (\"dev\", \"eval\"):",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c119",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L285",
+   "expected": "ENVS[(layer, half)] = PoolReplayEnv(layer, half)",
+   "observed": "ENVS[(layer, half)] = PoolReplayEnv(layer, half)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c120",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L298",
+   "expected": "rows, cnt = guard_table(ENVS[(layer, half)], grid)",
+   "observed": "rows, cnt = guard_table(ENVS[(layer, half)], grid)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c121",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L229",
+   "expected": "a[\"guard_ok\"] = bool(g_dev >= NONTRIV_MIN and g_eval >= NONTRIV_MIN)",
+   "observed": "a[\"guard_ok\"] = bool(g_dev >= NONTRIV_MIN and g_eval >= NONTRIV_MIN)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c122",
+   "entry": "e_eval_half_contact",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L26",
+   "expected": "评价半的汇总真值曾用于 ε 守卫",
+   "observed": "- **评价半的接触情况（必须如实披露，external reviewer P0-5）**：r4 的 `r4_g_eps_select` 选 ε 时，读取过**评价半**的非平凡题计数（真值汇总量）。所以论文不能写\"评价数据从未参与设计\"，只能写：评价种子（置换）和评价半的逐行结果从未用于任何方法或门的比较；评价半的汇总真值曾用于 ε 守卫。推断是条件于固定有限总体、对全新置换做的，这个接触不影响条件有效性，但它限制了\"",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c123",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "exp/code/dsswm/baselines/frontier_common.py",
+   "locator": "L204",
+   "expected": "delta_main=0.04, delta_var=0.01, C_var=48",
+   "observed": "def qfc_default_params(S, A, Q, K=20, delta_main=0.04, delta_var=0.01, C_var=48):",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c124",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.L1",
+   "expected": 15.16098292456391,
+   "observed": 15.16098292456391,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c125",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.x_v",
+   "expected": 12.165250651009918,
+   "observed": 12.165250651009918,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c126",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.delta_main",
+   "expected": 0.04,
+   "observed": 0.04,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c127",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.delta_var",
+   "expected": 0.01,
+   "observed": 0.01,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c128",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.C_var",
+   "expected": 48,
+   "observed": 48,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c129",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "layer_info.CR9.params.K",
+   "expected": 20,
+   "observed": 20,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c130",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "plan/theory/qfc_lemma.md",
+   "locator": "L68",
+   "expected": "The plan freezes C_var = 48",
+   "observed": "*Union.* E_var = {μ_c ∈ CI_c(k) ∀ c ≤ C_var, ∀ k ≤ K}, with x_v = ln(2 C_var K / δ_var). Then P(E_var^c | 𝒜) ≤ δ_var. The plan freezes C_var = 48, which is valid for S=6 (18 cells, so conservative) an",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c131",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "r4 L1 = 9 ln2 + ln(15*20/0.04)",
+   "expected": 15.16098,
+   "observed": 15.16098292456391,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c132",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "r4 x_v = ln(2*48*20/0.01)",
+   "expected": 12.16525,
+   "observed": 12.165250651009918,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c133",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "FDC beta = ln(3386*20/0.045)",
+   "expected": 14.2242,
+   "observed": 14.22422962545889,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c134",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "FDC x_v = ln(2*18*20/0.005)",
+   "expected": 11.8776,
+   "observed": 11.877568578558138,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c135",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "B2-fav-tight beta = ln(3386*20/0.05)",
+   "expected": 14.12,
+   "observed": 14.118869109801063,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c136",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "beta=14.1 union bound 3386*20*e^-14.1 + 0.005",
+   "expected": 0.05595,
+   "observed": 0.05595241282293605,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c137",
+   "entry": "f_ledger",
+   "kind": "number",
+   "file": "(computed)",
+   "locator": "union size Q*|Pi| = 15*512",
+   "expected": 7680,
+   "observed": 7680,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c138",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L40",
+   "expected": "β = ln(3386·20/0.045) = **14.2242**",
+   "observed": "| E_main：对每个 (q, π′ ∈ Π_{B_q}, k) 的方向事件（单侧） | Σ_q |Π_{B_q}| · K = 3386 · 20 | β = ln(3386·20/0.045) = **14.2242** | δ_main = 0.045 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c139",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L41",
+   "expected": "x_v = ln(720/0.005) = **11.8776**",
+   "observed": "| E_var：每个单元 × 检查点 × 双尾 | 2 · S·A · K = 2·18·20 | x_v = ln(720/0.005) = **11.8776** | δ_var = 0.005 |",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c140",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L44",
+   "expected": "在开发结果出来之前就已写进提案和离线代码的默认值",
+   "observed": "- 该 δ 拆分（0.045 / 0.005）在开发结果出来之前就已写进提案和离线代码的默认值，此后不搜索、不调整。C_var 从 r4 的 48（为 S = 16 预留）改为实际单元数 18，这是合法收紧，记入决策日志。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c141",
+   "entry": "f_ledger",
+   "kind": "json_field",
+   "file": "exp/results/pilots/r5_fdc_spec_theory/summary.json",
+   "locator": "cr9_dev_ledger.sigma_Pi_Bq",
+   "expected": 3386,
+   "observed": 3386,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c142",
+   "entry": "f_ledger",
+   "kind": "recompute",
+   "file": "exp/code/dsswm (CR9 dev ctx)",
+   "locator": "sum_q |Pi_{B_q}|, Q, |Pi|, S*A, K",
+   "expected": [
+    3386,
+    15,
+    512,
+    18,
+    20
+   ],
+   "observed": [
+    3386,
+    15,
+    512,
+    18,
+    20
+   ],
+   "ok": true,
+   "note": "read-only context build, no stream replay"
+  },
+  {
+   "id": "c143",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/contrarian/offline_ctr.py",
+   "locator": "L29",
+   "expected": "math.log(nfeas*K/0.045)",
+   "observed": "self.b=getattr(self,\"beta_rig\",None) or math.log(nfeas*K/0.045)          # direction union over (q,pi') x checkpoints, delta_main=.045",
+   "ok": true,
+   "note": "external reviewer review cites offline_ctr.py:26; actual line is 29"
+  },
+  {
+   "id": "c144",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/contrarian/offline_ctr.py",
+   "locator": "L30",
+   "expected": "math.log(ctx.S*ctx.A*K/0.005)",
+   "observed": "self.xv=math.log(ctx.S*ctx.A*K/0.005)  # per-cell variance UCB level, delta_var=.005",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c145",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/contrarian/offline_ctr.py",
+   "locator": "L26",
+   "expected": "def setup(self,ctx):",
+   "observed": "def setup(self,ctx):",
+   "ok": true,
+   "note": "line 26 is the setup() header, not the delta split"
+  },
+  {
+   "id": "c146",
+   "entry": "f_ledger",
+   "kind": "line_contains",
+   "file": "reviews/idea_debate_review.md",
+   "locator": "L39",
+   "expected": "offline_ctr.py:26",
+   "observed": "离线实现 `idea/r5_offline/contrarian/offline_ctr.py:26` 默认按 `δ_main=0.045`、`δ_var=0.005` 分账，但配置 `FIX0.40-rig-b14.1` 会用硬编码 14.1 覆盖正确阈值。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c147",
+   "entry": "f_ledger",
+   "kind": "mtime",
+   "file": "(several)",
+   "locator": "mtime order r4_gate_decision < run2 < offline_ctr.py < run3 < ci_out",
+   "expected": {
+    "exp/results/r4_gate_decision.json": "2026-10-03T02:12:14",
+    "idea/r5_offline/contrarian/run2.json": "2026-10-03T02:35:45",
+    "idea/r5_offline/contrarian/offline_ctr.py": "2026-10-03T02:36:16",
+    "idea/r5_offline/contrarian/run3.json": "2026-10-03T02:37:51",
+    "idea/r5_offline/contrarian/ci_out.txt": "2026-10-03T02:38:33"
+   },
+   "observed": {
+    "exp/results/r4_gate_decision.json": "2026-10-03T02:12:14",
+    "idea/r5_offline/contrarian/run2.json": "2026-10-03T02:35:45",
+    "idea/r5_offline/contrarian/offline_ctr.py": "2026-10-03T02:36:16",
+    "idea/r5_offline/contrarian/run3.json": "2026-10-03T02:37:51",
+    "idea/r5_offline/contrarian/ci_out.txt": "2026-10-03T02:38:33"
+   },
+   "ok": true,
+   "note": "offline_ctr.py was last modified 31 s AFTER run2.json; mtime cannot prove the split predates run2"
+  },
+  {
+   "id": "c148",
+   "entry": "f_ledger",
+   "kind": "git_first_commit",
+   "file": "idea/r5_offline/contrarian/offline_ctr.py",
+   "locator": "first commit adding the file",
+   "expected": "47a13eef 2026-10-03 13:09:26 +1000",
+   "observed": "47a13eef 2026-10-03 13:09:26 +1000",
+   "ok": true,
+   "note": "committed only at end of idea_debate; git cannot order it against run2/run3"
+  },
+  {
+   "id": "c149",
+   "entry": "f_ledger",
+   "kind": "absence",
+   "file": "idea/**, plan/history/**",
+   "locator": "delta split 0.045/0.005 in any document older than offline_ctr.py",
+   "expected": [],
+   "observed": [],
+   "ok": true,
+   "note": "earlier '0.045' hits are CP bounds / sigma^2, not the ledger"
+  },
+  {
+   "id": "c150",
+   "entry": "f_ledger",
+   "kind": "consistency",
+   "file": "idea/r5_offline/contrarian/run2.json + run3.json",
+   "locator": "default-beta FIX0.40-rig (run2) N80 >= FIX0.40-rig-b14.1 (run3) per seed",
+   "expected": [
+    40,
+    40,
+    1
+   ],
+   "observed": [
+    40,
+    40,
+    1
+   ],
+   "ok": true,
+   "note": "consistent with default beta > 14.1 (i.e. delta_main < 0.0504) at run2 time; not a proof"
+  },
+  {
+   "id": "c151",
+   "entry": "f_ledger",
+   "kind": "absence",
+   "file": "idea/r5_offline/contrarian/run2.json + run3.json",
+   "locator": "any run varying delta split",
+   "expected": "none",
+   "observed": [],
+   "ok": true,
+   "note": "only shares and beta overrides were varied"
+  },
+  {
+   "id": "c152",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "L1",
+   "expected": "EXPLORATORY (r5 pragmatist)",
+   "observed": "\"\"\"EXPLORATORY (r5 pragmatist). Dev half CR9, dev seeds 900-999 only. Rigorous QFC certificate (non-adaptive allocation,",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c153",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "mtime",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "mtime > r4_gate_decision written_at 02:12:14",
+   "expected": "2026-10-03T02:33:51",
+   "observed": "2026-10-03T02:33:51",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c154",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "line_contains",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "L36",
+   "expected": "r4_g1_shape_*/results.jsonl",
+   "observed": "for f in glob.glob(\"exp/results/pilots/r4_g1_shape_*/results.jsonl\"):",
+   "ok": true,
+   "note": "reference N80s are r4 dev-block stream results"
+  },
+  {
+   "id": "c155",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "line_contains",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "L1",
+   "expected": "{",
+   "observed": "{",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c156",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "json_field",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "primary_variant.B2",
+   "expected": "B2-fav",
+   "observed": "B2-fav",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c157",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L47",
+   "expected": "慢在池比例读法饿死对照池",
+   "observed": "平台在存量 RCT 日志上做上线决策时，需要的是可审计的 ε-最优证书，而不是点估计排名。第 4 轮反例（QFC/B2-fav = 1.669）的机制已经查清：慢在池比例读法饿死对照池，而不在证书形状。因此本工作要回答的不是\"严格能否打败 plug-in\"，而是\"严格方法内部能快到什么程度、离 plug-in 还差多少\"。这个问题的答案决定了平台是否值得为保证付费，所以它是方法设计问题，而不是基准",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c158",
+   "entry": "g_qfc_half_post_r4",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L168",
+   "expected": "QFC-half 的 50/50 是看过 r4 结果之后才选的",
+   "observed": "- QFC-half 的 50/50 是看过 r4 结果之后才选的。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c159",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L54",
+   "expected": "两阶段版本作为预注册备选",
+   "observed": "1. 冻结读表：每段对照 / 处理各 0.5，对照池耗尽后全转处理臂。规则与数据无关，在到达前写死。两阶段版本作为预注册备选：前 5% 用池比例读、估方差，然后冻结；只能在锁前二选一。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c160",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L57",
+   "expected": "10-06 前证不出即砍",
+   "observed": "4. 可选模块：A=2 时 Cauchy–Schwarz 9 维 ℓ2 紧会计。**10-06 前证不出即砍，不得进入摘要。**",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c161",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L63",
+   "expected": "两阶段版本（前 5% 池比例读、估方差后冻结）作为预注册备选",
+   "observed": "1. **冻结读表**：每段对照 / 处理各 0.5，对照池耗尽后全转处理臂；规则与数据无关，在到达前写死。两阶段版本（前 5% 池比例读、估方差后冻结）作为预注册备选，只能在锁前二选一。开发上用过 0.40 / 0.45 份额（`ci_out.txt` 中 FIX0.40 / FIX0.45），这是 forking path，锁文件必须披露。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c162",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "idea/proposal.md",
+   "locator": "L66",
+   "expected": "10-06 前证不出即砍",
+   "observed": "4. **可选模块**：A=2 时 Cauchy–Schwarz 9 维 ℓ2 紧会计，10-06 前证不出即砍，不进摘要。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c163",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L32",
+   "expected": "**两阶段版本删除**",
+   "observed": "1. **冻结读表**：每段对照 / 处理各 0.5（数据无关规则）。某段对照池耗尽后，该段到达全部转处理臂（`StreamEngine._resel` 按 p 在剩余臂上重新归一化，对 50/50 就是全转）。两段都耗尽的到达跳过，但照样计费。整个日程只由置换种子和标签生成，与结果无关。**两阶段版本删除**，0.40 / 0.45 份额只作为探索性记录写进决策日志。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c164",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L61",
+   "expected": "10-06 前没有证明，按提案规则删除",
+   "observed": "- 两阶段读表；A = 2 时的 Cauchy–Schwarz 紧会计可选模块（10-06 前没有证明，按提案规则删除）；任何 FPC / Serfling 修正。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c165",
+   "entry": "h_deletions",
+   "kind": "mtime",
+   "file": "plan/methodology.md",
+   "locator": "deletion date vs the 10-06 deadline",
+   "expected": "2026-10-03 (< 10-06)",
+   "observed": "2026-10-03T13:16:23",
+   "ok": true,
+   "note": "module was dropped pre-emptively on 10-03, not by the 10-06 rule firing"
+  },
+  {
+   "id": "c166",
+   "entry": "h_deletions",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L46",
+   "expected": "β = 14.1 的旧结果",
+   "observed": "- **β = 14.1 的旧结果**（0.856 等）全部降级为探索性记录。按并集论证，它只能给出 0.05595 > δ 的保证。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c167",
+   "entry": "contribution",
+   "kind": "line_contains",
+   "file": "exp/code/dsswm/certify/quadknap.py",
+   "locator": "L21",
+   "expected": "S ln A + ln(Q K / delta_main)",
+   "observed": "S ln A + ln(Q K / delta_main) (qfc_lemma section 9, option 1; ``l1_qstar``). No finite-population (Serfling-type)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c168",
+   "entry": "contribution",
+   "kind": "line_contains",
+   "file": "reviews/idea_debate_review.md",
+   "locator": "L102",
+   "expected": "### P0-4",
+   "observed": "### P0-4：C4 的增益归因与实际 r4 实现不符",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c169",
+   "entry": "contribution",
+   "kind": "citation",
+   "file": "idea/novelty_report.md",
+   "locator": "2609.37873",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c170",
+   "entry": "contribution",
+   "kind": "citation",
+   "file": "idea/novelty_report.md",
+   "locator": "2608.19903",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c171",
+   "entry": "contribution",
+   "kind": "citation",
+   "file": "idea/novelty_report.md",
+   "locator": "2405.19317",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c172",
+   "entry": "contribution",
+   "kind": "citation",
+   "file": "idea/novelty_report.md",
+   "locator": "2608.06512",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c173",
+   "entry": "contribution",
+   "kind": "line_contains",
+   "file": "idea/novelty_report.md",
+   "locator": "L39",
+   "expected": "Garivier & Kaufmann 2016",
+   "observed": "| 对固定 π\\*_q 的备选取并集，β = ln(Σ_q \\|feas_q\\|·K/δ)，不对全部策略对取并集 | Garivier & Kaufmann 2016 的 GLR 停止规则（只对经验最优的备选做检验）；Soare 2014 的式 (4)；Peace 式 (2) 的 log\\|𝒵\\| 并集（z\\* 固定，对 z ≠ z\\* 取并）；**de Heide 2026-08（2608.19",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c174",
+   "entry": "contribution",
+   "kind": "line_contains",
+   "file": "idea/novelty_report.md",
+   "locator": "L39",
+   "expected": "Peace",
+   "observed": "| 对固定 π\\*_q 的备选取并集，β = ln(Σ_q \\|feas_q\\|·K/δ)，不对全部策略对取并集 | Garivier & Kaufmann 2016 的 GLR 停止规则（只对经验最优的备选做检验）；Soare 2014 的式 (4)；Peace 式 (2) 的 log\\|𝒵\\| 并集（z\\* 固定，对 z ≠ z\\* 取并）；**de Heide 2026-08（2608.19",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c175",
+   "entry": "contribution",
+   "kind": "line_contains",
+   "file": "plan/methodology.md",
+   "locator": "L170",
+   "expected": "冻结设计换来方向级证书的合法性",
+   "observed": "**贡献说明**：C4 只把\"设计 + 证书形状\"写成可测能力，即冻结设计换来方向级证书的合法性，并在 B4-bal 对照与 CR12 规模层上度量。\"对 π\\* 的备选取并集\"写成方法描述，并引用 GK16、Peace、de Heide 2608.19903。\"设计优先\"写成 Hait 2609.37873 框架在组合预算前沿、不放回回放上的实例化。",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c176",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": ".pipeline/project/MEMORY.md",
+   "locator": "L43",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c177",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": ".pipeline/project/prompt_overlays/planner.md",
+   "locator": "L3",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c178",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "reviews/idea_debate_review.md",
+   "locator": "L102",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c179",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "reviews/idea_debate_review.md",
+   "locator": "L37",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c180",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/dsswm/baselines/frontier_common.py",
+   "locator": "L204",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c181",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/dsswm/certify/quadknap.py",
+   "locator": "L21",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c182",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L229",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c183",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L285",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c184",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/run_r4_g_eps_select.py",
+   "locator": "L298",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c185",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/code/run_r5_decision_log.py",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c186",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/pilots/r4_g_eps_select/guard_tables.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c187",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/pilots/r4_g_eps_select/summary.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c188",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/pilots/r5_decision_log/checks.jsonl",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c189",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/r4_gate_decision.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c190",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c191",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "exp/results/r4_gates/eps.json",
+   "locator": "L17",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c192",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L117",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c193",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L46",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c194",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L47",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c195",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/convergence/proposal_20261003-1256_pre.md",
+   "locator": "L54",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c196",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/round5_debate/perspectives/contrarian.md",
+   "locator": "L8",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c197",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/round5_debate/perspectives/contrarian.md",
+   "locator": "L9",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c198",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/history/round5_debate/perspectives/innovator.md",
+   "locator": "L18",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c199",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/novelty_report.md",
+   "locator": "L56",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c200",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/proposal.md",
+   "locator": "L17",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c201",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/proposal.md",
+   "locator": "L47",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c202",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/proposal.md",
+   "locator": "L63",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c203",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/proposal.md",
+   "locator": "L66",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c204",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/proposal.md",
+   "locator": "L86",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c205",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/contrarian/ci_out.txt",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c206",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/contrarian/offline_ctr.py",
+   "locator": "L29",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c207",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/contrarian/run2.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c208",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/contrarian/run3.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c209",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/pragmatist/offline_k60.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c210",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c211",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c212",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "idea/r5_offline/pragmatist/offline_qfc_alloc.py",
+   "locator": "L1",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c213",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "logs/events.jsonl",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c214",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/decision_log_r5.json",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c215",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/history/r4_final/pilot_plan.json",
+   "locator": "L15",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c216",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "file",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c217",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L118",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c218",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L13",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c219",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L134",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c220",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L16",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c221",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L26",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c222",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L3",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c223",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L32",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c224",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L33",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c225",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L44",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c226",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L61",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c227",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/methodology.md",
+   "locator": "L9",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "c228",
+   "entry": "md_citations",
+   "kind": "path_exists",
+   "file": "plan/theory/qfc_lemma.md",
+   "locator": "L68",
+   "expected": true,
+   "observed": true,
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "gate_decision": {
+  "entry": "DL-10",
+  "source": "exp/results/r5_gate_decision.json",
+  "verdict": "GO",
+  "c4_mode": "predictive",
+  "cr_n_streams": 200,
+  "power_N200": 1.0,
+  "power_N400": 1.0,
+  "written_at": "2026-10-03T16:12:42.633825"
+ }
+}

@@ -1,0 +1,135 @@
+{
+ "task_id": "v6_baseline_qualification",
+ "written_at": "2026-10-04T01:06:55.056733",
+ "started_at": "2026-10-04T01:05:29.352178",
+ "toy": "r4 near-tie toy, population seeds 900-919 x perm 0-9, eps 0.02",
+ "table": {
+  "RECT-ck-HG": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 172,
+   "with_reselection": 9,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "RECT-ck-HG-live": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 172,
+   "with_reselection": 9,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "RECT-ck-Bern": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 62,
+   "with_reselection": 94,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[prpl,c=0.5,t*=None]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 76,
+   "with_reselection": 91,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[prpl,c=0.75,t*=None]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 40,
+   "with_reselection": 116,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[nstar,c=0.75,t*=0.1]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 138,
+   "with_reselection": 45,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[nstar,c=0.75,t*=0.2]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 169,
+   "with_reselection": 18,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[nstar,c=0.75,t*=0.35]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 171,
+   "with_reselection": 10,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "HC-WoR[nstar,c=0.75,t*=0.5]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 172,
+   "with_reselection": 9,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "B4-bal (v5 reference)": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 86,
+   "with_reselection": 78,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "NAIVE-control": {
+   "n_streams": 200,
+   "false_streams": 4,
+   "false_certs": 9,
+   "cp_upper": 0.045180414994718726,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 196,
+   "with_reselection": 0,
+   "billing_ok_all": true,
+   "validity": "none"
+  }
+ },
+ "gate_iv_all_new_rigorous_0_of_200": true,
+ "power_control_detects": true,
+ "pytest_tail": [
+  "67 passed in 18.87s"
+ ],
+ "pytest_returncode": 0
+}

@@ -1,0 +1,15 @@
+{
+ "written_at": "2026-10-05T15:07:43.691296",
+ "rule": "THRESH = min(0.90, UB95_dev + 0.10), rounded up to 3 decimals (plan/v11_obd_plan.md s6)",
+ "eps": 0.0003,
+ "ub95_dev": 0.8401682806588635,
+ "ratio_dev": 0.825454908447896,
+ "n_dev_streams": 50,
+ "bootstrap": {
+  "B": 10000,
+  "seed": 42
+ },
+ "thresh": 0.9,
+ "source": "exp/results/pilots/v11_dev/v11_analysis_dev.json",
+ "source_sha256": "59fb55702ce84c116c13daf8e3cc7ee7ccf9a097781d00e3c61da258b1392903"
+}

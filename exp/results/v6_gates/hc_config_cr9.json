@@ -1,0 +1,98 @@
+{
+ "task_id": "v6a_tune",
+ "frozen_at": "2026-10-03T23:57:07.879059",
+ "layer": "CR9",
+ "eps": [
+  0.001
+ ],
+ "seeds": [
+  900,
+  949
+ ],
+ "selected": {
+  "schedule": "nstar",
+  "c": 0.75,
+  "target_frac": 0.2
+ },
+ "table": {
+  "HC-WoR": [
+   {
+    "params": {
+     "schedule": "prpl",
+     "c": 0.5,
+     "target_frac": null
+    },
+    "geomean_N80_pen": 2432238.128841031,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   },
+   {
+    "params": {
+     "schedule": "prpl",
+     "c": 0.75,
+     "target_frac": null
+    },
+    "geomean_N80_pen": 2483360.4069520514,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   },
+   {
+    "params": {
+     "schedule": "nstar",
+     "c": 0.75,
+     "target_frac": 0.1
+    },
+    "geomean_N80_pen": 1174432.260453844,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   },
+   {
+    "params": {
+     "schedule": "nstar",
+     "c": 0.75,
+     "target_frac": 0.2
+    },
+    "geomean_N80_pen": 1168340.81111922,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   },
+   {
+    "params": {
+     "schedule": "nstar",
+     "c": 0.75,
+     "target_frac": 0.35
+    },
+    "geomean_N80_pen": 1276328.9838014499,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   },
+   {
+    "params": {
+     "schedule": "nstar",
+     "c": 0.75,
+     "target_frac": 0.5
+    },
+    "geomean_N80_pen": 1358512.4973562476,
+    "n": 50,
+    "eligible": true,
+    "n_false_streams": 0
+   }
+  ]
+ },
+ "rule": "argmin geomean N80_pen over tuning seeds among grid points with 0 false streams and billing_ok; ties -> first grid item (lock v5 rule)",
+ "code_sha256": {
+  "run_r5s_v6.py": "9175660c61c3a225f636c8e77a53ef2fedb0638cd3e2380e65ac0d891fa8ac5c",
+  "dsswm/baselines/rect_v6.py": "9e24da5cce4b9a849461631da510a76f742ad38e0695028a8dc809f2942ef579",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "c26a798e91bca79436e4a43f4d21d45fefc5425838083c776a0b3f9c2cd7f5b9",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "0cd19a7f1ac3b03c7f06d81660306c01cbab8b8f6a6d8e0dd293bd5cb9ec4fbd"
+ }
+}

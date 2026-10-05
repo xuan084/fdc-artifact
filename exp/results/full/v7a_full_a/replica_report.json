@@ -1,0 +1,73 @@
+{
+ "task_id": "v7a_full_a",
+ "status": "pass",
+ "checks": [
+  {
+   "different": [],
+   "duplicates": [],
+   "missing": [],
+   "n_compared": 10,
+   "pass": true,
+   "rule": "R1"
+  },
+  {
+   "note": "no 50/50 comparison group in this task",
+   "pass": true,
+   "rule": "R2"
+  }
+ ],
+ "is_eval": true,
+ "addendum_sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+ "code_sha256": {
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/envs/lenta_v7.py": "3d89007696037e343bdc5f61a7ce63358845cb0ee42c8db0444215955a4a05e6",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/v7_analysis.py": "01a916765a29f43c990237d664477c226fbbf36a7880f4eb1d26bc5861cf21bc",
+  "dsswm/stats/v7_replica.py": "5fc31c2f15f07218bbdb7add7c0c639747576c1ac3ed5fda8bdd02f64531d867",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058"
+ },
+ "data_sha256": "10c764db14b16a615369873190ec6386284bef8695b78a13e5c84c727c99f294",
+ "results_content_sha256": "164e0e17d2569ab979f499cc319c9720677b77c74c60686e82a444391acfc004",
+ "replica_content_sha256": "95c586efe7525a45ab77d08cc601157ee221273ce2c7a142da35d68158510450",
+ "n_rows": 200,
+ "n_replica_rows": 10,
+ "methods": [
+  "Peace-rect"
+ ],
+ "eps": [
+  0.001
+ ],
+ "seeds": [
+  33000,
+  33199,
+  200
+ ],
+ "r1_seeds": [
+  33000,
+  33001,
+  33002,
+  33003,
+  33004,
+  33005,
+  33006,
+  33007,
+  33008,
+  33009
+ ],
+ "required_rules": [
+  "R1",
+  "R2"
+ ],
+ "written_at": "2026-10-04T07:13:22.887110"
+}

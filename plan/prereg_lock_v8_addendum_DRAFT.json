@@ -1,0 +1,921 @@
+{
+ "version": "5+v8-addendum",
+ "status": "draft",
+ "written_at": "2026-10-04",
+ "written_by": "author (round 8; design approved by the authors 2026-10-04)",
+ "addendum_to": {
+  "version": 5,
+  "path": "plan/prereg_lock.json",
+  "sha256": "64196b5aeb03097730112fb915efd9639e7b77bfbe2574abed62e14256a67948",
+  "git_commit": "ad9dbbc826bef2ca12be99f8547efe197e18c29a"
+ },
+ "v6_addendum": {
+  "path": "plan/prereg_lock_v6_addendum.json",
+  "sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+  "git_commit": "1098518537f7b80ff377d87cbcc2a4506aaa4766"
+ },
+ "v7_addendum": {
+  "path": "plan/prereg_lock_v7_addendum.json",
+  "sha256": "47e195f0577e70c7d856164176ec7de165717896ed0fb839283e70cc0e1cc68f",
+  "git_commit": "bfd929bde6c850d0ef8819da6eb45b0bd2dea686",
+  "block_A_verdict": "positive_result_achieved (CR9: UB* = 0.761 < 0.80 vs RECT-ck-HG / RECT-ck-HG-live / HC-WoR; 0/200 false streams; replica pass)"
+ },
+ "v7_known_input_drift": {
+  "exp/results/full/v6_summary.md": {
+   "locked_sha256": "d94717cb9e8595bfe444bd0c200c4cd6e85b86c968a79380c7cb4df956c11906",
+   "current_sha256": "12b04a6978b66284ffb1a8c6f9b6616785b55c2faaf5fc4a546986a365147cfc",
+   "commit": "e740f421af0aef8eef4daed764a13bda3db7cea8",
+   "reason": "dated erratum line appended to v6_summary.md during the v7-r2 paper revision (FDC slower on 2/200 v6 block-A streams vs each rectangle); original sentence kept; no number of any registered result changed"
+  }
+ },
+ "statement": "Append-only addendum. It edits neither lock v5 nor the v6 / v7 addenda and cannot change their verdicts. It registers ONE confirmatory test (block A) of FDC-BF (frozen since v7, no parameter changed) on the UNTOUCHED eval half of a NEW real table (X5 RetailHero SMS-campaign RCT, blinded hashed split), against (F) three rectangles with read plans re-tuned on that table's dev half (superiority, UB95 < 0.60) and (G) two PJC-BF joint-certificate rivals, one outcome-adaptive (non-inferiority, UB95 < 1.05), plus two descriptive blocks: B (CR12 scale; outcome-exposed eval half) and C (post-hoc paired rivals on the v7 block-A CR9 streams). Disclosures: (i) the PJC family was designed AFTER the v7 eval results, in response to the two v7 reviews; (ii) X5 RetailHero was chosen AFTER v7 (Criteo has no untouched rows; MegaFon is a generated synthetic table and was rejected as 'real data'); (iii) the thresholds 0.60 and 1.05 and the decision eps 0.02 were sized from X5 dev numbers (seeds 900-949); (iv) a v7-bound input (v6_summary.md) received a dated erratum after the v7 lock (v7_known_input_drift); (v) FDC-BF remains a post-hoc method relative to v5 / v6.",
+ "primary_method": {
+  "name": "FDC-BF",
+  "module": "dsswm.baselines.fdc_bet.make_variant('FDC-BF')",
+  "variant_tuple": [
+   "bennett",
+   "HG",
+   true,
+   false,
+   [
+    0.045,
+    0.005
+   ]
+  ],
+  "delta": 0.05,
+  "current_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "v7_bound_sha256": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "no_tuning": "FDC-BF is not re-tuned on X5 (no data-fitted parameter); frozen 50/50 design",
+  "guarantee": "Theorem FDC-bet-1: FWER <= 0.05 at the K = 20 pre-specified checkpoints"
+ },
+ "rivals": {
+  "F (rectangles, superiority)": {
+   "RECT-ck-HG": "v6 exact-checkpoint HG rectangle with its own frozen read plan, X5 dev pick 'RECT-ck-HG' from {0.3, 0.4, 0.5, 0.6, 0.7, ney, ney23}",
+   "RECT-ck-HG-live": "v6, parameter-free (frozen 50/50; as registered in the approved design)",
+   "HC-WoR": "v6 time-uniform hedged-capital WoR rectangle, X5 dev pick 'HC-WoR{nstar,0.75,0.6}[ney]' from the v6 schedule grid extended by the x5tune target fractions (9 schedules) x the 7 read plans (63 configs)"
+  },
+  "G (phased adaptive joint certificates, non-inferiority)": {
+   "PJC-local": "PJC-BF local (RAGE-style phase reset) X5 dev pick 'PJC-BF[local,b=,half]' from 17 configs (16 phase-reset configs + the no-reset member b=() added after the external reviewer v8 review, round 1)",
+   "PJC-menu": "PJC-BF-M (menu-path union, all data) X5 dev pick 'PJC-BF-M[b=2,menu=0.4/0.5,proj]' from 10 configs",
+   "validity": "FWER <= 0.05 at the K checkpoints (FDC-bet-1 per phase / per menu path); dsswm/tests/test_pjc_bf.py; toy FWER 0/200 (pjc_v8/toy)",
+   "phase_activation": "REGISTERED AS IMPLEMENTED: a new phase plan is computed at its boundary checkpoint (from data up to it) and takes effect at the runner's next replan batch (<= replan_interval arrivals later; e.g. X5 eval: checkpoint 3020, replan at 3200). The arms in between follow the previous phase's count-only preference, so the phase-local counts are determined by the phase-start history and the outcome-free future arrival sequence and the certificate stays valid; the dev tuning used the same behaviour.",
+   "no_reset_member": "PJC-BF[local,b=,half] = one phase, deterministic 50/50 count tracking, joint Bennett-FPC width: it differs from FDC-BF only in the arm-assignment rule (deterministic deficit tracking vs FDC-BF's iid 50/50 draws). It is selected as PJC-local on both X5 and CR9 dev, so G-local is NOT an adaptive design; G-menu is."
+  },
+  "tuning": {
+   "task": "exp/results/pilots/pjc_v8/x5tune_v8",
+   "seeds": "X5 dev 900-949",
+   "eps": 0.02,
+   "rule": "argmin geomean N80_pen over the tuning seeds subject to 0 false streams; tie-break geomean x12; then the pre-declared grid order",
+   "tables": "exp/results/v8_gates/x9_configs.json",
+   "plans": "Neyman / sd^(2/3) matrices frozen from the X5 dev half cell variances"
+  }
+ },
+ "blocks": {
+  "A": {
+   "role": "CONFIRMATORY (the only verdict of this addendum)",
+   "table": "X5 RetailHero (HF pytorch-lifestream/retailhero-uplift, uplift_train joined with clients); eval half of the blinded split (100,393 rows): eval_labels.pkl + eval_outcome.npy",
+   "split": {
+    "salt": "dsswm-v8-2026-10-04",
+    "dev_frac": 0.5,
+    "split_rule": "dev iff int(sha256(f'{salt}|{name}|{row_key}')[:8], 16) / 2**32 < dev_frac",
+    "row_key": "client_id"
+   },
+   "x5_provenance_sha256": "bfa0f78de54495548b42154d15ed7092dd3d4615dcb2851d673b4e73a794ce36",
+   "eval_access": "dsswm.envs.x5_v8.X5LayerEnv('eval', eval_task_id): only for v8a_full* tasks passing prereg_v8.addendum_gate; file hashes checked against PROVENANCE.json",
+   "segmentation": "X9 = gender {U, F, M} x age band {<38, [38,53) or invalid, >=53} (features only)",
+   "problems": "fr.cr_problems('visit'): 15 budgets, treatment cost 1, 512 policies",
+   "K": 20,
+   "n_min": 2000,
+   "delta": 0.05,
+   "Q": 15,
+   "stop": "stop_k = 15 (N80 at 12/15 from the same trajectory)",
+   "eps": [
+    0.015,
+    0.02,
+    0.03
+   ],
+   "decision_eps": 0.02,
+   "seeds": "35000-35199 (200 new streams)",
+   "n_streams": 200,
+   "tasks": {
+    "v8a_full_a": [
+     "FDC-BF",
+     "FDC-MR[front3]",
+     "FDC",
+     "RECT-ck-HG",
+     "RECT-ck-HG-live",
+     "HC-WoR",
+     "PJC-local",
+     "PJC-menu",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "(all three eps)"
+    ],
+    "v8a_full_b": [
+     "B2-fav",
+     "B3-fav",
+     "Peace-fav",
+     "B5",
+     "B2-fav-tight",
+     "FIX-bal-fav",
+     "Peace-fav-bal",
+     "B1",
+     "B4",
+     "B4-bal",
+     "B2-rect",
+     "B3-rect",
+     "Peace-rect",
+     "Hait-SW",
+     "Molitor-WoR",
+     "QFC-pool",
+     "(eps 0.02 only, descriptive)"
+    ]
+   },
+   "F_family": [
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "HC-WoR"
+   ],
+   "G_family": [
+    "PJC-local",
+    "PJC-menu"
+   ],
+   "primary_endpoint": "N80_pen (v5 definition)",
+   "analysis": "dsswm.stats.v8_analysis.analyse_block('A'): paired FDC-BF/r geomean ratio, paired percentile bootstrap B = 10^4 seed 42 (one resample matrix for every comparator), one-sided 95% UB",
+   "decision_rule": {
+    "positive_result_achieved": "at eps 0.02: UB95(FDC-BF/r) < 0.60 for every r in F AND UB95(FDC-BF/r) < 1.05 for every r in G AND FDC-BF 0/200 false streams (whole run) AND replica pass for v8a_full_a and v8a_full_b (IUT)",
+    "positive_result_not_achieved": "otherwise; components rectangle_superiority_failed (faster_below_1 / not_faster), joint_adaptive_rival_not_inferior_failed, validity_failure, replica_fail",
+    "wording": "a pass supports 'faster than the rectangles' and 'not slower than PJC by more than 5%'; it does NOT support 'faster than PJC' (G superiority UB < 1 is descriptive only). If only the G component fails the headline must become 'joint aggregation itself (incl. its phased adaptive form) is the source of the gain'.",
+    "threshold_origin": "0.60: X5 dev UB vs F 0.350-0.360 (seeds 900-949 / 930-949, eps 0.02) plus a margin for a different 100k-row half; 1.05: worst dev UB vs G 1.042 (eps 0.01, 20 seeds), 0.97-0.98 at eps 0.02"
+   },
+   "secondary_descriptive": [
+    "eps 0.015 and 0.03: all ratios",
+    "x12 and N100_pen ratios",
+    "FDC-MR[front3]/r",
+    "RECT-ck-BF / RECT-ck-BF+box (matched Bennett rectangle: same cell inequality, aggregation only)",
+    "plug-ins (no guarantee) B2-fav, B3-fav, Peace-fav, B5, B2-fav-tight, FIX-bal-fav, Peace-fav-bal: speed AND false streams",
+    "v5 literature rivals with their v5 CR9 configs (not re-tuned on X5)",
+    "per method geomean N/tau_R, share at tau_R, false streams (CP 95% UB)"
+   ],
+   "dev_runner_check": {
+    "seeds": "X5 dev 950-999 (v8a_pilot / v8a_pilot_b, runner check; frozen picks)",
+    "FDC-BF/r": {
+     "0.015": {
+      "FDC-MR[front3]": {
+       "ratio": 0.88,
+       "ub95": 0.902
+      },
+      "FDC": {
+       "ratio": 0.665,
+       "ub95": 0.685
+      },
+      "RECT-ck-HG": {
+       "ratio": 0.463,
+       "ub95": 0.477
+      },
+      "RECT-ck-HG-live": {
+       "ratio": 0.463,
+       "ub95": 0.477
+      },
+      "HC-WoR": {
+       "ratio": 0.46,
+       "ub95": 0.473
+      },
+      "PJC-local": {
+       "ratio": 1.021,
+       "ub95": 1.042
+      },
+      "PJC-menu": {
+       "ratio": 0.976,
+       "ub95": 0.992
+      },
+      "RECT-ck-BF": {
+       "ratio": 0.404,
+       "ub95": 0.418
+      },
+      "RECT-ck-BF+box": {
+       "ratio": 0.456,
+       "ub95": 0.469
+      }
+     },
+     "0.02": {
+      "FDC-MR[front3]": {
+       "ratio": 0.828,
+       "ub95": 0.848
+      },
+      "FDC": {
+       "ratio": 0.717,
+       "ub95": 0.741
+      },
+      "RECT-ck-HG": {
+       "ratio": 0.336,
+       "ub95": 0.347
+      },
+      "RECT-ck-HG-live": {
+       "ratio": 0.336,
+       "ub95": 0.347
+      },
+      "HC-WoR": {
+       "ratio": 0.329,
+       "ub95": 0.342
+      },
+      "PJC-local": {
+       "ratio": 0.988,
+       "ub95": 1.004
+      },
+      "PJC-menu": {
+       "ratio": 0.929,
+       "ub95": 0.952
+      },
+      "RECT-ck-BF": {
+       "ratio": 0.306,
+       "ub95": 0.316
+      },
+      "RECT-ck-BF+box": {
+       "ratio": 0.306,
+       "ub95": 0.316
+      },
+      "B2-fav": {
+       "ratio": 0.586,
+       "ub95": 0.608
+      },
+      "B3-fav": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "Peace-fav": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B5": {
+       "ratio": 3.824,
+       "ub95": 4.017
+      },
+      "B2-fav-tight": {
+       "ratio": 0.807,
+       "ub95": 0.831
+      },
+      "FIX-bal-fav": {
+       "ratio": 0.807,
+       "ub95": 0.831
+      },
+      "Peace-fav-bal": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B1": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B4": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B4-bal": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B2-rect": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "B3-rect": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "Peace-rect": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "Hait-SW": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "Molitor-WoR": {
+       "ratio": 0.249,
+       "ub95": 0.257
+      },
+      "QFC-pool": {
+       "ratio": 0.676,
+       "ub95": 0.699
+      }
+     },
+     "0.03": {
+      "FDC-MR[front3]": {
+       "ratio": 0.817,
+       "ub95": 0.834
+      },
+      "FDC": {
+       "ratio": 0.877,
+       "ub95": 0.899
+      },
+      "RECT-ck-HG": {
+       "ratio": 0.249,
+       "ub95": 0.256
+      },
+      "RECT-ck-HG-live": {
+       "ratio": 0.249,
+       "ub95": 0.256
+      },
+      "HC-WoR": {
+       "ratio": 0.253,
+       "ub95": 0.26
+      },
+      "PJC-local": {
+       "ratio": 1.004,
+       "ub95": 1.025
+      },
+      "PJC-menu": {
+       "ratio": 0.972,
+       "ub95": 0.988
+      },
+      "RECT-ck-BF": {
+       "ratio": 0.209,
+       "ub95": 0.215
+      },
+      "RECT-ck-BF+box": {
+       "ratio": 0.213,
+       "ub95": 0.219
+      }
+     }
+    },
+    "decision_if_applied": {
+     "verdict": "positive_result_achieved",
+     "failing_components": [],
+     "rectangle_sub_label": null,
+     "UB_star_F": 0.3473793616675817,
+     "governing_rival_F": "RECT-ck-HG",
+     "UB_star_G": 1.0041228546282448,
+     "governing_rival_G": "PJC-local",
+     "per_rival_ub": {
+      "RECT-ck-HG": 0.3473793616675817,
+      "RECT-ck-HG-live": 0.3473793616675817,
+      "HC-WoR": 0.34170861158730254,
+      "PJC-local": 1.0041228546282448,
+      "PJC-menu": 0.9518292621560351
+     },
+     "G_superiority_descriptive": {
+      "PJC-local": false,
+      "PJC-menu": true
+     },
+     "primary_false_streams": 0,
+     "replica_status": "pass",
+     "rule": "max_r in ['RECT-ck-HG', 'RECT-ck-HG-live', 'HC-WoR'] UB95(FDC-BF/r, N80_pen, eps 0.02) < 0.6 AND max_r in ['PJC-local', 'PJC-menu'] UB95(FDC-BF/r) < 1.05 AND 0 FDC-BF false streams AND replica pass (IUT, all required)"
+    }
+   }
+  },
+  "B": {
+   "role": "DESCRIPTIVE ONLY (CR12 eval half already exposed: r5 FDC seeds 30000-30049)",
+   "layer": "CR12",
+   "half": "eval",
+   "eps": 0.001,
+   "seeds": "35200-35399",
+   "stop": "12/15",
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "HC-WoR",
+    "RECT-ck-BF+box",
+    "PJC-local",
+    "PJC-menu"
+   ],
+   "configs": "CR9-tuned (cr_configs.json); PJC picks from CR9 dev",
+   "reported": "ratios, false streams, per-checkpoint certificate time (4,096 policies)"
+  },
+  "C": {
+   "role": "DESCRIPTIVE, POST HOC, conditional on a table used three times (CR9 eval half)",
+   "layer": "CR9",
+   "half": "eval",
+   "eps": 0.001,
+   "seeds": "33000-33199 (the v7 block-A streams)",
+   "stop": "stop_k = 15",
+   "methods_new": [
+    "FDC-BF",
+    "PJC-local",
+    "PJC-menu",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "RECT-ck-HG[ney]",
+    "HC-WoR[ney]",
+    "B2-fav",
+    "B3-fav",
+    "Peace-fav",
+    "B5",
+    "B2-fav-tight",
+    "FIX-bal-fav",
+    "Peace-fav-bal"
+   ],
+   "joined_with": "git-sealed v7 block-A rows of the same streams (verified against the v7 seals)",
+   "reproduction_check": "FDC-BF re-run vs the sealed v7 FDC-BF rows on N80_pen, N100_pen, x12, cert_k, decided_pi, schedule_digest, n_cert_curve, fwer_event, n_false",
+   "own_plan_note": "CR9 dev own-plan tuning picked 50/50 for RECT-ck-HG and HC-WoR (identical to the v7 rows); the Neyman variants are descriptive"
+  }
+ },
+ "frozen_configs": {
+  "X9": {
+   "RECT-ck-HG": {
+    "plan": "0.5",
+    "pick": "RECT-ck-HG"
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.6,
+    "plan": "ney",
+    "pick": "HC-WoR{nstar,0.75,0.6}[ney]",
+    "alloc": [
+     [
+      0.500974792787,
+      0.499025207213
+     ],
+     [
+      0.503277065749,
+      0.496722934251
+     ],
+     [
+      0.504962216461,
+      0.495037783539
+     ],
+     [
+      0.502523761222,
+      0.497476238778
+     ],
+     [
+      0.504864528999,
+      0.495135471001
+     ],
+     [
+      0.512134418272,
+      0.487865581728
+     ],
+     [
+      0.504226286299,
+      0.495773713701
+     ],
+     [
+      0.503287305662,
+      0.496712694338
+     ],
+     [
+      0.503968980022,
+      0.496031019978
+     ]
+    ]
+   },
+   "PJC-local": {
+    "mode": "local",
+    "boundaries": [],
+    "rule": "half",
+    "rect": false,
+    "pick": "PJC-BF[local,b=,half]"
+   },
+   "PJC-menu": {
+    "mode": "menu",
+    "boundaries": [
+     2
+    ],
+    "rule": "proj",
+    "menu": [
+     0.4,
+     0.5
+    ],
+    "pick": "PJC-BF-M[b=2,menu=0.4/0.5,proj]"
+   },
+   "B4-bal": {
+    "share": 0.5
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   }
+  },
+  "CR": {
+   "RECT-ck-HG": {
+    "plan": "0.5",
+    "pick": "RECT-ck-HG"
+   },
+   "HC-WoR": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2,
+    "plan": "0.5",
+    "pick": "HC-WoR (v6 CR9 config)"
+   },
+   "PJC-local": {
+    "mode": "local",
+    "boundaries": [],
+    "rule": "half",
+    "rect": false,
+    "pick": "PJC-BF[local,b=,half]"
+   },
+   "PJC-menu": {
+    "mode": "menu",
+    "boundaries": [
+     2
+    ],
+    "rule": "proj",
+    "menu": [
+     0.4,
+     0.5
+    ],
+    "pick": "PJC-BF-M[b=2,menu=0.4/0.5,proj]"
+   },
+   "RECT-ck-HG[ney]": {
+    "plan": "ney",
+    "alloc": [
+     [
+      0.1,
+      0.9
+     ],
+     [
+      0.484956013278,
+      0.515043986722
+     ],
+     [
+      0.495842620947,
+      0.504157379053
+     ],
+     [
+      0.460229275175,
+      0.539770724825
+     ],
+     [
+      0.412309415215,
+      0.587690584785
+     ],
+     [
+      0.469390480309,
+      0.530609519691
+     ],
+     [
+      0.492669174561,
+      0.507330825439
+     ],
+     [
+      0.43726897343,
+      0.56273102657
+     ],
+     [
+      0.474099781865,
+      0.525900218135
+     ]
+    ]
+   },
+   "HC-WoR[ney]": {
+    "schedule": "nstar",
+    "c": 0.75,
+    "target_frac": 0.2,
+    "plan": "ney",
+    "alloc": [
+     [
+      0.1,
+      0.9
+     ],
+     [
+      0.484956013278,
+      0.515043986722
+     ],
+     [
+      0.495842620947,
+      0.504157379053
+     ],
+     [
+      0.460229275175,
+      0.539770724825
+     ],
+     [
+      0.412309415215,
+      0.587690584785
+     ],
+     [
+      0.469390480309,
+      0.530609519691
+     ],
+     [
+      0.492669174561,
+      0.507330825439
+     ],
+     [
+      0.43726897343,
+      0.56273102657
+     ],
+     [
+      0.474099781865,
+      0.525900218135
+     ]
+    ]
+   },
+   "B4-bal": {
+    "share": 0.5
+   },
+   "Hait-SW": {
+    "p_min": 0.02,
+    "gamma": 0.6666666666666666
+   },
+   "B2-rect": {
+    "explore_c": 1.0
+   }
+  }
+ },
+ "seed_manifest": {
+  "x5_dev_tuning": "900-949 (x5tune_v8; earlier feasibility on 900-949 as well)",
+  "x5_dev_runner_check": "950-999 (v8a_pilot / v8a_pilot_b; never used before this addendum)",
+  "A_eval": "35000-35199",
+  "B_eval": "35200-35399",
+  "C_eval_reused": "33000-33199 (v7 block A)",
+  "bootstrap_seed": 42,
+  "never_used_check": "2026-10-04: grep of every json/jsonl under the workspace for seed / perm_seed 35xxx: 0 hits; no code references 35000-35399 except the v8 runner / analysis",
+  "previously_used_eval": "30000-30199 (v5, v6 C), 31000-31199 (v6 A), 32000-32199 (v6 B), 33000-33199 (v7 A), 34000-34199 (v7 B)"
+ },
+ "replica_check": {
+  "implementation": "dsswm/stats/v8_replica.py + run_r5s_v8.py --task <t> --replica",
+  "R1": "independent process re-runs the first 10 seeds of each eval task; canonical rows identical",
+  "R1_excluded_fields": [
+   "sec",
+   "rs_sec_plan",
+   "rs_sec_cert",
+   "rs_sec_total"
+  ],
+  "R2": "schedule_digest identical within every (seed, eps) across each registered design group",
+  "R2_groups": {
+   "v8a_full_a": [
+    [
+     "FDC-BF",
+     "FDC-MR[front3]",
+     "FDC",
+     "RECT-ck-HG-live",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "RECT-ck-HG"
+    ],
+    [
+     "PJC-local",
+     "PJC-menu"
+    ]
+   ],
+   "v8a_full_b": [
+    [
+     "B4-bal",
+     "FIX-bal-fav",
+     "Peace-fav-bal"
+    ]
+   ],
+   "v8b_full_a": [
+    [
+     "FDC-BF",
+     "FDC-MR[front3]",
+     "FDC"
+    ]
+   ],
+   "v8b_full_b": [
+    [
+     "RECT-ck-HG",
+     "RECT-ck-HG-live",
+     "HC-WoR",
+     "RECT-ck-BF+box"
+    ],
+    [
+     "PJC-local",
+     "PJC-menu"
+    ]
+   ],
+   "v8c_full": [
+    [
+     "FDC-BF",
+     "RECT-ck-BF",
+     "RECT-ck-BF+box",
+     "FIX-bal-fav",
+     "Peace-fav-bal"
+    ],
+    [
+     "PJC-local",
+     "PJC-menu"
+    ]
+   ]
+  },
+  "R2b": "arrival_digest (arrival segments + pool record orders) identical across ALL methods of a task within every (seed, eps); also checked across the tasks of a block in the analysis",
+  "on_failure": {
+   "A": "component replica_fail -> positive_result_not_achieved",
+   "B": "flag replica_fail",
+   "C": "flag replica_fail"
+  }
+ },
+ "eval_tasks": {
+  "v8a_full_a": {
+   "block": "A",
+   "layer": "X9",
+   "seeds": "35000-35199",
+   "eps": [
+    0.015,
+    0.02,
+    0.03
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "HC-WoR",
+    "PJC-local",
+    "PJC-menu",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box"
+   ]
+  },
+  "v8a_full_b": {
+   "block": "A",
+   "layer": "X9",
+   "seeds": "35000-35199",
+   "eps": [
+    0.02
+   ],
+   "stop_k": 15,
+   "methods": [
+    "B2-fav",
+    "B3-fav",
+    "Peace-fav",
+    "B5",
+    "B2-fav-tight",
+    "FIX-bal-fav",
+    "Peace-fav-bal",
+    "B1",
+    "B4",
+    "B4-bal",
+    "B2-rect",
+    "B3-rect",
+    "Peace-rect",
+    "Hait-SW",
+    "Molitor-WoR",
+    "QFC-pool"
+   ]
+  },
+  "v8b_full_a": {
+   "block": "B",
+   "layer": "CR12",
+   "seeds": "35200-35399",
+   "eps": [
+    0.001
+   ],
+   "stop_k": null,
+   "methods": [
+    "FDC-BF",
+    "FDC-MR[front3]",
+    "FDC"
+   ]
+  },
+  "v8b_full_b": {
+   "block": "B",
+   "layer": "CR12",
+   "seeds": "35200-35399",
+   "eps": [
+    0.001
+   ],
+   "stop_k": null,
+   "methods": [
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "HC-WoR",
+    "RECT-ck-BF+box",
+    "PJC-local",
+    "PJC-menu"
+   ]
+  },
+  "v8c_full": {
+   "block": "C",
+   "layer": "CR9",
+   "seeds": "33000-33199",
+   "eps": [
+    0.001
+   ],
+   "stop_k": 15,
+   "methods": [
+    "FDC-BF",
+    "PJC-local",
+    "PJC-menu",
+    "RECT-ck-BF",
+    "RECT-ck-BF+box",
+    "RECT-ck-HG[ney]",
+    "HC-WoR[ney]",
+    "B2-fav",
+    "B3-fav",
+    "Peace-fav",
+    "B5",
+    "B2-fav-tight",
+    "FIX-bal-fav",
+    "Peace-fav-bal"
+   ]
+  }
+ },
+ "command": "cd exp/code && python run_r5s_v8.py --task <task> [--workers 4]; --task <task> --replica; --analyse A|B|C. Every step re-checks the locked v8 addendum (and through it v7, v6, v5).",
+ "eval_seal": "as v7 (v8_seal: seal committed alone at task completion + sidecar ref commit; single-commit history anchor)",
+ "threat_model": "as v6/v7: accidental drift, partial/resumed runs and post-hoc edits are detected against git history; deliberate history rewriting is out of scope. X5 blinding is PROCEDURAL: the raw csv (with all outcomes) is kept under x5_retailhero/raw for provenance; ingest_v8_fresh.py parsed the full target column and wrote the eval outcomes unreduced to eval_outcome.npy; the integrity checks (data_sha256, PROVENANCE) read that file's bytes to hash them. No eval-outcome statistic was computed, inspected or used for design, tuning or thresholds; X5LayerEnv('eval') is gated by this lock. This cannot be verified retrospectively beyond the code and git history. The v5 lock's own input manifest (e.g. plan/task_plan.json) is not re-verified by the v6/v7/v8 gate chain (inherited scope); the chain verifies the v5 lock file, v5-frozen code and every v6/v7/v8 binding.",
+ "declarations": [
+  "FDC-BF is unchanged since v7 and remains a post-hoc method relative to v5/v6.",
+  "The PJC family was designed after the v7 eval results, prompted by the v7 reviews (P0-3); its tuning used dev data only (CR9 dev 900-949, X5 dev 900-949).",
+  "X5 RetailHero was selected after v7 because Criteo has no untouched rows (criteo_uplift is a synthetic stand-in; the real 13.98M-row table is fully split into dev/eval halves already used by v5-v7) and MegaFon is documented as generated synthetic data.",
+  "The thresholds 0.60 (F) and 1.05 (G) and the decision eps 0.02 were sized from X5 dev numbers; the X5 dev runner check (950-999) was run after these were fixed and does not change them.",
+  "Rivals F and G were re-tuned on X5 dev (FDC-BF was not). RECT-ck-HG-live is not re-tuned (as in the approved design). The literature rivals keep their v5 CR9 configs (descriptive only).",
+  "Block B and C are descriptive; block C is post hoc and conditional on a table used three times.",
+  "v7_known_input_drift: v6_summary.md received a dated erratum after the v7 lock (commit e740f421); the v8 gate accepts exactly this drift and nothing else.",
+  "external reviewer v8 review round 1 (reviews/v8_review.md) changed the design before the lock: (a) the no-reset PJC member was added to the local grid and won the dev tuning on X5 and CR9; (b) R2b now hashes the schedule actually consumed by the run, and the cross-task R2b enters the replica status; (c) PROVENANCE.json and the final lock markdown are bound; (d) the delayed PJC phase activation is registered as implemented; (e) blinding wording made procedural. The X5 dev runner check (950-999) was re-run with the final code.",
+  "Timings: up to 3 runner processes x 4 workers concurrently; biased up."
+ ],
+ "code_sha256": {
+  "run_r5s_v8.py": "d9c8115f5249008d622fcc1ed2809115be7d3600f385b20b50a174ceb88f0738",
+  "run_r5s_v7.py": "bda0ccacdabefcaf598243ca950a3e72b26dd03c0314655ff7e11ca4ea6599a2",
+  "dsswm/baselines/pjc_bf.py": "d224235aa0fc70e052db8d4c788046fdf3d94482776e9e725ca80485362d04bb",
+  "dsswm/baselines/fdc_bet.py": "5ca8219405284103dd2a2decd8f132bfc7ba17b56738d5f2f0b4a6783f6fface",
+  "dsswm/baselines/fdc_mr.py": "581c123fef7599d50bd4fd6d71f22ead91d0baccede24a354b1215435da5c4ed",
+  "dsswm/baselines/plugin_r5.py": "8985cc6b245fda9a0867def5b6847665f56ef8272998cb8dee323f2e5043b17c",
+  "dsswm/baselines/b2_rect_fe.py": "386d7eb50c66c1ad5a3ee53dab64fab9b2038a6575f7f40c42365f95a10988ff",
+  "dsswm/envs/x5_v8.py": "71141c7acdc396ae1179a871a0a8b9f4aee8643ba2ed6c9ccd63f6803fe4b323",
+  "dsswm/envs/data_v8.py": "3dfcd00de1f462c02d9efa5a5f659663b57cc2fefba5867de36c3ec30c454380",
+  "dsswm/stats/prereg_v8.py": "2b4bc5392a599400d9d7faf6179a251686ccf3af167e6acb51c38ffdb267764e",
+  "dsswm/stats/v8_analysis.py": "849cc18138ebc23463d4be27e8ce425f3323e574263288ac821f53537d715566",
+  "dsswm/stats/v8_replica.py": "678d2f2b9ec56fffb2959c76b9477e55affcecd2892b53e56709a166cb9ced7c",
+  "dsswm/stats/v8_seal.py": "429c047970450c9b5af936c7be39bc42be2e31490cb046d8a71cd926d2cab28f",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/prereg_v7.py": "39b938909347b4d9632efcfad4b4408a4f6f55274989f434f8657989b11a2b19",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058",
+  "dsswm/stats/v7_seal.py": "737b777661bd326ad333595f6e43a19cc5dda4a5483c217688d426d17da324a5",
+  "build_v8_addendum_draft.py": "bb71436dbabf6b9d82d08984aca83dfdefca465457ce4e00a6789713ce14518d",
+  "run_v8_select.py": "bb47f60bd4111ce4779c6da346b3dc272fa17e20169b76442a8b084d5a91c996",
+  "run_pjc_v8dev.py": "9be6351e75d47b21aab192bcccf6b3a1c56c57b3203819b75c0b64f44a5d38bb",
+  "analyze_pjc_v8dev.py": "864d96a2a6b95889f7426730fd0233c254221c7d944b126eedaf9bda9a52cc15",
+  "ingest_v8_fresh.py": "a6efaefdf36f024fea63e61c1ff58e8c156f6b6796bb9efd1ca16f196f4c7771",
+  "dsswm/tests/test_pjc_bf.py": "71eda7a27a1f971ede183a47394343337178cc664929727490e85c7206007fc6",
+  "dsswm/tests/test_v8_addendum.py": "f2ef1f949a69b46dbf9eed180d31ba64638bf8c2bb0d7d8153dac8db09fc79e2"
+ },
+ "input_sha256": {
+  "plan/prereg_lock.json": "e8ecb8e8a4da0c5410e8e137b60c191305f6de378cc6466bd9c36075dee73a95",
+  "plan/prereg_lock_v6_addendum.json": "eee15b776c3a979d2982ecbed2c11f3d74252876ce867805bdcf89b29269f105",
+  "plan/prereg_lock_v7_addendum.json": "1f1a67d1a7edb915effca9b64360372af00c0c41db3371d19a89030d9b2d4b87",
+  "plan/prereg_lock_v8_addendum_DRAFT.md": "c391fbc79e1d52f7ff23f004d9b2d0f0081842ce5889d9bcd4708378a77de18b",
+  "plan/prereg_lock_v8_addendum.md": "6c605b8ea222ae2f0b025573d1f6a0b14aea58f827a0f503719606e5474f12cd",
+  "plan/theory/fdc_theorem.md": "48f0d583c449ff4c886de09c7a5df5253be4b13b02c77d9a5f17fde433aff822",
+  "plan/fdc_bet_exploration.md": "ad8a384c2fabbe1735b69eda504f6f68a248fc1e51c5e5a88e999c47eb5d832d",
+  "exp/results/v8_gates/x9_configs.json": "c6c8f498f1297699f3d45739da49d23b1144332816408f9330e5cd982bb91637",
+  "exp/results/v8_gates/cr_configs.json": "926ea7eee6e25e6a498d042d44f6771402525a51608ba137f2c0e4afadd0c281",
+  "exp/results/v6_gates/hc_config_cr9.json": "7fc14de22fdbffa22781d4d565edbf99943139c29f25d10c34671a9658f2598a",
+  "exp/results/pilots/pjc_v8/selection.json": "3aad02624fc13f8652f7f432be29d6e28954d94837318eb960a356718896df80",
+  "exp/results/pilots/pjc_v8/tune/results.jsonl": "88aa717e55dab4f07b2099287ae46fa5ec6a63ac72c234f49fb21ca6831ac582",
+  "exp/results/pilots/pjc_v8/x5tune_v8/results.jsonl": "63cf408e47f9dc4d87d696fbbf5530b358f9de9466d07e22812de344fb61e0ed",
+  "exp/results/pilots/pjc_v8/x5tune/results.jsonl": "0fcb622fc812bd09e8bb6ec0f56a9e0281df1bfc2dc134a3a78403748be62c2a",
+  "exp/results/pilots/pjc_v8/x5rep/results.jsonl": "fafa200a2a7dedbec91278225fb5851a1497d99ce309b31878cb09c28dd39e77",
+  "exp/results/pilots/pjc_v8/x5/results.jsonl": "27cfa50593bb01eacb80c8330735d2d4bffe60adca32bc74f5d9d9366083c9e4",
+  "exp/results/pilots/pjc_v8/analysis_x5rep.json": "380906dd50b07f25c1de522be45487ef1687eca7f23a9d1510ff7b6e6436fb34",
+  "exp/results/pilots/pjc_v8/analysis_dev.json": "4ebe952dda1a37ea37f2009a4d37f7096b05452d56f62cc9c126ebc7bf8c7e68",
+  "exp/results/pilots/pjc_v8/toy/summary.json": "18088296a78d3aa25f6eb785996beb27505c2581f590314b6442758d2fa8f1c8",
+  "exp/results/full/v7_summary.md": "7261b621c70ae03cdacd17cb61d8d85a9fe792173dd6e3e4551eba0388275a8f",
+  "exp/results/full/v7_analysis_A.json": "0d16c0f133f0800cd634614f94407e6a11e052e32e58e68af1b9b47889eca66b",
+  "exp/results/pilots/v8a_pilot/summary.json": "c24e948e7050fa3d130c73f778455e7f0af375b013c54a638053acb784131a60",
+  "exp/results/pilots/v8a_pilot_b/summary.json": "ad917f160b59a8d3856f03852bdbcd9de2bd7588e4ae7a9c9b072164c479c2b8",
+  "exp/results/pilots/v8_analysis_A_dev.json": "b14698001d7d28216b16a7e9a6461e3405d24a83671f84707b148684ba64f66b"
+ },
+ "data_sha256": {
+  "criteo_tidy": {
+   "path": "$DATA_DIR/criteo_uplift_real/tidy.pkl",
+   "sha256": "600a9a57a0e93a90c659552f482609321d97c58b1c9c90a6a391e05811546cd8"
+  },
+  "criteo_gz": {
+   "path": "$DATA_DIR/criteo_uplift_real/criteo-research-uplift-v2.1.csv.gz",
+   "sha256": "2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc"
+  },
+  "lenta_tidy": {
+   "path": "$DATA_DIR/lenta/tidy.pkl",
+   "sha256": "6d075bbc306df3512f6bc3a795c94686984b4c99da3889c91778d25325565d43"
+  },
+  "x5_dev": {
+   "path": "$DATA_DIR/x5_retailhero/dev.pkl",
+   "sha256": "3a8a5d8e35599f69461f403c36210dfa497073d9f679d1f6e039d165aa85eae4"
+  },
+  "x5_eval_labels": {
+   "path": "$DATA_DIR/x5_retailhero/eval_labels.pkl",
+   "sha256": "500fb32edaa522812adb6728df8bdbeb1fa2e6d8db0c08f750b1f1827b223eaa"
+  },
+  "x5_eval_outcome": {
+   "path": "$DATA_DIR/x5_retailhero/eval_outcome.npy",
+   "sha256": "ed0f95f4a4cbbdee8f81c9dc548bfe37e9e8b31beee9045dc7c0f62daa0e322d"
+  },
+  "x5_provenance": {
+   "path": "$DATA_DIR/x5_retailhero/PROVENANCE.json",
+   "sha256": "bfa0f78de54495548b42154d15ed7092dd3d4615dcb2851d673b4e73a794ce36"
+  }
+ },
+ "lock_procedure": "external reviewer review (<= 2 rounds) -> code-freeze commit -> prereg_v8.finalize_addendum(git_commit) -> commit the lock file alone -> eval tasks, replicas, analyses.",
+ "git_commit": null,
+ "sha256_draft": "c52fb4004d4bec0ed3f0df6c2d538eedcdf00d3701d0a29929d5b8eba2bfbee8"
+}

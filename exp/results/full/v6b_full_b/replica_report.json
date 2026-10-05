@@ -1,0 +1,86 @@
+{
+ "task_id": "v6b_full_b",
+ "status": "pass",
+ "checks": [
+  {
+   "different": [],
+   "duplicates": [],
+   "missing": [],
+   "n_compared": 270,
+   "pass": true,
+   "rule": "R1"
+  },
+  {
+   "bad": [],
+   "group": [
+    "FDC",
+    "RECT-ck-HG",
+    "RECT-ck-HG-live",
+    "RECT-ck-Bern",
+    "HC-WoR"
+   ],
+   "missing_streams": [],
+   "n_streams": 600,
+   "pass": true,
+   "rule": "R2"
+  }
+ ],
+ "is_eval": true,
+ "addendum_sha256": "9c8dc94479c575989a79faf6aa04e7449270de9c07ee2f3e73615b924f31d497",
+ "code_sha256": {
+  "run_r5s_v6.py": "f549eb047b235252099b43b44c5dce14625c6090ad8984788f9e5f4269205c0e",
+  "dsswm/baselines/rect_v6.py": "ddbc3b53ae15c04be2c5efa6a333621454dee6ed3dae7c2e3e53e8ade583fe19",
+  "dsswm/baselines/wor_betting_v6.py": "67fc47e8167cfea22bcdc8745a384e20e9ad26f92fa8de33d72fa38bd5b943c7",
+  "dsswm/streams/frontier_runner_v6.py": "63c6497c6c135731a17a453432877a6cde27cd43e24b8db0e49d5f33a40b0391",
+  "dsswm/envs/lenta_v6.py": "f19fab9f3f1b0ffb3ab1997702bceab66f912a8f670cbb6d39b7390d5d3435f7",
+  "dsswm/stats/prereg_v6.py": "8e3baa785b41a629d950b7815f3a2f3cd9bcab12bd7604ab3e374af971475da7",
+  "dsswm/stats/v6_analysis.py": "f3af5bba7203287a36ff39928f910314d7b59b6e0583213c48690bfe7c57d158",
+  "dsswm/stats/v6_replica.py": "a2c6eba94e3f390cc7092de5204e7afb2fcdab59a2b35708ae691367c8fba12c",
+  "dsswm/envs/data_v6.py": "768dd61e7ab199f0635b8bee0d0b5fde19bf9db91c1075577a8f8e00863e4c32",
+  "dsswm/stats/v6_seal.py": "0a9da874746c9733ab69916ecee23efe44e8ba09d196fc4b018806749dd31058"
+ },
+ "data_sha256": "35c3b1d9012ee57f53a3b57f108d189f4511a0772d4cd5565c41fb28fb7e8a16",
+ "results_content_sha256": "c700106061e09713cba5644a822cd2d1b19615f0b5fee5a3ac0570cfd2881eb2",
+ "replica_content_sha256": "80ed143ac2a42e3e83ebccbcaaf66ed9e97998a81dc0fb83dca867a5443ca130",
+ "v5_reference_sha256": null,
+ "n_rows": 5400,
+ "n_replica_rows": 270,
+ "methods": [
+  "FDC",
+  "B4-bal",
+  "QFC-pool",
+  "B2-rect",
+  "Hait-SW",
+  "RECT-ck-HG",
+  "RECT-ck-HG-live",
+  "RECT-ck-Bern",
+  "HC-WoR"
+ ],
+ "eps": [
+  0.002,
+  0.003,
+  0.004
+ ],
+ "seeds": [
+  32000,
+  32199,
+  200
+ ],
+ "r1_seeds": [
+  32000,
+  32001,
+  32002,
+  32003,
+  32004,
+  32005,
+  32006,
+  32007,
+  32008,
+  32009
+ ],
+ "required_rules": [
+  "R1",
+  "R2"
+ ],
+ "written_at": "2026-10-04T03:32:09.617529"
+}

@@ -1,0 +1,103 @@
+{
+ "table": {
+  "PJC-BF[local,b=0,neyman]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 198,
+   "geomean_N80_over_tau": 0.22487799050928955,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "PJC-BF[local,b=0,neyman,R]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 198,
+   "geomean_N80_over_tau": 0.22487799050928955,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "PJC-BF[local,b=2,5,8,11,neyman]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 198,
+   "geomean_N80_over_tau": 0.2987078168539217,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "PJC-BF-M[b=0,menu=0.35/0.5/0.65,proj]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 192,
+   "geomean_N80_over_tau": 0.2567922131840244,
+   "nondefault_path_streams": 23,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "PJC-BF-M[b=2,6,menu=0.35/0.5/0.65,proj]": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 193,
+   "geomean_N80_over_tau": 0.25324220614311493,
+   "nondefault_path_streams": 200,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "RECT-ck-BF": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 138,
+   "geomean_N80_over_tau": 0.41296177705234693,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "RECT-ck-BF+box": {
+   "n_streams": 200,
+   "false_streams": 0,
+   "false_certs": 0,
+   "cp_upper": 0.014867039231272054,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 153,
+   "geomean_N80_over_tau": 0.3759924354253072,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "rigorous"
+  },
+  "NAIVE-joint": {
+   "n_streams": 200,
+   "false_streams": 5,
+   "false_certs": 12,
+   "cp_upper": 0.05184333912029053,
+   "reached_stop": 200,
+   "early_stop_lt_half_tau": 195,
+   "geomean_N80_over_tau": 0.07163114474879395,
+   "nondefault_path_streams": 0,
+   "billing_ok_all": true,
+   "validity": "none"
+  }
+ },
+ "task": "toy",
+ "written_at": "2026-10-04T08:29:47.910079",
+ "toy": "r4 near-tie toy, population seeds 900-919 x perm 0-9, eps 0.02"
+}

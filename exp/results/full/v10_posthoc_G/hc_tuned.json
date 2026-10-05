@@ -1,0 +1,393 @@
+{
+ "rule": "lowest dev geomean N80_pen at the lock-v10 eps over the declared 8-config grid (nstar schedule, c in {0.5, 0.75}, target_frac in {0.2, 0.4, 0.6, 0.8}); ties -> grid order; dev seeds 950-999; selected before any G3 eval row",
+ "selected": {
+  "x5-16": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.4]",
+   "c": 0.5,
+   "tf": 0.4,
+   "eps": 0.03
+  },
+  "x5-32": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "c": 0.5,
+   "tf": 0.6,
+   "eps": 0.04
+  },
+  "x5-64": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.2]",
+   "c": 0.5,
+   "tf": 0.2,
+   "eps": 0.05
+  },
+  "lenta-16": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "c": 0.5,
+   "tf": 0.6,
+   "eps": 0.004
+  },
+  "lenta-32": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.4]",
+   "c": 0.5,
+   "tf": 0.4,
+   "eps": 0.006
+  },
+  "lenta-64": {
+   "name": "HC-WoR-DP[c=0.5,tf=0.6]",
+   "c": 0.5,
+   "tf": 0.6,
+   "eps": 0.008
+  }
+ },
+ "grid": {
+  "x5-16": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 67696.61384952889,
+    "n80_lt_tau": 8,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 67696.61384952889,
+    "n80_lt_tau": 8,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   }
+  },
+  "x5-32": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 58730.78187728321,
+    "n80_lt_tau": 46,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 58730.78187728321,
+    "n80_lt_tau": 46,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 57859.00000000003,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   }
+  },
+  "x5-64": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 69751.99999999994,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   }
+  },
+  "lenta-16": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 196918.18734112327,
+    "n80_lt_tau": 49,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 196918.18734112327,
+    "n80_lt_tau": 49,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   }
+  },
+  "lenta-32": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   }
+  },
+  "lenta-64": {
+   "HC-WoR-DP[c=0.5,tf=0.2]": {
+    "c": 0.5,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.4]": {
+    "c": 0.5,
+    "tf": 0.4,
+    "geomean_N80_pen": 215396.56279833007,
+    "n80_lt_tau": 27,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.6]": {
+    "c": 0.5,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.5,tf=0.8]": {
+    "c": 0.5,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.2]": {
+    "c": 0.75,
+    "tf": 0.2,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.4]": {
+    "c": 0.75,
+    "tf": 0.4,
+    "geomean_N80_pen": 240461.0,
+    "n80_lt_tau": 0,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.6]": {
+    "c": 0.75,
+    "tf": 0.6,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   },
+   "HC-WoR-DP[c=0.75,tf=0.8]": {
+    "c": 0.75,
+    "tf": 0.8,
+    "geomean_N80_pen": 196116.99999999953,
+    "n80_lt_tau": 50,
+    "false_streams": 0
+   }
+  }
+ },
+ "written_at": "2026-10-05T08:11:49.533491",
+ "code_sha": "02f90692448956a9"
+}

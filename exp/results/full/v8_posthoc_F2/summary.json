@@ -1,0 +1,4907 @@
+{
+ "block": "v8-posthoc-F2",
+ "status": "POST-HOC, DESCRIPTIVE, SEMI-SYNTHETIC -- outside any preregistration lock (v5-v8); not confirmatory; outcomes are synthetic",
+ "disclosure": "Run on 2026-10-05 in response to external reviewer paper_r4_review S1 / fix 2, after block F's results were known. Environments, eps, reporting seeds (950-999 + 36000-36199) and the adaptive picks are block F's (picks tuned on 900-949 without a pilot and NOT re-tuned with one); pilot sizes {0, 250, 1000}, the pilot construction, the 'init' / 'init+warm' rules and the amortisation grid J in {1, 4, 16, inf} were fixed before any F2 row was computed.  No real outcome and no evaluation half enters any statistic.",
+ "pilot": "independent with-replacement draws from the same finite pools (Bernoulli(exact pool mean) per cell), nested n in {250, 1000} per cell, drawn per stream (seeded by env and stream seed) and shared by every method on that stream; per-instance cost S*A*n = 4,500 / 18,000 reads.  A WoR prefix of the replay was NOT used: a plan computed from replay reads is not independent of the replay permutation, so the frozen-design theorem would not cover FDC-BF's full-pool estimator (valid only as a charged phase with a phase-local estimator, i.e. the PJC-A reset construction).",
+ "charging": "N80_charged = N80_pen + S*A*n / J; J = certification instances sharing one pilot (J = inf: uncharged, block F's convention).  Same for x12.",
+ "equal_information": "adaptive picks get the same per-stream pilot: 'init' = phase-0 plan is the pilot per-segment Neyman plan (global menu re-centred on it: share logistic(logit p_s + logit c)); 'init+warm' also pools pilot counts into every design-rule plug-in variance.  Certificates use replay data only; ledgers unchanged.",
+ "phasewise_TU_rival": "not implemented (not cheap); adaptive variants remain checkpoint-strength",
+ "ratio_convention": "A / B paired geomean over 250 streams; for 'FDC-BF / method' > 1 means the method is faster than frozen-50/50 FDC-BF",
+ "bootstrap": "v6 rule: B = 10^4 resamples of streams, seed 42, two-sided percentile 95% CI",
+ "envs": {
+  "X9-asym": {
+   "eps": 0.015,
+   "tau_R": 99646,
+   "picks_from_F": {
+    "reset": "PJC-A[reset,b=2,neyman]",
+    "menu": "PJC-A[menu,b=8,menu=0.3/0.4/0.5/0.6/0.7,proj]"
+   },
+   "methods": {
+    "FDC-BF[ney-pilot,n=250]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.2846562621742428,
+     "geomean_N80_over_tau_charged_J1": 0.3300502810412111,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.8927899468859001,
+      "ci95": [
+       0.8791271970462062,
+       0.9067730786655889
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8810862582773198,
+      "ci95": [
+       0.8720077782657631,
+       0.8903552092063269
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9954521534569024,
+      "ci95": [
+       0.9795052341281555,
+       1.0117839272352693
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9923184535536277,
+      "ci95": [
+       0.9816337139560009,
+       1.0032887546878104
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0249392322634452,
+      "ci95": [
+       1.008290275712125,
+       1.041896269670814
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0246770707724688,
+      "ci95": [
+       1.013479865642985,
+       1.0361074718598018
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0351627982106,
+      "ci95": [
+       1.0182674353666796,
+       1.0523388714270803
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.035939477059807,
+      "ci95": [
+       1.0245804564270924,
+       1.0475273633686517
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 4.538110663899222
+    },
+    "PJC-A-reset[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.3042745793075466,
+     "geomean_N80_over_tau_charged_J1": 0.3496540357267993,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.8427346541788381,
+      "ci95": [
+       0.8304871709572815,
+       0.8548431999950513
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8384493777897097,
+      "ci95": [
+       0.8301716934307389,
+       0.8464460092517369
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9335930009344586,
+      "ci95": [
+       0.9194608401158675,
+       0.9473940924543249
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.938494689239305,
+      "ci95": [
+       0.9288758802513692,
+       0.9476583738215913
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9594705620064041,
+      "ci95": [
+       0.9446795896757317,
+       0.973753278354698
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.967364356220727,
+      "ci95": [
+       0.9573089595082868,
+       0.9769246084903392
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9684199500038585,
+      "ci95": [
+       0.9533979469063072,
+       0.9828698885805098
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9773877668650606,
+      "ci95": [
+       0.9672057436974809,
+       0.9870798699535979
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.3055290100830194,
+     "geomean_N80_over_tau_charged_J1": 0.35091800197515133,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.8396992209630919,
+      "ci95": [
+       0.826726452569932,
+       0.8529480720510709
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8346017435568148,
+      "ci95": [
+       0.8258795194191646,
+       0.8433281772211951
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9298894526437456,
+      "ci95": [
+       0.9149438902217005,
+       0.9451404690089866
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9336722979071811,
+      "ci95": [
+       0.9235865163962355,
+       0.9436611104689759
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9555653582874608,
+      "ci95": [
+       0.9400302545135794,
+       0.9713738934281045
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9622401247526606,
+      "ci95": [
+       0.9517679932421591,
+       0.9726101683926303
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9644438438117279,
+      "ci95": [
+       0.9487023123528632,
+       0.9804465713715226
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9721565815759798,
+      "ci95": [
+       0.9615325710114658,
+       0.9826793482192129
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.30704119590799983,
+     "geomean_N80_over_tau_charged_J1": 0.35245472180069914,
+     "frac_switched": 0.24,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.8360380912901557,
+      "ci95": [
+       0.8218252152448503,
+       0.8504968889665291
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8310413553990816,
+      "ci95": [
+       0.8220124325571486,
+       0.8401422732523294
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9254531729340544,
+      "ci95": [
+       0.9089271073965007,
+       0.9421313583339374
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9292755006177252,
+      "ci95": [
+       0.9188999057729171,
+       0.9398888052233442
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9508968931527937,
+      "ci95": [
+       0.9338587624453849,
+       0.96820678557936
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9575882107600275,
+      "ci95": [
+       0.9467534504660711,
+       0.9686511996787808
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9596939329559915,
+      "ci95": [
+       0.9424775027540231,
+       0.977224728831984
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9674146894703206,
+      "ci95": [
+       0.956379972003829,
+       0.9786366832268018
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.3103432145973909,
+     "geomean_N80_over_tau_charged_J1": 0.3557699142899651,
+     "frac_switched": 0.092,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.8282475865575761,
+      "ci95": [
+       0.8148559762986056,
+       0.8421058864744386
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8269279035784762,
+      "ci95": [
+       0.8179244156489756,
+       0.8360006678717751
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9159438178560692,
+      "ci95": [
+       0.9004814170822142,
+       0.9318241670622455
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9241447456789416,
+      "ci95": [
+       0.9136439285529961,
+       0.934614650424317
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9408684140656669,
+      "ci95": [
+       0.924811247317705,
+       0.9572446226555839
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9521439595440592,
+      "ci95": [
+       0.941204775454159,
+       0.9631018592397992
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9494828919096228,
+      "ci95": [
+       0.9332174047342849,
+       0.9660322598755545
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9618595194881407,
+      "ci95": [
+       0.9507783278197341,
+       0.9730083530247494
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.2851251122138044,
+     "geomean_N80_over_tau_charged_J1": 0.4664064569076355,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.631778502455024,
+      "ci95": [
+       0.6228549273042431,
+       0.6407047638976635
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.6085137672048787,
+      "ci95": [
+       0.6028275716920495,
+       0.6141197495037458
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8915401089077442,
+      "ci95": [
+       0.878176911414891,
+       0.905224598468683
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8808624177949659,
+      "ci95": [
+       0.8724799192543505,
+       0.8893296612872036
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9938840486993357,
+      "ci95": [
+       0.9784434610098915,
+       1.0098953845808436
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9919916125328211,
+      "ci95": [
+       0.982260978056587,
+       1.001949963486636
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0334606117033316,
+      "ci95": [
+       1.0174292689300948,
+       1.0506077877704452
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0355646439555397,
+      "ci95": [
+       1.02524265543543,
+       1.0461836318541138
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 19.04162258846171
+    },
+    "PJC-A-reset[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.3035243743894183,
+     "geomean_N80_over_tau_charged_J1": 0.48476169704328687,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.607856550296191,
+      "ci95": [
+       0.5993790927315983,
+       0.6163888555128477
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.587627544680139,
+      "ci95": [
+       0.5819715260570241,
+       0.5932673614211059
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8445778658986411,
+      "ci95": [
+       0.8319805821334868,
+       0.8574516066325631
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8377018869088124,
+      "ci95": [
+       0.8292855703307672,
+       0.8460026425847899
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9358279752418807,
+      "ci95": [
+       0.9214650606571534,
+       0.9505270930667908
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9375538617562789,
+      "ci95": [
+       0.9278373573388574,
+       0.9470599047638155
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9708135416578005,
+      "ci95": [
+       0.9557541575712721,
+       0.9861105994841328
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9763654873113964,
+      "ci95": [
+       0.9661659881273246,
+       0.9864390590094351
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.30552901008301936,
+     "geomean_N80_over_tau_charged_J1": 0.48683069059527045,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.6052732060095849,
+      "ci95": [
+       0.5969361505321095,
+       0.6135641234472071
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5860879159010233,
+      "ci95": [
+       0.5802902101986408,
+       0.5919314235952022
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8396992209630919,
+      "ci95": [
+       0.8273706104171751,
+       0.8521916732062609
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8345208570145823,
+      "ci95": [
+       0.8259380978558126,
+       0.8430655928100912
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9298894526437456,
+      "ci95": [
+       0.9157310642696559,
+       0.9443159546768859
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9335427616014017,
+      "ci95": [
+       0.9236699986093145,
+       0.9432827556624843
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9644438438117279,
+      "ci95": [
+       0.9494834534230192,
+       0.9796401473368482
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9720041366205575,
+      "ci95": [
+       0.9616005648095216,
+       0.9823072080920185
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.30754692598254857,
+     "geomean_N80_over_tau_charged_J1": 0.48894760645785584,
+     "frac_switched": 0.108,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.6026526543715842,
+      "ci95": [
+       0.5945095883314822,
+       0.6108101745835471
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.584971974460913,
+      "ci95": [
+       0.5794714969912573,
+       0.5905972383317907
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.834815767204963,
+      "ci95": [
+       0.8225184041773729,
+       0.8473359828225033
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8324086573106089,
+      "ci95": [
+       0.8241672544092805,
+       0.8407603305721723
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9239772226161042,
+      "ci95": [
+       0.9097520388553798,
+       0.9384602870376944
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9309747516626231,
+      "ci95": [
+       0.9214662925514793,
+       0.9405677291556414
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9581158125351574,
+      "ci95": [
+       0.9432532107892478,
+       0.9732126005293944
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9692518967036217,
+      "ci95": [
+       0.9591544764313807,
+       0.9793827549412353
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.30881480694241054,
+     "geomean_N80_over_tau_charged_J1": 0.49019940778175347,
+     "frac_switched": 0.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.6011136859872555,
+      "ci95": [
+       0.5932002047555207,
+       0.6090657874906086
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5852864942375829,
+      "ci95": [
+       0.5797743195724385,
+       0.5907221448852988
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8318417280560766,
+      "ci95": [
+       0.8200871718310793,
+       0.8438265984502888
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8329675528478923,
+      "ci95": [
+       0.82497777416599,
+       0.8409342803251628
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9203231665310143,
+      "ci95": [
+       0.9068534524877232,
+       0.9340239392495481
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9316358466594927,
+      "ci95": [
+       0.9223458934253181,
+       0.9407874727601474
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.954182138473076,
+      "ci95": [
+       0.9401535907891762,
+       0.9684197585679817
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9699526047935264,
+      "ci95": [
+       0.9601586171566407,
+       0.9795559321895381
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,F fixed env pilot n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.28418821048799886,
+     "geomean_N80_over_tau_charged_J1": 0.46538572541381995,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.6331641835779206,
+      "ci95": [
+       0.6244573219841166,
+       0.642088724923303
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.6058891406320105,
+      "ci95": [
+       0.6003444720302662,
+       0.6115713416934401
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8941554010134267,
+      "ci95": [
+       0.8809783668626442,
+       0.9077343082164078
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.875405892838566,
+      "ci95": [
+       0.8670627174434813,
+       0.8839424218914692
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9970629281992995,
+      "ci95": [
+       0.9817997100291439,
+       1.0126978642365687
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.98509355915558,
+      "ci95": [
+       0.9753172160125432,
+       0.9950920629474536
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.036867688404347,
+      "ci95": [
+       1.0207839329768602,
+       1.0532051415484391
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0280566806084874,
+      "ci95": [
+       1.0176793812508922,
+       1.0386856866363527
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 17.32578555733707
+    },
+    "PJC-A-reset[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.30628414956974187,
+     "geomean_N80_over_tau_charged_J1": 0.30628414956974187,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9620660203748582,
+      "ci95": [
+       0.9471420153498277,
+       0.9772250524025278
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9688671282147912,
+      "ci95": [
+       0.9589436333582085,
+       0.9787115503613837
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9620660203748582,
+      "ci95": [
+       0.9471420153498277,
+       0.9772250524025278
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9688671282147912,
+      "ci95": [
+       0.9589436333582085,
+       0.9787115503613837
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9620660203748582,
+      "ci95": [
+       0.9471420153498277,
+       0.9772250524025278
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9688671282147912,
+      "ci95": [
+       0.9589436333582085,
+       0.9787115503613837
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9620660203748582,
+      "ci95": [
+       0.9471420153498277,
+       0.9772250524025278
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9688671282147912,
+      "ci95": [
+       0.9589436333582085,
+       0.9787115503613837
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.29225081691257493,
+     "geomean_N80_over_tau_charged_J1": 0.29225081691257493,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0082626149462801,
+      "ci95": [
+       0.9918062057653844,
+       1.0249926481433351
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0095229533754841,
+      "ci95": [
+       0.9998501973787347,
+       1.019371436437098
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0082626149462801,
+      "ci95": [
+       0.9918062057653844,
+       1.0249926481433351
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0095229533754841,
+      "ci95": [
+       0.9998501973787347,
+       1.019371436437098
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0082626149462801,
+      "ci95": [
+       0.9918062057653844,
+       1.0249926481433351
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0095229533754841,
+      "ci95": [
+       0.9998501973787347,
+       1.019371436437098
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0082626149462801,
+      "ci95": [
+       0.9918062057653844,
+       1.0249926481433351
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0095229533754841,
+      "ci95": [
+       0.9998501973787347,
+       1.019371436437098
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    }
+   },
+   "head_to_head": {
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9439338526585591,
+      "ci95": [
+       0.932056603781803,
+       0.955473044549367
+      ]
+     },
+     "J4": {
+      "ratio": 0.9378582362722048,
+      "ci95": [
+       0.924628695313608,
+       0.9505840064841682
+      ]
+     },
+     "J16": {
+      "ratio": 0.9361243396718631,
+      "ci95": [
+       0.9225056320242113,
+       0.9491862785945298
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.935524297895834,
+      "ci95": [
+       0.9217710016368518,
+       0.9487023451465176
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9405339115790994,
+      "ci95": [
+       0.9296397674904181,
+       0.9513904865883813
+      ]
+     },
+     "J4": {
+      "ratio": 0.9341377678620941,
+      "ci95": [
+       0.9223011416937043,
+       0.9460753959367035
+      ]
+     },
+     "J16": {
+      "ratio": 0.9323141589352754,
+      "ci95": [
+       0.9202174145457745,
+       0.9445558758107505
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9316832535702422,
+      "ci95": [
+       0.9194972953689265,
+       0.944030240009192
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 1.0775950420707545,
+      "ci95": [
+       1.0625463181614283,
+       1.0924784038647575
+      ]
+     },
+     "J4": {
+      "ratio": 0.9664613382309694,
+      "ci95": [
+       0.9523352078103442,
+       0.9804646270435156
+      ]
+     },
+     "J16": {
+      "ratio": 0.9386566443068631,
+      "ci95": [
+       0.9248769375452373,
+       0.9525563059446394
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9293862009317779,
+      "ci95": [
+       0.9157223876490019,
+       0.9432533972502364
+      ]
+     },
+     "breakeven_J": 2.0997398337540623
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9364331377232707,
+      "ci95": [
+       0.9245426024996641,
+       0.947899226355107
+      ]
+     },
+     "J4": {
+      "ratio": 0.9296812204587003,
+      "ci95": [
+       0.9165326855179199,
+       0.9423017935082499
+      ]
+     },
+     "J16": {
+      "ratio": 0.9277592887656971,
+      "ci95": [
+       0.914253495061012,
+       0.940706080003063
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9270946894681056,
+      "ci95": [
+       0.9134649600698054,
+       0.94015411816604
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9277071157068344,
+      "ci95": [
+       0.9169779448363168,
+       0.9382931215094038
+      ]
+     },
+     "J4": {
+      "ratio": 0.9201284207134166,
+      "ci95": [
+       0.9084742070918903,
+       0.931848350870655
+      ]
+     },
+     "J16": {
+      "ratio": 0.9179748266518016,
+      "ci95": [
+       0.9060655584394249,
+       0.9300181212056532
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9172305008940768,
+      "ci95": [
+       0.9052336104375772,
+       0.9293856482916694
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 1.1293391222237157,
+      "ci95": [
+       1.1156966344161154,
+       1.1432641325400215
+      ]
+     },
+     "J4": {
+      "ratio": 1.012868987670468,
+      "ci95": [
+       1.0001535988494037,
+       1.0258696525266062
+      ]
+     },
+     "J16": {
+      "ratio": 0.9837291648204967,
+      "ci95": [
+       0.9710111521032314,
+       0.9966599187201867
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9740135722508382,
+      "ci95": [
+       0.9612750327588488,
+       0.9869211459964318
+      ]
+     },
+     "breakeven_J": 5.981342914395574
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9621355394875344,
+      "ci95": [
+       0.9541714805446647,
+       0.9700570892318531
+      ]
+     },
+     "J4": {
+      "ratio": 0.9473245874864361,
+      "ci95": [
+       0.9365070131421592,
+       0.95821579646987
+      ]
+     },
+     "J16": {
+      "ratio": 0.9415866734822527,
+      "ci95": [
+       0.9297040931989071,
+       0.9536055528094893
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9393812697493356,
+      "ci95": [
+       0.9270950544865052,
+       0.9518301168842641
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9580465363375893,
+      "ci95": [
+       0.9499919619327178,
+       0.9658930153218911
+      ]
+     },
+     "J4": {
+      "ratio": 0.9418524333042467,
+      "ci95": [
+       0.9306858428991369,
+       0.9526563177566271
+      ]
+     },
+     "J16": {
+      "ratio": 0.9356116076726075,
+      "ci95": [
+       0.923151038674978,
+       0.9475462747098711
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9332178051973831,
+      "ci95": [
+       0.920255391000784,
+       0.9455849730459498
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 1.5227900547998579,
+      "ci95": [
+       1.5036775043368533,
+       1.5422411480698195
+      ]
+     },
+     "J4": {
+      "ratio": 1.0791057079344615,
+      "ci95": [
+       1.0642555247060024,
+       1.0941673832782297
+      ]
+     },
+     "J16": {
+      "ratio": 0.967986176691218,
+      "ci95": [
+       0.9540223033419518,
+       0.9821675054058898
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.930916969142344,
+      "ci95": [
+       0.9172310750395672,
+       0.9448071318209917
+      ]
+     },
+     "breakeven_J": 8.58383646323975
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9538986401559093,
+      "ci95": [
+       0.9460325221000906,
+       0.9617111475334216
+      ]
+     },
+     "J4": {
+      "ratio": 0.9363748852844365,
+      "ci95": [
+       0.9256824822215652,
+       0.9471159373930272
+      ]
+     },
+     "J16": {
+      "ratio": 0.9296629962270585,
+      "ci95": [
+       0.917930940584345,
+       0.9415217827425816
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.927094658166031,
+      "ci95": [
+       0.9149690812872351,
+       0.9393806530157672
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9514627098759957,
+      "ci95": [
+       0.944036654756687,
+       0.9588645030176863
+      ]
+     },
+     "J4": {
+      "ratio": 0.9330390408068056,
+      "ci95": [
+       0.9229593806526925,
+       0.9431041242656542
+      ]
+     },
+     "J16": {
+      "ratio": 0.9259864545923762,
+      "ci95": [
+       0.9149997023464206,
+       0.9370668380633779
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9232883456491001,
+      "ci95": [
+       0.9119624312347222,
+       0.934754547132934
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 1.5959115592383706,
+      "ci95": [
+       1.5789059615524572,
+       1.6126214385326172
+      ]
+     },
+     "J4": {
+      "ratio": 1.1309223274110871,
+      "ci95": [
+       1.1184052445154957,
+       1.1430287674462425
+      ]
+     },
+     "J16": {
+      "ratio": 1.0144670459957188,
+      "ci95": [
+       1.0027200429316323,
+       1.0257976381276364
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9756178450618254,
+      "ci95": [
+       0.9644434307504854,
+       0.9869212768109652
+      ]
+     },
+     "breakeven_J": 25.495669428690558
+    }
+   },
+   "repro_vs_F": {
+    "n_checked": 30,
+    "n_different": 0,
+    "pass": true
+   }
+  },
+  "X9-mixed": {
+   "eps": 0.02,
+   "tau_R": 99646,
+   "picks_from_F": {
+    "reset": "PJC-A[reset,b=2,dirseg]",
+    "menu": "PJC-A[menu,b=8,menu=0.3/0.4/0.5/0.6/0.7,proj]"
+   },
+   "methods": {
+    "FDC-BF[ney-pilot,n=250]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.22870139107447626,
+     "geomean_N80_over_tau_charged_J1": 0.2740345553974374,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.826370629845282,
+      "ci95": [
+       0.8162731085694048,
+       0.8364932378248592
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.8151281587407087,
+      "ci95": [
+       0.8083873532581376,
+       0.8218897654685922
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9433973538266214,
+      "ci95": [
+       0.9313594179868286,
+       0.9554143668458773
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9429968045948331,
+      "ci95": [
+       0.9349055669287433,
+       0.9509982594458358
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9780480741832005,
+      "ci95": [
+       0.9653369524837832,
+       0.9908756578467288
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9815133252045358,
+      "ci95": [
+       0.9729304452889247,
+       0.9899890332741911
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9901737242577928,
+      "ci95": [
+       0.9772229796113823,
+       1.0032957466997
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9950638474542832,
+      "ci95": [
+       0.9862684308211431,
+       1.0036958470091644
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.2516057613841453,
+     "geomean_N80_over_tau_charged_J1": 0.2970042522623273,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.7624608281471266,
+      "ci95": [
+       0.7508267088990174,
+       0.7743868688789844
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.7535778358284025,
+      "ci95": [
+       0.7457435214780671,
+       0.7614636278085289
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.861163015323257,
+      "ci95": [
+       0.8473501815541944,
+       0.8752798883542979
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8615099235437972,
+      "ci95": [
+       0.8523125309672148,
+       0.8707399823387049
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8899900436146696,
+      "ci95": [
+       0.875529070121968,
+       0.9047113927475207
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.8935181850770297,
+      "ci95": [
+       0.8839288315633804,
+       0.903220272528557
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9000354638040565,
+      "ci95": [
+       0.8853452912138932,
+       0.9149698861629628
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9047244295224603,
+      "ci95": [
+       0.8949992101062539,
+       0.9146154675139168
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.2507790354242947,
+     "geomean_N80_over_tau_charged_J1": 0.2961782508211126,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.7645872291950536,
+      "ci95": [
+       0.7534883704412276,
+       0.7760543410906647
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.7540328298686566,
+      "ci95": [
+       0.7458896817853099,
+       0.762291094983418
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8638781992070793,
+      "ci95": [
+       0.8507147864109014,
+       0.8774440092207518
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.862125097588301,
+      "ci95": [
+       0.8525583069341874,
+       0.8719457752586715
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8928909449896799,
+      "ci95": [
+       0.8791035534895841,
+       0.9069504193206678
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.8941864152951954,
+      "ci95": [
+       0.8841386664163975,
+       0.9044964787707868
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9030025486780139,
+      "ci95": [
+       0.8889950917076228,
+       0.9172313150836892
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9054118522965741,
+      "ci95": [
+       0.8952384219468482,
+       0.9159316804563641
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.2432594703421368,
+     "geomean_N80_over_tau_charged_J1": 0.2886376232196875,
+     "frac_switched": 0.02,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.7845619902807807,
+      "ci95": [
+       0.7735642703033273,
+       0.7955591998313782
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.7703776013718963,
+      "ci95": [
+       0.7636323979862042,
+       0.7772558247008399
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8894111102135969,
+      "ci95": [
+       0.8763918962044177,
+       0.9024301067291122
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8835984197413161,
+      "ci95": [
+       0.8756150995965177,
+       0.8916524659710838
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9201787313251045,
+      "ci95": [
+       0.9066584568605031,
+       0.933841193121316
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9173216679134292,
+      "ci95": [
+       0.9089405839862063,
+       0.9257970123043868
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9309158974351605,
+      "ci95": [
+       0.9172293368617793,
+       0.9448063138698619
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9291443491441086,
+      "ci95": [
+       0.9206181817206579,
+       0.937749023388119
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.04515986592537583,
+     "geomean_N80_over_tau_uncharged": 0.24325944649733192,
+     "geomean_N80_over_tau_charged_J1": 0.2886441729929454,
+     "frac_switched": 0.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.7845441873814882,
+      "ci95": [
+       0.7736763271934874,
+       0.7954812022036569
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.770200376115419,
+      "ci95": [
+       0.7634126908918639,
+       0.7770631776949546
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.889404640761239,
+      "ci95": [
+       0.8764369297733168,
+       0.902441724054767
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.88337007306488,
+      "ci95": [
+       0.8754163186859353,
+       0.8914483508662795
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.920177002568369,
+      "ci95": [
+       0.9066557673725574,
+       0.9338483768980906
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9170770931406538,
+      "ci95": [
+       0.9087781989002284,
+       0.9255349503307119
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9309159886855035,
+      "ci95": [
+       0.9172294267705368,
+       0.9448065355116416
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.928893980765415,
+      "ci95": [
+       0.9204458680844667,
+       0.93749468910706
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.22682721336349287,
+     "geomean_N80_over_tau_charged_J1": 0.4079592246602532,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.5550900542370191,
+      "ci95": [
+       0.5485639686698798,
+       0.5616558620732066
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5291799040473818,
+      "ci95": [
+       0.5246319189633724,
+       0.5337360430835618
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8320188171181007,
+      "ci95": [
+       0.8215760804007857,
+       0.8424483881644995
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8162047103605214,
+      "ci95": [
+       0.8093582613195952,
+       0.8229235480855954
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9508046973307296,
+      "ci95": [
+       0.9382975524372356,
+       0.9632874159520135
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9444407310582631,
+      "ci95": [
+       0.9362995419413744,
+       0.9524885974576948
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9983551126215933,
+      "ci95": [
+       0.9852966177200526,
+       1.011586183201502
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9966729476129694,
+      "ci95": [
+       0.9879347678652659,
+       1.005296021594488
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.25098545574673187,
+     "geomean_N80_over_tau_charged_J1": 0.43228575978185585,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.5238528057399523,
+      "ci95": [
+       0.5167033069219821,
+       0.531186195620316
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5018857057132113,
+      "ci95": [
+       0.4968237010109931,
+       0.5069710148949901
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.7640507391889388,
+      "ci95": [
+       0.7525211320492203,
+       0.7759302090857539
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.7529167069629685,
+      "ci95": [
+       0.7452094018337172,
+       0.7607010023082096
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8631970320150409,
+      "ci95": [
+       0.8494733518275308,
+       0.8773249996087494
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.8606400417439452,
+      "ci95": [
+       0.8517255424740795,
+       0.8697144931622485
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9022598838223748,
+      "ci95": [
+       0.8875334663400791,
+       0.9172310453568878
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.90376254326782,
+      "ci95": [
+       0.894318463104412,
+       0.9133966229957549
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.2511921444666246,
+     "geomean_N80_over_tau_charged_J1": 0.4324248540068612,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.5236843027055958,
+      "ci95": [
+       0.5162546503356283,
+       0.5311826635633266
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5021179809109725,
+      "ci95": [
+       0.4968733629231294,
+       0.5073853672785639
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.763583930765682,
+      "ci95": [
+       0.7516103272639988,
+       0.7759312996695419
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.7533904208723643,
+      "ci95": [
+       0.7452507524501201,
+       0.7615173287435236
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8625414976750885,
+      "ci95": [
+       0.8482801649090567,
+       0.8770960540461739
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.8612300671172101,
+      "ci95": [
+       0.8517187810294984,
+       0.870712194945224
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9015174762889155,
+      "ci95": [
+       0.8860741202467768,
+       0.9172300488451632
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9044001117281982,
+      "ci95": [
+       0.894332851943423,
+       0.9145007475921563
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.24648313844181635,
+     "geomean_N80_over_tau_charged_J1": 0.4277283711750658,
+     "frac_switched": 0.004,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.5294343873450152,
+      "ci95": [
+       0.5227136215318604,
+       0.5364492169087812
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5083536275814458,
+      "ci95": [
+       0.5037421587741454,
+       0.5130431417825215
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.7758881261961306,
+      "ci95": [
+       0.7650427200556298,
+       0.7870953900146349
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.7676472574174695,
+      "ci95": [
+       0.760740486190449,
+       0.7746785480132792
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8782883679419654,
+      "ci95": [
+       0.8653417545947218,
+       0.8915180294428462
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.8799906974849289,
+      "ci95": [
+       0.8718956337541894,
+       0.8882104218830678
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9187407689415144,
+      "ci95": [
+       0.9052327021537881,
+       0.932450313537185
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.925147712232838,
+      "ci95": [
+       0.9164912438493603,
+       0.9338473021713081
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.24628042100242886,
+     "geomean_N80_over_tau_charged_J1": 0.42751994779502983,
+     "frac_switched": 0.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.5296924957796902,
+      "ci95": [
+       0.5229180359126101,
+       0.536657639469903
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5084204905847836,
+      "ci95": [
+       0.503808252914874,
+       0.5131225865233258
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.7764329280060329,
+      "ci95": [
+       0.7655733265032654,
+       0.7875347723163859
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.7677955692819642,
+      "ci95": [
+       0.7608329518319165,
+       0.7748225287346874
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.8789814440291183,
+      "ci95": [
+       0.8659240854995157,
+       0.8921116758851085
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.880183293878148,
+      "ci95": [
+       0.8721132880763438,
+       0.8884038784293382
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9194969994830354,
+      "ci95": [
+       0.9052346500654687,
+       0.9332177081415466
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9253595709199526,
+      "ci95": [
+       0.9167045556609547,
+       0.9341001661218759
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,F fixed env pilot n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.18063946370150333,
+     "geomean_N80_over_tau_uncharged": 0.22851331817949488,
+     "geomean_N80_over_tau_charged_J1": 0.4096005917199011,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.552865676273264,
+      "ci95": [
+       0.5463430391221401,
+       0.5593317958546349
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.5273511777319217,
+      "ci95": [
+       0.5227520166084069,
+       0.5319660889127623
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.8269427311339805,
+      "ci95": [
+       0.8168038134497378,
+       0.8371065243094242
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.8118128672920731,
+      "ci95": [
+       0.8048645581259297,
+       0.8186432074409375
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9441374852362872,
+      "ci95": [
+       0.9320868508866528,
+       0.956227787307492
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9385360245918817,
+      "ci95": [
+       0.9303215558997665,
+       0.9465813811063828
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9909886651126159,
+      "ci95": [
+       0.9780271944962691,
+       1.0041217132043885
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9900860433886566,
+      "ci95": [
+       0.9812181821805251,
+       0.998705297894336
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-reset[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.2503668021103095,
+     "geomean_N80_over_tau_charged_J1": 0.2503668021103095,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9044893581513185,
+      "ci95": [
+       0.890458662435159,
+       0.9187416447778931
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9040126625943797,
+      "ci95": [
+       0.8943995983989415,
+       0.9135247907719303
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9044893581513185,
+      "ci95": [
+       0.890458662435159,
+       0.9187416447778931
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9040126625943797,
+      "ci95": [
+       0.8943995983989415,
+       0.9135247907719303
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9044893581513185,
+      "ci95": [
+       0.890458662435159,
+       0.9187416447778931
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9040126625943797,
+      "ci95": [
+       0.8943995983989415,
+       0.9135247907719303
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9044893581513185,
+      "ci95": [
+       0.890458662435159,
+       0.9187416447778931
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9040126625943797,
+      "ci95": [
+       0.8943995983989415,
+       0.9135247907719303
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.24366004907832775,
+     "geomean_N80_over_tau_charged_J1": 0.24366004907832775,
+     "frac_switched": 0.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9293854655276516,
+      "ci95": [
+       0.9172293887215451,
+       0.9417019065242039
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9298914093337759,
+      "ci95": [
+       0.9241820153311141,
+       0.9356571591749321
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9293854655276516,
+      "ci95": [
+       0.9172293887215451,
+       0.9417019065242039
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9298914093337759,
+      "ci95": [
+       0.9241820153311141,
+       0.9356571591749321
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9293854655276516,
+      "ci95": [
+       0.9172293887215451,
+       0.9417019065242039
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9298914093337759,
+      "ci95": [
+       0.9241820153311141,
+       0.9356571591749321
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9293854655276516,
+      "ci95": [
+       0.9172293887215451,
+       0.9417019065242039
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9298914093337759,
+      "ci95": [
+       0.9241820153311141,
+       0.9356571591749321
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    }
+   },
+   "head_to_head": {
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9226620605936576,
+      "ci95": [
+       0.9112433884612766,
+       0.9343086192398291
+      ]
+     },
+     "J4": {
+      "ratio": 0.9128317053574463,
+      "ci95": [
+       0.9000147397591834,
+       0.9258581332654524
+      ]
+     },
+     "J16": {
+      "ratio": 0.9099655396366165,
+      "ci95": [
+       0.8967431838486221,
+       0.9233897963932165
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9089672264114043,
+      "ci95": [
+       0.8956040017908319,
+       0.922530025590094
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9252352414051843,
+      "ci95": [
+       0.9142396216440102,
+       0.9368079855493688
+      ]
+     },
+     "J4": {
+      "ratio": 0.9157097968348168,
+      "ci95": [
+       0.9035057304649204,
+       0.9287435176243659
+      ]
+     },
+     "J16": {
+      "ratio": 0.9129315506657093,
+      "ci95": [
+       0.9003835112530305,
+       0.9263908612809152
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9119637560114816,
+      "ci95": [
+       0.8992953824727986,
+       0.9255710830143019
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 1.09453231453865,
+      "ci95": [
+       1.0802834994786215,
+       1.1094722065049958
+      ]
+     },
+     "J4": {
+      "ratio": 0.9587575738711968,
+      "ci95": [
+       0.9456994383946952,
+       0.9722634960413651
+      ]
+     },
+     "J16": {
+      "ratio": 0.9247902859035705,
+      "ci95": [
+       0.9120093813197804,
+       0.9378170818210663
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9134653202692276,
+      "ci95": [
+       0.9007768893184691,
+       0.9263332081023226
+      ]
+     },
+     "breakeven_J": 2.0932066281897472
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9494069149428399,
+      "ci95": [
+       0.9396124911021309,
+       0.9586955790730779
+      ]
+     },
+     "J4": {
+      "ratio": 0.9427746501577042,
+      "ci95": [
+       0.9317327717531653,
+       0.9532159987005758
+      ]
+     },
+     "J16": {
+      "ratio": 0.9408318012318315,
+      "ci95": [
+       0.9294261253069305,
+       0.9516078753124181
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9401541109697185,
+      "ci95": [
+       0.9286218942764466,
+       0.9510467199592416
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9493853714626515,
+      "ci95": [
+       0.9399080411609154,
+       0.9585873565401113
+      ]
+     },
+     "J4": {
+      "ratio": 0.9427677925464001,
+      "ci95": [
+       0.9323390848968632,
+       0.9531815047371718
+      ]
+     },
+     "J16": {
+      "ratio": 0.940830033673793,
+      "ci95": [
+       0.9301355853582258,
+       0.9515989810244729
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9401542031256108,
+      "ci95": [
+       0.9293658295536932,
+       0.9510466267356419
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 1.1246593622303067,
+      "ci95": [
+       1.109638462732896,
+       1.139570700989408
+      ]
+     },
+     "J4": {
+      "ratio": 0.9851474161527647,
+      "ci95": [
+       0.9714842360158943,
+       0.9986602400011567
+      ]
+     },
+     "J16": {
+      "ratio": 0.950245177164539,
+      "ci95": [
+       0.9370510218533956,
+       0.9635396926629645
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9386084913779079,
+      "ci95": [
+       0.9255704479295194,
+       0.951829821958064
+      ]
+     },
+     "breakeven_J": 3.0320656391634397
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9437258004198925,
+      "ci95": [
+       0.9355205936008578,
+       0.9519137222612245
+      ]
+     },
+     "J4": {
+      "ratio": 0.9183094462159093,
+      "ci95": [
+       0.9066559755795154,
+       0.9299403645240222
+      ]
+     },
+     "J16": {
+      "ratio": 0.9078594525651412,
+      "ci95": [
+       0.895020956288617,
+       0.9208269852663445
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9037464449429413,
+      "ci95": [
+       0.8904589094475568,
+       0.917231521841802
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9434222406045611,
+      "ci95": [
+       0.9353746384888874,
+       0.9513800335070691
+      ]
+     },
+     "J4": {
+      "ratio": 0.9177483910887262,
+      "ci95": [
+       0.9062847208699806,
+       0.9292038803579536
+      ]
+     },
+     "J16": {
+      "ratio": 0.907170000418141,
+      "ci95": [
+       0.8943986354948895,
+       0.9200742406465614
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.903002814220693,
+      "ci95": [
+       0.8897268132703537,
+       0.9164764089203836
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 1.6294461614783478,
+      "ci95": [
+       1.609100812334657,
+       1.650342041795128
+      ]
+     },
+     "J4": {
+      "ratio": 1.087102045701607,
+      "ci95": [
+       1.072250713556418,
+       1.1025096328047788
+      ]
+     },
+     "J16": {
+      "ratio": 0.9512882726500659,
+      "ci95": [
+       0.937583888465648,
+       0.9655149545786222
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9059795925481952,
+      "ci95": [
+       0.8926600276112504,
+       0.9194985955114628
+      ]
+     },
+     "breakeven_J": 7.708571321350423
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9537810726454683,
+      "ci95": [
+       0.9466471857681305,
+       0.960928898310513
+      ]
+     },
+     "J4": {
+      "ratio": 0.9325367530551865,
+      "ci95": [
+       0.9222863857702487,
+       0.9428767061437447
+      ]
+     },
+     "J16": {
+      "ratio": 0.9237316248096532,
+      "ci95": [
+       0.9121981307879816,
+       0.9354027835320287
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9202544839270481,
+      "ci95": [
+       0.9082188190652704,
+       0.93244982823073
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9542460574397461,
+      "ci95": [
+       0.9471479240844219,
+       0.9613974037190458
+      ]
+     },
+     "J4": {
+      "ratio": 0.9331915481135354,
+      "ci95": [
+       0.9229402660707695,
+       0.9435567706661648
+      ]
+     },
+     "J16": {
+      "ratio": 0.9244605611402147,
+      "ci95": [
+       0.9129207795161933,
+       0.9361462471808373
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9210119604321119,
+      "ci95": [
+       0.9089661839228679,
+       0.9332173422377504
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 1.67429673515788,
+      "ci95": [
+       1.652529706955358,
+       1.6961225593241
+      ]
+     },
+     "J4": {
+      "ratio": 1.1170245749330574,
+      "ci95": [
+       1.1015159221567656,
+       1.1325605591369206
+      ]
+     },
+     "J16": {
+      "ratio": 0.9774725221034246,
+      "ci95": [
+       0.9634063848602408,
+       0.9916832725605099
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9309167186885702,
+      "ci95": [
+       0.9172308551036991,
+       0.9448069894438426
+      ]
+     },
+     "breakeven_J": 10.78132281028681
+    }
+   },
+   "repro_vs_F": {
+    "n_checked": 30,
+    "n_different": 0,
+    "pass": true
+   }
+  },
+  "CR9-asym": {
+   "eps": 0.001,
+   "tau_R": 6989793,
+   "picks_from_F": {
+    "reset": "PJC-A[reset,b=2,neyman]",
+    "menu": "PJC-A[menu,b=8,menu=0.3/0.4/0.5/0.6/0.7,proj]"
+   },
+   "methods": {
+    "FDC-BF[ney-pilot,n=250]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.21364978825197362,
+     "geomean_N80_over_tau_charged_J1": 0.21430454279288333,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1556067125810847,
+      "ci95": [
+       1.1329770609602938,
+       1.1798757860699398
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.1571091552168744,
+      "ci95": [
+       1.1409089385574471,
+       1.173811659869072
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.158260760902982,
+      "ci95": [
+       1.1355927831642825,
+       1.1826007257547766
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1601465701470426,
+      "ci95": [
+       1.1438836910062524,
+       1.1769022742352684
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1589262129592959,
+      "ci95": [
+       1.1362486385750479,
+       1.1832839616487327
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.1609084504318725,
+      "ci95": [
+       1.1446434426835863,
+       1.177677112083763
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1591482033017586,
+      "ci95": [
+       1.1364674086535216,
+       1.1835118927161419
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1611626359176803,
+      "ci95": [
+       1.1448969207095572,
+       1.1779357709757412
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.22019186740882157,
+     "geomean_N80_over_tau_charged_J1": 0.22084576777939677,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1213788277593624,
+      "ci95": [
+       1.0960659313530658,
+       1.1472862287511116
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.119853477688483,
+      "ci95": [
+       1.1014426127895827,
+       1.1387074957353016
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.1238745500072647,
+      "ci95": [
+       1.0984648488014082,
+       1.1498745348002253
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1226968626373195,
+      "ci95": [
+       1.1042385860579986,
+       1.1416633935285965
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1245002462225002,
+      "ci95": [
+       1.099066246829238,
+       1.1505234687665855
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.123409995564792,
+      "ci95": [
+       1.1049367232038894,
+       1.1424047272762554
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1247089690568413,
+      "ci95": [
+       1.0992668683262874,
+       1.1507399335137236
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.123647910509153,
+      "ci95": [
+       1.1051686202688387,
+       1.1426520560407056
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.2199629782048163,
+     "geomean_N80_over_tau_charged_J1": 0.22061699889879374,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.122541641959714,
+      "ci95": [
+       1.0972091816784586,
+       1.1484905093439657
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.1202140196216983,
+      "ci95": [
+       1.1018870157494467,
+       1.1391305241053118
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.125043009377117,
+      "ci95": [
+       1.0996085688303594,
+       1.151073680443742
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.123059124607971,
+      "ci95": [
+       1.1046444514780323,
+       1.1420116443039232
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1256701233666244,
+      "ci95": [
+       1.1002100818596947,
+       1.151721323065313
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.1237726895111553,
+      "ci95": [
+       1.1053400524261683,
+       1.1427550602470118
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1258793193710894,
+      "ci95": [
+       1.1004107413833284,
+       1.1519373682457688
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.12401074862299,
+      "ci95": [
+       1.1055721163234067,
+       1.1430030834710423
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-menu[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.22646271604841336,
+     "geomean_N80_over_tau_charged_J1": 0.2271162317709189,
+     "frac_switched": 0.192,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.090418620708143,
+      "ci95": [
+       1.0680260034343205,
+       1.11329396502724
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.082045387237757,
+      "ci95": [
+       1.0658668105683073,
+       1.0983532987071605
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0927769025981229,
+      "ci95": [
+       1.0702948017646845,
+       1.1157345706908517
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0846978504778875,
+      "ci95": [
+       1.0684363398273071,
+       1.101071161390508
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0933680929137441,
+      "ci95": [
+       1.0708635352078433,
+       1.116346421823754
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0853630238847942,
+      "ci95": [
+       1.0690883690611122,
+       1.101749625528775
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.09356530076736,
+      "ci95": [
+       1.0710532568146942,
+       1.1165505205868396
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0855849318643593,
+      "ci95": [
+       1.0693075867979063,
+       1.1019759681219192
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-menu[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.226698368332758,
+     "geomean_N80_over_tau_charged_J1": 0.2273519278708804,
+     "frac_switched": 0.192,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.089288182014998,
+      "ci95": [
+       1.066885197670711,
+       1.112176419710518
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.081625579458793,
+      "ci95": [
+       1.0653692195078808,
+       1.0979888172944101
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.091641729496245,
+      "ci95": [
+       1.0691745624676685,
+       1.1145847348611408
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0842758226656821,
+      "ci95": [
+       1.0679864767164104,
+       1.1007114101466096
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0922317315263892,
+      "ci95": [
+       1.0697484624932414,
+       1.1151884679759119
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0849404383320553,
+      "ci95": [
+       1.0686394369030725,
+       1.1013912351174937
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0924285428669787,
+      "ci95": [
+       1.0699398920788206,
+       1.1153898745883561
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.085162160154117,
+      "ci95": [
+       1.0688573430904225,
+       1.1016178723530288
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "FDC-BF[ney-pilot,n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.2116592824700169,
+     "geomean_N80_over_tau_charged_J1": 0.2142792728071647,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1557429934482952,
+      "ci95": [
+       1.131069080563309,
+       1.1810653646292908
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.15173890014911,
+      "ci95": [
+       1.1351355593841976,
+       1.168655767316819
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.166438918447546,
+      "ci95": [
+       1.1413143545494784,
+       1.1921447581053837
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1638785048528744,
+      "ci95": [
+       1.147015916132421,
+       1.1810570095818191
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1691444763995018,
+      "ci95": [
+       1.1439051446497261,
+       1.194947782570188
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.166954068925982,
+      "ci95": [
+       1.1500207133960567,
+       1.1842226059441074
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1700491719429225,
+      "ci95": [
+       1.1447714075707294,
+       1.1958851003958504
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1679829239174637,
+      "ci95": [
+       1.1510316536055152,
+       1.1852919967911455
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.22019186659166298,
+     "geomean_N80_over_tau_charged_J1": 0.22280853488566527,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1115003665149519,
+      "ci95": [
+       1.0866621161523022,
+       1.137057116012115
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.107924420490011,
+      "ci95": [
+       1.0900773968621875,
+       1.1266191678093778
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.1213769748015832,
+      "ci95": [
+       1.0960879469699905,
+       1.1472878287080546
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1191400001613876,
+      "ci95": [
+       1.1010554227151286,
+       1.1380900372772669
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1238740866891348,
+      "ci95": [
+       1.0984703760404633,
+       1.1498749278552252
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.1219799251732945,
+      "ci95": [
+       1.1038148841203885,
+       1.141009890540841
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.124708973230772,
+      "ci95": [
+       1.0992668799538605,
+       1.1507399349459901
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1229298140590618,
+      "ci95": [
+       1.1047482789018601,
+       1.1419872276943661
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.22019186644627106,
+     "geomean_N80_over_tau_charged_J1": 0.22280982088952178,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1114939512063622,
+      "ci95": [
+       1.0863428900969776,
+       1.1372854753264676
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.1083922549812064,
+      "ci95": [
+       1.090808989976153,
+       1.1266703113761847
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.1213753300136728,
+      "ci95": [
+       1.0960065581207437,
+       1.1473460558923099
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1196156015337457,
+      "ci95": [
+       1.1017576123915316,
+       1.1381813364684212
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1238736733975034,
+      "ci95": [
+       1.0984499313174536,
+       1.1498895399671383
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.122457492486745,
+      "ci95": [
+       1.104526441326206,
+       1.141066817165212
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1247089739734133,
+      "ci95": [
+       1.0992668542953323,
+       1.1507399478415403
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1234080388468795,
+      "ci95": [
+       1.1054525238249813,
+       1.142044814510868
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-menu[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.2259921470872887,
+     "geomean_N80_over_tau_charged_J1": 0.22860231741864878,
+     "frac_switched": 0.016,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0833300859962043,
+      "ci95": [
+       1.0600123798649441,
+       1.1071152593321882
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0834784349661102,
+      "ci95": [
+       1.0672647882657698,
+       1.099609447642688
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0926868996932375,
+      "ci95": [
+       1.0691024804836642,
+       1.1167800283255336
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0941989681107496,
+      "ci95": [
+       1.0778128690764608,
+       1.1105676614063758
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0950517650773934,
+      "ci95": [
+       1.0713997601116916,
+       1.11922299180235
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0969127478559872,
+      "ci95": [
+       1.0805000972919743,
+       1.1133252487793883
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0958423616924255,
+      "ci95": [
+       1.072167761537212,
+       1.120039721768094
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0978203725109297,
+      "ci95": [
+       1.081390607157298,
+       1.1142539746537734
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-menu[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.22575722891784297,
+     "geomean_N80_over_tau_charged_J1": 0.22836722162632775,
+     "frac_switched": 0.012,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0844453351247736,
+      "ci95": [
+       1.061149173853082,
+       1.1082340584084571
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0836371059330274,
+      "ci95": [
+       1.0675123412372618,
+       1.0997991283390107
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0938208654988892,
+      "ci95": [
+       1.0702235512286198,
+       1.1179336306707757
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0943607036673952,
+      "ci95": [
+       1.0779609772797327,
+       1.1107122340924895
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0961904841967636,
+      "ci95": [
+       1.0725168015630748,
+       1.1203855028455891
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0970752634989989,
+      "ci95": [
+       1.080622722343582,
+       1.1135005537351188
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.096982671940048,
+      "ci95": [
+       1.073283436415966,
+       1.1212052114689213
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0979831494432264,
+      "ci95": [
+       1.0815129913184527,
+       1.1144364874883823
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "FDC-BF[ney-pilot,F fixed env pilot n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.2099055174948061,
+     "geomean_N80_over_tau_charged_J1": 0.21252613106391013,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1652767918388511,
+      "ci95": [
+       1.1399028185625595,
+       1.1920467210957404
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.15557023922219,
+      "ci95": [
+       1.1377068784768571,
+       1.1737556683498243
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.1761533393029415,
+      "ci95": [
+       1.1506706051931619,
+       1.2033238325690514
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1677950927447025,
+      "ci95": [
+       1.1496186498874383,
+       1.1862219275967956
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1789048654272447,
+      "ci95": [
+       1.153394942674348,
+       1.2061773229147967
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.170892417336665,
+      "ci95": [
+       1.1526660730191347,
+       1.1894014630912433
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.179824957170096,
+      "ci95": [
+       1.154305947241763,
+       1.2071315538089573
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.17192856648387,
+      "ci95": [
+       1.1536914184500906,
+       1.1904524982444389
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.21973432759613643,
+     "geomean_N80_over_tau_charged_J1": 0.21973432759613643,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.1270508841169833,
+      "ci95": [
+       1.1015558062713684,
+       1.153136046434195
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.1265847248468877,
+      "ci95": [
+       1.1088269370005108,
+       1.1445867482185512
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.1270508841169833,
+      "ci95": [
+       1.1015558062713684,
+       1.153136046434195
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1265847248468877,
+      "ci95": [
+       1.1088269370005108,
+       1.1445867482185512
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.1270508841169833,
+      "ci95": [
+       1.1015558062713684,
+       1.153136046434195
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.1265847248468877,
+      "ci95": [
+       1.1088269370005108,
+       1.1445867482185512
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.1270508841169833,
+      "ci95": [
+       1.1015558062713684,
+       1.153136046434195
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1265847248468877,
+      "ci95": [
+       1.1088269370005108,
+       1.1445867482185512
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.22481999329814314,
+     "geomean_N80_over_tau_charged_J1": 0.22481999329814314,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.101555802733501,
+      "ci95": [
+       1.0788792527502313,
+       1.1247089749303372
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.1014716149703554,
+      "ci95": [
+       1.0863691077217599,
+       1.1168343008913966
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.101555802733501,
+      "ci95": [
+       1.0788792527502313,
+       1.1247089749303372
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.1014716149703554,
+      "ci95": [
+       1.0863691077217599,
+       1.1168343008913966
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.101555802733501,
+      "ci95": [
+       1.0788792527502313,
+       1.1247089749303372
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.1014716149703554,
+      "ci95": [
+       1.0863691077217599,
+       1.1168343008913966
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.101555802733501,
+      "ci95": [
+       1.0788792527502313,
+       1.1247089749303372
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.1014716149703554,
+      "ci95": [
+       1.0863691077217599,
+       1.1168343008913966
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    }
+   },
+   "head_to_head": {
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9703810263049845,
+      "ci95": [
+       0.9534278461208904,
+       0.9876295384091504
+      ]
+     },
+     "J4": {
+      "ratio": 0.9703122025225912,
+      "ci95": [
+       0.9533204972929749,
+       0.9876052216919651
+      ]
+     },
+     "J16": {
+      "ratio": 0.9702949451381467,
+      "ci95": [
+       0.9532935858576952,
+       0.9875991286280935
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9702891880893061,
+      "ci95": [
+       0.9532846068327651,
+       0.987597085321529
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9713872632779029,
+      "ci95": [
+       0.9544093949049558,
+       0.9886590505154197
+      ]
+     },
+     "J4": {
+      "ratio": 0.9713210076287414,
+      "ci95": [
+       0.9543098631653544,
+       0.9886333564752402
+      ]
+     },
+     "J16": {
+      "ratio": 0.9713043943429731,
+      "ci95": [
+       0.9542849107470136,
+       0.9886269146933498
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.971298852177914,
+      "ci95": [
+       0.9542765638740817,
+       0.9886247749759195
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 0.975289319321864,
+      "ci95": [
+       0.9582127283129038,
+       0.9926229150388308
+      ]
+     },
+     "J4": {
+      "ratio": 0.9730545332799952,
+      "ci95": [
+       0.9560053908864943,
+       0.9903958953531034
+      ]
+     },
+     "J16": {
+      "ratio": 0.9724958082008348,
+      "ci95": [
+       0.955453530069711,
+       0.9898391148710698
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9723095639596833,
+      "ci95": [
+       0.9552695715216608,
+       0.9896535039902425
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.943589725498096,
+      "ci95": [
+       0.929989278592821,
+       0.9563965791154913
+      ]
+     },
+     "J4": {
+      "ratio": 0.9434636305439478,
+      "ci95": [
+       0.9298356431766078,
+       0.9562969346514831
+      ]
+     },
+     "J16": {
+      "ratio": 0.9434320155049817,
+      "ci95": [
+       0.929797123691643,
+       0.9562719500649534
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9434214690169989,
+      "ci95": [
+       0.9297842674302627,
+       0.9562636230242235
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9426115045507462,
+      "ci95": [
+       0.9280765535921293,
+       0.9554103300957547
+      ]
+     },
+     "J4": {
+      "ratio": 0.9424835635847659,
+      "ci95": [
+       0.9279084627260232,
+       0.9553048541265943
+      ]
+     },
+     "J16": {
+      "ratio": 0.9424514859642327,
+      "ci95": [
+       0.9278663118939342,
+       0.9552784032943358
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.942440785186283,
+      "ci95": [
+       0.9278522669682939,
+       0.9552695974943078
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 0.9532272448237521,
+      "ci95": [
+       0.9374935140778586,
+       0.9682099066118303
+      ]
+     },
+     "J4": {
+      "ratio": 0.9510430120025186,
+      "ci95": [
+       0.9353473437318868,
+       0.9659949601026564
+      ]
+     },
+     "J16": {
+      "ratio": 0.9504969258747711,
+      "ci95": [
+       0.9348107775169724,
+       0.9654411948801348
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9503148946750646,
+      "ci95": [
+       0.934631911527997,
+       0.9652566069840642
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9617193206585315,
+      "ci95": [
+       0.9460500148269412,
+       0.9776231897943918
+      ]
+     },
+     "J4": {
+      "ratio": 0.9613679354029634,
+      "ci95": [
+       0.9455534921935719,
+       0.9774405051119291
+      ]
+     },
+     "J16": {
+      "ratio": 0.9612790458115308,
+      "ci95": [
+       0.9454278889718732,
+       0.9773943666310222
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9612493219948518,
+      "ci95": [
+       0.9453858909331918,
+       0.9773789256939451
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9617137698495487,
+      "ci95": [
+       0.9460338577494071,
+       0.977636803559118
+      ]
+     },
+     "J4": {
+      "ratio": 0.9613665253094864,
+      "ci95": [
+       0.9455494132221629,
+       0.9774439737505135
+      ]
+     },
+     "J16": {
+      "ratio": 0.9612786923123356,
+      "ci95": [
+       0.9454268735338365,
+       0.9773952347501743
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9612493226295613,
+      "ci95": [
+       0.945385892072017,
+       0.9773789300759844
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 0.9751743168732474,
+      "ci95": [
+       0.959235491420117,
+       0.9904200432400452
+      ]
+     },
+     "J4": {
+      "ratio": 0.9662322358182408,
+      "ci95": [
+       0.9503250999671851,
+       0.9814026338816448
+      ]
+     },
+     "J16": {
+      "ratio": 0.9639962441492689,
+      "ci95": [
+       0.9480971171413667,
+       0.9791476703064689
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9632508711112213,
+      "ci95": [
+       0.94735441566276,
+       0.978395972017623
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9373451469205638,
+      "ci95": [
+       0.9239690892135238,
+       0.9499494326185066
+      ]
+     },
+     "J4": {
+      "ratio": 0.9367716409424439,
+      "ci95": [
+       0.9232743257732464,
+       0.949484136562215
+      ]
+     },
+     "J16": {
+      "ratio": 0.9366265565823958,
+      "ci95": [
+       0.9230985475192054,
+       0.9493664015038542
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.936578041308065,
+      "ci95": [
+       0.9230397658046161,
+       0.9493270392378514
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9383101098361006,
+      "ci95": [
+       0.9249323896051037,
+       0.9509237849388815
+      ]
+     },
+     "J4": {
+      "ratio": 0.9377438014111302,
+      "ci95": [
+       0.9242355458682119,
+       0.950468584894626
+      ]
+     },
+     "J16": {
+      "ratio": 0.9376005329748405,
+      "ci95": [
+       0.9240592236578781,
+       0.9503534062835359
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9375526244922305,
+      "ci95": [
+       0.9240002613294764,
+       0.9503148899382039
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 0.953114843851988,
+      "ci95": [
+       0.9384466296741264,
+       0.9670695466140335
+      ]
+     },
+     "J4": {
+      "ratio": 0.944375042115021,
+      "ci95": [
+       0.9297780119539772,
+       0.958220112891234
+      ]
+     },
+     "J16": {
+      "ratio": 0.9421896309392429,
+      "ci95": [
+       0.9276103475084885,
+       0.9560072541726399
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9414611190265748,
+      "ci95": [
+       0.9268877524865661,
+       0.955269589782447
+      ]
+     },
+     "breakeven_J": 1.0
+    }
+   },
+   "repro_vs_F": {
+    "n_checked": 30,
+    "n_different": 0,
+    "pass": true
+   }
+  },
+  "CR9-mixed": {
+   "eps": 0.00075,
+   "tau_R": 6989793,
+   "picks_from_F": {
+    "reset": "PJC-A[reset,b=2,neyman]",
+    "menu": "PJC-A[menu,b=8,menu=0.3/0.4/0.5/0.6/0.7,dirproj]"
+   },
+   "methods": {
+    "FDC-BF[ney-pilot,n=250]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.2309822897481865,
+     "geomean_N80_over_tau_charged_J1": 0.23163688007314365,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.030919657143756,
+      "ci95": [
+       1.0139051006193338,
+       1.0481945917601359
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0331355172109058,
+      "ci95": [
+       1.0222119548924766,
+       1.0440634548274805
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.033109251665219,
+      "ci95": [
+       1.016059583265851,
+       1.0504386963744237
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0356424520206085,
+      "ci95": [
+       1.0246850675381718,
+       1.0466117397728558
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0336581313411597,
+      "ci95": [
+       1.0165996666533856,
+       1.0510012531379633
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.036271120174591,
+      "ci95": [
+       1.025308204883275,
+       1.047265653129795
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0338412232694973,
+      "ci95": [
+       1.0167798188101276,
+       1.0511889112488781
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0364808487541142,
+      "ci95": [
+       1.0255159997330865,
+       1.0474777204942887
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.23805509471406758,
+     "geomean_N80_over_tau_charged_J1": 0.23871025713298802,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0003718141605331,
+      "ci95": [
+       0.9818209603221018,
+       1.0192395015449087
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0008726322539578,
+      "ci95": [
+       0.9882899027979142,
+       1.0129436636947358
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.002435244104591,
+      "ci95": [
+       0.9838441847954552,
+       1.0213691548217554
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0032235071505482,
+      "ci95": [
+       0.9906053484453082,
+       1.0153413151180462
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.002952458054778,
+      "ci95": [
+       0.9843513219746121,
+       1.0219029848146568
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0038129803735254,
+      "ci95": [
+       0.9911854871749715,
+       1.0159412894712798
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0031249836248228,
+      "ci95": [
+       0.9845204764352955,
+       1.0220810520847594
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0040096279089403,
+      "ci95": [
+       0.9913790199943527,
+       1.016141410073468
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.23780763743597627,
+     "geomean_N80_over_tau_charged_J1": 0.23846304174537014,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.001408902775983,
+      "ci95": [
+       0.9828582863394747,
+       1.0202678709396678
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0010588877623774,
+      "ci95": [
+       0.9886620483220443,
+       1.0131444757627035
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0034773816638793,
+      "ci95": [
+       0.9848718801134846,
+       1.0224238764553608
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0034104390270322,
+      "ci95": [
+       0.9909463687660605,
+       1.015541413493672
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.003995864002126,
+      "ci95": [
+       0.9853765914386274,
+       1.0229643310281233
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0040000819618051,
+      "ci95": [
+       0.9915244619488383,
+       1.0161376359820247
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0041688129177317,
+      "ci95": [
+       0.9855449512107151,
+       1.0231446031337748
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0041967861231402,
+      "ci95": [
+       0.9917173120997655,
+       1.01633653481574
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-menu[pilot n=250,init]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.24079418535318176,
+     "geomean_N80_over_tau_charged_J1": 0.24145014340139503,
+     "frac_switched": 0.076,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9890199675295567,
+      "ci95": [
+       0.9717513619927444,
+       1.005621786141093
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9873184079624545,
+      "ci95": [
+       0.9769477721720458,
+       0.9976213554228965
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9910392379638454,
+      "ci95": [
+       0.9736871365107034,
+       1.0076702816539644
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.989606295382583,
+      "ci95": [
+       0.9792009637616574,
+       0.9999224584551638
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9915453717882112,
+      "ci95": [
+       0.9741723035962411,
+       1.0081837373007068
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9901799522339982,
+      "ci95": [
+       0.9797667851081138,
+       1.000499896083893
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9917142003931667,
+      "ci95": [
+       0.9743341526132764,
+       1.0083550107088677
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9903713214413842,
+      "ci95": [
+       0.9799546661081521,
+       1.0006957492746666
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=250,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 4500,
+     "pilot_over_tau": 0.0006437958892344881,
+     "geomean_N80_over_tau_uncharged": 0.24079418535318176,
+     "geomean_N80_over_tau_charged_J1": 0.24145014340139503,
+     "frac_switched": 0.076,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9890199675295567,
+      "ci95": [
+       0.9717513619927444,
+       1.005621786141093
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9873184079624545,
+      "ci95": [
+       0.9769477721720458,
+       0.9976213554228965
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9910392379638454,
+      "ci95": [
+       0.9736871365107034,
+       1.0076702816539644
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.989606295382583,
+      "ci95": [
+       0.9792009637616574,
+       0.9999224584551638
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9915453717882112,
+      "ci95": [
+       0.9741723035962411,
+       1.0081837373007068
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9901799522339982,
+      "ci95": [
+       0.9797667851081138,
+       1.000499896083893
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9917142003931667,
+      "ci95": [
+       0.9743341526132764,
+       1.0083550107088677
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9903713214413842,
+      "ci95": [
+       0.9799546661081521,
+       1.0006957492746666
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.2331545123997749,
+     "geomean_N80_over_tau_charged_J1": 0.23577760777816412,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0128146401906546,
+      "ci95": [
+       0.9961219509439523,
+       1.0297419512300658
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0208051326097858,
+      "ci95": [
+       1.010149928347763,
+       1.031433430971786
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0213361497357105,
+      "ci95": [
+       1.0044865857470002,
+       1.0384569034975595
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0306677373039528,
+      "ci95": [
+       1.019792797064236,
+       1.041475700451899
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0234894443181868,
+      "ci95": [
+       1.0066002535283696,
+       1.0406591434061498
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0331637607488133,
+      "ci95": [
+       1.022265720619464,
+       1.0439994697605277
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0242092701916123,
+      "ci95": [
+       1.0073068212109115,
+       1.0413953365033268
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0339985045188331,
+      "ci95": [
+       1.0230973636724134,
+       1.044836342294906
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.23805509455688062,
+     "geomean_N80_over_tau_charged_J1": 0.24067672138374857,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9921982134952716,
+      "ci95": [
+       0.9737921627569025,
+       1.010721502161071
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9927086663760367,
+      "ci95": [
+       0.9800659110577192,
+       1.0048963714995929
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0003703468578307,
+      "ci95": [
+       0.9818158727845955,
+       1.0192168520490412
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0020247116037373,
+      "ci95": [
+       0.9892361312837784,
+       1.01440401087491
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0024348754706822,
+      "ci95": [
+       0.9838429063356644,
+       1.0213634768094255
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0043815555806872,
+      "ci95": [
+       0.9915494129236618,
+       1.0168036609662303
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0031249842871826,
+      "ci95": [
+       0.9845204781814646,
+       1.0220810473269315
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.0051696763886109,
+      "ci95": [
+       0.9923229507662295,
+       1.0175961006667378
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 3.5246224404084936
+    },
+    "PJC-A-reset[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.23879901333213926,
+     "geomean_N80_over_tau_charged_J1": 0.24142119276033572,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.989138568393686,
+      "ci95": [
+       0.9698523826764114,
+       1.0078761116115953
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9913144012905126,
+      "ci95": [
+       0.9787066529523836,
+       1.0033698336482235
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9972618832490376,
+      "ci95": [
+       0.9777660273933787,
+       1.016118803484584
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.0006024520581966,
+      "ci95": [
+       0.9879187685907065,
+       1.0128656653284414
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9993140320916521,
+      "ci95": [
+       0.9797650395696166,
+       1.0182010077490828
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.002952165971508,
+      "ci95": [
+       0.9902111060319433,
+       1.0152616947936965
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9999999985540786,
+      "ci95": [
+       0.9804332316325329,
+       1.0188970269889985
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.003737898200357,
+      "ci95": [
+       0.9909776212900933,
+       1.0160667122048634
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.24280602340412122,
+     "geomean_N80_over_tau_charged_J1": 0.2454270823248032,
+     "frac_switched": 0.004,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9729937329036211,
+      "ci95": [
+       0.9561415592511808,
+       0.9893602279011979
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.975648676131157,
+      "ci95": [
+       0.9652548794058315,
+       0.9860489200812252
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9808496113575265,
+      "ci95": [
+       0.963710688541889,
+       0.9973182215856107
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9846403486830246,
+      "ci95": [
+       0.9741138229791181,
+       0.9951885733230933
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9828338406894286,
+      "ci95": [
+       0.9656221441040793,
+       0.9993281706682441
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9869146334832949,
+      "ci95": [
+       0.9763655590406223,
+       0.9974922851805199
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9834970716084858,
+      "ci95": [
+       0.9662610305987593,
+       0.9999999960444884
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9876751019882815,
+      "ci95": [
+       0.977118494589563,
+       0.9982684268308374
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[pilot n=1000,init+warm]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.24280602340412122,
+     "geomean_N80_over_tau_charged_J1": 0.2454270823248032,
+     "frac_switched": 0.004,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.9729937329036211,
+      "ci95": [
+       0.9561415592511808,
+       0.9893602279011979
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.975648676131157,
+      "ci95": [
+       0.9652548794058315,
+       0.9860489200812252
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.9808496113575265,
+      "ci95": [
+       0.963710688541889,
+       0.9973182215856107
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9846403486830246,
+      "ci95": [
+       0.9741138229791181,
+       0.9951885733230933
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.9828338406894286,
+      "ci95": [
+       0.9656221441040793,
+       0.9993281706682441
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9869146334832949,
+      "ci95": [
+       0.9763655590406223,
+       0.9974922851805199
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.9834970716084858,
+      "ci95": [
+       0.9662610305987593,
+       0.9999999960444884
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9876751019882815,
+      "ci95": [
+       0.977118494589563,
+       0.9982684268308374
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "FDC-BF[ney-pilot,F fixed env pilot n=1000]": {
+     "false_streams": 0,
+     "pilot_reads": 18000,
+     "pilot_over_tau": 0.0025751835569379523,
+     "geomean_N80_over_tau_uncharged": 0.23170410521497162,
+     "geomean_N80_over_tau_charged_J1": 0.23432725514670208,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0190833876210983,
+      "ci95": [
+       1.002291537245924,
+       1.0367920329892404
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.0227066142386207,
+      "ci95": [
+       1.012066010566644,
+       1.0333113374404568
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0277113405464735,
+      "ci95": [
+       1.0107577381386053,
+       1.0459240235458855
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.032613541837208,
+      "ci95": [
+       1.0218580251381875,
+       1.0433639784332442
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0298916748887923,
+      "ci95": [
+       1.0128971179150437,
+       1.0482327517266248
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.0351208931891112,
+      "ci95": [
+       1.0243077799484588,
+       1.045938630088395
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0306205527316854,
+      "ci95": [
+       1.013612296729252,
+       1.0490046168323666
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.035959435375461,
+      "ci95": [
+       1.0251234842095123,
+       1.046792469549599
+      ]
+     },
+     "breakeven_J_vs_FDCBF": 1.0
+    },
+    "PJC-A-reset[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.23805509381187787,
+     "geomean_N80_over_tau_charged_J1": 0.23805509381187787,
+     "frac_switched": 1.0,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 1.0031249874265016,
+      "ci95": [
+       0.9855449490219023,
+       1.0210186135610697
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 1.004453804100651,
+      "ci95": [
+       0.9922191940304689,
+       1.0163425184747223
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 1.0031249874265016,
+      "ci95": [
+       0.9855449490219023,
+       1.0210186135610697
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 1.004453804100651,
+      "ci95": [
+       0.9922191940304689,
+       1.0163425184747223
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 1.0031249874265016,
+      "ci95": [
+       0.9855449490219023,
+       1.0210186135610697
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 1.004453804100651,
+      "ci95": [
+       0.9922191940304689,
+       1.0163425184747223
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 1.0031249874265016,
+      "ci95": [
+       0.9855449490219023,
+       1.0210186135610697
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 1.004453804100651,
+      "ci95": [
+       0.9922191940304689,
+       1.0163425184747223
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    },
+    "PJC-A-menu[no pilot]": {
+     "false_streams": 0,
+     "pilot_reads": 0,
+     "pilot_over_tau": 0.0,
+     "geomean_N80_over_tau_uncharged": 0.258978551145952,
+     "geomean_N80_over_tau_charged_J1": 0.258978551145952,
+     "frac_switched": 0.856,
+     "FDCBF_over_method_N80_J1": {
+      "ratio": 0.922080272401691,
+      "ci95": [
+       0.9049788676466709,
+       0.9395048375860771
+      ]
+     },
+     "FDCBF_over_method_x12_J1": {
+      "ratio": 0.9288390958976669,
+      "ci95": [
+       0.9180581987061939,
+       0.9394636439868206
+      ]
+     },
+     "FDCBF_over_method_N80_J4": {
+      "ratio": 0.922080272401691,
+      "ci95": [
+       0.9049788676466709,
+       0.9395048375860771
+      ]
+     },
+     "FDCBF_over_method_x12_J4": {
+      "ratio": 0.9288390958976669,
+      "ci95": [
+       0.9180581987061939,
+       0.9394636439868206
+      ]
+     },
+     "FDCBF_over_method_N80_J16": {
+      "ratio": 0.922080272401691,
+      "ci95": [
+       0.9049788676466709,
+       0.9395048375860771
+      ]
+     },
+     "FDCBF_over_method_x12_J16": {
+      "ratio": 0.9288390958976669,
+      "ci95": [
+       0.9180581987061939,
+       0.9394636439868206
+      ]
+     },
+     "FDCBF_over_method_N80_Jinf": {
+      "ratio": 0.922080272401691,
+      "ci95": [
+       0.9049788676466709,
+       0.9395048375860771
+      ]
+     },
+     "FDCBF_over_method_x12_Jinf": {
+      "ratio": 0.9288390958976669,
+      "ci95": [
+       0.9180581987061939,
+       0.9394636439868206
+      ]
+     },
+     "breakeven_J_vs_FDCBF": null
+    }
+   },
+   "head_to_head": {
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9703683572511771,
+      "ci95": [
+       0.9563818152504601,
+       0.9845504721841492
+      ]
+     },
+     "J4": {
+      "ratio": 0.9703090379732966,
+      "ci95": [
+       0.9562932391159796,
+       0.9845279987585528
+      ]
+     },
+     "J16": {
+      "ratio": 0.970294169459547,
+      "ci95": [
+       0.9562710357486638,
+       0.9845223718184474
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9702892098386877,
+      "ci95": [
+       0.9562636343906632,
+       0.9845204878084971
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.971374341188202,
+      "ci95": [
+       0.9563884556863604,
+       0.9855777940217266
+      ]
+     },
+     "J4": {
+      "ratio": 0.9713177769402632,
+      "ci95": [
+       0.9562949057393579,
+       0.9855531870145346
+      ]
+     },
+     "J16": {
+      "ratio": 0.9713035998657048,
+      "ci95": [
+       0.9562714615588248,
+       0.9855470226852674
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9712988709640273,
+      "ci95": [
+       0.9562636396431672,
+       0.9855449690425023
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 0.9730389565038835,
+      "ci95": [
+       0.958009186784911,
+       0.9873327836077794
+      ]
+     },
+     "J4": {
+      "ratio": 0.9709766762901532,
+      "ci95": [
+       0.9559545288041693,
+       0.9852235966925481
+      ]
+     },
+     "J16": {
+      "ratio": 0.9704610809039526,
+      "ci95": [
+       0.9554408395498469,
+       0.9846962711470043
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9702892135159242,
+      "ci95": [
+       0.9552696071466339,
+       0.9845205084907604
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init]": {
+     "J1": {
+      "ratio": 0.9593569786705924,
+      "ci95": [
+       0.9465090347928087,
+       0.9723807471956447
+      ]
+     },
+     "J4": {
+      "ratio": 0.9592782528725178,
+      "ci95": [
+       0.9464045722962805,
+       0.9723274081398633
+      ]
+     },
+     "J16": {
+      "ratio": 0.9592585224494798,
+      "ci95": [
+       0.946378390981669,
+       0.9723140402982372
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9592519412767224,
+      "ci95": [
+       0.9463696610712936,
+       0.9723095810377012
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[pilot n=250,init+warm]": {
+     "J1": {
+      "ratio": 0.9593569786705924,
+      "ci95": [
+       0.9465090347928087,
+       0.9723807471956447
+      ]
+     },
+     "J4": {
+      "ratio": 0.9592782528725178,
+      "ci95": [
+       0.9464045722962805,
+       0.9723274081398633
+      ]
+     },
+     "J16": {
+      "ratio": 0.9592585224494798,
+      "ci95": [
+       0.946378390981669,
+       0.9723140402982372
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9592519412767224,
+      "ci95": [
+       0.9463696610712936,
+       0.9723095810377012
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=250] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 0.8944249593187378,
+      "ci95": [
+       0.8777850616890932,
+       0.9122558038783407
+      ]
+     },
+     "J4": {
+      "ratio": 0.8925292953435799,
+      "ci95": [
+       0.875963111190856,
+       0.9103368779751863
+      ]
+     },
+     "J16": {
+      "ratio": 0.8920553560637134,
+      "ci95": [
+       0.8755075970361252,
+       0.9098571230325609
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.8918973742269968,
+      "ci95": [
+       0.8753557386384103,
+       0.9096972063023425
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.9796444227035441,
+      "ci95": [
+       0.9636973733391482,
+       0.9948637306184571
+      ]
+     },
+     "J4": {
+      "ratio": 0.97947218172655,
+      "ci95": [
+       0.9633635960627706,
+       0.9948260150488527
+      ]
+     },
+     "J16": {
+      "ratio": 0.9794286409455544,
+      "ci95": [
+       0.9632791278179933,
+       0.9948164945384965
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9794140840958361,
+      "ci95": [
+       0.96325089442096,
+       0.9948133132538083
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.9766234897705353,
+      "ci95": [
+       0.9607362196490308,
+       0.9917876791630328
+      ]
+     },
+     "J4": {
+      "ratio": 0.9764286552542936,
+      "ci95": [
+       0.9603728104252236,
+       0.991732699271562
+      ]
+     },
+     "J16": {
+      "ratio": 0.9763794220245825,
+      "ci95": [
+       0.9602808556961484,
+       0.991718846617398
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9763629637593453,
+      "ci95": [
+       0.9602501341196141,
+       0.9917142175871263
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-reset[no pilot]": {
+     "J1": {
+      "ratio": 0.9904329455957224,
+      "ci95": [
+       0.9751952761899529,
+       1.0049831319544047
+      ]
+     },
+     "J4": {
+      "ratio": 0.9821692766735798,
+      "ci95": [
+       0.9669891573820302,
+       0.9965806789846692
+      ]
+     },
+     "J16": {
+      "ratio": 0.9801029145881899,
+      "ci95": [
+       0.9649372416743198,
+       0.9944796103550564
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9794140871609509,
+      "ci95": [
+       0.9642532316643427,
+       0.9937792129548187
+      ]
+     },
+     "breakeven_J": 1.0
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init]": {
+     "J1": {
+      "ratio": 0.960682926858623,
+      "ci95": [
+       0.9489057416128872,
+       0.9716221779871196
+      ]
+     },
+     "J4": {
+      "ratio": 0.9603592427540526,
+      "ci95": [
+       0.9484828162895562,
+       0.9713804049017348
+      ]
+     },
+     "J16": {
+      "ratio": 0.9602774568370449,
+      "ci95": [
+       0.9483759542749963,
+       0.9713192930658204
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9602501170727443,
+      "ci95": [
+       0.9483402298389266,
+       0.9712988668171685
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[pilot n=1000,init+warm]": {
+     "J1": {
+      "ratio": 0.960682926858623,
+      "ci95": [
+       0.9489057416128872,
+       0.9716221779871196
+      ]
+     },
+     "J4": {
+      "ratio": 0.9603592427540526,
+      "ci95": [
+       0.9484828162895562,
+       0.9713804049017348
+      ]
+     },
+     "J16": {
+      "ratio": 0.9602774568370449,
+      "ci95": [
+       0.9483759542749963,
+       0.9713192930658204
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9602501170727443,
+      "ci95": [
+       0.9483402298389266,
+       0.9712988668171685
+      ]
+     }
+    },
+    "FDC-BF[ney-pilot,n=1000] / PJC-A-menu[no pilot]": {
+     "J1": {
+      "ratio": 0.9104136490642716,
+      "ci95": [
+       0.8926123582941687,
+       0.9286279914870651
+      ]
+     },
+     "J4": {
+      "ratio": 0.9028176204673616,
+      "ci95": [
+       0.8851554953160078,
+       0.920846574858282
+      ]
+     },
+     "J16": {
+      "ratio": 0.9009182044041002,
+      "ci95": [
+       0.8832909199186783,
+       0.9189008608153042
+      ]
+     },
+     "Jinf": {
+      "ratio": 0.9002850288878808,
+      "ci95": [
+       0.882669357566177,
+       0.9182522634460056
+      ]
+     },
+     "breakeven_J": 1.0
+    }
+   },
+   "repro_vs_F": {
+    "n_checked": 30,
+    "n_different": 0,
+    "pass": true
+   }
+  }
+ },
+ "answer": "Does 'the gain comes from the allocation, not from online adaptation' survive?  Only in a qualified form (semi-synthetic, post hoc, descriptive).  (1) EQUAL INFORMATION: when the adaptive picks get the same per-stream pilot (phase-0 pilot-Neyman plan, plus variance warm start) and both sides pay the same pilot, frozen pilot-Neyman FDC-BF is still faster than every adaptive variant in all four environments and both pilot sizes (ney-pilot / adaptive 0.90-0.98, every 95% CI below 1; e.g. Criteo-asym n=1000: 0.962 [0.946, 0.978] vs reset, 0.937 [0.924, 0.950] vs menu).  The pilot hardly helps the adaptive members (Criteo-asym reset 1.127 without vs 1.125 with the 1000-pilot): the reset member discards pre-boundary data and the menu member pays its path-union ledger even when it rarely leaves the pilot plan (menu init+warm switches on 0-19% of streams yet trails frozen pilot-Neyman by 4-8%).  So, at equal information, the advantage is the frozen allocation plus the absence of reset / union costs, not online learning.  (2) CHARGED PILOT, adaptive learns online for free: on Criteo structure (tau_R 7.0M; the pilot is 0.06-0.26% of tau_R) charging changes nothing material -- ney-pilot at full charge (J = 1) vs the no-pilot adaptive picks 0.89-0.99 (one CI touches 1: Criteo-mixed n=1000 vs reset 0.990 [0.975, 1.005]) and FDC-BF / ney-pilot 1.16 (asym) and 1.01-1.03 (mixed).  On X5 structure (tau_R 99,646; the pilot is 4.5% or 18% of tau_R) the conclusion REVERSES at full charge: ney-pilot is slower than frozen 50/50 (X5-asym 0.893 [0.879, 0.907] at n=250, 0.632 at n=1000) and slower than the no-pilot adaptive picks (1.08-1.67 against it); the pilot pays for itself only when shared across J >= 2.1-25.5 certification instances (break-even vs the adaptive picks), and against frozen 50/50 only at J >= 4.5 (n=250) or 19 (n=1000) on X5-asym and never on X5-mixed.  Wording for the paper: an informed frozen plan beats these reset / menu implementations at equal information in the four tested regimes; on small tables this holds only when the pilot is pre-existing or amortised over many certification runs.  No method had a false certification stream (0 / 250 per method and environment).  Phase-wise TU joint rival not implemented.",
+ "written_at": "2026-10-05T05:39:55.536847"
+}

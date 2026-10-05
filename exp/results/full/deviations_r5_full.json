@@ -1,0 +1,13 @@
+{
+  "deviations": [
+    {
+      "id": "DEV-R5-FULL-01",
+      "ts": "2026-10-03T22:35:15",
+      "what": "r5_replica_check runner changed v1->v2 after v1 returned BLOCKED (factorial rows record runner hash 91866273 = commit 262ce6c0, differs from on-disk runner f0e5fac2).",
+      "evidence": "git diff 262ce6c0 f0e5fac2 -- run_r5_cr_factorial.py: only adds _digest() helper inside summary-stage identity_vs(); row-generating code unchanged. v1 had 580/580 field matches; v2 180/180 factorial reruns match; v1 summary kept at full/r5_replica_check/summary_v1_blocked.json.",
+      "rule_v2": "hash mismatch allowed only if hash resolves to a git commit AND block reruns under current code match 100%; unresolvable hash still BLOCKED.",
+      "verified_by": "authors diff review 2026-10-03",
+      "disclose_in_paper": true
+    }
+  ]
+}

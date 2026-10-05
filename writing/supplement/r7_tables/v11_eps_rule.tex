@@ -1,0 +1,21 @@
+\begin{table}[H]
+\caption{\textbf{Lock v11 $\eps$ rule and rival tuning} (development half, 50 streams, seeds 950--999, $K = 40$). Top: the rule's trace. Each rectangle's entry is successes (12 of 15 strictly before $\tau_R$) / geometric-mean $\Npen$; the dev-best (lower geometric mean) must succeed on at least 40 of 50 streams, and the smallest qualifying $\eps$ of the grid is selected, so the trace stops at its first entry. FDC-DP rows never enter the rule. Bottom: the tuned HC-WoR-DP configuration (schedule \texttt{nstar}; $c$, target fraction) at each grid $\eps$, its successes, geometric-mean $\Npen$ and false streams.}
+\label{tab:v11eps}
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+$\eps$ & RECT-BF-DP-TU & HC-WoR-DP (tuned) & dev-best & qualifies \\
+\midrule
+$3\cdot 10^{-4}$ & 48 / 607,878 & (0.5, 0.6) 47 / 606,345 & HC-WoR-DP & yes (selected) \\
+\midrule
+$\eps$ & HC config & successes & geo.\ $\Npen$ & false \\
+\midrule
+$3\cdot 10^{-4}$ & (0.5, 0.6) & 47 / 50 & 606,345 & 0 \\
+$5\cdot 10^{-4}$ & (0.5, 0.6) & 50 / 50 & 517,206 & 0 \\
+$7.5\cdot 10^{-4}$ & (0.5, 0.4) & 50 / 50 & 417,342 & 0 \\
+$10\cdot 10^{-4}$ & (0.5, 0.4) & 50 / 50 & 351,524 & 0 \\
+$15\cdot 10^{-4}$ & (0.5, 0.4) & 50 / 50 & 251,286 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}

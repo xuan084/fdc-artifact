@@ -1,0 +1,37 @@
+[G3-dev-lenta-32] 450 jobs to run (0 done), code 02f90692448956a9
+[G3-dev-lenta-32] done: 450/450 rows, 0 errors, wall 5.49 min
+[G3-dev-x5-32] 450 jobs to run (0 done), code 02f90692448956a9
+[G3-dev-x5-32] done: 450/450 rows, 0 errors, wall 3.66 min
+[G1-dev-lenta-32] 900 jobs to run (0 done), code 02f90692448956a9
+[G1-dev-lenta-32] done: 900/900 rows, 0 errors, wall 10.49 min
+[G1-dev-x5-32] 900 jobs to run (0 done), code 02f90692448956a9
+[G1-dev-x5-32] done: 900/900 rows, 0 errors, wall 5.91 min
+[G2-dev-lenta-32] 1200 jobs to run (0 done), code 02f90692448956a9
+[G2-dev-lenta-32] done: 1200/1200 rows, 0 errors, wall 18.02 min
+[G2-dev-x5-32] 1200 jobs to run (0 done), code 02f90692448956a9
+[G2-dev-x5-32] done: 1200/1200 rows, 0 errors, wall 10.55 min
+[G2-dev-lenta-16] 1200 jobs to run (0 done), code 02f90692448956a9
+[G2-dev-lenta-16] done: 1200/1200 rows, 0 errors, wall 8.49 min
+[G1-eval-x5-64] 3600 jobs to run (0 done), code 02f90692448956a9
+Traceback (most recent call last):
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 673, in <module>
+    main()
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 669, in main
+    run_cell(cid, workers)
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 297, in run_cell
+    "env": _ENV["env"].describe(), "env_digest": _ENV["digest"], "cost_source": _ENV["cost_src"],
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SegEnvV10PosthocEval' object has no attribute 'describe'
+LANE C PRE FAILED
+[G3-eval-lenta-16] 800 jobs to run (0 done), code 02f90692448956a9
+Traceback (most recent call last):
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 673, in <module>
+    main()
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 669, in main
+    run_cell(cid, workers)
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 297, in run_cell
+    "env": _ENV["env"].describe(), "env_digest": _ENV["digest"], "cost_source": _ENV["cost_src"],
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SegEnvV10PosthocEval' object has no attribute 'describe'
+LANE C POST FAILED
+LANE C FINISHED Mon Oct  5 09:03:55 AEDT 2026

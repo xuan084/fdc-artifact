@@ -1,0 +1,35 @@
+[G3-dev-x5-64] 450 jobs to run (0 done), code 02f90692448956a9
+[G3-dev-x5-64] done: 450/450 rows, 0 errors, wall 5.95 min
+[G3-dev-lenta-16] 450 jobs to run (0 done), code 02f90692448956a9
+[G3-dev-lenta-16] done: 450/450 rows, 0 errors, wall 3.71 min
+[G1-dev-x5-64] 900 jobs to run (0 done), code 02f90692448956a9
+[G1-dev-x5-64] done: 900/900 rows, 0 errors, wall 11.9 min
+[G1-dev-lenta-16] 900 jobs to run (0 done), code 02f90692448956a9
+[G1-dev-lenta-16] done: 900/900 rows, 0 errors, wall 5.79 min
+[G2-dev-lenta-64] 1200 jobs to run (0 done), code 02f90692448956a9
+[G2-dev-lenta-64] done: 1200/1200 rows, 0 errors, wall 42.14 min
+[G2-dev-x5-16] 1200 jobs to run (0 done), code 02f90692448956a9
+[G2-dev-x5-16] done: 1200/1200 rows, 0 errors, wall 2.73 min
+[G1-eval-lenta-32] 3600 jobs to run (0 done), code 02f90692448956a9
+Traceback (most recent call last):
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 673, in <module>
+    main()
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 669, in main
+    run_cell(cid, workers)
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 297, in run_cell
+    "env": _ENV["env"].describe(), "env_digest": _ENV["digest"], "cost_source": _ENV["cost_src"],
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SegEnvV10PosthocEval' object has no attribute 'describe'
+LANE B PRE FAILED
+[G3-eval-x5-16] 800 jobs to run (0 done), code 02f90692448956a9
+Traceback (most recent call last):
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 673, in <module>
+    main()
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 669, in main
+    run_cell(cid, workers)
+  File "<ROOT>/exp/code/run_v10_posthoc_G.py", line 297, in run_cell
+    "env": _ENV["env"].describe(), "env_digest": _ENV["digest"], "cost_source": _ENV["cost_src"],
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SegEnvV10PosthocEval' object has no attribute 'describe'
+LANE B POST FAILED
+LANE B FINISHED Mon Oct  5 09:13:32 AEDT 2026

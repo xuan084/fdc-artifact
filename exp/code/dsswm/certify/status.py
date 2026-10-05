@@ -1,0 +1,9 @@
+from enum import Enum
+
+
+class Status(str, Enum):
+    CERTIFIED = "CERTIFIED"
+    NEED_DATA = "NEED_DATA"
+    COMPUTE_UNKNOWN = "COMPUTE_UNKNOWN"
+    MODEL_CONFLICT = "MODEL_CONFLICT"
+    OUT_OF_SCOPE = "OUT_OF_SCOPE"
