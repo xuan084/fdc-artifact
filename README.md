@@ -58,13 +58,17 @@ datasets are included; the Data section below says how to obtain each one and gi
     exp/results/v{6,8,9,10}_gates/      frozen configurations; v10_gates/ holds the frozen score models
                                         (score_model_{x5,lenta}.pkl, scikit-learn 1.9.1) and seg_v10_frozen.json
     exp/results/r4_gates, r5_gates      earlier frozen gates referenced by the base lock
-    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
+    writing/scripts/                    verify_r{3,4,4b,5,5b,6,7,7b,8a,8,8b,8c,8d}_numbers.py, gen_r{4,5,5b}_supp_tables.py,
                                         gen_r7_v11_tables.py (supplement S21 tables), gen_r8_v12_tables.py (S23 tables),
                                         gen_r6_blockG_tables.py (block-G tables), make_fig_epscurve.py (Figure 2)
-    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8b) and supplement sources that the
+    writing/latex_acm/main.tex, main.pdf, writing/supplement/  paper (revision r8d) and supplement sources that the
                                         verify scripts check; main_pre_r8.tex: the r8a text that verify_r8 compares with;
                                         main_pre_r8b.tex, supplement_pre_r8b.tex, exp/results/full/v12_summary_pre_r8b.md:
-                                        the r8 texts that verify_r8b rebuilds the r8b wording from
+                                        the r8 texts that verify_r8b rebuilds the r8b wording from; main_pre_r8c.tex,
+                                        supplement_pre_r8c.tex, main_r8b.pdf: the r8b state; main_pre_r8d.tex,
+                                        supplement_pre_r8d.tex, main_r8c.pdf: the r8c state (both re-checked by verify_r8d)
+    writing/motivation_sources.{md,bib}  sources of the motivation (Sections 1, 2, 6.2 and supplement S16): URL, date,
+                                        verbatim quote and verdict for each, all opened and checked on 2026-10-05
     requirements.txt                    pinned versions (Python 3.12.14)
 
 ## Setup
@@ -145,9 +149,18 @@ Everything below runs without data, without git history and without the lock gat
 1. Paper and supplement numbers (all tables and all printed figures of locks v6 to v10 and the post-hoc blocks).
    From the package root:
 
-       .venv/bin/python3 writing/scripts/verify_r8b_numbers.py --skip-census
+       .venv/bin/python3 writing/scripts/verify_r8d_numbers.py
 
-   `verify_r8b` (the paper as submitted, revision r8b: wording fixes only, no number changes) runs `verify_r8` with its
+   `verify_r8d` (the paper as submitted, revision r8d) first re-runs `verify_r8b` on the r8b text and `verify_r8c` on the
+   r8c text, each in a temporary copy of the package, and requires `0 mismatch(es)` from both. Revision r8c added sourced
+   motivation (citations in Sections 1, 2 and 6.2, sourced and dated prices in supplement S16; see
+   `writing/motivation_sources.md`) and moved former appendix Tables A2 and A3 unchanged to supplement S24; revision
+   r8d applied reviewer wording fixes. Neither changes a registered number: `verify_r8c` checks that the multiset of
+   numbers in the paper differs from r8b only by listed price, date, section-reference and layout tokens, and
+   `verify_r8d` rebuilds the current texts from the r8c copies by exactly the r8d replacements (byte equality). Both
+   repeat the page check (12 pages, body ends on page 8). Expected final line `r8d: 0 mismatch(es)`.
+
+   `verify_r8b` (revision r8b, revision r8b: wording fixes only, no number changes) runs `verify_r8` with its
    whole chain and lists the 8 r8 text checks whose wording was deliberately changed in r8b as SUPERSEDED (exhaustion
    qualified "at N80", branch-and-bound "per lock-v10 cell", the v12 tolerance sentence replacing "(gate 0.5)",
    "outcomes" for "data", C1 "is consistent with", Section 7 "errata to locked files"). It rebuilds `main.tex`,

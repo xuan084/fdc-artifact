@@ -469,3 +469,131 @@
   year      = {2021},
   url       = {https://arxiv.org/abs/2008.07146}
 }
+% Motivation sources verified 2026-10-05 by sibyl-literature (each opened during the task).
+% Quotes and verdicts: writing/motivation_sources.md. Keys that already exist in
+% latex_acm/references.bib (johari2017peeking, feldman2021individual, chapelle2014modeling,
+% diemert2018large, awscleanrooms2026pricing, census2021dsep) are not repeated here.
+
+% ---------- Task 1: per-record / per-query billing ----------
+@misc{awsentityresolution2026pricing,
+  title        = {{AWS Entity Resolution} Pricing},
+  author       = {{Amazon Web Services}},
+  url          = {https://aws.amazon.com/entity-resolution/pricing/},
+  year         = {2026},
+  note         = {Undated web page; year is the access year. Rule-based and ML-powered matching \$0.25 per 1,000 records processed. Accessed 2026-10-05}
+}
+@misc{snowflake2026dcrcost,
+  title        = {Snowflake Data Clean Rooms Operational Costs},
+  author       = {{Snowflake Inc.}},
+  url          = {https://docs.snowflake.com/en/user-guide/cleanrooms/cleanroom-cost},
+  year         = {2026},
+  note         = {Undated documentation page; year is the access year. Accessed 2026-10-05}
+}
+@misc{googleadh2026privacychecks,
+  title        = {Privacy Checks in {Ads Data Hub}},
+  author       = {{Google}},
+  url          = {https://developers.google.com/ads-data-hub/guides/privacy-checks},
+  year         = {2026},
+  note         = {Last updated 2026-09-25 (UTC). Accessed 2026-10-05}
+}
+
+% ---------- Task 2: individual / per-record privacy accounting ----------
+@inproceedings{ebadi2015personal,
+  author    = {Ebadi, Hamid and Sands, David and Schneider, Gerardo},
+  title     = {Differential Privacy: Now it's Getting Personal},
+  booktitle = {Proceedings of the 42nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL '15)},
+  address   = {Mumbai, India},
+  pages     = {69--81},
+  year      = {2015},
+  doi       = {10.1145/2676726.2677005}
+}
+@misc{apple2017dpoverview,
+  title        = {Differential Privacy Overview},
+  author       = {{Apple Inc.}},
+  url          = {https://www.apple.com/privacy/docs/Differential_Privacy_Overview.pdf},
+  year         = {2017},
+  note         = {Undated in text; PDF creation date 2017-11-02. Per-donation privacy budget, e.g. epsilon 4 for emoji (one donation per day). Accessed 2026-10-05}
+}
+
+% ---------- Task 3: labelling prices ----------
+@misc{awssagemaker2026pricing,
+  title        = {{Amazon SageMaker AI} Pricing: {Ground Truth}},
+  author       = {{Amazon Web Services}},
+  url          = {https://aws.amazon.com/sagemaker/ai/pricing/},
+  year         = {2026},
+  note         = {Undated web page; year is the access year. Ground Truth price per reviewed object (US East, N. Virginia): \$0.08 below 50,000 objects per month, \$0.04 for 50,000 to 1,000,000, \$0.02 above 1,000,000; workforce charged separately. Prices read from the page's pricing data file (meteredUnitMaps/sagemaker/USD/current/groundtruth.json). Accessed 2026-10-05}
+}
+
+% ---------- Task 4: sequential / anytime-valid testing on platforms ----------
+@article{johari2022always,
+  author  = {Johari, Ramesh and Koomen, Pete and Pekelis, Leonid and Walsh, David},
+  title   = {Always Valid Inference: Continuous Monitoring of {A/B} Tests},
+  journal = {Operations Research},
+  volume  = {70},
+  number  = {3},
+  pages   = {1806--1821},
+  year    = {2022},
+  doi     = {10.1287/opre.2021.2135}
+}
+@article{lindon2026anytime,
+  author  = {Lindon, Michael and Ham, Dae Woong and Tingley, Martin and Bojinov, Iavor},
+  title   = {Anytime-Valid Inference in Linear Models with Applications to Regression-Adjusted Causal Inference},
+  journal = {Journal of the American Statistical Association},
+  year    = {2026},
+  doi     = {10.1080/01621459.2026.2692052},
+  note    = {Published online 2026-08-27; arXiv:2210.08589}
+}
+@misc{schultzberg2023sequential,
+  title        = {Choosing a Sequential Testing Framework --- Comparisons and Discussions},
+  author       = {Schultzberg, M{\aa}rten and Ankargren, Sebastian},
+  howpublished = {Spotify Engineering blog},
+  url          = {https://engineering.atspotify.com/2023/03/choosing-sequential-testing-framework-comparisons-and-discussions},
+  month        = mar,
+  year         = {2023},
+  note         = {Posted 2023-03-21. Accessed 2026-10-05}
+}
+
+% ---------- Task 5: decision-risk control before launch ----------
+@misc{schultzberg2024riskaware,
+  title        = {Risk-aware Product Decisions in {A/B} Tests with Multiple Metrics},
+  author       = {Schultzberg, M{\aa}rten and Ankargren, Sebastian and Fr{\aa}nberg, Mattias},
+  year         = {2024},
+  howpublished = {arXiv:2402.11609},
+  url          = {https://arxiv.org/abs/2402.11609}
+}
+
+% ---------- Task 6: industrial budget-constrained targeting ----------
+@inproceedings{zhao2019uplift,
+  author    = {Zhao, Zhenyu and Harinen, Totte},
+  title     = {Uplift Modeling for Multiple Treatments with Cost Optimization},
+  booktitle = {2019 IEEE International Conference on Data Science and Advanced Analytics (DSAA)},
+  pages     = {422--431},
+  year      = {2019},
+  doi       = {10.1109/DSAA.2019.00057}
+}
+@inproceedings{goldenberg2020freelunch,
+  author    = {Goldenberg, Dmitri and Albert, Javier and Bernardi, Lucas and Estevez, Pablo},
+  title     = {Free Lunch! Retrospective Uplift Modeling for Dynamic Promotions Recommendation within {ROI} Constraints},
+  booktitle = {Proceedings of the 14th ACM Conference on Recommender Systems (RecSys '20)},
+  pages     = {486--491},
+  year      = {2020},
+  doi       = {10.1145/3383313.3412215}
+}
+@inproceedings{ai2022lbcf,
+  author    = {Ai, Meng and Li, Biao and Gong, Heyang and Yu, Qingwei and Xue, Shengjie and Zhang, Yuan and Zhang, Yunzhou and Jiang, Peng},
+  title     = {{LBCF}: A Large-Scale Budget-Constrained Causal Forest Algorithm},
+  booktitle = {Proceedings of the ACM Web Conference 2022 (WWW '22)},
+  pages     = {2310--2319},
+  year      = {2022},
+  doi       = {10.1145/3485447.3512103}
+}
+
+% ---------- Task 7: replay evaluation on logged data ----------
+@inproceedings{li2011unbiased,
+  author    = {Li, Lihong and Chu, Wei and Langford, John and Wang, Xuanhui},
+  title     = {Unbiased Offline Evaluation of Contextual-Bandit-Based News Article Recommendation Algorithms},
+  booktitle = {Proceedings of the Fourth ACM International Conference on Web Search and Data Mining (WSDM '11)},
+  pages     = {297--306},
+  year      = {2011},
+  doi       = {10.1145/1935826.1935878}
+}
